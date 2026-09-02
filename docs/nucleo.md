@@ -6,9 +6,10 @@ PHP 8.2 con MVC construido a mano. Sin Composer, sin marcos de trabajo, sin depe
 
 ```
 navegador
-  → publico/.htaccess          reescribe todo lo que no sea un archivo real
-  → publico/index.php          front controller: autocarga, errores, configuración
-  → configuracion/rutas.php    tabla de rutas
+  → ADSO.menu08.com/.htaccess       reescribe lo que no sea un archivo real
+  → ADSO.menu08.com/index.php       puente hacia la carpeta privada
+  → menu08_app/publico/index.php    front controller: autocarga, errores, configuración
+  → menu08_app/configuracion/rutas.php   tabla de rutas
   → Enrutador                  resuelve método + patrón, extrae los parámetros
   → Controlador                orquesta
   → Modelo → ConexionBD        PDO con sentencias preparadas
@@ -19,7 +20,7 @@ navegador
 ## Puesta en marcha
 
 ```bash
-cp configuracion/configuracion.ejemplo.php configuracion/configuracion.php
+cp menu08_app/configuracion/configuracion.ejemplo.php menu08_app/configuracion/configuracion.php
 ```
 
 Editar el archivo copiado con las credenciales reales y `url_base`. **Nunca se versiona**:
@@ -45,7 +46,7 @@ dejan de servir.
 
 ## Agregar una ruta
 
-En `configuracion/rutas.php`:
+En `menu08_app/configuracion/rutas.php`:
 
 ```php
 $enrutador->get('/carta/{slug}', [CartaControlador::class, 'publica']);
@@ -63,7 +64,7 @@ public function publica(string $slug): void
 
 ## Manejo de errores
 
-Todo fallo queda en `almacenamiento/bitacora/AAAA-MM-DD.log` con fecha, nivel y mensaje.
+Todo fallo queda en `menu08_app/almacenamiento/bitacora/AAAA-MM-DD.log` con fecha, nivel y mensaje.
 Lo que ve el visitante depende de `entorno`:
 
 - `desarrollo` — la página de error muestra además la clase, el mensaje, el archivo,
@@ -81,11 +82,12 @@ suele ser un dato que no llegó, y es mejor que falle de forma visible en desarr
 Con la base cargada y la configuración copiada:
 
 ```bash
-php -S localhost:8000 -t publico publico/index.php
+php -S localhost:8000 -t ADSO.menu08.com ADSO.menu08.com/index.php
 ```
 
-El último argumento es el front controller. **Sin él, el servidor integrado no resuelve
-las rutas** y solo sirve archivos existentes.
+El último argumento es el punto de entrada. **Sin él, el servidor integrado no resuelve
+las rutas** y solo sirve archivos existentes. El puente encuentra `menu08_app/` porque en el
+repositorio, igual que en el servidor, son carpetas hermanas.
 
 | Dirección | Qué demuestra |
 |---|---|

@@ -1,15 +1,19 @@
 # Configuracion con credenciales reales: NUNCA se versiona.
-configuracion/configuracion.php
+menu08_app/configuracion/configuracion.php
 
-# Archivos subidos por los usuarios y bitacoras de ejecucion
-almacenamiento/subidas/*
-almacenamiento/bitacora/*
-!almacenamiento/subidas/.gitkeep
-!almacenamiento/bitacora/.gitkeep
+# Lo que escriben los usuarios y la aplicacion en tiempo de ejecucion
+menu08_app/almacenamiento/bitacora/*
+!menu08_app/almacenamiento/bitacora/.gitkeep
+ADSO.menu08.com/subidas/*
+!ADSO.menu08.com/subidas/.gitkeep
+!ADSO.menu08.com/subidas/.htaccess
 
 # Respaldos de base de datos
 *.sql.gz
-basedatos/respaldos/
+menu08_app/basedatos/respaldos/
+
+# Paquetes de despliegue generados
+*.zip
 
 # Sistema operativo y editores
 .DS_Store

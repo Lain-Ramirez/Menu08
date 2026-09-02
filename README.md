@@ -143,30 +143,43 @@ flowchart TD
 
 ### Estructura de carpetas
 
+El repositorio es un **espejo del servidor**: las dos carpetas de primer nivel se llaman
+igual que en el hosting y se copian tal cual, sin traducir nada.
+
 ```
-publico/                    única carpeta expuesta por el servidor web
-  index.php                 front controller
-  .htaccess                 reescritura hacia el front controller
-  recursos/                 css, js e imágenes estáticas
-aplicacion/
-  nucleo/                   Enrutador, ConexionBD, Controlador, Vista,
-                            Sesion, Csrf, Validador, GestorImagenes, GeneradorQr
-  controladores/            XxxControlador.php
-  modelos/                  Xxx.php
-  vistas/
-    plantillas/             cabecera, pie y vista de error compartidas
-    auth/  panel/  carta/  caja/  svp/
-configuracion/
-  configuracion.ejemplo.php plantilla versionada
-  configuracion.php         credenciales reales — NUNCA se versiona
-basedatos/
-  esquema.sql               las nueve tablas
-  datos_iniciales.sql       estados, food truck y usuarios de demostración
-almacenamiento/
+menu08_app/                 🔒 privada · se copia a /home/sfacturs2/menu08_app/
+  publico/
+    index.php               front controller
+    .htaccess
+  aplicacion/
+    nucleo/                 Enrutador, ConexionBD, Controlador, Vista, Sesion,
+                            Csrf, Validador, GestorImagenes, GeneradorQr
+    controladores/          XxxControlador.php
+    modelos/                Xxx.php
+    vistas/                 plantillas/ auth/ panel/ carta/ caja/ svp/
+  configuracion/
+    configuracion.ejemplo.php  plantilla versionada
+    configuracion.php          credenciales reales — NUNCA se versiona
+    rutas.php                  tabla de rutas
+  basedatos/
+    esquema.sql             las nueve tablas
+    datos_iniciales.sql     estados, food truck y usuarios de demostración
+  almacenamiento/
+    bitacora/               registro de errores
+
+ADSO.menu08.com/            🌐 pública · se copia a /home/sfacturs2/ADSO.menu08.com/
+  index.php                 puente hacia menu08_app/publico/index.php
+  .htaccess                 reescritura y cabeceras de seguridad
+  recursos/                 css, js e imágenes
   subidas/                  logos, fotos de producto y códigos QR
-  bitacora/                 registro de errores
+
 docs/                       documentación del proyecto
 ```
+
+**Nada sensible vive en la carpeta pública.** La configuración con las credenciales, los
+scripts de la base de datos y el código de la aplicación quedan fuera del alcance del
+servidor web por estructura, no por una regla de `.htaccess` que alguien pueda desactivar.
+Ver [`docs/despliegue.md`](docs/despliegue.md).
 
 ---
 
@@ -217,7 +230,7 @@ erDiagram
         int food_truck_id FK "NULL solo para el rol plataforma"
         varchar correo UK
         varchar contrasena "password_hash"
-        enum rol "plataforma, negocio, cajero, produccion"
+        enum rol "plataforma, food_truck, cajero, produccion"
     }
     CATEGORIAS {
         int id PK
@@ -288,7 +301,7 @@ El detalle completo está en [`docs/basedatos.md`](docs/basedatos.md).
 ```mermaid
 flowchart LR
     P["👑 plataforma"] --> T1["Administra<br/>todos los food trucks"]
-    N["🏪 negocio"] --> T2["Panel de CARTA<br/>catálogo y paradas"]
+    N["🏪 food_truck"] --> T2["Panel de CARTA<br/>catálogo y paradas"]
     K["💵 cajero"] --> T3["Módulo CAJA<br/>turnos y órdenes"]
     R["📺 producción"] --> T4["Tablero interno<br/>del SVP"]
     PUB["👥 público"] --> T5["Carta por QR y<br/>pantalla de turnos"]
@@ -327,12 +340,12 @@ cp configuracion/configuracion.ejemplo.php configuracion/configuracion.php
 chmod -R 775 almacenamiento/subidas almacenamiento/bitacora
 ```
 
-Apuntar el *DocumentRoot* del sitio a la carpeta `publico/`. Con el servidor
+Apuntar el *DocumentRoot* del sitio a la carpeta `ADSO.menu08.com/`. Con el servidor
 integrado de PHP, para pruebas rápidas — el último argumento es el front controller,
 sin él las rutas no se resuelven:
 
 ```bash
-php -S localhost:8000 -t publico publico/index.php
+php -S localhost:8000 -t ADSO.menu08.com ADSO.menu08.com/index.php
 ```
 
 | Ruta | Acceso | Módulo |
@@ -340,7 +353,7 @@ php -S localhost:8000 -t publico publico/index.php
 | `/carta/festin-rodante` | pública | CARTA |
 | `/turnos/festin-rodante` | pública, pantalla de la ventanilla | SVP |
 | `/ingresar` | pública | — |
-| `/panel` | rol `negocio` o `plataforma` | CARTA |
+| `/panel` | rol `food_truck` o `plataforma` | CARTA |
 | `/caja` | rol `cajero` | CAJA |
 | `/svp` | rol `produccion` | SVP |
 

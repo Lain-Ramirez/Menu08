@@ -1,0 +1,29 @@
+# Menu08 - Raiz publica de adso.menu08.com
+#
+# Copia de publico/.htaccess. Toda peticion que no sea un archivo real la
+# resuelve index.php, que es el puente hacia menu08_app/publico/index.php.
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Los archivos y carpetas que existen se sirven tal cual (css, js, imagenes).
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Todo lo demas va al front controller.
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "same-origin"
+</IfModule>
+
+# Nunca servir archivos sensibles aunque queden dentro de publico por error.
+<FilesMatch "\.(sql|log|md|ejemplo\.php)$">
+    Require all denied
+</FilesMatch>

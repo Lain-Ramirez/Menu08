@@ -41,7 +41,7 @@ INSERT INTO food_trucks (id, nombre, slug, descripcion, activo) VALUES
 -- ---------------------------------------------------------------------------
 INSERT INTO usuarios (food_truck_id, nombre, correo, contrasena, rol, activo) VALUES
   (NULL, 'Administrador de plataforma', 'plataforma@menu08.local', '$2y$10$SZ8i1WAdtsks1fsxCo38fOHbl47Lpf2khZK93oKhZUncz3TTcxe72', 'plataforma', 1),
-  (1,    'Administrador del food truck','food truck@menu08.local',    '$2y$10$p/d4s3qIbmYBmIPvh114i.NHUYUos/.NiFCAK4hnB.HqyFFlXQ0hS',    'food truck',    1),
+  (1,    'Administrador del food truck','foodtruck@menu08.local',    '$2y$10$p/d4s3qIbmYBmIPvh114i.NHUYUos/.NiFCAK4hnB.HqyFFlXQ0hS',    'food_truck', 1),
   (1,    'Cajero de demostracion',      'cajero@menu08.local',     '$2y$10$VHT13GrpH3WANNkk7AZf5.CUXnF0cZmFS8PmFkWq4N0nhIKR3LXk.',     'cajero',     1),
   (1,    'Produccion de demostracion',  'produccion@menu08.local', '$2y$10$7GGxngUjsOWFyD.VFAKcnuElZGG7tUSVLEmngkQ/TnCR4J2Kg31k6', 'produccion', 1);
 

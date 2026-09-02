@@ -1,0 +1,13 @@
+# Fotos de producto y codigos QR: se sirven, nunca se ejecutan.
+# Una imagen con codigo PHP dentro subida por un formulario no debe poder correr.
+
+php_flag engine off
+
+RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .php8
+RemoveType    .php .phtml .php3 .php4 .php5 .php7 .php8
+
+<FilesMatch "\.(php|phtml|phar|cgi|pl|py|sh|htaccess)$">
+    Require all denied
+</FilesMatch>
+
+Options -Indexes -ExecCGI

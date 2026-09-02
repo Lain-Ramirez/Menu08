@@ -328,10 +328,11 @@ chmod -R 775 almacenamiento/subidas almacenamiento/bitacora
 ```
 
 Apuntar el *DocumentRoot* del sitio a la carpeta `publico/`. Con el servidor
-integrado de PHP, para pruebas rápidas:
+integrado de PHP, para pruebas rápidas — el último argumento es el front controller,
+sin él las rutas no se resuelven:
 
 ```bash
-php -S localhost:8000 -t publico
+php -S localhost:8000 -t publico publico/index.php
 ```
 
 | Ruta | Acceso | Módulo |

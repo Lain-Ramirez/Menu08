@@ -1,0 +1,20 @@
+# Configuracion con credenciales reales: NUNCA se versiona.
+configuracion/configuracion.php
+
+# Archivos subidos por los usuarios y bitacoras de ejecucion
+almacenamiento/subidas/*
+almacenamiento/bitacora/*
+!almacenamiento/subidas/.gitkeep
+!almacenamiento/bitacora/.gitkeep
+
+# Respaldos de base de datos
+*.sql.gz
+basedatos/respaldos/
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/

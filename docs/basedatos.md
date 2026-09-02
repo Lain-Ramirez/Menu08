@@ -7,7 +7,7 @@ Todos los montos se declaran como `DECIMAL(10,2)`.
 |---|---|---|
 | `food_trucks` | CARTA | Cada food truck registrado. El `slug` identifica su carta pública y es único. **No tiene dirección fija.** |
 | `ubicaciones` | CARTA | Agenda de paradas del truck: dónde para, qué día y en qué horario. |
-| `usuarios` | Todos | Acceso al panel. Roles: `plataforma`, `negocio`, `cajero`, `produccion`. |
+| `usuarios` | Todos | Acceso al panel. Roles: `plataforma`, `food_truck`, `cajero`, `produccion`. |
 | `categorias` | CARTA | Agrupan los productos dentro de la carta. |
 | `productos` | CARTA | El catálogo. Alimenta la carta pública y el catálogo de CAJA. |
 | `estados_orden` | SVP | Ciclo de vida de la orden: pendiente, en preparación, lista, entregada. |
@@ -104,7 +104,7 @@ pública se ve sin productos y los módulos CAJA y SVP no se pueden recorrer de 
 | Correo | Rol | Qué opera |
 |---|---|---|
 | `plataforma@menu08.local` | plataforma | Administra todos los food trucks |
-| `negocio@menu08.local` | negocio | Panel de CARTA: catálogo y paradas |
+| `foodtruck@menu08.local` | food_truck | Panel de CARTA: catálogo y paradas |
 | `cajero@menu08.local` | cajero | CAJA |
 | `produccion@menu08.local` | produccion | Sistema de Visualización de Producción |
 

@@ -111,7 +111,7 @@ CREATE TABLE ubicaciones (
 -- ---------------------------------------------------------------------------
 -- usuarios - acceso al panel. food_truck_id es NULL solo para el rol plataforma.
 --   plataforma  administra todos los food_trucks
---   food truck     administra la CARTA de su propio food truck
+--   food_truck  administra la CARTA de su propio food truck
 --   cajero      opera el modulo CAJA
 --   produccion  opera el Sistema de Visualizacion de Produccion
 -- ---------------------------------------------------------------------------
@@ -121,7 +121,7 @@ CREATE TABLE usuarios (
   nombre          VARCHAR(120)  NOT NULL,
   correo          VARCHAR(160)  NOT NULL,
   contrasena      VARCHAR(255)  NOT NULL COMMENT 'resultado de password_hash, nunca texto plano',
-  rol             ENUM('plataforma','food truck','cajero','produccion') NOT NULL,
+  rol             ENUM('plataforma','food_truck','cajero','produccion') NOT NULL,
   activo          TINYINT(1)    NOT NULL DEFAULT 1,
   ultimo_ingreso  DATETIME          NULL,
   creado_en       DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,

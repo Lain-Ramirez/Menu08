@@ -38,7 +38,7 @@ return [
     ],
 
     'subidas' => [
-        'ruta'            => __DIR__ . '/../almacenamiento/subidas',
+        'ruta'            => __DIR__ . '/../../ADSO.menu08.com/subidas',
         'tamano_maximo'   => 2 * 1024 * 1024,   // 2 MB
         'tipos_permitidos'=> ['image/jpeg', 'image/png', 'image/webp'],
     ],

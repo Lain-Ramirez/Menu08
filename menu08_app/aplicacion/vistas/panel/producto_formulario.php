@@ -53,9 +53,19 @@ $id = (int) ($producto['id'] ?? 0);
 
     <p>
         <label for="precio">Precio</label><br>
+        <?php
+        // Se muestra como se escribe en Colombia: 12.500 y no 12500.00.
+        $precioMostrado = '';
+        if (isset($producto['precio']) && $producto['precio'] !== '') {
+            $n = (float) $producto['precio'];
+            $precioMostrado = fmod($n, 1.0) === 0.0
+                ? number_format($n, 0, ',', '.')
+                : number_format($n, 2, ',', '.');
+        }
+        ?>
         <input type="text" id="precio" name="precio" inputmode="decimal" required
-               value="<?= Vista::e($producto['precio'] ?? '') ?>"><br>
-        <small>Numero positivo, hasta dos decimales.</small><br><?= $e('precio') ?>
+               value="<?= Vista::e($precioMostrado) ?>"><br>
+        <small>Por ejemplo 12.500 o 12.500,50. El punto separa los miles.</small><br><?= $e('precio') ?>
     </p>
 
     <p>

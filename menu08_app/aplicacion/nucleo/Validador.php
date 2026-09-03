@@ -48,17 +48,45 @@ final class Validador
     /**
      * Precio: numerico, no negativo y con dos decimales como maximo.
      *
-     * Se acepta coma o punto como separador decimal, porque en Colombia se
-     * escriben las dos formas, pero se guarda siempre con punto.
+     * Acepta la forma en que se escriben los precios en Colombia. El punto se
+     * usa para los miles y la coma para los decimales, de modo que "12.500" son
+     * doce mil quinientos y no doce con cinco. Tambien se admite la forma
+     * anglosajona, porque un teclado numerico produce cualquiera de las dos.
+     *
+     *   12.500      ->  12500.00
+     *   12500       ->  12500.00
+     *   12.500,50   ->  12500.50
+     *   12,500.50   ->  12500.50
+     *   12,50       ->  12.50
+     *   12.50       ->  12.50
+     *
+     * Se guarda siempre con punto decimal, que es lo que espera DECIMAL(10,2).
      */
     public function precio(string $campo, mixed $valor): ?string
     {
-        $v = str_replace(',', '.', trim((string) $valor));
+        $v = str_replace([' ', "\xc2\xa0", '$'], '', trim((string) $valor));
 
         if ($v === '') {
             $this->errores[$campo] = 'El precio es obligatorio.';
 
             return null;
+        }
+
+        $coma  = strrpos($v, ',');
+        $punto = strrpos($v, '.');
+
+        if ($coma !== false && $punto !== false) {
+            // Con los dos separadores manda el ultimo: el otro es de miles.
+            [$decimal, $miles] = $coma > $punto ? [',', '.'] : ['.', ','];
+            $v = str_replace($miles, '', $v);
+            $v = str_replace($decimal, '.', $v);
+        } elseif ($punto !== false) {
+            // Grupos exactos de tres cifras: es separador de miles.
+            if (preg_match('/^\d{1,3}(\.\d{3})+$/', $v) === 1) {
+                $v = str_replace('.', '', $v);
+            }
+        } elseif ($coma !== false) {
+            $v = str_replace(',', '.', $v);
         }
 
         if (!preg_match('/^\d+(\.\d{1,2})?$/', $v)) {

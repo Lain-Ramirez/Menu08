@@ -355,10 +355,14 @@ php -S localhost:8000 -t ADSO.menu08.com ADSO.menu08.com/index.php
 | `/ingresar` | pública | — |
 | `/panel` | rol `food_truck` o `plataforma` | CARTA |
 | `/caja` | rol `cajero` | CAJA |
-| `/svp` | rol `produccion` | SVP |
+| `/svp` | rol `produccion` o `food_truck` | SVP |
+| `/svp/ordenes` | rol `produccion` o `food_truck`, responde JSON | SVP |
 
 Los usuarios de demostración y sus contraseñas están en
 [`docs/basedatos.md`](docs/basedatos.md). **Cambiarlas antes de publicar el sitio.**
+
+El contrato del servicio JSON que sondea el tablero está en
+[`docs/api-svp.md`](docs/api-svp.md).
 
 ---
 

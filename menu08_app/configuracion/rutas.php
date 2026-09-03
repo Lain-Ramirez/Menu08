@@ -62,4 +62,5 @@ $enrutador->post('/caja/vender',      [CajaControlador::class, 'vender']);
 $enrutador->get('/caja/comprobante/{id:\\d+}', [CajaControlador::class, 'comprobante']);
 $enrutador->get('/caja/turnos',       [CajaControlador::class, 'historial']);
 $enrutador->get('/caja/turnos/{id:\\d+}', [CajaControlador::class, 'detalle']);
-$enrutador->get('/svp',   [SvpControlador::class,   'inicio']);   // food_truck, produccion
+$enrutador->get('/svp',         [SvpControlador::class, 'inicio']);    // food_truck, produccion
+$enrutador->get('/svp/ordenes', [SvpControlador::class, 'ordenes']);   // servicio JSON del tablero

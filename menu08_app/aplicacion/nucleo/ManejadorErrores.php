@@ -16,6 +16,18 @@ use Throwable;
  */
 final class ManejadorErrores
 {
+    /**
+     * Cuando la peticion en curso es de un servicio JSON, los errores tambien
+     * deben salir en JSON: un cliente que sondea no sabe leer una pagina HTML,
+     * y recibir <!doctype html> donde esperaba un objeto rompe el consumidor.
+     */
+    private static bool $enJson = false;
+
+    public static function responderEnJson(bool $valor = true): void
+    {
+        self::$enJson = $valor;
+    }
+
     public static function registrar(): void
     {
         error_reporting(E_ALL);
@@ -94,6 +106,21 @@ final class ManejadorErrores
         }
 
         http_response_code($codigo);
+
+        if (self::$enJson) {
+            header('Content-Type: application/json; charset=utf-8');
+
+            $cuerpo = ['error' => 'fallo_interno', 'codigo' => $codigo];
+
+            if ($e !== null && !Configuracion::esProduccion()) {
+                $cuerpo['mensaje'] = $e->getMessage();
+            }
+
+            echo json_encode($cuerpo, JSON_UNESCAPED_UNICODE);
+
+            return;
+        }
+
         header('Content-Type: text/html; charset=utf-8');
 
         $detalle = null;

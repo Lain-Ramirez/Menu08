@@ -33,6 +33,9 @@ use Menu08\Nucleo\Vista;
         .aviso-aviso { border-color: #f9a825; }
         .aviso-error { border-color: #c62828; }
         label { font-weight: 600; }
+        .error-campo { color: #c62828; font-size: .875rem; }
+        textarea, select { font: inherit; width: min(28rem, 100%); padding: .45rem .6rem; }
+        img { vertical-align: middle; border-radius: .25rem; }
         input, button { font: inherit; padding: .45rem .6rem; }
         input[type="email"], input[type="password"] { width: min(22rem, 100%); }
         th, td { text-align: left; padding: .5rem; border-bottom: 1px solid #8884; }

@@ -54,6 +54,23 @@ abstract class Controlador
     }
 
     /**
+     * Identificador del food truck de la sesion.
+     *
+     * Es el filtro de toda consulta del panel: nunca se toma de la URL, para
+     * que nadie pueda administrar el catalogo de otro cambiando un numero.
+     */
+    protected function foodTruckActual(): int
+    {
+        $id = Sesion::foodTruckId();
+
+        if ($id === null) {
+            throw new AccesoDenegado('Esta cuenta no esta asociada a ningun food truck.');
+        }
+
+        return $id;
+    }
+
+    /**
      * Zona privada: sin sesion no se entra. Se redirige al formulario en lugar
      * de responder 403, porque el visitante no ha fallado, solo no ha entrado.
      */

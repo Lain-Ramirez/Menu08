@@ -12,6 +12,7 @@ declare(strict_types=1);
 use Menu08\Nucleo\Configuracion;
 use Menu08\Nucleo\Enrutador;
 use Menu08\Nucleo\ManejadorErrores;
+use Menu08\Nucleo\Sesion;
 
 $raiz = dirname(__DIR__);
 
@@ -64,6 +65,10 @@ spl_autoload_register(static function (string $clase) use ($raiz): void {
 ManejadorErrores::registrar();
 
 Configuracion::cargar($raiz . '/configuracion/configuracion.php');
+
+// La sesion se abre antes de despachar: las vistas y los controladores
+// consultan el usuario autenticado desde el primer momento.
+Sesion::iniciar();
 
 $enrutador = new Enrutador();
 

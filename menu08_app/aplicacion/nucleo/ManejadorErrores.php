@@ -42,14 +42,18 @@ final class ManejadorErrores
 
     public static function manejarExcepcion(Throwable $e): void
     {
-        $esNoEncontrada = $e instanceof RutaNoEncontrada;
+        $codigo = match (true) {
+            $e instanceof RutaNoEncontrada => 404,
+            $e instanceof AccesoDenegado   => 403,
+            default                        => 500,
+        };
 
         Bitacora::registrar(
             sprintf('%s: %s en %s:%d', $e::class, $e->getMessage(), $e->getFile(), $e->getLine()),
-            $esNoEncontrada ? 'AVISO' : 'ERROR'
+            $codigo === 500 ? 'ERROR' : 'AVISO'
         );
 
-        self::responder($esNoEncontrada ? 404 : 500, $e);
+        self::responder($codigo, $e);
     }
 
     /**

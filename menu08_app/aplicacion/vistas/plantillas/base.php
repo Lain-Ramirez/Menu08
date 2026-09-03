@@ -49,6 +49,15 @@ use Menu08\Nucleo\Vista;
         .carta-texto h3 { margin: 0 0 .2rem; font-size: 1.05rem; }
         .carta-texto p { margin: 0; font-size: .9rem; opacity: .85; }
         .carta-precio { font-weight: 700; white-space: nowrap; }
+        .comprobante { max-width: 22rem; margin: 0 auto; }
+        .comprobante header { text-align: center; }
+        .comprobante-numero { font-size: 1.6rem; font-weight: 700; margin: .4rem 0; }
+        .comprobante-total { font-size: 1.2rem; }
+        .comprobante-gracias { text-align: center; opacity: .8; }
+        @media print {
+            header, footer, .sin-impresion, .aviso { display: none !important; }
+            .comprobante { max-width: none; }
+        }
         input, button { font: inherit; padding: .45rem .6rem; }
         input[type="email"], input[type="password"] { width: min(22rem, 100%); }
         th, td { text-align: left; padding: .5rem; border-bottom: 1px solid #8884; }

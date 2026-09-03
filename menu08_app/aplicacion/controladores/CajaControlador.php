@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Menu08\Controladores;
 
+use Menu08\Modelos\FoodTruck;
+use Menu08\Modelos\Orden;
+use Menu08\Modelos\Producto;
 use Menu08\Modelos\TurnoCaja;
 use Menu08\Nucleo\Controlador;
 use Menu08\Nucleo\Csrf;
+use Menu08\Nucleo\DatosInvalidos;
 use Menu08\Nucleo\RutaNoEncontrada;
 use Menu08\Nucleo\Sesion;
 use Menu08\Nucleo\Validador;
@@ -38,11 +42,96 @@ final class CajaControlador extends Controlador
             $this->redirigir('/caja/turno');
         }
 
+        $this->pantallaVenta($this->foodTruckActual(), $turno);
+    }
+
+    /**
+     * Registra la venta. Los precios los pone el servidor: lo que venga del
+     * navegador sobre importes se ignora.
+     */
+    public function vender(): void
+    {
+        $this->exigirRol(...self::ROLES);
+        $this->verificarCsrf();
+
+        $ft    = $this->foodTruckActual();
+        $turno = TurnoCaja::vigente($ft);
+
+        if ($turno === null) {
+            Sesion::mensaje('No hay un turno abierto. Abra el turno para poder vender.', 'aviso');
+
+            $this->redirigir('/caja/turno');
+        }
+
+        $lineas = [];
+
+        foreach ((array) ($_POST['cantidad'] ?? []) as $id => $cantidad) {
+            $cantidad = trim((string) $cantidad);
+
+            if ($cantidad === '' || !preg_match('/^\d+$/', $cantidad)) {
+                continue;
+            }
+
+            if ((int) $cantidad > 0) {
+                $lineas[(int) $id] = (int) $cantidad;
+            }
+        }
+
+        try {
+            $orden = Orden::registrar(
+                $ft,
+                (int) $turno['id'],
+                $lineas,
+                (string) ($_POST['medio_pago'] ?? ''),
+                trim((string) ($_POST['nota'] ?? '')) ?: null
+            );
+        } catch (DatosInvalidos $e) {
+            $this->pantallaVenta($ft, $turno, $e->getMessage(), 422);
+
+            return;
+        }
+
+        // Se descarta el token: reenviar el formulario con F5 no duplica la venta.
+        Csrf::rotar();
+        Sesion::mensaje(sprintf('Orden %s registrada.', $orden['numero']), 'exito');
+
+        $this->redirigir('/caja/comprobante/' . $orden['id']);
+    }
+
+    /**
+     * Comprobante imprimible de una orden ya registrada.
+     */
+    public function comprobante(string $id): void
+    {
+        $this->exigirRol(...self::ROLES);
+
+        $ft    = $this->foodTruckActual();
+        $orden = Orden::porId((int) $id, $ft);
+
+        if ($orden === null) {
+            throw new RutaNoEncontrada(sprintf('Orden %s inexistente para este food truck.', $id));
+        }
+
+        $this->vista('caja/comprobante', [
+            'orden' => $orden,
+            'items' => Orden::items((int) $orden['id']),
+            'truck' => FoodTruck::porId($ft),
+        ], 'Orden ' . $orden['numero']);
+    }
+
+    /**
+     * @param array<string, mixed> $turno
+     */
+    private function pantallaVenta(int $foodTruckId, array $turno, ?string $error = null, int $codigo = 200): void
+    {
         $this->vista('caja/inicio', [
-            'usuario' => $this->usuario(),
-            'turno'   => $turno,
-            'resumen' => TurnoCaja::resumen((int) $turno['id']),
-        ], 'Caja');
+            'usuario'   => $this->usuario(),
+            'turno'     => $turno,
+            'resumen'   => TurnoCaja::resumen((int) $turno['id']),
+            'catalogo'  => Producto::catalogoPublico($foodTruckId),
+            'ordenes'   => Orden::delTurno((int) $turno['id']),
+            'error'     => $error,
+        ], 'Caja', $codigo);
     }
 
     /**

@@ -54,5 +54,10 @@ $enrutador->post('/panel/productos/disponibilidad', [ProductoControlador::class,
 
 $enrutador->get('/panel/qr',           [QrControlador::class, 'mostrar']);
 $enrutador->get('/panel/qr/descargar', [QrControlador::class, 'descargar']);
-$enrutador->get('/caja',  [CajaControlador::class,  'inicio']);   // food_truck, cajero
+$enrutador->get('/caja',              [CajaControlador::class, 'inicio']);      // food_truck, cajero
+$enrutador->get('/caja/turno',        [CajaControlador::class, 'turno']);
+$enrutador->post('/caja/turno/abrir', [CajaControlador::class, 'abrir']);
+$enrutador->post('/caja/turno/cerrar',[CajaControlador::class, 'cerrar']);
+$enrutador->get('/caja/turnos',       [CajaControlador::class, 'historial']);
+$enrutador->get('/caja/turnos/{id:\\d+}', [CajaControlador::class, 'detalle']);
 $enrutador->get('/svp',   [SvpControlador::class,   'inicio']);   // food_truck, produccion

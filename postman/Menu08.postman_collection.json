@@ -1,0 +1,2745 @@
+{
+  "info": {
+    "name": "Menu08 — prototipo SENA",
+    "description": "Todas las rutas del prototipo Menu08, listas para ejecutar contra https://adso.menu08.com.\n\nANTES DE EMPEZAR:\n1. Esta coleccion trae \"followRedirects\" desactivado, porque casi todo POST responde 302 y siguiendo la redireccion no se ve el codigo que interesa comprobar.\n2. Postman guarda la cookie de sesion solo: basta con ingresar una vez.\n3. Todo POST necesita el campo _token, que se captura haciendo antes el GET de la pagina que trae el formulario. Los GET de esta coleccion ya lo capturan solos.\n4. El cuerpo va SIEMPRE como x-www-form-urlencoded. Nunca JSON: la aplicacion lee $_POST.\n\nORDEN SUGERIDO: la carpeta \"1 - Recorrido completo\" esta pensada para el Collection Runner y recorre una venta de principio a fin. Las demas carpetas son la referencia ruta por ruta.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://adso.menu08.com",
+      "type": "string"
+    },
+    {
+      "key": "clave",
+      "value": "Menu08*Demo2026",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "ordenId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "comprobanteId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cajero",
+      "value": "pruebas.cajero@menu08.local",
+      "type": "string"
+    },
+    {
+      "key": "produccion",
+      "value": "pruebas.produccion@menu08.local",
+      "type": "string"
+    },
+    {
+      "key": "foodtruck",
+      "value": "pruebas.foodtruck@menu08.local",
+      "type": "string"
+    },
+    {
+      "key": "slug",
+      "value": "truck-de-pruebas",
+      "type": "string"
+    },
+    {
+      "key": "productoId",
+      "value": "7",
+      "type": "string"
+    },
+    {
+      "key": "categoriaId",
+      "value": "4",
+      "type": "string"
+    }
+  ],
+  "protocolProfileBehavior": {
+    "followRedirects": false
+  },
+  "item": [
+    {
+      "name": "1 - Recorrido completo (ejecutar en orden)",
+      "description": "Una venta de principio a fin: se abre turno, se vende, la orden aparece en el tablero del SVP, se avanza hasta entregada y se cierra el turno. Se puede correr entero con el Collection Runner.",
+      "item": [
+        {
+          "name": "01 GET /ingresar (captura el token)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ingresar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ingresar"
+              ]
+            },
+            "description": "Pide el formulario de ingreso. Lo unico que interesa es el campo oculto _token, que el script guarda en la variable {{token}}."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 POST /ingresar como cajero",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ingresar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ingresar"
+              ]
+            },
+            "description": "Ingreso del cajero del Truck de Pruebas. Responde 302 hacia /caja. Si devuelve 401, la contrasena o el token estan mal.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "correo",
+                  "value": "{{cajero}}",
+                  "type": "text"
+                },
+                {
+                  "key": "contrasena",
+                  "value": "{{clave}}",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });",
+                  "pm.test('Redirige a /caja', function () { pm.expect(pm.response.headers.get('Location')).to.include('/caja'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 GET /caja sin turno abierto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/caja",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja"
+              ]
+            },
+            "description": "Sin turno abierto, CAJA no deja vender: redirige a /caja/turno. Si responde 200, es que ya hay un turno abierto y puedes saltar al paso 06."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 GET /caja/turno (captura el token)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/caja/turno",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "turno"
+              ]
+            },
+            "description": "Formulario de apertura de turno."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 POST /caja/turno/abrir",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/caja/turno/abrir",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "turno",
+                "abrir"
+              ]
+            },
+            "description": "Abre el turno con 100.000 de base. Si ya habia uno vigente responde 409 y no crea la fila.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "base_inicial",
+                  "value": "100000",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 GET /caja (captura el token)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/caja",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja"
+              ]
+            },
+            "description": "Pantalla de venta. Cada casilla de cantidad se llama cantidad[<id de producto>]: aqui se ven los identificadores reales del catalogo."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 POST /caja/vender",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/caja/vender",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "vender"
+              ]
+            },
+            "description": "Registra la venta: 2 hamburguesas (id 7) y 1 gaseosa (id 10). El total lo calcula el servidor leyendo los precios de la base: mandar un total en el cuerpo no sirve de nada. Responde 302 al comprobante.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "cantidad[7]",
+                  "value": "2",
+                  "type": "text"
+                },
+                {
+                  "key": "cantidad[10]",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "medio_pago",
+                  "value": "efectivo",
+                  "type": "text"
+                },
+                {
+                  "key": "nota",
+                  "value": "Sin cebolla, para llevar",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });",
+                  "const loc = pm.response.headers.get('Location') || '';",
+                  "const m = loc.match(/comprobante\\/(\\d+)/);",
+                  "if (m) { pm.collectionVariables.set('comprobanteId', m[1]); }",
+                  "pm.test('Redirige al comprobante', function () { pm.expect(loc).to.include('/caja/comprobante/'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08 GET /caja/comprobante/{id}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/caja/comprobante/{{comprobanteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "comprobante",
+                "{{comprobanteId}}"
+              ]
+            },
+            "description": "El comprobante de la venta recien hecha, con el numero de turno que se le canta al cliente."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "09 GET /ingresar (captura el token)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ingresar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ingresar"
+              ]
+            },
+            "description": "Se vuelve a pedir el formulario para cambiar de usuario."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "10 POST /ingresar como produccion",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ingresar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ingresar"
+              ]
+            },
+            "description": "Ahora entra produccion, que es quien opera el tablero. Redirige a /svp.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "correo",
+                  "value": "{{produccion}}",
+                  "type": "text"
+                },
+                {
+                  "key": "contrasena",
+                  "value": "{{clave}}",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "11 GET /svp (captura el token del meta)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/svp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp"
+              ]
+            },
+            "description": "El tablero no tiene formularios, asi que el token viaja en <meta name=\"csrf-token\">."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// El tablero no tiene formularios: el token viaja en una etiqueta meta.",
+                  "const m = pm.response.text().match(/name=\"csrf-token\" content=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token del meta', function () { pm.expect(m).to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "12 GET /svp/ordenes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/svp/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "ordenes"
+              ]
+            },
+            "description": "La orden que acaba de registrar CAJA ya esta aqui, en estado pendiente. Esta es la peticion que el tablero repite cada pocos segundos."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "const d = pm.response.json();",
+                  "pm.test('Hay al menos una orden en curso', function () { pm.expect(d.total).to.be.above(0); });",
+                  "if (d.ordenes && d.ordenes.length) { pm.collectionVariables.set('ordenId', d.ordenes[0].id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "13 POST estado -> en_preparacion",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/svp/orden/{{ordenId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "orden",
+                "{{ordenId}}",
+                "estado"
+              ]
+            },
+            "description": "Produccion toma la orden. Deja escrita la marca de tiempo en_preparacion_en.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "estado",
+                  "value": "en_preparacion",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "pm.test('Paso a en_preparacion', function () { pm.expect(pm.response.json().orden.estado).to.eql('en_preparacion'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "14 POST estado -> lista",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/svp/orden/{{ordenId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "orden",
+                "{{ordenId}}",
+                "estado"
+              ]
+            },
+            "description": "La orden queda lista en la ventanilla. Aqui aparece minutos_hasta_lista.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "estado",
+                  "value": "lista",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Paso a lista', function () { pm.expect(pm.response.json().orden.estado).to.eql('lista'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "15 POST estado -> entregada",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/svp/orden/{{ordenId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "orden",
+                "{{ordenId}}",
+                "estado"
+              ]
+            },
+            "description": "El cliente la recoge. A partir de aqui sale del tablero.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "estado",
+                  "value": "entregada",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Paso a entregada y no tiene siguiente', function () {",
+                  "  const o = pm.response.json().orden;",
+                  "  pm.expect(o.estado).to.eql('entregada');",
+                  "  pm.expect(o.siguiente).to.be.null;",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "16 GET /svp/ordenes (ya no esta)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/svp/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "ordenes"
+              ]
+            },
+            "description": "La orden entregada ya salio por la ventanilla y no aparece en el tablero."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "const d = pm.response.json();",
+                  "const id = Number(pm.collectionVariables.get('ordenId'));",
+                  "pm.test('La orden entregada ya no esta', function () { pm.expect(d.ordenes.map(o => o.id)).to.not.include(id); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "17 GET /ingresar + cajero (captura el token)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ingresar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ingresar"
+              ]
+            },
+            "description": "Se vuelve al cajero para cerrar el turno."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "18 POST /ingresar como cajero",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ingresar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ingresar"
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "correo",
+                  "value": "{{cajero}}",
+                  "type": "text"
+                },
+                {
+                  "key": "contrasena",
+                  "value": "{{clave}}",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "19 GET /caja/turno (captura el token)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/caja/turno",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "turno"
+              ]
+            },
+            "description": "Con el turno abierto, esta pagina muestra el formulario de CIERRE."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "20 POST /caja/turno/cerrar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/caja/turno/cerrar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "turno",
+                "cerrar"
+              ]
+            },
+            "description": "Cierra el turno declarando el conteo fisico. La diferencia la calcula el servidor contra base + ventas, asi que saldra un faltante: es lo esperado si vendiste y declaraste solo la base.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "total_declarado",
+                  "value": "100000",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2 - Publicas (sin sesion)",
+      "description": "Lo que ve cualquiera sin ingresar.",
+      "item": [
+        {
+          "name": "GET /",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ""
+              ]
+            },
+            "description": "Pagina de comprobacion del nucleo."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /comprobacion/{slug}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/comprobacion/{{slug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "comprobacion",
+                "{{slug}}"
+              ]
+            },
+            "description": "Comprobacion de una ruta con parametro. Con un slug inexistente responde 404."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /carta/{slug}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/carta/{{slug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carta",
+                "{{slug}}"
+              ]
+            },
+            "description": "La carta que abre el cliente al leer el QR de la ventanilla. Comprueba que NO aparezcan la categoria desactivada ni el producto agotado."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Oculta lo desactivado', function () {",
+                  "  pm.expect(pm.response.text()).to.not.include('Categoria desactivada');",
+                  "  pm.expect(pm.response.text()).to.not.include('Entrada agotada');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /carta/no-existe (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/carta/no-existe",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carta",
+                "no-existe"
+              ]
+            },
+            "description": "Un slug que no existe da 404 con la vista de error propia del sitio."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3 - Autenticacion",
+      "description": "Ingreso y salida. El ingreso es el unico sitio donde la aplicacion crea el token de la sesion.",
+      "item": [
+        {
+          "name": "GET /ingresar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ingresar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ingresar"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /ingresar (correcto)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ingresar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ingresar"
+              ]
+            },
+            "description": "Destino segun el rol: plataforma y food_truck a /panel, cajero a /caja, produccion a /svp.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "correo",
+                  "value": "{{foodtruck}}",
+                  "type": "text"
+                },
+                {
+                  "key": "contrasena",
+                  "value": "{{clave}}",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /ingresar (clave equivocada)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ingresar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ingresar"
+              ]
+            },
+            "description": "Responde 401 repintando el formulario. El mensaje es el mismo para correo inexistente, clave equivocada y cuenta desactivada: decir cual de los tres fue delataria que cuentas existen.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "correo",
+                  "value": "{{foodtruck}}",
+                  "type": "text"
+                },
+                {
+                  "key": "contrasena",
+                  "value": "equivocada",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 401', function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /ingresar (sin token)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ingresar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ingresar"
+              ]
+            },
+            "description": "Sin _token la peticion se corta antes de tocar la base de datos: 403.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "correo",
+                  "value": "{{foodtruck}}",
+                  "type": "text"
+                },
+                {
+                  "key": "contrasena",
+                  "value": "{{clave}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /salir",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/salir",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "salir"
+              ]
+            },
+            "description": "Cierra la sesion y borra la cookie."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4 - Panel de CARTA (rol food_truck)",
+      "description": "Ingresa antes con {{foodtruck}}. Todos los POST necesitan _token Y LO ROTAN: hay que volver a hacer el GET de la pagina antes de cada POST.",
+      "item": [
+        {
+          "name": "GET /panel",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel"
+              ]
+            },
+            "description": "Rol food_truck o plataforma."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /panel/food-truck",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel/food-truck",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "food-truck"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /panel/food-truck",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/panel/food-truck",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "food-truck"
+              ]
+            },
+            "description": "Datos del truck. El logo se manda como archivo: para eso hay que cambiar el cuerpo a form-data y anadir el campo \"logo\" de tipo File.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "nombre",
+                  "value": "Truck de Pruebas",
+                  "type": "text"
+                },
+                {
+                  "key": "slug",
+                  "value": "{{slug}}",
+                  "type": "text"
+                },
+                {
+                  "key": "descripcion",
+                  "value": "Editado desde Postman",
+                  "type": "text"
+                },
+                {
+                  "key": "telefono",
+                  "value": "6017000000",
+                  "type": "text"
+                },
+                {
+                  "key": "whatsapp",
+                  "value": "573000000000",
+                  "type": "text"
+                },
+                {
+                  "key": "instagram",
+                  "value": "truckdepruebas",
+                  "type": "text"
+                },
+                {
+                  "key": "ciudad",
+                  "value": "Bogota",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /panel/categorias",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel/categorias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "categorias"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /panel/categorias/{id}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel/categorias/{{categoriaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "categorias",
+                "{{categoriaId}}"
+              ]
+            },
+            "description": "El listado con esa categoria en edicion. Con el id de otro food truck responde 404."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /panel/categorias (crear)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/panel/categorias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "categorias"
+              ]
+            },
+            "description": "id=0 crea; un id existente edita.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "0",
+                  "type": "text"
+                },
+                {
+                  "key": "nombre",
+                  "value": "Categoria nueva desde Postman",
+                  "type": "text"
+                },
+                {
+                  "key": "orden",
+                  "value": "9",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /panel/categorias/estado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/panel/categorias/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "categorias",
+                "estado"
+              ]
+            },
+            "description": "ALTERNA activa/inactiva. No lleva el valor nuevo: lo invierte. Ejecutalo dos veces para dejarla como estaba.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "{{categoriaId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /panel/productos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel/productos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "productos"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /panel/productos/nuevo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel/productos/nuevo",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "productos",
+                "nuevo"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /panel/productos/{id}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel/productos/{{productoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "productos",
+                "{{productoId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /panel/productos (crear)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/panel/productos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "productos"
+              ]
+            },
+            "description": "La foto se manda como archivo: cambia el cuerpo a form-data y anade el campo \"foto\" de tipo File.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "0",
+                  "type": "text"
+                },
+                {
+                  "key": "categoria_id",
+                  "value": "{{categoriaId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "nombre",
+                  "value": "Producto desde Postman",
+                  "type": "text"
+                },
+                {
+                  "key": "descripcion",
+                  "value": "Creado en la prueba",
+                  "type": "text"
+                },
+                {
+                  "key": "precio",
+                  "value": "13500",
+                  "type": "text"
+                },
+                {
+                  "key": "orden",
+                  "value": "9",
+                  "type": "text"
+                },
+                {
+                  "key": "disponible",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /panel/productos/disponibilidad",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/panel/productos/disponibilidad",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "productos",
+                "disponibilidad"
+              ]
+            },
+            "description": "ALTERNA disponible/agotado. Ejecutalo dos veces para dejarlo como estaba.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "{{productoId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /panel/qr",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel/qr",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "qr"
+              ]
+            },
+            "description": "El QR de la carta, para pegar en la ventanilla."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /panel/qr/descargar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel/qr/descargar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "qr",
+                "descargar"
+              ]
+            },
+            "description": "Descarga el PNG. Postman lo muestra como imagen en la pestana Body."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Devuelve un PNG', function () { pm.expect(pm.response.headers.get('Content-Type')).to.include('image/png'); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5 - CAJA (rol cajero)",
+      "description": "Ingresa antes con {{cajero}}. Todos los POST rotan el token.",
+      "item": [
+        {
+          "name": "GET /caja",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/caja",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja"
+              ]
+            },
+            "description": "Pantalla de venta, o 302 a /caja/turno si no hay turno abierto."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /caja/turno",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/caja/turno",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "turno"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /caja/turno/abrir",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/caja/turno/abrir",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "turno",
+                "abrir"
+              ]
+            },
+            "description": "Con un turno ya vigente responde 409 y NO crea la fila: la apertura va dentro de una transaccion con bloqueo.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "base_inicial",
+                  "value": "100000",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST /caja/vender",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/caja/vender",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "vender"
+              ]
+            },
+            "description": "Una casilla cantidad[<id>] por producto. medio_pago: efectivo, tarjeta o transferencia. Maximo 99 por producto.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "cantidad[7]",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "medio_pago",
+                  "value": "tarjeta",
+                  "type": "text"
+                },
+                {
+                  "key": "nota",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST /caja/vender (orden vacia -> 422)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/caja/vender",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "vender"
+              ]
+            },
+            "description": "Una orden sin ningun producto se rechaza con 422 y no escribe nada en la base.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "cantidad[7]",
+                  "value": "0",
+                  "type": "text"
+                },
+                {
+                  "key": "medio_pago",
+                  "value": "efectivo",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 422', function () { pm.response.to.have.status(422); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /caja/vender (producto agotado -> 422)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/caja/vender",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "vender"
+              ]
+            },
+            "description": "El producto 6 esta marcado como no disponible: no se puede vender.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "cantidad[6]",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "medio_pago",
+                  "value": "efectivo",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 422', function () { pm.response.to.have.status(422); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /caja/comprobante/{id}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/caja/comprobante/{{comprobanteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "comprobante",
+                "{{comprobanteId}}"
+              ]
+            },
+            "description": "Con el id de una orden de otro food truck responde 404."
+          }
+        },
+        {
+          "name": "GET /caja/turnos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/caja/turnos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "turnos"
+              ]
+            },
+            "description": "Historial de turnos."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /caja/turnos/{id}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/caja/turnos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "turnos",
+                "1"
+              ]
+            },
+            "description": "Detalle y cuadre de un turno. Cambia el 1 por un id de tu historial."
+          }
+        },
+        {
+          "name": "POST /caja/turno/cerrar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/caja/turno/cerrar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja",
+                "turno",
+                "cerrar"
+              ]
+            },
+            "description": "La diferencia la recalcula el servidor desde ordenes, no de un contador acumulado.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "total_declarado",
+                  "value": "100000",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6 - SVP (rol produccion)",
+      "description": "Los dos servicios JSON. Ingresa antes con {{produccion}} y haz el GET /svp para capturar el token del meta.",
+      "item": [
+        {
+          "name": "GET /svp",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/svp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp"
+              ]
+            },
+            "description": "La pagina del tablero. De aqui sale el token."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// El tablero no tiene formularios: el token viaja en una etiqueta meta.",
+                  "const m = pm.response.text().match(/name=\"csrf-token\" content=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token del meta', function () { pm.expect(m).to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /svp/ordenes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/svp/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "ordenes"
+              ]
+            },
+            "description": "Ordenes en curso del turno vigente: pendiente, en_preparacion y lista. Las entregada quedan fuera. El arreglo llega ordenado por estado y, dentro de cada estado, por antiguedad."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "const d = pm.response.json();",
+                  "pm.test('Tiene la forma del contrato', function () {",
+                  "  pm.expect(d).to.have.all.keys('turno', 'minutos_demora', 'total', 'ordenes');",
+                  "  pm.expect(d.ordenes).to.be.an('array');",
+                  "  pm.expect(d.total).to.eql(d.ordenes.length);",
+                  "});",
+                  "if (d.ordenes && d.ordenes.length) { pm.collectionVariables.set('ordenId', d.ordenes[0].id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /svp/orden/{id}/estado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/svp/orden/{{ordenId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "orden",
+                "{{ordenId}}",
+                "estado"
+              ]
+            },
+            "description": "estado admite en_preparacion, lista o entregada. Este servicio NO rota el token, a proposito: el tablero avanza varias ordenes seguidas.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "estado",
+                  "value": "en_preparacion",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "7 - Errores que DEBEN fallar",
+      "description": "Comprobaciones de seguridad y de contrato. Que estas den error es justamente lo correcto: si alguna respondiera 200, habria un problema.",
+      "item": [
+        {
+          "name": "GET /svp/ordenes sin sesion -> 401",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/svp/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "ordenes"
+              ]
+            },
+            "description": "Haz antes GET /salir. Debe responder 401 en JSON, sin una sola etiqueta HTML: un tablero que sondea no sabe leer una pagina de error."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 401', function () { pm.response.to.have.status(401); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "pm.test('El error se llama no_autenticado', function () { pm.expect(pm.response.json().error).to.eql('no_autenticado'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /svp/ordenes como cajero -> 403",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/svp/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "ordenes"
+              ]
+            },
+            "description": "Ingresa antes como {{cajero}}. El rol no tiene acceso al tablero."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', function () { pm.response.to.have.status(403); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "pm.test('El error se llama rol_no_autorizado', function () { pm.expect(pm.response.json().error).to.eql('rol_no_autorizado'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST estado sin token -> 403",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/svp/orden/{{ordenId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "orden",
+                "{{ordenId}}",
+                "estado"
+              ]
+            },
+            "description": "Sin _token. Ademas de dar 403, la orden NO se mueve: compruebalo con GET /svp/ordenes.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "estado",
+                  "value": "en_preparacion",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', function () { pm.response.to.have.status(403); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "pm.test('El error se llama token_invalido', function () { pm.expect(pm.response.json().error).to.eql('token_invalido'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST estado con salto -> 422",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/svp/orden/{{ordenId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "orden",
+                "{{ordenId}}",
+                "estado"
+              ]
+            },
+            "description": "Una orden pendiente no puede saltar a entregada: solo se avanza de una en una. El mensaje dice a que estado SI puede pasar.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "estado",
+                  "value": "entregada",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 422', function () { pm.response.to.have.status(422); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "pm.test('El error se llama transicion_invalida', function () { pm.expect(pm.response.json().error).to.eql('transicion_invalida'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST estado inexistente -> 422",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/svp/orden/{{ordenId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "orden",
+                "{{ordenId}}",
+                "estado"
+              ]
+            },
+            "description": "Un estado que no existe en el ciclo de vida.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "estado",
+                  "value": "volando",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 422', function () { pm.response.to.have.status(422); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST estado de orden inexistente -> 404",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/svp/orden/999999/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "orden",
+                "999999",
+                "estado"
+              ]
+            },
+            "description": "Una orden que no existe. Ojo: una orden de OTRO food truck responde exactamente lo mismo, a proposito. Un 403 confirmaria que existe.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "estado",
+                  "value": "en_preparacion",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () { pm.response.to.have.status(404); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "pm.test('El error se llama orden_no_encontrada', function () { pm.expect(pm.response.json().error).to.eql('orden_no_encontrada'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /svp/ordenes (metodo equivocado) -> 404 HTML",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/svp/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "svp",
+                "ordenes"
+              ]
+            },
+            "description": "No coincide con ninguna ruta registrada y cae en el 404 general del sitio, que SI es HTML. El tablero solo hace GET sobre la ruta exacta."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /panel como cajero -> 403",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel"
+              ]
+            },
+            "description": "Ingresa antes como {{cajero}}. El panel de CARTA es del rol food_truck."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /caja como produccion -> 403",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/caja",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "caja"
+              ]
+            },
+            "description": "Ingresa antes como {{produccion}}. CAJA es del cajero."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

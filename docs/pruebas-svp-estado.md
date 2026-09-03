@@ -72,7 +72,13 @@ Ninguno movió la orden: `ordenes.estado_id` se consultó en la base después de
 | Estado inexistente (`volando`) | **422** | «El estado "volando" no existe o no se puede alcanzar. Estados de destino validos: en_preparacion, lista, entregada.» |
 | Orden ya entregada | **422** | «La orden T3-021 ya esta "entregada" y no admite mas cambios.» |
 | Orden inexistente | **404** | `orden_no_encontrada` |
-| Ninguno devuelve HTML | — | los siete con `application/json` |
+| **Orden de otro food truck** | **404** | idéntico al anterior: «La orden 5 no existe para este food truck.» |
+| Ninguno devuelve HTML | — | los ocho con `application/json` |
+
+El caso del food truck ajeno se provocó con el segundo truck del banco de pruebas
+(`basedatos/datos_pruebas.sql`): su usuario de producción pidió avanzar una orden de Festín
+Rodante y recibió el mismo 404 que ante una inexistente. **La respuesta no permite distinguir un
+caso del otro**, que es lo que se busca: un 403 confirmaría que la orden existe.
 
 La transición se comprueba **dentro de la misma transacción** que la actualizaría, con la fila
 bloqueada por `SELECT … FOR UPDATE`. No es una comprobación previa que otro proceso pueda adelantar
@@ -104,9 +110,9 @@ Comprobado ya desplegado:
 
 ## Lo que estas pruebas no cubren todavía
 
-- **La orden de otro food truck.** Debe responder 404, igual que una inexistente, para no
-  confirmar que existe. El filtro está en el `WHERE` de la consulta con bloqueo, pero no se pudo
-  provocar: en la base de demostración solo hay un food truck.
+- **Dos pantallas avanzando la misma orden a la vez.** El `SELECT … FOR UPDATE` está puesto para
+  eso, y la lógica se comprobó de forma secuencial —el segundo envío recibe 422—, pero no se
+  lanzaron dos peticiones simultáneas de verdad.
 - **Dos pantallas avanzando la misma orden a la vez.** El `SELECT … FOR UPDATE` está puesto para
   eso, y la lógica se comprobó de forma secuencial —el segundo envío recibe 422—, pero no se
   lanzaron dos peticiones simultáneas de verdad.

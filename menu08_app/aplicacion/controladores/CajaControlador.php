@@ -87,12 +87,17 @@ final class CajaControlador extends Controlador
         $id      = TurnoCaja::abrir($ft, (int) $usuario['id'], (string) $base);
 
         if ($id === 0) {
-            // Ya habia un turno vigente: no se crea otro y se avisa.
+            // Ya habia un turno vigente: no se crea otro. El aviso va aparte de
+            // los errores de campo, porque la vista pasa a mostrar la rama de
+            // cierre y alli no existe el campo de la base inicial.
+            $vigente = TurnoCaja::vigente($ft);
+
             $this->vista('caja/turno', [
-                'turno'   => TurnoCaja::vigente($ft),
-                'resumen' => null,
-                'errores' => ['base_inicial' => 'Ya hay un turno abierto. Cierrelo antes de abrir otro.'],
-            ], 'Abrir turno', 409);
+                'turno'   => $vigente,
+                'resumen' => $vigente === null ? null : TurnoCaja::resumen((int) $vigente['id']),
+                'errores' => [],
+                'aviso'   => 'Ya hay un turno abierto. Cierrelo antes de abrir otro.',
+            ], 'Turno de caja', 409);
 
             return;
         }

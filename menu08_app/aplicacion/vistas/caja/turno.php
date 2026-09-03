@@ -12,7 +12,12 @@ use Menu08\Nucleo\Vista;
  */
 $e = static fn (string $c): string => isset($errores[$c])
     ? '<span class="error-campo">' . Vista::e($errores[$c]) . '</span>' : '';
+$aviso = $aviso ?? null;
 ?>
+<?php if ($aviso !== null) : ?>
+    <p class="aviso aviso-error" role="alert"><?= Vista::e($aviso) ?></p>
+<?php endif; ?>
+
 <?php if ($turno === null) : ?>
 
     <h1>Abrir turno</h1>

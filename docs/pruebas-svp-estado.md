@@ -1,7 +1,8 @@
 # Pruebas del cambio de estado y de la integración CAJA → SVP
 
 Ejecutadas contra **https://adso.menu08.com** y contra la base de datos del prototipo.
-**24 comprobaciones, 0 fallos**, más un defecto de usabilidad encontrado y corregido.
+**27 comprobaciones, 0 fallos**, más un defecto de usabilidad encontrado, corregido y verificado
+en el servidor.
 
 ## El recorrido completo de una orden
 
@@ -93,6 +94,14 @@ estado se volvía inalcanzable para siempre, sin cerrar sesión y volver a entra
 iniciada. Es lo que va a leer el tablero desde JavaScript, y de paso deja el patrón puesto para
 cualquier otro servicio que se llame por `fetch`.
 
+Comprobado ya desplegado:
+
+| Comprobación | Resultado |
+|---|---|
+| `GET /svp` con sesión de producción | trae `<meta name="csrf-token" content="…">` |
+| `GET /carta/festin-rodante`, pública | **no** lo trae: se emite solo en zona privada |
+| Ese token, usado contra la API | `T3-002` avanzó `pendiente → en_preparacion`, 200 |
+
 ## Lo que estas pruebas no cubren todavía
 
 - **La orden de otro food truck.** Debe responder 404, igual que una inexistente, para no
@@ -101,7 +110,5 @@ cualquier otro servicio que se llame por `fetch`.
 - **Dos pantallas avanzando la misma orden a la vez.** El `SELECT … FOR UPDATE` está puesto para
   eso, y la lógica se comprobó de forma secuencial —el segundo envío recibe 422—, pero no se
   lanzaron dos peticiones simultáneas de verdad.
-- **La corrección del token, servida por HTTPS.** El `<meta>` está en el repositorio y validado
-  sintácticamente; falta subir la plantilla y comprobarlo en el servidor.
 - **Qué debe ver producción cuando el cajero cierra el turno** con órdenes aún en curso: hoy
   desaparecen del tablero en el acto. Sigue siendo una decisión de producto pendiente.

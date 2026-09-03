@@ -36,6 +36,19 @@ use Menu08\Nucleo\Vista;
         .error-campo { color: #c62828; font-size: .875rem; }
         textarea, select { font: inherit; width: min(28rem, 100%); padding: .45rem .6rem; }
         img { vertical-align: middle; border-radius: .25rem; }
+        .carta { max-width: 34rem; margin: 0 auto; }
+        .carta-cabecera { text-align: center; margin-bottom: 1.5rem; }
+        .carta-logo { max-height: 6rem; }
+        .carta-contacto { font-size: .9rem; opacity: .8; }
+        .carta-categoria h2 { border-bottom: 2px solid #8884; padding-bottom: .3rem; }
+        .carta-lista { list-style: none; padding: 0; margin: 0; }
+        .carta-item { display: flex; gap: .8rem; align-items: flex-start;
+                      padding: .8rem 0; border-bottom: 1px solid #8883; }
+        .carta-foto { width: 4.5rem; height: 4.5rem; object-fit: cover; flex: none; }
+        .carta-texto { flex: 1; min-width: 0; }
+        .carta-texto h3 { margin: 0 0 .2rem; font-size: 1.05rem; }
+        .carta-texto p { margin: 0; font-size: .9rem; opacity: .85; }
+        .carta-precio { font-weight: 700; white-space: nowrap; }
         input, button { font: inherit; padding: .45rem .6rem; }
         input[type="email"], input[type="password"] { width: min(22rem, 100%); }
         th, td { text-align: left; padding: .5rem; border-bottom: 1px solid #8884; }

@@ -33,6 +33,7 @@ use Menu08\Nucleo\Vista;
     <p>
         <a href="<?= Vista::e(Vista::url('/panel/food-truck')) ?>">Datos del food truck</a> ·
         <a href="<?= Vista::e(Vista::url('/panel/categorias')) ?>">Categorias</a> ·
-        <a href="<?= Vista::e(Vista::url('/panel/productos')) ?>">Productos</a>
+        <a href="<?= Vista::e(Vista::url('/panel/productos')) ?>">Productos</a> ·
+        <a href="<?= Vista::e(Vista::url('/panel/qr')) ?>">Codigo QR</a>
     </p>
 <?php endif; ?>

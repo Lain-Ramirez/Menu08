@@ -19,18 +19,36 @@ final class Vista
      */
     public static function renderizar(string $plantilla, array $datos = []): string
     {
-        $archivo = self::carpeta() . '/' . self::normalizar($plantilla) . '.php';
+        $ruta = self::carpeta() . '/' . self::normalizar($plantilla) . '.php';
 
-        if (!is_file($archivo)) {
+        if (!is_file($ruta)) {
             throw new RuntimeException(sprintf('No existe la vista %s.', $plantilla));
         }
 
-        extract($datos, EXTR_SKIP);
+        return self::incluir($ruta, $datos);
+    }
+
+    /**
+     * Ejecuta la plantilla en un ambito propio.
+     *
+     * Las variables locales llevan el prefijo __vista para que ninguna clave de
+     * los datos pueda chocar con ellas, y ademas se eliminan de los datos antes
+     * de extraerlos. Sin esta precaucion, una vista que reciba una clave llamada
+     * como una variable interna se queda con el valor interno y falla en
+     * silencio: no hay error, simplemente muestra el dato equivocado.
+     *
+     * @param array<string, mixed> $__vista_datos
+     */
+    private static function incluir(string $__vista_ruta, array $__vista_datos): string
+    {
+        unset($__vista_datos['__vista_ruta'], $__vista_datos['__vista_datos']);
+
+        extract($__vista_datos, EXTR_OVERWRITE);
 
         ob_start();
 
         try {
-            require $archivo;
+            require $__vista_ruta;
         } catch (Throwable $e) {
             ob_end_clean();
 

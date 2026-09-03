@@ -14,15 +14,20 @@ declare(strict_types=1);
 
 use Menu08\Controladores\AutenticacionControlador;
 use Menu08\Controladores\CajaControlador;
+use Menu08\Controladores\CartaControlador;
 use Menu08\Controladores\CategoriaControlador;
 use Menu08\Controladores\InicioControlador;
 use Menu08\Controladores\PanelControlador;
 use Menu08\Controladores\ProductoControlador;
+use Menu08\Controladores\QrControlador;
 use Menu08\Controladores\SvpControlador;
 
 // --- Publicas --------------------------------------------------------------
 $enrutador->get('/', [InicioControlador::class, 'comprobacion']);
 $enrutador->get('/comprobacion/{slug}', [InicioControlador::class, 'porSlug']);
+
+// La carta que abre el cliente al leer el QR de la ventanilla. Sin sesion.
+$enrutador->get('/carta/{slug}', [CartaControlador::class, 'publica']);
 
 // --- Autenticacion ---------------------------------------------------------
 $enrutador->get('/ingresar',  [AutenticacionControlador::class, 'formulario']);
@@ -46,5 +51,8 @@ $enrutador->get('/panel/productos/nuevo',           [ProductoControlador::class,
 $enrutador->get('/panel/productos/{id:\\d+}',        [ProductoControlador::class, 'editar']);
 $enrutador->post('/panel/productos',                [ProductoControlador::class, 'guardar']);
 $enrutador->post('/panel/productos/disponibilidad', [ProductoControlador::class, 'cambiarDisponibilidad']);
+
+$enrutador->get('/panel/qr',           [QrControlador::class, 'mostrar']);
+$enrutador->get('/panel/qr/descargar', [QrControlador::class, 'descargar']);
 $enrutador->get('/caja',  [CajaControlador::class,  'inicio']);   // food_truck, cajero
 $enrutador->get('/svp',   [SvpControlador::class,   'inicio']);   // food_truck, produccion

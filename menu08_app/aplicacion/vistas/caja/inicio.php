@@ -5,16 +5,26 @@ declare(strict_types=1);
 use Menu08\Nucleo\Vista;
 
 /**
- * Marcador de posicion del modulo. Lo reemplazan los issues de su fase.
- *
  * @var array<string, mixed> $usuario
+ * @var array<string, mixed> $turno
+ * @var array<string, mixed> $resumen
  */
 ?>
-<h1>CAJA</h1>
+<h1>Caja</h1>
 
 <p>
-    Zona privada. Entro con el rol <code><?= Vista::e($usuario['rol']) ?></code>,
-    como <?= Vista::e($usuario['nombre']) ?>.
+    Turno #<?= (int) $turno['id'] ?> abierto por <?= Vista::e($turno['cajero']) ?>
+    el <?= Vista::e((string) $turno['abierto_en']) ?>.
 </p>
 
-<p>El modulo se construye en su fase correspondiente.</p>
+<?= Vista::renderizar('caja/_resumen', ['turno' => $turno, 'resumen' => $resumen]) ?>
+
+<p class="aviso aviso-aviso">
+    El armado de la orden se construye en su propio issue. Por ahora el turno ya
+    esta abierto y listo para recibir ventas.
+</p>
+
+<p>
+    <a href="<?= Vista::e(Vista::url('/caja/turno')) ?>">Cerrar turno</a> ·
+    <a href="<?= Vista::e(Vista::url('/caja/turnos')) ?>">Turnos anteriores</a>
+</p>

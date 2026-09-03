@@ -45,6 +45,7 @@ final class ManejadorErrores
         $codigo = match (true) {
             $e instanceof RutaNoEncontrada => 404,
             $e instanceof AccesoDenegado   => 403,
+            $e instanceof DatosInvalidos   => 422,
             default                        => 500,
         };
 

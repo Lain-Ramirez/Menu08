@@ -58,6 +58,8 @@ $enrutador->get('/caja',              [CajaControlador::class, 'inicio']);      
 $enrutador->get('/caja/turno',        [CajaControlador::class, 'turno']);
 $enrutador->post('/caja/turno/abrir', [CajaControlador::class, 'abrir']);
 $enrutador->post('/caja/turno/cerrar',[CajaControlador::class, 'cerrar']);
+$enrutador->post('/caja/vender',      [CajaControlador::class, 'vender']);
+$enrutador->get('/caja/comprobante/{id:\\d+}', [CajaControlador::class, 'comprobante']);
 $enrutador->get('/caja/turnos',       [CajaControlador::class, 'historial']);
 $enrutador->get('/caja/turnos/{id:\\d+}', [CajaControlador::class, 'detalle']);
 $enrutador->get('/svp',   [SvpControlador::class,   'inicio']);   // food_truck, produccion

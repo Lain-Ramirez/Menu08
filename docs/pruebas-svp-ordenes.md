@@ -157,11 +157,10 @@ reales.
 
 ## Lo que estas pruebas no cubren todavía
 
-- **Los estados `en_preparacion` y `lista`.** Las 20 órdenes nacieron `pendiente` y todavía no
-  existe la ruta que avanza el estado, que llega con el issue del tablero. Que los tres entren
-  está verificado sobre el `IN` de la consulta; que `entregada` quede fuera, sobre datos reales.
-- **El umbral de demora.** Las 20 órdenes se midieron recién creadas: `minutos` fue 0 y `demorada`
-  falso en todas. Falta comprobar el cambio a `true` pasados los 10 minutos.
+- **Los estados `en_preparacion` y `lista`** y **el umbral de demora** quedaron fuera de estas
+  pruebas porque todavía no existía la ruta que avanza el estado de una orden. Los cubre
+  [`pruebas-svp-estado.md`](pruebas-svp-estado.md), donde una orden recorre los cuatro estados y
+  otra aparece en el tablero con `minutos: 110` y `demorada: true`.
 - **Varios turnos abiertos a la vez.** La consulta se queda con el más reciente
   (`ORDER BY id DESC LIMIT 1`). CAJA lo impide con un `SELECT … FOR UPDATE` al abrir, así que el
   caso no se pudo provocar sin forzar la base a un estado que la aplicación no permite.

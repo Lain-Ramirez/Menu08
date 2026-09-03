@@ -148,8 +148,40 @@ abstract class Controlador
      */
     protected function verificarCsrf(): void
     {
-        if (Csrf::valido(isset($_POST['_token']) ? (string) $_POST['_token'] : null)) {
+        if ($this->csrfValido()) {
             return;
+        }
+
+        throw new AccesoDenegado('El formulario expiro o no es valido. Vuelva a intentarlo.');
+    }
+
+    /**
+     * Lo mismo para los servicios JSON. La comprobacion es identica; lo que
+     * cambia es el rechazo, que sale como objeto y no como pagina de error:
+     * el tablero tiene que poder distinguir "el token caduco" de "esa orden
+     * no existe", y con HTML no puede.
+     */
+    protected function verificarCsrfApi(): void
+    {
+        if ($this->csrfValido()) {
+            return;
+        }
+
+        $this->jsonError(
+            'token_invalido',
+            'El token de seguridad expiro o no es valido. Recargue el tablero.',
+            403
+        );
+    }
+
+    /**
+     * La comprobacion en si, en un solo sitio para que las dos puertas —la de
+     * los formularios y la de los servicios— no puedan separarse con el tiempo.
+     */
+    private function csrfValido(): bool
+    {
+        if (Csrf::valido(isset($_POST['_token']) ? (string) $_POST['_token'] : null)) {
+            return true;
         }
 
         Bitacora::registrar(sprintf(
@@ -158,6 +190,6 @@ abstract class Controlador
             (string) ($_SERVER['REQUEST_URI'] ?? '?')
         ), 'AVISO');
 
-        throw new AccesoDenegado('El formulario expiro o no es valido. Vuelva a intentarlo.');
+        return false;
     }
 }

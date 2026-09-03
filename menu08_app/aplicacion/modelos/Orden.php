@@ -6,6 +6,7 @@ namespace Menu08\Modelos;
 
 use Menu08\Nucleo\ConexionBD;
 use Menu08\Nucleo\DatosInvalidos;
+use Menu08\Nucleo\RutaNoEncontrada;
 use PDO;
 use Throwable;
 
@@ -20,6 +21,34 @@ use Throwable;
 final class Orden
 {
     private const MEDIOS = ['efectivo', 'tarjeta', 'transferencia'];
+
+    /**
+     * Unico lugar donde vive el ciclo de vida de la orden: de que estado se
+     * puede pasar a cual. Lo hace cumplir este modelo y lo publica el
+     * controlador en sus mensajes de error, para que la regla no quede escrita
+     * dos veces y puedan separarse.
+     *
+     * Solo se avanza, nunca se retrocede: una orden entregada ya salio por la
+     * ventanilla y no vuelve a la plancha.
+     *
+     * @var array<string, string>
+     */
+    public const TRANSICIONES = [
+        'pendiente'      => 'en_preparacion',
+        'en_preparacion' => 'lista',
+        'lista'          => 'entregada',
+    ];
+
+    /**
+     * Columna donde cada estado deja su marca de tiempo.
+     *
+     * @var array<string, string>
+     */
+    private const MARCA_DE_ESTADO = [
+        'en_preparacion' => 'en_preparacion_en',
+        'lista'          => 'lista_en',
+        'entregada'      => 'entregada_en',
+    ];
 
     /**
      * Registra la venta completa: cabecera e items, todo o nada.
@@ -325,6 +354,115 @@ final class Orden
         }
 
         return ['turno' => $turno, 'ordenes' => $salida];
+    }
+
+    /**
+     * Avanza la orden al siguiente estado de su ciclo de vida. Todo o nada.
+     *
+     * La orden se bloquea con FOR UPDATE dentro de la transaccion. En un food
+     * truck es normal tener el tablero abierto en dos sitios, o que la misma
+     * persona pulse dos veces porque la pantalla tardo: sin el bloqueo, dos
+     * peticiones simultaneas leerian el mismo estado de partida y la orden
+     * avanzaria dos casillas de una sola vez.
+     *
+     * @return array<string, mixed> la orden ya avanzada
+     *
+     * @throws RutaNoEncontrada la orden no existe o no es de este food truck
+     * @throws DatosInvalidos   el estado destino no existe o la transicion no vale
+     */
+    public static function avanzar(int $id, int $foodTruckId, string $destino): array
+    {
+        if (!in_array($destino, self::TRANSICIONES, true)) {
+            throw new DatosInvalidos(sprintf(
+                'El estado "%s" no existe o no se puede alcanzar. Estados de destino validos: %s.',
+                $destino,
+                implode(', ', array_values(self::TRANSICIONES))
+            ));
+        }
+
+        $pdo = ConexionBD::obtener();
+        $pdo->beginTransaction();
+
+        try {
+            // El food truck se comprueba aqui dentro, no fuera: la orden de otro
+            // truck tiene que ser indistinguible de una que no existe.
+            $s = $pdo->prepare(
+                'SELECT o.id, o.numero, e.codigo AS estado
+                   FROM ordenes o
+                   JOIN estados_orden e ON e.id = o.estado_id
+                  WHERE o.id = :id AND o.food_truck_id = :ft
+                  FOR UPDATE'
+            );
+            $s->execute(['id' => $id, 'ft' => $foodTruckId]);
+            $orden = $s->fetch();
+
+            if ($orden === false) {
+                throw new RutaNoEncontrada(sprintf('La orden %d no existe para este food truck.', $id));
+            }
+
+            $actual   = (string) $orden['estado'];
+            $esperado = self::TRANSICIONES[$actual] ?? null;
+
+            if ($esperado !== $destino) {
+                throw new DatosInvalidos($esperado === null
+                    ? sprintf('La orden %s ya esta "%s" y no admite mas cambios.', $orden['numero'], $actual)
+                    : sprintf(
+                        'La orden %s esta "%s": solo puede pasar a "%s", no a "%s".',
+                        $orden['numero'],
+                        $actual,
+                        $esperado,
+                        $destino
+                    ));
+            }
+
+            // El nombre de la columna sale de una tabla fija del codigo, jamas de
+            // la peticion: $destino ya quedo validado contra TRANSICIONES arriba.
+            $marca = self::MARCA_DE_ESTADO[$destino];
+
+            $u = $pdo->prepare(
+                "UPDATE ordenes
+                    SET estado_id = :estado,
+                        {$marca} = NOW(),
+                        estado_actualizado_en = NOW()
+                  WHERE id = :id"
+            );
+            $u->execute(['estado' => self::idEstado($destino), 'id' => $id]);
+
+            $r = $pdo->prepare(
+                'SELECT o.id, o.numero, o.creado_en, o.en_preparacion_en, o.lista_en, o.entregada_en,
+                        e.codigo AS estado, e.nombre AS estado_nombre,
+                        TIMESTAMPDIFF(MINUTE, o.creado_en, o.lista_en) AS minutos_hasta_lista
+                   FROM ordenes o
+                   JOIN estados_orden e ON e.id = o.estado_id
+                  WHERE o.id = :id'
+            );
+            $r->execute(['id' => $id]);
+            $fila = $r->fetch();
+
+            $pdo->commit();
+
+            return [
+                'id'                  => (int) $fila['id'],
+                'numero'              => (string) $fila['numero'],
+                'estado_anterior'     => $actual,
+                'estado'              => (string) $fila['estado'],
+                'estado_nombre'       => (string) $fila['estado_nombre'],
+                'siguiente'           => self::TRANSICIONES[(string) $fila['estado']] ?? null,
+                'creado_en'           => (string) $fila['creado_en'],
+                'en_preparacion_en'   => $fila['en_preparacion_en'],
+                'lista_en'            => $fila['lista_en'],
+                'entregada_en'        => $fila['entregada_en'],
+                'minutos_hasta_lista' => $fila['minutos_hasta_lista'] === null
+                    ? null
+                    : (int) $fila['minutos_hasta_lista'],
+            ];
+        } catch (Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+
+            throw $e;
+        }
     }
 
     private static function idEstado(string $codigo): int

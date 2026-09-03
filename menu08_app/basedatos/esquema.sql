@@ -216,6 +216,16 @@ CREATE TABLE turnos_caja (
 
 -- ---------------------------------------------------------------------------
 -- ordenes - la venta registrada en CAJA y mostrada en el SVP.
+--
+-- Marcas de tiempo del ciclo de vida: `creado_en` es el momento en que la orden
+-- nace pendiente, y cada estado posterior deja la suya. Se guarda una columna
+-- por estado, y no una sola que se vaya pisando, porque hace falta poder
+-- responder despues "cuanto tardo esta orden entre pendiente y lista" aunque ya
+-- se haya entregado. Con una sola marca, avanzar a `entregada` borraria el dato.
+--
+-- `estado_actualizado_en` es la ultima transicion, sea cual sea: el tablero la
+-- usa para saber cuanto lleva la orden EN SU ESTADO ACTUAL, que no es lo mismo
+-- que cuanto lleva desde que se registro.
 -- ---------------------------------------------------------------------------
 CREATE TABLE ordenes (
   id                     INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -226,8 +236,11 @@ CREATE TABLE ordenes (
   total                  DECIMAL(10,2) NOT NULL DEFAULT 0.00,
   medio_pago             ENUM('efectivo','tarjeta','transferencia') NOT NULL DEFAULT 'efectivo',
   nota                   VARCHAR(300)      NULL,
-  creado_en              DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  estado_actualizado_en  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  creado_en              DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'nace pendiente',
+  en_preparacion_en      DATETIME          NULL COMMENT 'produccion la tomo',
+  lista_en               DATETIME          NULL COMMENT 'quedo lista en la ventanilla',
+  entregada_en           DATETIME          NULL COMMENT 'el cliente la recogio',
+  estado_actualizado_en  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'ultima transicion, sea cual sea',
   PRIMARY KEY (id),
   UNIQUE KEY uq_ordenes_food_truck_numero (food_truck_id, numero),
   KEY ix_ordenes_turno (turno_id),

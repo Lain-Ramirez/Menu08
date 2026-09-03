@@ -38,6 +38,27 @@ ya registradas deben conservar los valores con los que se vendieron. Por eso `or
 guarda `nombre_producto` y `precio_unitario` como copia histórica, y `producto_id` queda
 solo como referencia informativa que puede volverse `NULL`.
 
+### Por qué `ordenes` guarda una marca de tiempo por estado
+
+`creado_en` es el momento en que la orden nace pendiente, y cada estado posterior deja la
+suya: `en_preparacion_en`, `lista_en` y `entregada_en`, las tres nulas hasta que la orden
+llega ahí.
+
+Una sola columna que se fuera pisando en cada transición sería más corta, pero perdería el
+dato en cuanto la orden avanza: al entregarla se borraría la marca de cuándo quedó lista, y
+con ella la respuesta a *«¿cuánto tardamos en sacar esta orden?»*. Con una columna por
+estado, la pregunta se responde para siempre y con una sola consulta:
+
+```sql
+SELECT numero, TIMESTAMPDIFF(MINUTE, creado_en, lista_en) AS minutos
+  FROM ordenes
+ WHERE lista_en IS NOT NULL;
+```
+
+`estado_actualizado_en` se conserva aparte y guarda la **última** transición, sea cual sea:
+el tablero la necesita para saber cuánto lleva una orden *en su estado actual*, que no es lo
+mismo que cuánto lleva desde que se registró.
+
 ## Política de borrado
 
 El prototipo **no borra** food trucks, categorías ni productos de forma física: usa baja

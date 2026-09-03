@@ -8,6 +8,10 @@ ADSO.menu08.com/subidas/*
 !ADSO.menu08.com/subidas/.gitkeep
 !ADSO.menu08.com/subidas/.htaccess
 
+# Bitacoras bajadas del servidor para revisarlas. Nunca se versionan: llevan
+# rutas internas del hosting y los correos de quien intento entrar.
+*.log
+
 # Respaldos de base de datos
 *.sql.gz
 menu08_app/basedatos/respaldos/

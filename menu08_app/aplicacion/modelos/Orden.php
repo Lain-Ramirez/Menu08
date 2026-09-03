@@ -229,13 +229,21 @@ final class Orden
     }
 
     /**
-     * Ordenes en curso del turno vigente, con sus items y su antigüedad.
+     * Ordenes en curso del turno vigente, con sus items y su antiguedad.
      *
-     * Se resuelve con DOS sentencias preparadas exactamente: el turno vigente
+     * Se resuelve con DOS sentencias preparadas como maximo: el turno vigente
      * se localiza con una subconsulta dentro de cada una, en lugar de gastar
      * una consulta aparte. El Sistema de Visualizacion de Produccion sondea
      * esta ruta cada pocos segundos, asi que cada consulta de mas se paga
-     * muchas veces por minuto.
+     * muchas veces por minuto. Si el turno abierto no tiene nada en curso, la
+     * segunda sentencia ni siquiera se prepara.
+     *
+     * La consulta arranca en `turnos_caja` y baja a `ordenes` con un LEFT JOIN,
+     * y no al reves: asi devuelve una fila aunque el turno este vacio, y el
+     * turno vigente se puede informar igual. Arrancando en `ordenes`, un turno
+     * abierto sin nada en la plancha era indistinguible de no tener turno
+     * abierto, y el tablero no podia saber si la ventanilla estaba cerrada o si
+     * produccion iba al dia.
      *
      * @return array{turno: int|null, ordenes: list<array<string, mixed>>}
      */
@@ -243,25 +251,39 @@ final class Orden
     {
         $pdo = ConexionBD::obtener();
 
-        $turnoVigente = "(SELECT t.id FROM turnos_caja t
-                           WHERE t.food_truck_id = :ft2 AND t.estado = 'abierto'
-                           ORDER BY t.id DESC LIMIT 1)";
+        $turnoVigente = "(SELECT v.id FROM turnos_caja v
+                           WHERE v.food_truck_id = :ft AND v.estado = 'abierto'
+                           ORDER BY v.id DESC LIMIT 1)";
+
+        $enCurso = "('pendiente', 'en_preparacion', 'lista')";
 
         $o = $pdo->prepare(
-            "SELECT o.id, o.numero, o.nota, o.turno_id, e.codigo AS estado, e.nombre AS estado_nombre,
+            "SELECT t.id AS turno_id, o.id AS orden_id, o.numero, o.nota,
+                    e.codigo AS estado, e.nombre AS estado_nombre,
                     TIMESTAMPDIFF(MINUTE, o.creado_en, NOW()) AS minutos
-               FROM ordenes o
-               JOIN estados_orden e ON e.id = o.estado_id
-              WHERE o.food_truck_id = :ft
-                AND o.turno_id = {$turnoVigente}
-                AND e.codigo IN ('pendiente', 'en_preparacion', 'lista')
+               FROM turnos_caja t
+               LEFT JOIN ordenes o
+                      ON o.turno_id = t.id
+                     AND o.food_truck_id = t.food_truck_id
+                     AND o.estado_id IN (SELECT id FROM estados_orden WHERE codigo IN {$enCurso})
+               LEFT JOIN estados_orden e ON e.id = o.estado_id
+              WHERE t.id = {$turnoVigente}
               ORDER BY e.orden, o.creado_en"
         );
-        $o->execute(['ft' => $foodTruckId, 'ft2' => $foodTruckId]);
-        $ordenes = $o->fetchAll();
+        $o->execute(['ft' => $foodTruckId]);
+        $filas = $o->fetchAll();
 
-        if ($ordenes === []) {
+        // Ni una fila: no hay ningun turno abierto. La ventanilla esta cerrada.
+        if ($filas === []) {
             return ['turno' => null, 'ordenes' => []];
+        }
+
+        $turno = (int) $filas[0]['turno_id'];
+
+        // Turno abierto y nada en la plancha: el LEFT JOIN deja una unica fila
+        // con la orden en NULL. Se informa el turno igual, con la lista vacia.
+        if ($filas[0]['orden_id'] === null) {
+            return ['turno' => $turno, 'ordenes' => []];
         }
 
         $i = $pdo->prepare(
@@ -269,9 +291,9 @@ final class Orden
                FROM orden_items i
                JOIN ordenes o        ON o.id = i.orden_id
                JOIN estados_orden e  ON e.id = o.estado_id
-              WHERE o.food_truck_id = :ft
+              WHERE o.food_truck_id = :ft2
                 AND o.turno_id = {$turnoVigente}
-                AND e.codigo IN ('pendiente', 'en_preparacion', 'lista')
+                AND e.codigo IN {$enCurso}
               ORDER BY i.id"
         );
         $i->execute(['ft' => $foodTruckId, 'ft2' => $foodTruckId]);
@@ -287,8 +309,8 @@ final class Orden
 
         $salida = [];
 
-        foreach ($ordenes as $fila) {
-            $id       = (int) $fila['id'];
+        foreach ($filas as $fila) {
+            $id       = (int) $fila['orden_id'];
             $minutos  = (int) $fila['minutos'];
             $salida[] = [
                 'id'            => $id,
@@ -302,7 +324,7 @@ final class Orden
             ];
         }
 
-        return ['turno' => (int) $ordenes[0]['turno_id'], 'ordenes' => $salida];
+        return ['turno' => $turno, 'ordenes' => $salida];
     }
 
     private static function idEstado(string $codigo): int

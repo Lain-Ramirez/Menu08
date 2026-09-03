@@ -46,6 +46,43 @@ abstract class Controlador
     }
 
     /**
+     * Respuesta de error en JSON. Se usa en los servicios que consume el
+     * Sistema de Visualizacion de Produccion.
+     *
+     * @throws JsonException
+     */
+    protected function jsonError(string $error, string $mensaje, int $codigo): never
+    {
+        $this->json(['error' => $error, 'mensaje' => $mensaje], $codigo);
+
+        exit;
+    }
+
+    /**
+     * Puerta de los servicios JSON.
+     *
+     * A diferencia de exigirRol(), aqui no se redirige ni se pinta HTML: un
+     * cliente que sondea espera siempre un objeto, tambien cuando le niegan
+     * el paso. Sin sesion es 401; con sesion y rol equivocado, 403.
+     */
+    protected function exigirRolApi(string ...$roles): void
+    {
+        ManejadorErrores::responderEnJson();
+
+        if (!Sesion::autenticado()) {
+            $this->jsonError('no_autenticado', 'Debe iniciar sesion para consultar este servicio.', 401);
+        }
+
+        if (!in_array((string) Sesion::rol(), $roles, true)) {
+            $this->jsonError(
+                'rol_no_autorizado',
+                sprintf('El rol "%s" no tiene acceso a este servicio.', (string) Sesion::rol()),
+                403
+            );
+        }
+    }
+
+    /**
      * @return array<string, mixed>|null
      */
     protected function usuario(): ?array

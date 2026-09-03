@@ -228,6 +228,83 @@ final class Orden
         return $s->fetchAll();
     }
 
+    /**
+     * Ordenes en curso del turno vigente, con sus items y su antigüedad.
+     *
+     * Se resuelve con DOS sentencias preparadas exactamente: el turno vigente
+     * se localiza con una subconsulta dentro de cada una, en lugar de gastar
+     * una consulta aparte. El Sistema de Visualizacion de Produccion sondea
+     * esta ruta cada pocos segundos, asi que cada consulta de mas se paga
+     * muchas veces por minuto.
+     *
+     * @return array{turno: int|null, ordenes: list<array<string, mixed>>}
+     */
+    public static function enCurso(int $foodTruckId, int $minutosDemora = 10): array
+    {
+        $pdo = ConexionBD::obtener();
+
+        $turnoVigente = "(SELECT t.id FROM turnos_caja t
+                           WHERE t.food_truck_id = :ft2 AND t.estado = 'abierto'
+                           ORDER BY t.id DESC LIMIT 1)";
+
+        $o = $pdo->prepare(
+            "SELECT o.id, o.numero, o.nota, o.turno_id, e.codigo AS estado, e.nombre AS estado_nombre,
+                    TIMESTAMPDIFF(MINUTE, o.creado_en, NOW()) AS minutos
+               FROM ordenes o
+               JOIN estados_orden e ON e.id = o.estado_id
+              WHERE o.food_truck_id = :ft
+                AND o.turno_id = {$turnoVigente}
+                AND e.codigo IN ('pendiente', 'en_preparacion', 'lista')
+              ORDER BY e.orden, o.creado_en"
+        );
+        $o->execute(['ft' => $foodTruckId, 'ft2' => $foodTruckId]);
+        $ordenes = $o->fetchAll();
+
+        if ($ordenes === []) {
+            return ['turno' => null, 'ordenes' => []];
+        }
+
+        $i = $pdo->prepare(
+            "SELECT i.orden_id, i.nombre_producto, i.cantidad
+               FROM orden_items i
+               JOIN ordenes o        ON o.id = i.orden_id
+               JOIN estados_orden e  ON e.id = o.estado_id
+              WHERE o.food_truck_id = :ft
+                AND o.turno_id = {$turnoVigente}
+                AND e.codigo IN ('pendiente', 'en_preparacion', 'lista')
+              ORDER BY i.id"
+        );
+        $i->execute(['ft' => $foodTruckId, 'ft2' => $foodTruckId]);
+
+        $items = [];
+
+        foreach ($i->fetchAll() as $fila) {
+            $items[(int) $fila['orden_id']][] = [
+                'nombre'   => (string) $fila['nombre_producto'],
+                'cantidad' => (int) $fila['cantidad'],
+            ];
+        }
+
+        $salida = [];
+
+        foreach ($ordenes as $fila) {
+            $id       = (int) $fila['id'];
+            $minutos  = (int) $fila['minutos'];
+            $salida[] = [
+                'id'            => $id,
+                'numero'        => (string) $fila['numero'],
+                'estado'        => (string) $fila['estado'],
+                'estado_nombre' => (string) $fila['estado_nombre'],
+                'minutos'       => $minutos,
+                'demorada'      => $minutos >= $minutosDemora,
+                'nota'          => $fila['nota'] === null ? null : (string) $fila['nota'],
+                'items'         => $items[$id] ?? [],
+            ];
+        }
+
+        return ['turno' => (int) $ordenes[0]['turno_id'], 'ordenes' => $salida];
+    }
+
     private static function idEstado(string $codigo): int
     {
         $s = ConexionBD::obtener()->prepare('SELECT id FROM estados_orden WHERE codigo = :c LIMIT 1');

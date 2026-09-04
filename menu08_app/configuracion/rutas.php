@@ -64,3 +64,4 @@ $enrutador->get('/caja/turnos',       [CajaControlador::class, 'historial']);
 $enrutador->get('/caja/turnos/{id:\\d+}', [CajaControlador::class, 'detalle']);
 $enrutador->get('/svp',         [SvpControlador::class, 'inicio']);    // food_truck, produccion
 $enrutador->get('/svp/ordenes', [SvpControlador::class, 'ordenes']);   // servicio JSON del tablero
+$enrutador->post('/svp/orden/{id:\\d+}/estado', [SvpControlador::class, 'estado']); // avance de estado

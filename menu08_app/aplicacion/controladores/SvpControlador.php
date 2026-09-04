@@ -6,6 +6,8 @@ namespace Menu08\Controladores;
 
 use Menu08\Modelos\Orden;
 use Menu08\Nucleo\Controlador;
+use Menu08\Nucleo\DatosInvalidos;
+use Menu08\Nucleo\RutaNoEncontrada;
 
 /**
  * Sistema de Visualizacion de Produccion.
@@ -43,5 +45,32 @@ final class SvpControlador extends Controlador
             'total'           => count($datos['ordenes']),
             'ordenes'         => $datos['ordenes'],
         ]);
+    }
+
+    /**
+     * Avanza una orden al siguiente estado de su ciclo de vida.
+     *
+     * La regla de que transicion vale no vive aqui: la guarda el modelo, en
+     * Orden::TRANSICIONES. Este metodo solo traduce sus dos negativas al
+     * codigo HTTP que les corresponde —404 si la orden no es de este truck,
+     * 422 si el movimiento no esta permitido— y se asegura de que ninguna de
+     * las dos salga en HTML.
+     */
+    public function estado(string $id): void
+    {
+        $this->exigirRolApi(...self::ROLES);
+        $this->verificarCsrfApi();
+
+        $destino = trim((string) ($_POST['estado'] ?? ''));
+
+        try {
+            $orden = Orden::avanzar((int) $id, $this->foodTruckActual(), $destino);
+        } catch (RutaNoEncontrada $e) {
+            $this->jsonError('orden_no_encontrada', $e->getMessage(), 404);
+        } catch (DatosInvalidos $e) {
+            $this->jsonError('transicion_invalida', $e->getMessage(), 422);
+        }
+
+        $this->json(['orden' => $orden]);
     }
 }

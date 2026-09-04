@@ -272,7 +272,11 @@ erDiagram
         varchar numero "número de turno, único por truck"
         decimal total
         enum medio_pago "efectivo, tarjeta, transferencia"
-        datetime estado_actualizado_en
+        datetime creado_en "nace pendiente"
+        datetime en_preparacion_en "produccion la tomo"
+        datetime lista_en "quedo lista en la ventanilla"
+        datetime entregada_en "el cliente la recogio"
+        datetime estado_actualizado_en "ultima transicion"
     }
     ORDEN_ITEMS {
         int id PK

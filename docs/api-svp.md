@@ -1,7 +1,12 @@
 # Contrato del servicio del Sistema de Visualización de Producción
 
-Servicio que consume el tablero del SVP por sondeo periódico. Devuelve las órdenes en curso del
-turno vigente.
+Dos operaciones: el tablero **consulta** las órdenes en curso por sondeo periódico y **avanza**
+cada orden por su ciclo de vida. Ambas responden JSON siempre, también al fallar.
+
+| Operación | Ruta |
+|---|---|
+| Órdenes en curso del turno vigente | `GET /svp/ordenes` |
+| Avanzar una orden de estado | `POST /svp/orden/{id}/estado` |
 
 ## Consulta de órdenes en curso
 
@@ -104,6 +109,98 @@ el servicio respondiera `null` en ambos, el tablero no podría distinguir «coci
 ```
 
 En entorno de desarrollo se añade un campo `mensaje` con el detalle. En producción nunca.
+
+## Cambio de estado
+
+```
+POST /svp/orden/{id}/estado
+```
+
+**Autenticación:** sesión iniciada con rol `produccion` o `food_truck`.
+**Cuerpo:** `estado`, el estado de destino, y `_token`, el token contra falsificación de
+peticiones.
+
+El ciclo de vida **solo avanza**, nunca retrocede. Una orden entregada ya salió por la ventanilla
+y no vuelve a la plancha:
+
+```
+pendiente → en_preparacion → lista → entregada
+```
+
+La tabla de transiciones vive en un único sitio, `Orden::TRANSICIONES`; el controlador no la
+repite, solo traduce sus negativas al código HTTP que les toca.
+
+### Respuesta correcta · 200
+
+```json
+{
+  "orden": {
+    "id": 3,
+    "numero": "T3-001",
+    "estado_anterior": "en_preparacion",
+    "estado": "lista",
+    "estado_nombre": "Lista",
+    "siguiente": "entregada",
+    "creado_en": "2026-09-03 10:38:12",
+    "en_preparacion_en": "2026-09-03 10:44:01",
+    "lista_en": "2026-09-03 10:51:30",
+    "entregada_en": null,
+    "minutos_hasta_lista": 13
+  }
+}
+```
+
+| Campo | Significado |
+|---|---|
+| `estado_anterior` | De dónde venía, para que el tablero sepa qué tarjeta mover |
+| `siguiente` | Estado al que podría pasar después, o `null` si ya está entregada |
+| `minutos_hasta_lista` | Minutos entre `creado_en` y `lista_en`; `null` mientras no esté lista |
+
+Las marcas de tiempo no se pisan: cada estado guarda la suya en su propia columna, así que el
+tiempo que tardó una orden sigue siendo consultable después de entregarla.
+
+### Transición no permitida · 422
+
+```json
+{
+  "error": "transicion_invalida",
+  "mensaje": "La orden T3-001 esta \"pendiente\": solo puede pasar a \"en_preparacion\", no a \"entregada\"."
+}
+```
+
+**La orden no se modifica.** Se comprueba dentro de la misma transacción que la actualizaría, con
+la fila bloqueada, así que dos pantallas pulsando a la vez no pueden colarla dos casillas.
+
+Una orden ya entregada responde igual, con otro motivo:
+
+```json
+{ "error": "transicion_invalida", "mensaje": "La orden T3-001 ya esta \"entregada\" y no admite mas cambios." }
+```
+
+### Orden inexistente o de otro food truck · 404
+
+```json
+{ "error": "orden_no_encontrada", "mensaje": "La orden 999 no existe para este food truck." }
+```
+
+Las dos situaciones responden lo mismo a propósito: pedir la orden de otro truck no debe servir
+para averiguar que existe.
+
+### Token ausente o vencido · 403
+
+```json
+{
+  "error": "token_invalido",
+  "mensaje": "El token de seguridad expiro o no es valido. Recargue el tablero."
+}
+```
+
+A diferencia de la venta en CAJA, **este servicio no rota el token** tras cada cambio: el tablero
+avanza varias órdenes seguidas y tener que releerlo entre una y otra lo volvería frágil. Puede
+hacerlo porque no lo necesita para evitar duplicados —de eso ya se encarga la propia máquina de
+estados: repetir el mismo envío encuentra la orden ya movida y responde 422 sin tocar nada.
+
+Sin sesión y con rol equivocado se responde igual que en la consulta: 401 y 403.
 
 ## Por qué los errores también son JSON
 

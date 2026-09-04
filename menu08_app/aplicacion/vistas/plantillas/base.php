@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Menu08\Nucleo\Csrf;
 use Menu08\Nucleo\Sesion;
 use Menu08\Nucleo\Vista;
 
@@ -18,6 +19,12 @@ use Menu08\Nucleo\Vista;
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php // Los formularios llevan el token en un campo oculto, pero el tablero del
+          // SVP lo necesita desde JavaScript para POST /svp/orden/{id}/estado, y no
+          // tiene ningun formulario de donde sacarlo. Solo en zona privada. ?>
+    <?php if (Sesion::autenticado()) : ?>
+    <meta name="csrf-token" content="<?= Vista::e(Csrf::token()) ?>">
+    <?php endif; ?>
     <title><?= Vista::e($titulo) ?> · Menu08</title>
     <?php // Estilos minimos provisionales. La hoja definitiva llega con el issue #14. ?>
     <style>

@@ -1,6 +1,6 @@
 # Núcleo de la aplicación
 
-PHP 8.2 con MVC construido a mano. Sin Composer, sin marcos de trabajo, sin dependencias externas.
+PHP 8.3 con MVC construido a mano. Sin Composer, sin marcos de trabajo, sin dependencias externas.
 
 ## Ciclo de una petición
 

@@ -502,6 +502,8 @@ respondiera `200`, habría un problema de verdad.
 | El total no lo pone el cliente | `POST /caja/vender` añadiendo `total=1` | La orden se guarda con el total real |
 | No se vende lo agotado | `POST /caja/vender` con `cantidad[6]=1` | `422` |
 | No se abren dos turnos | `POST /caja/turno/abrir` con uno ya abierto | `409`, y no se crea la fila |
+| `HEAD` responde como `GET` | `HEAD /` y `HEAD /carta/truck-de-pruebas` | El **mismo código** que el `GET`, y **sin cuerpo** |
+| `HEAD` a lo que no existe sigue fallando | `HEAD /carta/no-existe` | `404`, sin cuerpo |
 | No se toca la parada de otro truck | Ingresa como `foodtruck` (Festín Rodante) y pide `GET /panel/ubicaciones/{id del Truck de Pruebas}` | `404`, idéntico a una inexistente |
 | No se acepta un día inventado | `POST /panel/ubicaciones` con `dia_semana=9` | `422`, con el mensaje junto al campo |
 | No se acepta una hora imposible | `POST /panel/ubicaciones` con `hora_inicio=25:99` | `422` |

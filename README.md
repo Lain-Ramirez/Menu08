@@ -115,7 +115,7 @@ stateDiagram-v2
 
 ## Arquitectura
 
-PHP 8.2 con programación orientada a objetos, patrón **MVC construido a mano**,
+PHP 8.3 con programación orientada a objetos, patrón **MVC construido a mano**,
 sin gestor de dependencias ni marcos de trabajo externos. Una sola puerta de entrada:
 `publico/index.php`.
 
@@ -325,8 +325,9 @@ preparadas de PDO.
 
 ## Puesta en marcha
 
-**Requisitos:** PHP 8.2 con las extensiones `pdo_mysql` y `gd`, MySQL 8 o MariaDB 10.6,
-y Apache con `mod_rewrite` habilitado.
+**Requisitos:** PHP 8.3 con las extensiones `pdo_mysql` y `gd`, MySQL 8 o MariaDB 10.6,
+y un servidor que lea `.htaccess` con reescritura compatible con `mod_rewrite`. En producción
+es LiteSpeed.
 
 ```bash
 git clone git@github.com:Lain-Ramirez/Menu08.git

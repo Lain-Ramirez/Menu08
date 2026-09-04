@@ -42,12 +42,29 @@ final class Enrutador
      * Busca la primera ruta que coincida y ejecuta su accion.
      * Si ninguna coincide lanza RutaNoEncontrada, que el manejador
      * de errores convierte en una respuesta 404.
+     *
+     * HEAD es GET sin cuerpo: la norma pide que responda igual salvo el cuerpo.
+     * Se resuelve con la tabla de GET en lugar de registrar cada ruta dos veces,
+     * asi que anadir una ruta sigue siendo una sola linea en rutas.php.
      */
     public function despachar(string $metodo, string $ruta): void
     {
         $metodo = strtoupper($metodo);
 
-        foreach ($this->rutas[$metodo] ?? [] as $registro) {
+        if ($metodo === 'HEAD') {
+            // El cuerpo se genera igual —para que el codigo y las cabeceras sean
+            // identicos a los del GET— y se descarta al salir. El callback que
+            // devuelve cadena vacia es lo que lo hace fiable: tambien vacia el
+            // buffer cuando la accion termina en exit, como redirigir() y
+            // jsonError(), o cuando el manejador de errores pinta una pagina.
+            ob_start(static fn (string $cuerpo): string => '');
+        }
+
+        // Con una tabla HEAD propia mandaria esa; mientras no exista, HEAD se
+        // sirve de GET.
+        $tabla = $metodo === 'HEAD' && !isset($this->rutas['HEAD']) ? 'GET' : $metodo;
+
+        foreach ($this->rutas[$tabla] ?? [] as $registro) {
             if (preg_match($registro['regex'], $ruta, $coincidencias) === 1) {
                 $parametros = array_filter(
                     $coincidencias,

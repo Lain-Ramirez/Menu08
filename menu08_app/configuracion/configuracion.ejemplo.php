@@ -21,6 +21,10 @@ return [
     //   Local:      http://localhost/Menu08/publico
     'url_base' => 'http://localhost/Menu08/publico',
 
+    // Zona horaria de la aplicacion. Fija el reloj de PHP y el de la sesion de
+    // MySQL, de la que sale NOW(). De ella depende cual es la parada vigente.
+    'zona_horaria' => 'America/Bogota',
+
     'base_datos' => [
         'servidor'    => 'localhost',
         'puerto'      => 3306,

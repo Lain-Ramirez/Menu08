@@ -59,6 +59,11 @@
       "key": "categoriaId",
       "value": "4",
       "type": "string"
+    },
+    {
+      "key": "ubicacionId",
+      "value": "",
+      "type": "string"
     }
   ],
   "protocolProfileBehavior": {
@@ -1804,6 +1809,252 @@
           ]
         },
         {
+          "name": "GET /panel/ubicaciones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel/ubicaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "ubicaciones"
+              ]
+            },
+            "description": "La agenda de paradas y la parada vigente ahora mismo. Admite ?momento=AAAA-MM-DDTHH:MM para preguntar por otra hora."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });",
+                  "// Guarda el id de la primera parada para las peticiones siguientes.",
+                  "const u = pm.response.text().match(/\\/panel\\/ubicaciones\\/(\\d+)\"/);",
+                  "if (u) { pm.collectionVariables.set('ubicacionId', u[1]); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /panel/ubicaciones?momento= (domingo 00:30)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel/ubicaciones?momento=2026-09-06T00:30",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "ubicaciones"
+              ],
+              "query": [
+                {
+                  "key": "momento",
+                  "value": "2026-09-06T00:30"
+                }
+              ]
+            },
+            "description": "El caso que define la tabla: un domingo a las 00:30, la parada del sabado de 18:00 a 01:00 sigue vigente aunque este declarada en el dia anterior. Con ?momento=2026-09-06T01:30 ya no aparece."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });",
+                  "pm.test('La parada nocturna sale como vigente', function () {",
+                  "  pm.expect(pm.response.text()).to.include('Zona Rosa de Pruebas');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /panel/ubicaciones/{id}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel/ubicaciones/{{ubicacionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "ubicaciones",
+                "{{ubicacionId}}"
+              ]
+            },
+            "description": "Esa parada en edicion. Con el id de otro food truck responde 404."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "// Guarda el _token del formulario para el siguiente POST.",
+                  "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
+                  "if (m) { pm.collectionVariables.set('token', m[1]); }",
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /panel/ubicaciones (crear)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/panel/ubicaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "ubicaciones"
+              ]
+            },
+            "description": "id=0 crea; un id existente edita. hora_fin menor o igual que hora_inicio es CORRECTO: significa que la jornada cierra al dia siguiente, que es el horario normal de un truck nocturno.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "0",
+                  "type": "text"
+                },
+                {
+                  "key": "nombre",
+                  "value": "Parada nueva desde Postman",
+                  "type": "text"
+                },
+                {
+                  "key": "referencia",
+                  "value": "junto al parque",
+                  "type": "text"
+                },
+                {
+                  "key": "dia_semana",
+                  "value": "4",
+                  "type": "text"
+                },
+                {
+                  "key": "hora_inicio",
+                  "value": "18:00",
+                  "type": "text"
+                },
+                {
+                  "key": "hora_fin",
+                  "value": "01:00",
+                  "type": "text"
+                },
+                {
+                  "key": "latitud",
+                  "value": "4.6767000",
+                  "type": "text"
+                },
+                {
+                  "key": "longitud",
+                  "value": "-74.0483000",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /panel/ubicaciones/estado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/panel/ubicaciones/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "ubicaciones",
+                "estado"
+              ]
+            },
+            "description": "ALTERNA activa/inactiva. No lleva el valor nuevo: lo invierte. Ejecutalo dos veces para dejarla como estaba.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "{{ubicacionId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "GET /panel/qr",
           "request": {
             "method": "GET",
@@ -2734,6 +2985,244 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('Responde 403', function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /panel/ubicaciones con dia_semana=9 -> 422",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/panel/ubicaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "ubicaciones"
+              ]
+            },
+            "description": "El dia va de 1 (lunes) a 7 (domingo). Haz antes GET /panel/ubicaciones para tener token fresco.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "0",
+                  "type": "text"
+                },
+                {
+                  "key": "nombre",
+                  "value": "Parada con dia inventado",
+                  "type": "text"
+                },
+                {
+                  "key": "dia_semana",
+                  "value": "9",
+                  "type": "text"
+                },
+                {
+                  "key": "hora_inicio",
+                  "value": "10:00",
+                  "type": "text"
+                },
+                {
+                  "key": "hora_fin",
+                  "value": "14:00",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 422', function () { pm.response.to.have.status(422); });",
+                  "pm.test('El mensaje va junto al campo', function () {",
+                  "  pm.expect(pm.response.text()).to.include('de 1 (lunes) a 7 (domingo)');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /panel/ubicaciones con hora_inicio=25:99 -> 422",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/panel/ubicaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "ubicaciones"
+              ]
+            },
+            "description": "La columna es TIME y admite hasta 838 horas, asi que el tipo no protege: lo hace el validador.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "0",
+                  "type": "text"
+                },
+                {
+                  "key": "nombre",
+                  "value": "Parada con hora imposible",
+                  "type": "text"
+                },
+                {
+                  "key": "dia_semana",
+                  "value": "3",
+                  "type": "text"
+                },
+                {
+                  "key": "hora_inicio",
+                  "value": "25:99",
+                  "type": "text"
+                },
+                {
+                  "key": "hora_fin",
+                  "value": "14:00",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 422', function () { pm.response.to.have.status(422); });",
+                  "pm.test('El mensaje va junto al campo', function () {",
+                  "  pm.expect(pm.response.text()).to.include('formato HH:MM');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /panel/ubicaciones sin token -> 403",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/panel/ubicaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "ubicaciones"
+              ]
+            },
+            "description": "Sin _token la peticion se corta antes de tocar la base: vuelve a GET /panel/ubicaciones y comprueba que no se creo ninguna fila.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "0",
+                  "type": "text"
+                },
+                {
+                  "key": "nombre",
+                  "value": "Parada sin token",
+                  "type": "text"
+                },
+                {
+                  "key": "dia_semana",
+                  "value": "3",
+                  "type": "text"
+                },
+                {
+                  "key": "hora_inicio",
+                  "value": "10:00",
+                  "type": "text"
+                },
+                {
+                  "key": "hora_fin",
+                  "value": "14:00",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /panel/ubicaciones/{id ajeno} como otro truck -> 404",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel/ubicaciones/{{ubicacionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "ubicaciones",
+                "{{ubicacionId}}"
+              ]
+            },
+            "description": "Ingresa antes como foodtruck@menu08.local (Festin Rodante) y pide una parada del Truck de Pruebas, cuyo id quedo en {{ubicacionId}} al recorrer la carpeta 4. Responde 404 y no 403: un 403 confirmaria que ese identificador existe. La prueba va en este sentido porque Festin Rodante no tiene paradas sembradas, y no se inventan."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () { pm.response.to.have.status(404); });"
                 ]
               }
             }

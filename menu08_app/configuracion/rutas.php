@@ -21,6 +21,7 @@ use Menu08\Controladores\PanelControlador;
 use Menu08\Controladores\ProductoControlador;
 use Menu08\Controladores\QrControlador;
 use Menu08\Controladores\SvpControlador;
+use Menu08\Controladores\UbicacionControlador;
 
 // --- Publicas --------------------------------------------------------------
 $enrutador->get('/', [InicioControlador::class, 'comprobacion']);
@@ -51,6 +52,13 @@ $enrutador->get('/panel/productos/nuevo',           [ProductoControlador::class,
 $enrutador->get('/panel/productos/{id:\\d+}',        [ProductoControlador::class, 'editar']);
 $enrutador->post('/panel/productos',                [ProductoControlador::class, 'guardar']);
 $enrutador->post('/panel/productos/disponibilidad', [ProductoControlador::class, 'cambiarDisponibilidad']);
+
+// Agenda de paradas: donde para el truck cada dia. El listado admite
+// ?momento=AAAA-MM-DDTHH:MM para preguntar por otra hora.
+$enrutador->get('/panel/ubicaciones',            [UbicacionControlador::class, 'listado']);
+$enrutador->get('/panel/ubicaciones/{id:\\d+}',  [UbicacionControlador::class, 'editar']);
+$enrutador->post('/panel/ubicaciones',           [UbicacionControlador::class, 'guardar']);
+$enrutador->post('/panel/ubicaciones/estado',    [UbicacionControlador::class, 'cambiarEstado']);
 
 $enrutador->get('/panel/qr',           [QrControlador::class, 'mostrar']);
 $enrutador->get('/panel/qr/descargar', [QrControlador::class, 'descargar']);

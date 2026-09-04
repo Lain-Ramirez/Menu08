@@ -6,6 +6,7 @@ namespace Menu08\Controladores;
 
 use Menu08\Modelos\FoodTruck;
 use Menu08\Modelos\Producto;
+use Menu08\Modelos\Ubicacion;
 use Menu08\Nucleo\Controlador;
 use Menu08\Nucleo\Csrf;
 use Menu08\Nucleo\GestorImagenes;
@@ -27,6 +28,7 @@ final class PanelControlador extends Controlador
             'usuario'   => $this->usuario(),
             'truck'     => $id === null ? null : FoodTruck::porId($id),
             'resumen'   => $id === null ? null : Producto::resumen($id),
+            'paradas'   => $id === null ? null : Ubicacion::resumen($id),
         ], 'Panel');
     }
 

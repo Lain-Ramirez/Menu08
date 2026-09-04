@@ -1,0 +1,213 @@
+/* base.css — reinicializacion, variables de diseño y utilidades de disposicion.
+   Menu08 · carta, caja y produccion para food trucks.
+
+   Se carga DESPUES de md3.css y no repite ni un color: md3.css ya trae el
+   contrato de 31 tokens de la paleta Brasa, en claro (:root) y oscuro (html.o).
+   Aqui va lo que ese contrato no cubre — tipografia, espaciado, radios,
+   elevacion, foco y area de toque — mas la reinicializacion y la reticula.
+
+   Sin marcos CSS y sin recursos remotos: la pila tipografica es la del sistema,
+   asi que la carta abre en la fila de la ventanilla sin esperar una descarga.
+
+   Issue #14 · Fase 4 - Frontend */
+
+/* ---------------------------------------------------------------- variables */
+
+:root {
+  /* Tipografia. Escala de MD3 reducida a los nueve papeles que usa el
+     prototipo; los quince completos sobran para tres modulos. */
+  --fuente: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+  --tipo-pantalla:   400 57px/64px var(--fuente);  /* numero de turno del SVP */
+  --tipo-titulo-g:   400 32px/40px var(--fuente);  /* h1 */
+  --tipo-titulo-m:   400 24px/32px var(--fuente);  /* h2, titulo de dialogo */
+  --tipo-titulo-p:   500 22px/28px var(--fuente);  /* h3, titulo de tarjeta */
+  --tipo-cuerpo-g:   400 16px/24px var(--fuente);  /* base del documento */
+  --tipo-cuerpo-m:   400 14px/20px var(--fuente);  /* celdas, avisos */
+  --tipo-cuerpo-p:   400 12px/16px var(--fuente);  /* apoyo y error */
+  --tipo-etiqueta-g: 500 14px/20px var(--fuente);  /* rotulo de boton */
+  --tipo-etiqueta-m: 500 12px/16px var(--fuente);  /* encabezado, estado */
+
+  /* Espaciado. Reticula de 4 px de MD3. */
+  --esp-1: 4px;  --esp-2: 8px;  --esp-3: 12px; --esp-4: 16px;
+  --esp-5: 24px; --esp-6: 32px; --esp-7: 48px; --esp-8: 64px;
+
+  /* Radios. Escala de forma de MD3. */
+  --radio-xp: 4px;  --radio-p: 8px;   --radio-m: 12px;
+  --radio-g:  16px; --radio-xg: 28px; --radio-completo: 999px;
+
+  /* Elevacion. Niveles 1 a 3 de MD3; del 4 en adelante no hace falta. */
+  --elev-1: 0 1px 2px rgba(0, 0, 0, .30), 0 1px 3px 1px rgba(0, 0, 0, .15);
+  --elev-2: 0 1px 2px rgba(0, 0, 0, .30), 0 2px 6px 2px rgba(0, 0, 0, .15);
+  --elev-3: 0 4px 8px 3px rgba(0, 0, 0, .15), 0 1px 3px rgba(0, 0, 0, .30);
+
+  /* Velo del dialogo. MD3 lo llama scrim y lo trata como token aparte del
+     color: no esta en el contrato de 31, asi que se declara aqui. */
+  --velo: rgba(0, 0, 0, .4);
+
+  /* Foco. Anillo dorado: --secondary es la marca, no un estado, asi que no se
+     confunde con el rojo de error ni con el naranja de aviso. */
+  --foco: 3px solid var(--secondary);
+  --foco-separacion: 2px;
+
+  /* Area de toque. Minimo de MD3, por encima de los 44 px de WCAG. Se teclea
+     de pie, en la ventanilla y con prisa. */
+  --toque: 48px;
+
+  /* Anchos. Los tres que ya usaban las vistas. */
+  --ancho-lectura: 52rem;
+  --ancho-carta: 34rem;
+  --ancho-comprobante: 22rem;
+
+  /* Duracion de las transiciones de estado. */
+  --transicion: .15s ease;
+
+  /* md3.css define el color en :root y en html.o. Declarar el esquema evita
+     que el navegador pinte los controles nativos en oscuro sobre una pagina
+     que sigue en claro. */
+  color-scheme: light;
+}
+
+html.o { color-scheme: dark; }
+
+/* --------------------------------------------------------- reinicializacion */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--on-surface);
+  font: var(--tipo-cuerpo-g);
+}
+
+h1, h2, h3, h4, p { text-wrap: pretty; }
+
+h1 { font: var(--tipo-titulo-g); margin-block: var(--esp-5) var(--esp-3); }
+h2 { font: var(--tipo-titulo-m); margin-block: var(--esp-5) var(--esp-2); }
+h3 { font: var(--tipo-titulo-p); margin-block: var(--esp-4) var(--esp-1); }
+
+/* El margen de flujo NO se anula globalmente. Anularlo es lo correcto cuando
+   el hueco lo reparte una utilidad, y solo entonces: las vistas que todavia
+   maquetan con <p> y <br> —todas las de CARTA, CAJA y el panel hasta que el
+   #16 las remaquete— se quedarian con los campos pegados unos a otros.
+
+   Asi que lo anula quien lo sustituye: dentro de .pila, .fila y .rejilla manda
+   el gap, y el margen sobra. */
+.pila > *, .fila > *, .rejilla > * { margin-block: 0; }
+
+a { color: var(--primary); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--on-primary-container); }
+
+img, svg, video { max-width: 100%; vertical-align: middle; }
+img { border-radius: var(--radio-xp); }
+
+/* Los controles no heredan la fuente por su cuenta. */
+input, button, select, textarea { font: inherit; color: inherit; }
+
+/* Un solo indicador de foco en toda la aplicacion. */
+:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+/* Tabla sin clase: linea base para las vistas que aun no se han maquetado.
+   La tabla del catalogo es .tabla, en componentes.css. */
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: var(--esp-2); text-align: left; border-bottom: 1px solid var(--outline-variant); }
+
+code {
+  padding: .1em .3em;
+  border-radius: var(--radio-xp);
+  background: var(--surface-container);
+  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  font-size: .9em;
+}
+
+hr { height: 1px; border: none; background: var(--outline-variant); margin: var(--esp-5) 0; }
+
+/* Quien pide menos movimiento no lo recibe. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ------------------------------------------------------------- disposicion */
+
+/* Envoltura de pagina. El relleno lateral impide que el texto toque el borde
+   del telefono. */
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho-lectura);
+  margin-inline: auto;
+  padding: var(--esp-5) var(--esp-4);
+}
+
+.contenedor-ancho { max-width: 1200px; }
+.contenedor-carta { max-width: var(--ancho-carta); }
+.contenedor-comprobante { max-width: var(--ancho-comprobante); }
+
+/* Pila vertical. El numero es el hueco en pasos de la reticula. */
+.pila { display: flex; flex-direction: column; }
+.pila-1 { gap: var(--esp-1); } .pila-2 { gap: var(--esp-2); }
+.pila-3 { gap: var(--esp-3); } .pila-4 { gap: var(--esp-4); }
+.pila-5 { gap: var(--esp-5); } .pila-6 { gap: var(--esp-6); }
+.pila-7 { gap: var(--esp-7); }
+
+/* Fila que salta de linea cuando no cabe. Nunca desplaza el documento. */
+.fila { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-3); }
+.fila-2 { gap: var(--esp-2); }
+.fila-5 { gap: var(--esp-5); }
+.fila-entre { justify-content: space-between; }
+.fila-fin { justify-content: flex-end; }
+.fila-arriba { align-items: flex-start; }
+
+/* Rejilla que reparte en columnas iguales y se derrumba a una sola por debajo
+   de 768 px. minmax(0, 1fr) y no 1fr: sin el minimo en cero, una celda con
+   contenido ancho —una tabla, una palabra larga— estira la columna y saca la
+   barra horizontal del documento. */
+.rejilla { display: grid; gap: var(--esp-5); grid-template-columns: repeat(1, minmax(0, 1fr)); }
+
+@media (min-width: 768px) {
+  .rejilla-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rejilla-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rejilla-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  .rejilla-3-ancha { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* --------------------------------------------------------------- utilidades */
+
+/* Dinero y horas. Sin cifras de ancho fijo, una columna de totales baila de
+   fila en fila y se lee torcida. */
+.cifra { text-align: right; font-variant-numeric: tabular-nums; }
+.numerica { font-variant-numeric: tabular-nums; }
+
+.texto-apagado { color: var(--on-surface-variant); }
+
+/* Tamano y interlineado, nunca la abreviatura font:. La abreviatura reinicia
+   la familia, y sobre un <code> lo sacaria de la monoespaciada. */
+.texto-p { font-size: 12px; line-height: 16px; }
+.texto-m { font-size: 14px; line-height: 20px; }
+
+/* Visible para el lector de pantalla, invisible en la pagina. */
+.solo-lectores {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Fuera de la impresion: barras, navegacion y avisos no van al papel. */
+@media print {
+  .sin-impresion { display: none !important; }
+  body { background: #fff; color: #000; }
+}

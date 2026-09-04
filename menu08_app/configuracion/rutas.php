@@ -16,6 +16,7 @@ use Menu08\Controladores\AutenticacionControlador;
 use Menu08\Controladores\CajaControlador;
 use Menu08\Controladores\CartaControlador;
 use Menu08\Controladores\CategoriaControlador;
+use Menu08\Controladores\ComponentesControlador;
 use Menu08\Controladores\InicioControlador;
 use Menu08\Controladores\PanelControlador;
 use Menu08\Controladores\ProductoControlador;
@@ -26,6 +27,10 @@ use Menu08\Controladores\UbicacionControlador;
 // --- Publicas --------------------------------------------------------------
 $enrutador->get('/', [InicioControlador::class, 'comprobacion']);
 $enrutador->get('/comprobacion/{slug}', [InicioControlador::class, 'porSlug']);
+
+// Muestrario del catalogo de componentes. Sin sesion: no toca la base ni
+// muestra datos del negocio, y hay que abrirlo en los tres anchos de referencia.
+$enrutador->get('/componentes', [ComponentesControlador::class, 'muestrario']);
 
 // La carta que abre el cliente al leer el QR de la ventanilla. Sin sesion.
 $enrutador->get('/carta/{slug}', [CartaControlador::class, 'publica']);

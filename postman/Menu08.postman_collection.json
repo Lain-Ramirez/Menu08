@@ -1100,6 +1100,44 @@
               }
             }
           ]
+        },
+        {
+          "name": "GET /componentes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/componentes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "componentes"
+              ]
+            },
+            "description": "Muestrario del catalogo de componentes. Publico: no consulta la base ni muestra datos del negocio. Sirve para revisar los componentes en los tres anchos de referencia sin entrar primero."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Carga las tres hojas locales', function () {",
+                  "    var cuerpo = pm.response.text();",
+                  "    pm.expect(cuerpo).to.include('/recursos/css/md3.css');",
+                  "    pm.expect(cuerpo).to.include('/recursos/css/base.css');",
+                  "    pm.expect(cuerpo).to.include('/recursos/css/componentes.css');",
+                  "});",
+                  "pm.test('No enlaza ningun recurso remoto', function () {",
+                  "    var cuerpo = pm.response.text();",
+                  "    pm.expect(cuerpo).to.not.match(/(src|href)=\"https?:\\/\\//);",
+                  "});"
+                ]
+              }
+            }
+          ]
         }
       ]
     },

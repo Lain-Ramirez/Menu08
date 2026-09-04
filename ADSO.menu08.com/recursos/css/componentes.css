@@ -1,0 +1,628 @@
+/* componentes.css — catalogo de componentes reutilizables.
+   Menu08 · carta, caja y produccion para food trucks.
+
+   Seis piezas que consumen CARTA, CAJA y el SVP: boton, campo de formulario,
+   tarjeta, tabla, aviso y etiqueta de estado, cada una con sus variantes y con
+   los estados de foco, error y deshabilitado. Detras van el dialogo y el aviso
+   temporal, que son lo que dibujan las utilidades de interfaz.js.
+
+   Se carga DESPUES de md3.css y base.css. Todo el color de PALETA sale de los
+   31 tokens de md3.css: ni un hex escrito a mano, asi que el modo oscuro de
+   html.o funciona sin una sola regla adicional. Lo que no es paleta —el velo
+   del dialogo y las sombras de elevacion— son tokens propios de base.css.
+
+   Nomenclatura plana con guion simple —.aviso-exito, no .aviso--exito— porque
+   es la que ya emiten las vistas y Sesion::mensaje().
+
+   md3.css advierte que --primary-container y --warning-container quedan densos
+   en la banda calida. Por eso ningun estado se distingue solo por color: aviso
+   y etiqueta llevan siempre icono y palabra ademas del fondo.
+
+   El marco del panel —cabecera, navegacion y pie— es del issue #15.
+
+   Issue #14 · Fase 4 - Frontend */
+
+/* =============================================================== 1. BOTON ==
+   40 px de alto y radio completo, como las botonaduras comunes de MD3. La capa
+   de estado es un ::after de currentColor: una sola regla sirve a las cinco
+   variantes y a los dos modos, porque currentColor ya es el color correcto en
+   cada una. */
+
+.boton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-2);
+  min-height: 40px;
+  padding: 0 var(--esp-5);
+  border: none;
+  border-radius: var(--radio-completo);
+  font: var(--tipo-etiqueta-g);
+  letter-spacing: .1px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: box-shadow var(--transicion), background-color var(--transicion);
+}
+
+.boton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity var(--transicion);
+  pointer-events: none;
+}
+
+.boton:hover::after { opacity: .08; }
+.boton:active::after { opacity: .12; }
+.boton:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+.boton-icono { width: 18px; height: 18px; flex: none; }
+
+/* Variantes */
+.boton-relleno { background: var(--primary); color: var(--on-primary); }
+.boton-relleno:hover { box-shadow: var(--elev-2); }
+
+.boton-tonal { background: var(--secondary-container); color: var(--on-secondary-container); }
+
+.boton-contorno { background: transparent; color: var(--primary); border: 1px solid var(--outline); }
+
+.boton-texto { background: transparent; color: var(--primary); padding: 0 var(--esp-3); }
+
+.boton-peligro { background: var(--error); color: var(--on-error); }
+.boton-peligro:hover { box-shadow: var(--elev-2); }
+
+/* A lo ancho: en el telefono el blanco util es toda la fila. */
+.boton-bloque { width: 100%; }
+
+/* Deshabilitado. Los 12 % y 38 % son los de MD3; color-mix los saca del token
+   de texto, asi que valen igual en claro y en oscuro. */
+.boton:disabled,
+.boton[aria-disabled="true"] {
+  background: color-mix(in srgb, var(--on-surface) 12%, transparent);
+  color: color-mix(in srgb, var(--on-surface) 38%, transparent);
+  border-color: transparent;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.boton:disabled::after,
+.boton[aria-disabled="true"]::after { display: none; }
+
+/* Boton de solo icono. El trazo mide 24 px pero el blanco pulsable llega al
+   minimo de toque. */
+.boton-simbolo {
+  display: grid;
+  place-items: center;
+  width: var(--toque);
+  height: var(--toque);
+  padding: 0;
+  border: none;
+  border-radius: var(--radio-completo);
+  background: transparent;
+  color: var(--on-surface);
+  cursor: pointer;
+}
+
+.boton-simbolo:hover { background: var(--surface-container-high); }
+.boton-simbolo:focus-visible { outline: var(--foco); outline-offset: calc(var(--foco-separacion) * -1); }
+
+/* ================================================== 2. CAMPO DE FORMULARIO ==
+   Campo con contorno de MD3: 56 px de alto, radio de 4 px y rotulo que sube a
+   la muesca del borde. Al enfocar el borde pasa a 2 px y el relleno baja a
+   15 px, de modo que la altura total no salta.
+
+   El rotulo va DESPUES del control en el marcado, porque sube con el combinador
+   de hermanos ~ sobre :placeholder-shown. Por eso todo control necesita
+   placeholder=" ": sin el, :placeholder-shown nunca deja de aplicar y el rotulo
+   no se mueve. */
+
+.campo {
+  --campo-fondo: var(--surface);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sobre una tarjeta el fondo cambia, y la muesca del rotulo tiene que pintarse
+   del mismo color que el borde que interrumpe. */
+.campo-sobre-contenedor { --campo-fondo: var(--surface-container-low); }
+
+.campo-control {
+  width: 100%;
+  height: 56px;
+  padding: var(--esp-4);
+  background: transparent;
+  color: var(--on-surface);
+  border: 1px solid var(--outline);
+  border-radius: var(--radio-xp);
+  font: var(--tipo-cuerpo-g);
+  transition: border-color var(--transicion);
+}
+
+.campo-area { height: auto; min-height: 96px; resize: vertical; }
+
+.campo-etiqueta {
+  position: absolute;
+  left: var(--esp-3);
+  top: var(--esp-4);
+  padding: 0 var(--esp-1);
+  background: var(--campo-fondo);
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-g);
+  pointer-events: none;
+  transition: top var(--transicion), font var(--transicion), color var(--transicion);
+}
+
+.campo-apoyo {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-1);
+  margin: var(--esp-1) var(--esp-4) 0;
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-p);
+}
+
+.campo-control:focus {
+  outline: none;
+  border: 2px solid var(--primary);
+  padding: 15px;
+}
+
+/* El rotulo sube cuando hay foco, cuando hay valor, o cuando la vista lo
+   fuerza. .campo-con-valor existe para el <select>, que nunca esta vacio y por
+   tanto nunca casa con :placeholder-shown. */
+.campo-control:focus ~ .campo-etiqueta,
+.campo-control:not(:placeholder-shown) ~ .campo-etiqueta,
+.campo-con-valor .campo-etiqueta,
+.campo-foco .campo-etiqueta {
+  top: -8px;
+  font: var(--tipo-cuerpo-p);
+}
+
+.campo-control:focus ~ .campo-etiqueta,
+.campo-foco .campo-etiqueta { color: var(--primary); }
+
+/* Estado de foco forzado, para el muestrario. */
+.campo-foco .campo-control { border: 2px solid var(--primary); padding: 15px; }
+
+/* Error */
+.campo-error .campo-control { border-color: var(--error); }
+.campo-error .campo-control:focus { border-color: var(--error); }
+.campo-error .campo-etiqueta,
+.campo-error .campo-apoyo { color: var(--error); }
+
+/* Con foco manda igualmente el error: sin esta regla, .campo-control:focus ~
+   .campo-etiqueta tiene mas especificidad y el rotulo saltaria a --primary
+   justo cuando el usuario entra a corregir el valor equivocado. */
+.campo-error .campo-control:focus ~ .campo-etiqueta { color: var(--error); }
+
+/* Mensaje de error suelto bajo un control sin envoltura .campo. Lo emiten ya
+   varias vistas del panel. */
+.error-campo {
+  display: block;
+  margin-top: var(--esp-1);
+  color: var(--error);
+  font: var(--tipo-cuerpo-p);
+}
+
+/* Deshabilitado */
+.campo-control:disabled {
+  border-color: color-mix(in srgb, var(--on-surface) 12%, transparent);
+  color: color-mix(in srgb, var(--on-surface) 38%, transparent);
+  cursor: not-allowed;
+}
+
+.campo-inerte .campo-etiqueta,
+.campo-inerte .campo-apoyo { color: color-mix(in srgb, var(--on-surface) 38%, transparent); }
+
+/* ============================================================= 3. TARJETA ==
+   Radio de 12 px. La rellena resuelve la jerarquia con un contenedor mas alto
+   en vez de con sombra, que es lo que MD3 prefiere cuando ya hay varias capas
+   apiladas. */
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  padding: var(--esp-4);
+  border: 1px solid transparent;
+  border-radius: var(--radio-m);
+}
+
+.tarjeta-elevada { background: var(--surface-container-low); box-shadow: var(--elev-1); }
+.tarjeta-rellena { background: var(--surface-container-high); }
+.tarjeta-contorno { background: var(--surface); border-color: var(--outline-variant); }
+
+.tarjeta-titulo { font: var(--tipo-titulo-p); color: var(--on-surface); }
+.tarjeta-texto { color: var(--on-surface-variant); font: var(--tipo-cuerpo-m); }
+.tarjeta-pie { display: flex; flex-wrap: wrap; gap: var(--esp-2); margin-top: var(--esp-2); }
+
+/* Tarjeta que es en si misma un enlace: el turno de la lista de CAJA, la
+   parada de la agenda. Al ser pulsable necesita foco y area de toque. */
+.tarjeta-enlace {
+  min-height: var(--toque);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: box-shadow var(--transicion), background-color var(--transicion);
+}
+
+.tarjeta-enlace:hover { background: var(--surface-container); color: inherit; }
+.tarjeta-enlace:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+/* Error: el borde y el titulo pasan a rojo. Un turno que no cuadra al cerrar,
+   una parada con horas que se solapan. */
+.tarjeta-error {
+  background: var(--error-container);
+  color: var(--on-error-container);
+  border-color: var(--error);
+}
+
+.tarjeta-error .tarjeta-titulo,
+.tarjeta-error .tarjeta-texto { color: var(--on-error-container); }
+
+/* Inerte: el producto agotado o la parada desactivada del panel. Se ve, pero
+   se aparta de la mirada. */
+.tarjeta-inerte {
+  background: transparent;
+  border-color: var(--outline-variant);
+  box-shadow: none;
+}
+
+.tarjeta-inerte .tarjeta-titulo,
+.tarjeta-inerte .tarjeta-texto { color: color-mix(in srgb, var(--on-surface) 38%, transparent); }
+
+/* =============================================================== 4. TABLA ==
+   La envoltura desplaza en horizontal la TABLA, nunca el documento: sin ella,
+   una tabla ancha saca la barra horizontal de la pagina entera. */
+
+.tabla-envoltura {
+  overflow-x: auto;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-m);
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  font: var(--tipo-cuerpo-m);
+}
+
+.tabla thead th {
+  padding: var(--esp-3) var(--esp-4);
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-m);
+  letter-spacing: .5px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: none;
+}
+
+.tabla td {
+  padding: var(--esp-3) var(--esp-4);
+  color: var(--on-surface);
+  border-bottom: none;
+  border-top: 1px solid var(--outline-variant);
+}
+
+.tabla tbody tr:hover td { background: var(--surface-container-low); }
+
+.tabla th.cifra, .tabla td.cifra { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Fila con foco. Una fila puede ser recorrible con teclado —el listado de
+   ordenes del SVP— y entonces el anillo va por dentro: en el borde exterior
+   lo recortaria .tabla-envoltura, que tiene overflow. */
+.tabla tbody tr:focus-visible {
+  outline: var(--foco);
+  outline-offset: calc(var(--foco-separacion) * -1);
+}
+
+/* Fila en error: la orden demorada del tablero, el turno que no cuadra. Lleva
+   ademas su etiqueta de estado, porque el fondo solo no basta. */
+.tabla tbody tr.fila-error td { background: var(--error-container); color: var(--on-error-container); }
+.tabla tbody tr.fila-error:hover td { background: var(--error-container); }
+
+/* Fila inerte: el producto no disponible de /panel/productos y la parada
+   inactiva de /panel/ubicaciones, que hoy se distinguen solo por la palabra. */
+.tabla tbody tr.fila-inerte td { color: color-mix(in srgb, var(--on-surface) 38%, transparent); }
+
+/* Por debajo de 480 px cinco columnas no caben. Cada fila pasa a ficha y el
+   encabezado se reparte por celda desde data-etiqueta, de modo que el marcado
+   es el mismo en los tres anchos: lo unico que cambia es la ventana. */
+@media (max-width: 480px) {
+  .tabla-apilable thead { display: none; }
+
+  .tabla-apilable tr {
+    display: grid;
+    gap: var(--esp-1);
+    padding: var(--esp-3) var(--esp-4);
+  }
+
+  .tabla-apilable tbody tr + tr { border-top: 1px solid var(--outline-variant); }
+
+  .tabla-apilable td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--esp-4);
+    padding: 0;
+    border: none;
+  }
+
+  .tabla-apilable td::before {
+    content: attr(data-etiqueta);
+    color: var(--on-surface-variant);
+    font-weight: 500;
+  }
+
+  /* Una celda vacia —la de acciones— no debe dejar una linea en blanco. */
+  .tabla-apilable td:empty { display: none; }
+}
+
+/* =============================================================== 5. AVISO ==
+   Los tres tipos que emite Sesion::mensaje(): exito, aviso y error. Tres
+   canales a la vez —color, icono y palabra inicial— porque el color solo no
+   basta en esta paleta. */
+
+/* Bloque por defecto, no flex. Varias vistas todavia meten el texto y sus
+   enlaces DIRECTAMENTE dentro del .aviso —sin <p> que los envuelva—, y un
+   contenedor flex convierte cada tramo suelto de texto en una columna. El flex
+   se activa solo cuando hay icono, que es cuando el marcado trae hijos de
+   verdad que alinear. */
+.aviso {
+  padding: var(--esp-3) var(--esp-4);
+  border-radius: var(--radio-m);
+  font: var(--tipo-cuerpo-m);
+}
+
+.aviso:has(> .aviso-icono) {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-3);
+}
+
+.aviso > p { margin-block: 0; }
+
+.aviso-icono { flex: none; width: 20px; height: 20px; margin-top: 1px; }
+
+.aviso-exito { background: var(--tertiary-container); color: var(--on-tertiary-container); }
+.aviso-aviso { background: var(--warning-container); color: var(--on-warning-container); }
+.aviso-error { background: var(--error-container); color: var(--on-error-container); }
+
+/* ================================================= 6. ETIQUETA DE ESTADO ==
+   El ciclo de Orden::TRANSICIONES, que solo avanza, mas la demora que marca el
+   SVP cuando minutos >= minutos_demora. Entregada se apaga a puro contorno: ya
+   salio por la ventanilla y no debe competir por la mirada en el tablero. */
+
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 var(--esp-3);
+  border: 1px solid transparent;
+  border-radius: var(--radio-p);
+  font: var(--tipo-etiqueta-m);
+  letter-spacing: .3px;
+  white-space: nowrap;
+}
+
+.etiqueta-icono { flex: none; width: 16px; height: 16px; }
+
+.etiqueta-pendiente {
+  background: var(--surface-container-high);
+  color: var(--on-surface-variant);
+  border-color: var(--outline-variant);
+}
+
+.etiqueta-preparacion { background: var(--warning-container); color: var(--on-warning-container); }
+.etiqueta-lista { background: var(--tertiary-container); color: var(--on-tertiary-container); }
+.etiqueta-entregada { background: transparent; color: var(--on-surface-variant); border-color: var(--outline); }
+.etiqueta-demorada { background: var(--error-container); color: var(--on-error-container); }
+
+/* ====================================== 7. LO QUE DIBUJA interfaz.js =======
+   No son piezas del catalogo que una vista escriba a mano: las crea el
+   JavaScript. Van aqui porque su color tambien tiene que salir de los tokens. */
+
+/* Aviso temporal. Fijo abajo, sobre el contenido y fuera del flujo, para que no
+   empuje la pagina al aparecer. */
+.avisos-region {
+  position: fixed;
+  left: var(--esp-4);
+  right: var(--esp-4);
+  bottom: var(--esp-4);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  align-items: center;
+  pointer-events: none;
+}
+
+.aviso-temporal {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  width: 100%;
+  max-width: 24rem;
+  min-height: var(--toque);
+  padding: 14px var(--esp-4);
+  border-radius: var(--radio-xp);
+  background: var(--inverse-surface);
+  color: var(--inverse-on-surface);
+  box-shadow: var(--elev-3);
+  font: var(--tipo-cuerpo-m);
+  pointer-events: auto;
+  animation: aviso-entra .18s ease-out;
+}
+
+.aviso-temporal-icono { flex: none; width: 20px; height: 20px; }
+
+@keyframes aviso-entra {
+  from { opacity: 0; transform: translateY(var(--esp-2)); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Dialogo de confirmacion. El velo cubre la ventana y centra la caja. */
+.dialogo-velo {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: var(--esp-5);
+  background: var(--velo);
+}
+
+.dialogo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  width: 100%;
+  max-width: 340px;
+  padding: var(--esp-5);
+  border-radius: var(--radio-xg);
+  background: var(--surface-container-high);
+  color: var(--on-surface);
+  box-shadow: var(--elev-3);
+}
+
+.dialogo-titulo { font: var(--tipo-titulo-m); }
+.dialogo-texto { color: var(--on-surface-variant); font: var(--tipo-cuerpo-m); }
+.dialogo-acciones { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--esp-2); }
+
+/* Menu desplegable. El marco del panel lo maqueta el issue #15; esto es solo
+   lo que el alternado necesita para abrir y cerrar. */
+.menu-desplegable {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-container-low);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.menu-desplegable[hidden] { display: none; }
+
+.menu-desplegable a {
+  display: flex;
+  align-items: center;
+  min-height: var(--toque);
+  padding: 0 var(--esp-5);
+  color: var(--on-surface);
+  text-decoration: none;
+  font: var(--tipo-etiqueta-g);
+}
+
+.menu-desplegable a:hover { background: var(--surface-container); }
+
+/* ============================================== 8. SOLO PARA EL MUESTRARIO ==
+   Un catalogo tiene que enseñar a la vez estados que en uso son excluyentes.
+   Estas tres clases los fuerzan; ninguna vista de la aplicacion las usa. */
+
+.muestra-encima::after { opacity: .08; }
+.boton-relleno.muestra-encima, .boton-peligro.muestra-encima { box-shadow: var(--elev-2); }
+.muestra-foco { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+.muestrario-seccion { scroll-margin-top: var(--esp-5); }
+
+.muestrario-cabecera {
+  padding-bottom: var(--esp-3);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.muestrario-rotulo {
+  font: var(--tipo-etiqueta-m);
+  letter-spacing: .5px;
+  color: var(--on-surface-variant);
+}
+
+.muestrario-pie { color: var(--on-surface-variant); font: var(--tipo-cuerpo-p); }
+
+.muestrario-indice { display: flex; flex-wrap: wrap; gap: var(--esp-2); }
+
+.muestrario-escenario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding: var(--esp-4);
+  border: 1px dashed var(--outline);
+  border-radius: var(--radio-m);
+}
+
+/* ================================ 9. PIEZAS DE MODULO, PROVISIONALES =======
+   Venian del bloque <style> que plantillas/base.php llevaba antes de esta hoja.
+   No son del catalogo y no se reutilizan: las reemplazan #15 y #16 al maquetar
+   cada vista con las clases de arriba. Se mantienen para que carta, caja y
+   panel no se descuadren mientras tanto. */
+
+.barra { display: flex; justify-content: space-between; align-items: center; gap: var(--esp-4); flex-wrap: wrap; }
+
+/* Los filetes que separaban cabecera y pie del contenido. Los sustituye el
+   marco del panel del #15. */
+body > header.barra { border-bottom: 1px solid var(--outline-variant); }
+body > footer { border-top: 1px solid var(--outline-variant); }
+
+/* Linea base de los controles PELADOS, los que todavia no van dentro de un
+   .campo. Sin esto, las vistas del panel y de caja se quedan con inputs sin
+   relleno y de ancho arbitrario hasta que el #16 las remaquete.
+
+   El :not(.campo-control) no es decorativo: input[type="email"] tiene mas
+   especificidad que .campo-control, asi que sin la exclusion un campo de correo
+   dentro de .campo cogeria este ancho en vez del suyo. */
+label:not(.campo-etiqueta) { font-weight: 600; }
+
+input:not(.campo-control),
+button:not(.boton):not(.boton-simbolo),
+select:not(.campo-control),
+textarea:not(.campo-control) {
+  padding: var(--esp-2) var(--esp-3);
+  border: 1px solid var(--outline);
+  border-radius: var(--radio-xp);
+  background: var(--surface);
+  color: var(--on-surface);
+}
+
+select:not(.campo-control),
+textarea:not(.campo-control) { width: min(28rem, 100%); }
+
+input[type="email"]:not(.campo-control),
+input[type="password"]:not(.campo-control) { width: min(22rem, 100%); }
+
+input[type="number"]:not(.campo-control) { width: 5rem; }
+
+button:not(.boton):not(.boton-simbolo) { cursor: pointer; background: var(--surface-container-high); }
+button:not(.boton):not(.boton-simbolo):hover { background: var(--surface-container); }
+
+.carta { max-width: var(--ancho-carta); margin-inline: auto; }
+.carta-cabecera { text-align: center; margin-bottom: var(--esp-5); }
+.carta-logo { max-height: 6rem; }
+.carta-contacto { color: var(--on-surface-variant); font: var(--tipo-cuerpo-m); }
+.carta-categoria h2 { border-bottom: 2px solid var(--outline-variant); padding-bottom: var(--esp-1); }
+.carta-lista { list-style: none; }
+.carta-item {
+  display: flex;
+  gap: var(--esp-3);
+  align-items: flex-start;
+  padding: var(--esp-3) 0;
+  border-bottom: 1px solid var(--outline-variant);
+}
+.carta-foto { width: 4.5rem; height: 4.5rem; object-fit: cover; flex: none; }
+.carta-texto { flex: 1; min-width: 0; }
+.carta-texto h3 { font: var(--tipo-cuerpo-g); font-weight: 500; }
+.carta-texto p { color: var(--on-surface-variant); font: var(--tipo-cuerpo-m); }
+.carta-precio { font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.comprobante { max-width: var(--ancho-comprobante); margin-inline: auto; }
+.comprobante header { text-align: center; }
+.comprobante-numero { font: var(--tipo-titulo-g); font-weight: 700; margin: var(--esp-1) 0; }
+.comprobante-total { font: var(--tipo-titulo-p); font-variant-numeric: tabular-nums; }
+.comprobante-gracias { text-align: center; color: var(--on-surface-variant); }
+
+@media print {
+  .comprobante { max-width: none; }
+}

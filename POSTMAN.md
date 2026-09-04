@@ -364,9 +364,14 @@ servicios JSON del SVP, que responden **401** con un objeto de error.
 | `GET` | `/` | — | `200` · comprobación del núcleo |
 | `GET` | `/comprobacion/{slug}` | — | `200` · datos del truck. `404` si el slug no existe |
 | `GET` | `/carta/{slug}` | — | `200` · la carta que abre el cliente al leer el QR |
+| `GET` | `/componentes` | — | `200` · muestrario del catálogo de componentes |
 
 En `/carta/truck-de-pruebas` **no** deben aparecer «Categoria desactivada» ni «Entrada agotada»:
 la carta pública oculta lo que está dado de baja.
+
+`/componentes` es el muestrario del catálogo: no consulta la base ni muestra ningún dato del
+negocio, así que es público a propósito y se puede abrir sin sesión para revisarlo a 360, 768 y
+1280 px de ancho.
 
 ## Autenticación
 

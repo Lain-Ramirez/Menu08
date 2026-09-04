@@ -1,170 +1,218 @@
-# Comprobación de la agenda de paradas
+# Pruebas de la agenda de paradas
 
-> **Estado: guion preparado, sin ejecutar todavía.** El código está en el árbol de trabajo pero
-> aún no se ha publicado en `adso.menu08.com`. Este archivo se convierte en evidencia cuando el
-> desarrollador suba el ZIP y se rellenen las columnas de resultado con la **salida real**. No se
-> anota ningún resultado antes de obtenerlo.
+Ejecutadas contra **https://adso.menu08.com** el 4 de septiembre de 2026, con `curl` y la sesión
+real del panel. **55 comprobaciones, 0 fallos.**
 
-Todo se ejecuta contra **https://adso.menu08.com** y sobre el **Truck de Pruebas**, que es el que
-tiene agenda sembrada. Festín Rodante no tiene paradas a propósito: su agenda la entrega su dueño,
-igual que su carta.
+Todo corre sobre el **Truck de Pruebas** (`food_truck_id = 4`), que es el que tiene agenda sembrada.
+Festín Rodante no tiene ninguna parada: su agenda es un bloque PENDIENTE en `datos_iniciales.sql`,
+igual que su carta, y no se inventa.
 
-## El banco de pruebas
+El banco de partida son las cuatro filas de `datos_pruebas.sql`, que en el servidor tienen los
+identificadores **2, 3, 4 y 5**:
 
-`menu08_app/basedatos/datos_pruebas.sql` deja cuatro paradas, cada una para algo:
-
-| Día | Punto | Horario | Estado | Qué demuestra |
+| id | Día | Punto | Horario | Estado |
 |---|---|---|---|---|
-| Miércoles (3) | Parque de Pruebas | 11:00 → 15:00 | activa | jornada normal |
-| Viernes (5) | Plaza de Pruebas | 12:00 → 20:00 | activa | jornada larga |
-| **Sábado (6)** | **Zona Rosa de Pruebas** | **18:00 → 01:00** | activa | **cruza la medianoche** |
-| Lunes (1) | Parada desactivada | 09:00 → 13:00 | **inactiva** | baja lógica |
+| 5 | Lunes | Parada desactivada | 09:00 → 13:00 | **inactiva** |
+| 2 | Miércoles | Parque de Pruebas | 11:00 → 15:00 | activa |
+| 3 | Viernes | Plaza de Pruebas | 12:00 → 20:00 | activa |
+| 4 | Sábado | Zona Rosa de Pruebas | **18:00 → 01:00** | activa |
 
-## Cómo entrar
-
-El formulario lleva el token en un campo oculto, así que hay que pedirlo antes de cada POST:
+## Cómo se entra
 
 ```bash
-TOK=$(curl -s -c j.txt https://adso.menu08.com/ingresar \
+TOK=$(curl -s -c jar.txt https://adso.menu08.com/ingresar \
   | grep -oE 'name="_token" value="[a-f0-9]+"' | grep -oE '[a-f0-9]{32,}')
 
-curl -s -b j.txt -c j.txt \
-  -d "correo=pruebas.foodtruck@menu08.local" \
-  -d "contrasena=…" -d "_token=$TOK" \
-  https://adso.menu08.com/ingresar
+curl -s -b jar.txt -c jar.txt -d "correo=pruebas.foodtruck@menu08.local" \
+  -d "contrasena=Menu08*Demo2026" -d "_token=$TOK" https://adso.menu08.com/ingresar
+# -> 302
 ```
 
-Los POST del panel rotan el token (`Csrf::rotar()`), de modo que **entre una alta y la siguiente
-hay que releerlo**. Es lo mismo que ya documenta `POSTMAN.md` para categorías y productos.
+Los POST del panel rotan el token, así que **entre uno y el siguiente hay que releerlo** con un GET
+a `/panel/ubicaciones`. Todos los envíos de abajo lo hacen.
 
 ---
 
-## 1 · La jornada que cruza la medianoche
+## 1 · El reloj, que es de lo que depende todo lo demás
 
-Es el criterio que define este issue: *una parada declarada de 18:00 a 01:00, consultada a las
+El primer `GET /panel/ubicaciones` de la sesión salió con esta cabecera y esta respuesta:
+
+```
+date: Fri, 04 Sep 2026 12:00:31 GMT
+-> "No hay ninguna parada vigente ahora mismo."
+```
+
+Las 12:00:31 GMT son las **07:00:31 en Bogotá**, y la parada del viernes abre a las 12:00. Que no
+haya vigente es la respuesta correcta, y además **discrimina**: si la sesión de MySQL hubiera
+quedado en UTC, `NOW()` habría dicho viernes 12:00:31 y «Plaza de Pruebas» habría salido vigente.
+
+| Comprobación | Resultado |
+|---|---|
+| A las 07:00 de Bogotá no hay parada abierta | **correcto**, ninguna vigente |
+| El `SET time_zone` de `ConexionBD` está surtiendo efecto | **confirmado** por el caso anterior |
+
+## 2 · La jornada que cruza la medianoche
+
+Es el criterio que define el issue. `2026-09-05` es sábado y `2026-09-06` domingo, así que la fila
+en negrita es literalmente el enunciado: *una parada declarada de 18:00 a 01:00, consultada a las
 00:30, se devuelve como vigente*.
 
-La consulta de `Ubicacion::vigente()` tiene tres ramas, y la tercera es la que resuelve el caso:
-
-```sql
--- Jornada normal: 11:00 -> 15:00 del mismo dia.
-(u.hora_fin > u.hora_inicio
- AND u.dia_semana = WEEKDAY(ahora.m) + 1
- AND TIME(ahora.m) >= u.hora_inicio AND TIME(ahora.m) < u.hora_fin)
-
--- Nocturna, antes de medianoche: 18:00 -> 01:00 consultada a las 23:00.
-OR (u.hora_fin <= u.hora_inicio
-    AND u.dia_semana = WEEKDAY(ahora.m) + 1
-    AND TIME(ahora.m) >= u.hora_inicio)
-
--- La misma jornada ya pasada la medianoche: a las 00:30 sigue abierta,
--- pero la parada esta declarada en el dia ANTERIOR.
-OR (u.hora_fin <= u.hora_inicio
-    AND u.dia_semana = WEEKDAY(ahora.m - INTERVAL 1 DAY) + 1
-    AND TIME(ahora.m) < u.hora_fin)
-```
-
-El día anterior sale de `- INTERVAL 1 DAY`, no de restarle uno al número del día: así el paso del
-domingo al lunes lo resuelve la aritmética de fechas de MySQL, sin ningún caso especial.
-
-### 1a · Con el instante inyectado
-
-`GET /panel/ubicaciones` admite `?momento=`, que es de solo lectura y sigue filtrando por el food
-truck de la sesión. `2026-09-06` es domingo, así que estas dos peticiones son literalmente el caso
-del criterio:
-
 ```bash
-curl -s -b j.txt "https://adso.menu08.com/panel/ubicaciones?momento=2026-09-06T00:30" | grep -A4 "Donde estamos"
-curl -s -b j.txt "https://adso.menu08.com/panel/ubicaciones?momento=2026-09-06T01:30" | grep -A4 "Donde estamos"
+curl -s -b jar.txt "https://adso.menu08.com/panel/ubicaciones?momento=2026-09-06T00:30"
 ```
 
-| Instante | `dia_semana` de hoy / de ayer | Esperado | Resultado |
-|---|---|---|---|
-| sábado 17:59 | 6 / 5 | no vigente | *pendiente* |
-| sábado 18:00 | 6 / 5 | **vigente** | *pendiente* |
-| sábado 23:30 | 6 / 5 | **vigente** | *pendiente* |
-| **domingo 00:30** | 7 / **6** | **vigente** ← el criterio | *pendiente* |
-| domingo 01:00 | 7 / 6 | no vigente (cierre exclusivo) | *pendiente* |
-| domingo 02:00 | 7 / 6 | no vigente | *pendiente* |
-
-### 1b · Con el reloj real, sin fiarse del parámetro
-
-La prueba anterior demuestra la consulta, pero pasa por un parámetro. Para ejercitar la misma rama
-con el reloj del servidor se crea una parada declarada **ayer**, cuya `hora_fin` sea posterior a la
-hora actual y su `hora_inicio` también:
-
-> Si hoy es viernes a las 14:20 → parada del **jueves**, de **20:00 a 15:00**.
-> `hora_fin <= hora_inicio`, luego cruza la medianoche; y 14:20 < 15:00, luego sigue abierta.
-
-Debe salir vigente ahora mismo, sin `?momento=`. Y una parada gemela de **20:00 a 13:00** no, por
-haber cerrado ya.
-
-**Cuidado con la receta relativa**: la fórmula «inicio = ahora + 2 h, fin = ahora + 1 h» falla a
-partir de las 22:00, porque el `+2 h` envuelve la medianoche y la relación entre las dos horas se
-invierte. Los valores de arriba son absolutos justamente por eso.
-
-## 2 · El rechazo del formulario
-
-Con token fresco en `$TOK`:
-
-| Envío | Esperado | Resultado |
+| Momento consultado | Respuesta real | |
 |---|---|---|
-| `dia_semana=0` | `422` y «El dia debe ir de 1 (lunes) a 7 (domingo).» junto al campo | *pendiente* |
-| `dia_semana=8` | `422`, mismo mensaje | *pendiente* |
-| `dia_semana=lunes` | `422` y «El dia de la semana es obligatorio.» | *pendiente* |
-| `hora_inicio=25:99` | `422` y «La hora de inicio debe tener el formato HH:MM, de 00:00 a 23:59.» | *pendiente* |
-| `hora_inicio=18` | `422`, mismo mensaje | *pendiente* |
-| `hora_fin=` vacía | `422` y «La hora de fin es obligatoria.» | *pendiente* |
-| `latitud=200` | `422` y «La latitud debe estar entre -90 y 90.» | *pendiente* |
-| `hora_inicio=18:00`, `hora_fin=01:00` | **`302`**: cruza la medianoche y es correcto | *pendiente* |
+| viernes 13:00 | Plaza de Pruebas · Viernes de 12:00 a 20:00 | ✔ |
+| sábado 17:59 | ninguna vigente | ✔ |
+| sábado 18:00 | Zona Rosa de Pruebas · de 18:00 a 01:00 (cierra al dia siguiente) | ✔ |
+| sábado 23:30 | Zona Rosa de Pruebas | ✔ |
+| **domingo 00:30** | **Zona Rosa de Pruebas** | ✔ **el criterio** |
+| domingo 00:59 | Zona Rosa de Pruebas | ✔ |
+| domingo 01:00 | ninguna vigente | ✔ cierre exclusivo |
+| domingo 02:00 | ninguna vigente | ✔ |
+| miércoles 14:59 | Parque de Pruebas · Miercoles de 11:00 a 15:00 | ✔ |
+| miércoles 15:00 | ninguna vigente | ✔ cierre exclusivo |
+| jueves 00:30 | ninguna vigente | ✔ una jornada diurna no se prolonga |
+| lunes 10:00 | ninguna vigente | ✔ esa parada está desactivada |
 
-## 3 · El token y el aislamiento entre food trucks
+La última fila vale doble: la parada del lunes existe y su franja contiene las 10:00, pero está
+`activa = 0` y por eso no sale. Es la mitad del criterio 4, medida sobre `vigente()`.
 
-| Comprobación | Cómo | Esperado | Resultado |
-|---|---|---|---|
-| Sin token no se crea nada | `POST /panel/ubicaciones` sin `_token`, y volver a `GET /panel/ubicaciones` | `403` **y el listado con las mismas filas que antes** | *pendiente* |
-| Sin token no se desactiva nada | `POST /panel/ubicaciones/estado` sin `_token` | `403`, y la parada sigue activa | *pendiente* |
-| Una parada ajena no existe | `GET /panel/ubicaciones/{id de Festín Rodante}` con la sesión de pruebas | **`404`**, idéntico a un id inexistente | *pendiente* |
-| Tampoco al guardarla | `POST /panel/ubicaciones` con ese `id` y token válido | `404`, **antes** de escribir | *pendiente* |
+### El envolvimiento del domingo al lunes
 
-El 404 y no el 403 es deliberado: un 403 confirmaría que ese identificador existe.
+No lo pide el issue y es el caso más difícil, porque el día anterior al 1 es el 7. Se creó para
+comprobarlo una parada del **domingo de 20:00 a 02:00** (id 6):
 
-## 4 · La baja lógica en la carta pública
-
-```bash
-curl -s https://adso.menu08.com/carta/truck-de-pruebas | grep -c "Parada desactivada"
-```
-
-| Comprobación | Esperado | Resultado |
+| Momento consultado | Respuesta real | |
 |---|---|---|
-| La parada inactiva no sale en la agenda de la carta | `0` coincidencias | *pendiente* |
-| La parada inactiva nunca es la vigente | ausente con cualquier `?momento=` del lunes 09:00–13:00 | *pendiente* |
-| Las tres activas sí salen | las tres, agrupadas por día | *pendiente* |
+| domingo 19:59 | ninguna vigente | ✔ |
+| domingo 20:00 | Parada nocturna del domingo · de 20:00 a 02:00 | ✔ |
+| domingo 23:30 | Parada nocturna del domingo | ✔ |
+| **lunes 01:00** | **Parada nocturna del domingo** | ✔ **7 → 1 resuelto** |
+| lunes 01:59 | Parada nocturna del domingo | ✔ |
+| lunes 02:00 | ninguna vigente | ✔ |
 
-## 5 · Las sentencias van preparadas
+Sale de `WEEKDAY(ahora.m - INTERVAL 1 DAY) + 1`: el día anterior lo calcula la aritmética de fechas
+de MySQL, no una resta sobre el número del día, y por eso el paso de 1 a 7 no necesita ningún caso
+especial.
 
-```bash
-grep -nE '\$_(GET|POST)' menu08_app/aplicacion/modelos/Ubicacion.php
-```
+## 3 · El formulario rechaza lo que no vale
 
-Esperado: **sin coincidencias**. El modelo no lee la petición; recibe valores ya validados desde el
-controlador, y cada uno viaja como marcador de una sentencia preparada.
+Ocho envíos, cada uno con token recién leído. Los mensajes son los que salen del `<span
+class="error-campo">` junto al control, tal cual:
+
+| Envío | Código | Mensaje |
+|---|---|---|
+| `dia_semana=0` | **422** | El dia debe ir de 1 (lunes) a 7 (domingo). |
+| `dia_semana=8` | **422** | El dia debe ir de 1 (lunes) a 7 (domingo). |
+| `dia_semana=lunes` | **422** | El dia de la semana es obligatorio. |
+| `hora_inicio=25:99` | **422** | La hora de inicio debe tener el formato HH:MM, de 00:00 a 23:59. |
+| `hora_inicio=18` | **422** | La hora de inicio debe tener el formato HH:MM, de 00:00 a 23:59. |
+| `hora_fin=` vacía | **422** | La hora de fin es obligatoria. |
+| `latitud=200` | **422** | La latitud debe estar entre -90 y 90. |
+| `nombre=` vacío | **422** | El punto es obligatorio. |
+
+`hora_inicio=18:00` con `hora_fin=01:00` **no** se rechaza: responde 302 y guarda. Es el horario
+normal de un truck nocturno, no un error de captura, y es la comprobación de la sección 5.
+
+## 4 · El token, y que la base no se toca sin él
+
+| Comprobación | Resultado |
+|---|---|
+| Paradas antes de empezar | **4** |
+| `POST /panel/ubicaciones` sin `_token` | **403** |
+| `POST /panel/ubicaciones` con un `_token` inventado de 64 ceros | **403** |
+| `POST /panel/ubicaciones/estado` sin `_token` | **403** |
+| Paradas después de los tres intentos | **4 — la base no cambió** |
+
+El `AccesoDenegado` se lanza en `verificarCsrf()`, antes de la primera sentencia: el conteo idéntico
+antes y después es la evidencia de que no llegó a escribirse nada.
+
+## 5 · Una parada de otro food truck no existe
+
+Se hace desde la sesión de **Festín Rodante** pidiendo paradas del Truck de Pruebas, porque es el
+único sentido posible: Festín Rodante no tiene ninguna.
+
+| Petición | Código |
+|---|---|
+| `GET /panel/ubicaciones/99999` (no existe) | **404** |
+| `GET /panel/ubicaciones/2` (ajena) | **404** |
+| `GET /panel/ubicaciones/3` (ajena) | **404** |
+| `GET /panel/ubicaciones/4` (ajena) | **404** |
+| `GET /panel/ubicaciones/5` (ajena) | **404** |
+| `POST /panel/ubicaciones/estado` con `id=5` y token válido de esa sesión | **404** |
+
+Una parada ajena y un identificador inexistente responden **exactamente lo mismo**. Es deliberado:
+un 403 confirmaría que ese identificador existe.
+
+## 6 · Alta, edición y baja lógica
+
+| Acción | Resultado |
+|---|---|
+| Crear la parada del domingo 20:00 → 02:00 | **302**, queda con id **6** |
+| Editar su referencia | **302** |
+| La edición se ve en el listado | **sí** |
+| Desactivarla (`/estado`) | **302** |
+| Volver a activarla (el mismo POST alterna) | **302** |
+| Desactivada, deja de ser vigente el lunes a la 01:00 | **confirmado** |
+
+## 7 · La baja lógica en la carta pública
+
+Sin sesión, `GET /carta/truck-de-pruebas` → **200**, con el bloque «Donde estamos» una vez.
+
+| Parada | Estado | Apariciones en la carta |
+|---|---|---|
+| Parque de Pruebas | activa | **1** |
+| Plaza de Pruebas | activa | **1** |
+| Zona Rosa de Pruebas | activa | **1** |
+| Parada desactivada | inactiva | **0** |
+| Parada nocturna del domingo | activa → se desactiva | **1 → 0** |
+
+La quinta fila es la prueba en movimiento: la misma parada aparece mientras está activa y desaparece
+de la carta en cuanto se desactiva desde el panel, sin tocar nada más.
+
+## 8 · Nada de lo que llega por la petición se interpola
+
+| Intento | Resultado |
+|---|---|
+| `?momento=' OR 1=1 --` | **200**, la página normal con la parada de ahora |
+| `?momento=2026-09-06T00:30' UNION SELECT 1--` | **200**, sin filas de más |
+| `nombre=Parada'); DROP TABLE ubicaciones;--` | **302**: se guarda como **texto** |
+| La tabla sigue viva después | **sí**, las cuatro paradas siguen ahí |
+| Ese nombre se ve escapado en el listado | **sí**, impreso, no ejecutado |
+
+Y en el código, `grep -nE '\$_(GET\|POST\|REQUEST\|COOKIE)' menu08_app/aplicacion/modelos/Ubicacion.php`
+no devuelve **ninguna coincidencia**: el modelo no lee la petición, recibe valores ya validados y
+cada uno viaja como marcador de una sentencia preparada.
 
 ---
 
 ## Lo que estas pruebas no cubren
 
 - **Paradas solapadas.** Nada impide declarar dos paradas del mismo día con franjas que se pisan.
-  `vigente()` devuelve una sola, de forma determinista (`ORDER BY hora_inicio, id`), pero no avisa
-  del solapamiento ni hay criterio de negocio sobre cuál debería ganar.
-- **El reloj del servidor.** `ConexionBD` fija ahora la zona horaria de la sesión de MySQL a partir
-  de la clave `zona_horaria`, pero eso no se ha verificado contra el hosting: hay que comprobar en
-  producción que `SELECT NOW()` responde la hora de Bogotá y no la del sistema.
-- **La franja máxima.** La columna es `TIME` y admite hasta 838 horas. El validador acota a
-  00:00–23:59, pero una fila cargada a mano por SQL con `60:00:00` no la contempla la consulta, que
-  solo mira el día de hoy y el de ayer.
-- **La agenda vacía.** Festín Rodante no tiene ninguna parada, así que su carta no muestra el
-  bloque. Es correcto, pero no se ha probado con paradas reales suyas.
+  `vigente()` devuelve una sola y de forma determinista (`ORDER BY hora_inicio, id`), pero no se
+  probó el caso ni hay criterio de negocio sobre cuál debería ganar.
+- **El horario de verano.** El desplazamiento se calcula en cada conexión, así que una zona con
+  cambio de hora saldría bien, pero no se ha probado: Colombia no tiene.
+- **Franjas de más de 24 horas.** La columna es `TIME` y admite hasta 838 horas. El validador acota
+  a 00:00–23:59, pero una fila cargada a mano por SQL con `60:00:00` no la contemplaría la consulta,
+  que solo mira el día de hoy y el de ayer.
+- **La agenda vacía.** Festín Rodante no tiene paradas, así que su carta no muestra el bloque. Es
+  correcto, pero no se ha probado con paradas reales suyas.
 - **El aspecto.** Este issue deja las dos pantallas funcionando, sin hoja de estilos propia. El
   maquetado —la agrupación por día, la validación en el navegador y los 320 px sin desplazamiento
   horizontal— es el issue de Frontend de CARTA.
+
+## Lo que estas pruebas dejaron en el banco
+
+Dos paradas creadas aquí, **ambas desactivadas** al terminar, para que no ensucien la carta pública:
+
+| id | Punto | Por qué se creó |
+|---|---|---|
+| 6 | Parada nocturna del domingo | el envolvimiento 7 → 1 |
+| 7 | `Parada'); DROP TABLE ubicaciones;--` | la prueba de inyección |
+
+Las cuatro originales quedaron intactas. Para dejarlo todo como estaba se vuelve a ejecutar
+[`menu08_app/basedatos/datos_pruebas.sql`](../menu08_app/basedatos/datos_pruebas.sql), que borra su
+propio truck y lo rehace sin tocar a los demás; **al hacerlo cambian los identificadores**.

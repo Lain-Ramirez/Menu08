@@ -3199,22 +3199,22 @@
           ]
         },
         {
-          "name": "GET /panel/ubicaciones/{id de otro truck} -> 404",
+          "name": "GET /panel/ubicaciones/{id ajeno} como otro truck -> 404",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/panel/ubicaciones/1",
+              "raw": "{{baseUrl}}/panel/ubicaciones/{{ubicacionId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "panel",
                 "ubicaciones",
-                "1"
+                "{{ubicacionId}}"
               ]
             },
-            "description": "Una parada de Festin Rodante vista desde la sesion del Truck de Pruebas. Responde 404 y no 403: un 403 confirmaria que ese identificador existe."
+            "description": "Ingresa antes como foodtruck@menu08.local (Festin Rodante) y pide una parada del Truck de Pruebas, cuyo id quedo en {{ubicacionId}} al recorrer la carpeta 4. Responde 404 y no 403: un 403 confirmaria que ese identificador existe. La prueba va en este sentido porque Festin Rodante no tiene paradas sembradas, y no se inventan."
           },
           "event": [
             {

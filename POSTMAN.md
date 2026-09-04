@@ -163,12 +163,12 @@ desactivada*.
 
 La agenda de paradas tiene cuatro filas, y cada una está para algo:
 
-| Día | Punto | Horario | Estado | Para qué |
-|---|---|---|---|---|
-| Miércoles | Parque de Pruebas | 11:00 → 15:00 | activa | jornada normal |
-| Viernes | Plaza de Pruebas | 12:00 → 20:00 | activa | jornada larga |
-| **Sábado** | **Zona Rosa de Pruebas** | **18:00 → 01:00** | activa | **cruza la medianoche** |
-| Lunes | Parada desactivada | 09:00 → 13:00 | **inactiva** | no debe salir en la carta |
+| id | Día | Punto | Horario | Estado | Para qué |
+|---|---|---|---|---|---|
+| 2 | Miércoles | Parque de Pruebas | 11:00 → 15:00 | activa | jornada normal |
+| 3 | Viernes | Plaza de Pruebas | 12:00 → 20:00 | activa | jornada larga |
+| 4 | **Sábado** | **Zona Rosa de Pruebas** | **18:00 → 01:00** | activa | **cruza la medianoche** |
+| 5 | Lunes | Parada desactivada | 09:00 → 13:00 | **inactiva** | no debe salir en la carta |
 
 La tercera es la que demuestra el caso difícil: consultada un domingo a las 00:30 sigue vigente,
 aunque esté declarada en el día anterior. La cuarta demuestra lo contrario: desactivada, no aparece
@@ -502,7 +502,7 @@ respondiera `200`, habría un problema de verdad.
 | El total no lo pone el cliente | `POST /caja/vender` añadiendo `total=1` | La orden se guarda con el total real |
 | No se vende lo agotado | `POST /caja/vender` con `cantidad[6]=1` | `422` |
 | No se abren dos turnos | `POST /caja/turno/abrir` con uno ya abierto | `409`, y no se crea la fila |
-| No se toca la parada de otro truck | `GET /panel/ubicaciones/{id de Festín Rodante}` como `pruebas.foodtruck` | `404`, idéntico a una inexistente |
+| No se toca la parada de otro truck | Ingresa como `foodtruck` (Festín Rodante) y pide `GET /panel/ubicaciones/{id del Truck de Pruebas}` | `404`, idéntico a una inexistente |
 | No se acepta un día inventado | `POST /panel/ubicaciones` con `dia_semana=9` | `422`, con el mensaje junto al campo |
 | No se acepta una hora imposible | `POST /panel/ubicaciones` con `hora_inicio=25:99` | `422` |
 | La parada desactivada no se publica | `GET /carta/truck-de-pruebas` | El cuerpo **no** contiene «Parada desactivada» |

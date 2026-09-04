@@ -41,7 +41,7 @@ llamado de número**, no en mesa.
 
 ## Stack cerrado
 
-PHP 8.2 con POO, **MVC propio escrito a mano**, PDO con sentencias preparadas, MySQL 8, HTML, CSS y
+PHP 8.3 con POO, **MVC propio escrito a mano**, PDO con sentencias preparadas, MySQL 8, HTML, CSS y
 JavaScript sin bibliotecas, Apache con `mod_rewrite`. **Sin Composer, sin frameworks, sin paquetes
 de terceros.** No propongas instalar nada: la restricción es del proyecto formativo. El SVP se
 refresca **por sondeo con `fetch`**, no por WebSockets.

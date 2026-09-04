@@ -1041,6 +1041,65 @@
               }
             }
           ]
+        },
+        {
+          "name": "HEAD / (mismo codigo que GET, sin cuerpo)",
+          "request": {
+            "method": "HEAD",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ""
+              ]
+            },
+            "description": "HEAD es GET sin cuerpo: el enrutador lo resuelve con la tabla de GET. Antes respondia 404 en todas las rutas."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Sin cuerpo', function () { pm.expect(pm.response.text() || '').to.eql(''); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "HEAD /carta/no-existe (404, sin cuerpo)",
+          "request": {
+            "method": "HEAD",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/carta/no-existe",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "carta",
+                "no-existe"
+              ]
+            },
+            "description": "Una ruta que no existe sigue respondiendo 404 tambien por HEAD, y tampoco lleva cuerpo."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () { pm.response.to.have.status(404); });",
+                  "pm.test('Sin cuerpo', function () { pm.expect(pm.response.text() || '').to.eql(''); });"
+                ]
+              }
+            }
+          ]
         }
       ]
     },

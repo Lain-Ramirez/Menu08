@@ -107,9 +107,18 @@ final class ManejadorErrores
 
         http_response_code($codigo);
 
-        if (self::$enJson) {
-            header('Content-Type: application/json; charset=utf-8');
+        header(self::$enJson
+            ? 'Content-Type: application/json; charset=utf-8'
+            : 'Content-Type: text/html; charset=utf-8');
 
+        // HEAD responde con el mismo codigo y las mismas cabeceras que GET, pero
+        // sin cuerpo. Hay que comprobarlo aqui ademas de en el enrutador: el
+        // bucle de arriba cierra todos los buffers, incluido el que lo suprimia.
+        if (strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? '')) === 'HEAD') {
+            return;
+        }
+
+        if (self::$enJson) {
             $cuerpo = ['error' => 'fallo_interno', 'codigo' => $codigo];
 
             if ($e !== null && !Configuracion::esProduccion()) {
@@ -120,8 +129,6 @@ final class ManejadorErrores
 
             return;
         }
-
-        header('Content-Type: text/html; charset=utf-8');
 
         $detalle = null;
 

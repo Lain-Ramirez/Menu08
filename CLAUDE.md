@@ -85,7 +85,7 @@ Todo en `aplicacion/nucleo/`. No añadas dependencias nuevas: casi siempre ya ex
 | `Vista` | Renderiza plantillas | `Vista::e()` escapa, `Vista::url()` construye enlaces |
 | `Sesion` | Sesión endurecida | `usuario()`, `rol()`, `foodTruckId()`, `mensaje()` |
 | `Csrf` | Token contra falsificación | `campo()` en formularios, `token()`, `rotar()` |
-| `Validador` | Validación de formularios | `texto()`, `precio()`, `entero()`, `error()`, `correcto()`, `errores()`, `valor()` |
+| `Validador` | Validación de formularios | `texto()`, `precio()`, `entero()`, `diaSemana()`, `hora()`, `coordenada()`, `error()`, `correcto()`, `errores()`, `valor()` |
 | `ConexionBD` | PDO único | `ConexionBD::obtener()` |
 | `Configuracion` | Lee `configuracion.php` | `obtener('base_datos.servidor')`, `esProduccion()` |
 | `ManejadorErrores` | Convierte todo fallo en respuesta | `responderEnJson()` |

@@ -66,6 +66,16 @@ ManejadorErrores::registrar();
 
 Configuracion::cargar($raiz . '/configuracion/configuracion.php');
 
+// El reloj de PHP, en la misma zona que el de MySQL: si los dos no coinciden,
+// "que parada esta abierta ahora" contesta una cosa y la base otra. Se comprueba
+// antes de fijarla porque un nombre mal escrito emite un aviso, y el manejador
+// de errores ya esta registrado: seria un 500 en el arranque.
+$zonaHoraria = (string) Configuracion::obtener('zona_horaria', 'America/Bogota');
+
+date_default_timezone_set(
+    in_array($zonaHoraria, timezone_identifiers_list(), true) ? $zonaHoraria : 'America/Bogota'
+);
+
 // La sesion se abre antes de despachar: las vistas y los controladores
 // consultan el usuario autenticado desde el primer momento.
 Sesion::iniciar();

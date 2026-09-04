@@ -6,6 +6,7 @@ namespace Menu08\Controladores;
 
 use Menu08\Modelos\FoodTruck;
 use Menu08\Modelos\Producto;
+use Menu08\Modelos\Ubicacion;
 use Menu08\Nucleo\Controlador;
 use Menu08\Nucleo\RutaNoEncontrada;
 
@@ -34,9 +35,15 @@ final class CartaControlador extends Controlador
             $porCategoria[$fila['categoria']][] = $fila;
         }
 
+        // La agenda de paradas responde la pregunta que el cliente hace en la
+        // fila: donde esta el truck. agendaPublica() ya deja fuera las paradas
+        // desactivadas, igual que catalogoPublico() con los productos agotados.
         $this->vista('carta/publica', [
             'truck'        => $truck,
             'porCategoria' => $porCategoria,
+            'agenda'       => Ubicacion::agendaPublica((int) $truck['id']),
+            'vigente'      => Ubicacion::vigente((int) $truck['id']),
+            'dias'         => Ubicacion::DIAS,
         ], (string) $truck['nombre']);
     }
 }

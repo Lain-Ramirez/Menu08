@@ -10,7 +10,7 @@ recibir en cada uno.
 
 ## Atajo: importa la colección y ya está
 
-En `postman/Menu08.postman_collection.json` está **todo hecho**: las 31 rutas, las credenciales,
+En `postman/Menu08.postman_collection.json` está **todo hecho**: las 35 rutas, las credenciales,
 los cuerpos de ejemplo y las comprobaciones automáticas.
 
 1. Abre Postman.
@@ -161,8 +161,19 @@ Los identificadores hacen falta para vender: cada casilla de cantidad se llama
 Categorías: **3** Entradas · **4** Fuertes · **5** Bebidas · **6** Postres · **7** *Categoría
 desactivada*.
 
-La agenda de paradas tiene cuatro filas, y una cruza la medianoche a propósito (18:00 → 01:00),
-porque es el caso normal de un truck nocturno.
+La agenda de paradas tiene cuatro filas, y cada una está para algo:
+
+| Día | Punto | Horario | Estado | Para qué |
+|---|---|---|---|---|
+| Miércoles | Parque de Pruebas | 11:00 → 15:00 | activa | jornada normal |
+| Viernes | Plaza de Pruebas | 12:00 → 20:00 | activa | jornada larga |
+| **Sábado** | **Zona Rosa de Pruebas** | **18:00 → 01:00** | activa | **cruza la medianoche** |
+| Lunes | Parada desactivada | 09:00 → 13:00 | **inactiva** | no debe salir en la carta |
+
+La tercera es la que demuestra el caso difícil: consultada un domingo a las 00:30 sigue vigente,
+aunque esté declarada en el día anterior. La cuarta demuestra lo contrario: desactivada, no aparece
+ni como vigente ni en la agenda de `/carta/truck-de-pruebas`. Sus identificadores **cambian al
+resembrar**, igual que los de los productos; se leen del listado del panel.
 
 Si hace falta dejarlo todo como estaba, se vuelve a ejecutar
 [`menu08_app/basedatos/datos_pruebas.sql`](menu08_app/basedatos/datos_pruebas.sql): borra su propio
@@ -341,7 +352,7 @@ valor de lo vendido: es lo correcto, el servidor recalcula el total desde las ó
 
 # Referencia de todas las rutas
 
-31 rutas. Leyenda de roles: **pública** · `plataforma` · `food_truck` · `cajero` · `produccion`.
+35 rutas. Leyenda de roles: **pública** · `plataforma` · `food_truck` · `cajero` · `produccion`.
 
 Sin sesión, las rutas privadas redirigen a `/ingresar` con **302**. Las excepciones son los dos
 servicios JSON del SVP, que responden **401** con un objeto de error.
@@ -386,14 +397,29 @@ Todos los POST necesitan `_token` **y lo invalidan**: hay que repetir el GET ant
 | `GET` | `/panel/productos/{id}` | — | `200` · `404` si es de otro truck |
 | `POST` | `/panel/productos` | `id` (**`0` para crear**), `categoria_id`, `nombre`, `descripcion`, `precio`, `orden`, `disponible`, `_token`, y `foto` como archivo | `302` |
 | `POST` | `/panel/productos/disponibilidad` | `id`, `_token` | `302`. **Alterna** disponible/agotado |
+| `GET` | `/panel/ubicaciones` | — | `200` con la agenda y la parada vigente. Admite `?momento=AAAA-MM-DDTHH:MM` |
+| `GET` | `/panel/ubicaciones/{id}` | — | `200` con esa parada en edición · `404` si es de otro truck |
+| `POST` | `/panel/ubicaciones` | `id` (**`0` para crear**), `nombre`, `referencia`, `dia_semana`, `hora_inicio`, `hora_fin`, `latitud`, `longitud`, `_token` | `302` · `422` si el día está fuera de 1-7 o la hora está mal formada |
+| `POST` | `/panel/ubicaciones/estado` | `id`, `_token` | `302`. **Alterna** activa/inactiva |
 | `GET` | `/panel/qr` | — | `200` con el QR de la carta |
 | `GET` | `/panel/qr/descargar` | — | `200` con `Content-Type: image/png`. Postman lo muestra como imagen |
 
 Para mandar el `logo` o la `foto`, el cuerpo tiene que ser **form-data** en vez de
 `x-www-form-urlencoded`, con ese campo de tipo **File**. Los demás campos van en el mismo form-data.
 
-Los dos POST que **alternan** no reciben el valor nuevo: leen el actual y lo invierten. Si lo
+Los tres POST que **alternan** no reciben el valor nuevo: leen el actual y lo invierten. Si lo
 ejecutas dos veces, queda como estaba.
+
+En las paradas, `dia_semana` va de **1 (lunes) a 7 (domingo)**; `hora_inicio` y `hora_fin`, en
+`HH:MM` o `HH:MM:SS`. Y lo que más sorprende la primera vez: **una `hora_fin` menor o igual que
+`hora_inicio` es correcta y significa que la jornada cierra al día siguiente** — de 18:00 a 01:00
+es el horario normal de un truck nocturno, no un error de captura. `referencia`, `latitud` y
+`longitud` son opcionales; vacías se guardan como `NULL`.
+
+El parámetro `?momento=` del listado sirve para preguntar «¿qué parada está abierta a esta otra
+hora?» sin esperar a que llegue. Es de solo lectura y sigue filtrando por el food truck de la
+sesión. Con `?momento=2026-09-06T00:30` —un domingo a las 00:30— la parada del sábado de 18:00 a
+01:00 aparece como vigente; con `?momento=2026-09-06T01:30`, ya no.
 
 ## CAJA · roles `cajero` y `food_truck`
 
@@ -476,6 +502,10 @@ respondiera `200`, habría un problema de verdad.
 | El total no lo pone el cliente | `POST /caja/vender` añadiendo `total=1` | La orden se guarda con el total real |
 | No se vende lo agotado | `POST /caja/vender` con `cantidad[6]=1` | `422` |
 | No se abren dos turnos | `POST /caja/turno/abrir` con uno ya abierto | `409`, y no se crea la fila |
+| No se toca la parada de otro truck | `GET /panel/ubicaciones/{id de Festín Rodante}` como `pruebas.foodtruck` | `404`, idéntico a una inexistente |
+| No se acepta un día inventado | `POST /panel/ubicaciones` con `dia_semana=9` | `422`, con el mensaje junto al campo |
+| No se acepta una hora imposible | `POST /panel/ubicaciones` con `hora_inicio=25:99` | `422` |
+| La parada desactivada no se publica | `GET /carta/truck-de-pruebas` | El cuerpo **no** contiene «Parada desactivada» |
 
 ---
 

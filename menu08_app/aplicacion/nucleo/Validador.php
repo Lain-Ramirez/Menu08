@@ -128,6 +128,103 @@ final class Validador
         return $this->limpios[$campo] = $n;
     }
 
+    /**
+     * Dia de la semana tal como lo numera la tabla ubicaciones: 1 lunes ... 7 domingo.
+     *
+     * Va aparte de entero() para que el mensaje diga cual es cual: "entre 1 y 7"
+     * no le dice nada a quien esta rellenando el formulario.
+     */
+    public function diaSemana(string $campo, mixed $valor, string $etiqueta = 'El dia'): ?int
+    {
+        $v = trim((string) $valor);
+
+        if ($v === '' || !preg_match('/^\d+$/', $v)) {
+            $this->errores[$campo] = sprintf('%s de la semana es obligatorio.', $etiqueta);
+
+            return null;
+        }
+
+        $n = (int) $v;
+
+        if ($n < 1 || $n > 7) {
+            $this->errores[$campo] = sprintf('%s debe ir de 1 (lunes) a 7 (domingo).', $etiqueta);
+
+            return null;
+        }
+
+        return $this->limpios[$campo] = $n;
+    }
+
+    /**
+     * Hora del reloj de 24 horas, normalizada a HH:MM:SS.
+     *
+     * El control <input type="time"> manda HH:MM y la columna es TIME, que
+     * admite hasta 838 horas: el tipo no protege de un 25:99, asi que se acota
+     * aqui. Las dos horas de una parada son NOT NULL, de modo que vacio es error.
+     */
+    public function hora(string $campo, mixed $valor, string $etiqueta = 'La hora'): ?string
+    {
+        $v = trim((string) $valor);
+
+        if ($v === '') {
+            $this->errores[$campo] = sprintf('%s es obligatoria.', $etiqueta);
+
+            return null;
+        }
+
+        if (!preg_match('/^([01]\d|2[0-3]):([0-5]\d)(?::([0-5]\d))?$/', $v, $p)) {
+            $this->errores[$campo] = sprintf('%s debe tener el formato HH:MM, de 00:00 a 23:59.', $etiqueta);
+
+            return null;
+        }
+
+        // Cuando el grupo de los segundos no participa, preg_match no crea su
+        // posicion en $p: por eso el ?? antes de comparar.
+        $segundos = ($p[3] ?? '') !== '' ? $p[3] : '00';
+
+        return $this->limpios[$campo] = sprintf('%s:%s:%s', $p[1], $p[2], $segundos);
+    }
+
+    /**
+     * Coordenada OPCIONAL, con hasta siete decimales para DECIMAL(10,7).
+     *
+     * Se devuelve como cadena, igual que precio(): pasar por float perderia
+     * precision justo en los decimales que dan el metro de exactitud.
+     */
+    public function coordenada(string $campo, mixed $valor, float $minimo, float $maximo, string $etiqueta = 'La coordenada'): ?string
+    {
+        $v = str_replace(' ', '', trim((string) $valor));
+
+        if ($v === '') {
+            // Campo opcional vacio: se guarda como NULL, no como cadena vacia.
+            $this->limpios[$campo] = null;
+
+            return null;
+        }
+
+        // El teclado en espanol escribe la coma decimal.
+        $v = str_replace(',', '.', $v);
+
+        if (!preg_match('/^-?\d{1,3}(\.\d{1,7})?$/', $v)) {
+            $this->errores[$campo] = sprintf('%s debe ser un numero con hasta 7 decimales.', $etiqueta);
+
+            return null;
+        }
+
+        if ((float) $v < $minimo || (float) $v > $maximo) {
+            $this->errores[$campo] = sprintf(
+                '%s debe estar entre %s y %s.',
+                $etiqueta,
+                rtrim(rtrim(number_format($minimo, 1, '.', ''), '0'), '.'),
+                rtrim(rtrim(number_format($maximo, 1, '.', ''), '0'), '.')
+            );
+
+            return null;
+        }
+
+        return $this->limpios[$campo] = $v;
+    }
+
     public function error(string $campo, string $mensaje): void
     {
         $this->errores[$campo] = $mensaje;

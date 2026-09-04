@@ -10,6 +10,9 @@ use Menu08\Nucleo\Vista;
  *
  * @var array<string, mixed>                    $truck
  * @var array<string, list<array<string,mixed>>> $porCategoria
+ * @var list<array<string, mixed>>               $agenda
+ * @var array<string, mixed>|null                $vigente
+ * @var array<int, string>                       $dias
  */
 ?>
 <article class="carta">
@@ -37,6 +40,41 @@ use Menu08\Nucleo\Vista;
             <?php endif; ?>
         </p>
     </header>
+
+    <?php if ($agenda !== []) : ?>
+        <section class="carta-agenda">
+            <h2>Donde estamos</h2>
+
+            <?php if ($vigente !== null) : ?>
+                <p>
+                    <strong>Ahora en <?= Vista::e($vigente['nombre']) ?></strong>
+                    <?php if (!empty($vigente['referencia'])) : ?>
+                        · <?= Vista::e($vigente['referencia']) ?>
+                    <?php endif; ?>
+                    · hasta las <?= Vista::e(substr((string) $vigente['hora_fin'], 0, 5)) ?>
+                </p>
+            <?php endif; ?>
+
+            <ul class="carta-lista">
+                <?php foreach ($agenda as $u) : ?>
+                    <li class="carta-item">
+                        <div class="carta-texto">
+                            <h3><?= Vista::e($u['nombre']) ?></h3>
+                            <?php if (!empty($u['referencia'])) : ?>
+                                <p><?= Vista::e($u['referencia']) ?></p>
+                            <?php endif; ?>
+                        </div>
+
+                        <span class="carta-precio">
+                            <?= Vista::e($dias[(int) $u['dia_semana']] ?? '') ?>
+                            <?= Vista::e(substr((string) $u['hora_inicio'], 0, 5)) ?>
+                            a <?= Vista::e(substr((string) $u['hora_fin'], 0, 5)) ?>
+                        </span>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </section>
+    <?php endif; ?>
 
     <?php if ($porCategoria === []) : ?>
         <p class="aviso aviso-aviso">La carta se esta preparando. Vuelva en un momento.</p>

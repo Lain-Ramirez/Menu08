@@ -39,7 +39,7 @@ dejan de servir.
 | `Enrutador` | Registra rutas por método y patrón, extrae parámetros nombrados |
 | `Controlador` | Base de los controladores: respuesta HTML, JSON y redirección |
 | `Vista` | Renderiza plantillas dentro de `plantillas/base`, escapa la salida, arma direcciones |
-| `ConexionBD` | Instancia única de PDO |
+| `ConexionBD` | Instancia única de PDO, con la zona horaria de la aplicación fijada en la sesión de MySQL |
 | `Bitacora` | Escribe en `almacenamiento/bitacora`, un archivo por día |
 | `ManejadorErrores` | Traduce avisos, excepciones y fatales a una respuesta controlada |
 | `RutaNoEncontrada` | Excepción que el manejador convierte en 404 |

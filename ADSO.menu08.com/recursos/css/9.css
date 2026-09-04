@@ -1,0 +1,35 @@
+/* 9 — Brasa (comidas rápidas). WCAG AAA.
+   Identidad: rojo tomate (primary) + dorado (secondary) — la dupla apetitosa
+   clásica del fast food, sobre neutros crema cálidos. Distinta de 0 (naranja
+   quemado industrial + cian) y de 1 (carmesí corporativo + gris).
+   Tonos MD3 (~40/~80). Contrato de 31 tokens: ver l/md/0.css.
+   warning NARANJA (no ámbar): aquí el dorado es la marca (secondary). La banda
+   cálida queda densa (primary-container vs warning-container): distinguir
+   estados también por icono/texto, no solo por color.
+   Solo color: :root claro + html.o oscuro.
+   Autor: Jovanny Medina Cifuentes — Analista y Desarrollador de Software
+   (+57) 300 408 0808 · proyectos@Jovanny.CO */
+:root{
+  --surface:#fff8f4;
+  --surface-container-low:#fbf1ea;--surface-container:#f5ebe4;--surface-container-high:#efe5de;
+  --on-surface:#221a15;--on-surface-variant:#52443c;--surface-variant:#f4ded3;
+  --inverse-surface:#382e28;--inverse-on-surface:#ffede2;
+  --outline:#85736a;--outline-variant:#d7c2b7;
+  --primary:#aa2502;--on-primary:#ffffff;--primary-container:#ffdbcf;--on-primary-container:#3b0900;
+  --secondary:#725304;--on-secondary:#ffffff;--secondary-container:#f5df93;--on-secondary-container:#251a00;
+  --tertiary:#2a642e;--on-tertiary:#ffffff;--tertiary-container:#c7f2c6;--on-tertiary-container:#143715;
+  --warning:#884802;--on-warning:#ffffff;--warning-container:#ffdcc2;--on-warning-container:#2e1500;
+  --error:#b30c12;--on-error:#ffffff;--error-container:#ffdad6;--on-error-container:#93000a;
+}
+html.o{
+  --surface:#180f0a;
+  --surface-container-low:#211712;--surface-container:#251b16;--surface-container-high:#302620;
+  --on-surface:#f0dfd7;--on-surface-variant:#d7c2b7;--surface-variant:#52443c;
+  --inverse-surface:#f0dfd7;--inverse-on-surface:#382e28;
+  --outline:#a08d84;--outline-variant:#52443c;
+  --primary:#ffb59f;--on-primary:#5f1300;--primary-container:#8a1f00;--on-primary-container:#ffdbcf;
+  --secondary:#e9c25b;--on-secondary:#3f2e00;--secondary-container:#5c4300;--on-secondary-container:#f5df93;
+  --tertiary:#b0eaaf;--on-tertiary:#274c28;--tertiary-container:#2e532e;--on-tertiary-container:#c7f2c6;
+  --warning:#ffb877;--on-warning:#4c2700;--warning-container:#6d3a00;--on-warning-container:#ffdcc2;
+  --error:#ffb4ab;--on-error:#690005;--error-container:#93000a;--on-error-container:#ffdad6;
+}

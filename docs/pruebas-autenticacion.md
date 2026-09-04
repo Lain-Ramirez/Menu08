@@ -1,7 +1,12 @@
 # Pruebas de autenticación, roles y CSRF
 
-Ejecutadas contra **https://adso.menu08.com** (LiteSpeed, PHP 8.2, MySQL 8.0.46), no en local.
+Ejecutadas contra **https://adso.menu08.com** (LiteSpeed, PHP 8.3.33, MySQL 8.0.46), no en local.
 **19 comprobaciones, 0 fallos.**
+
+> **Corrección del 4 de septiembre de 2026.** Este encabezado decía «PHP 8.2», que era el valor
+> declarado del proyecto y no una medida. La versión real del servidor se leyó ese día en la
+> cabecera `x-powered-by: PHP/8.3.33` de una respuesta de producción. Los resultados de abajo no
+> cambian; lo que se corrige es el dato del entorno.
 
 ## Ingreso
 

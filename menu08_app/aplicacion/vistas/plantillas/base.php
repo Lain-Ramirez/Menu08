@@ -42,7 +42,7 @@ if (Sesion::autenticado()) {
     echo Vista::renderizar('plantillas/navegacion');
 }
 ?>
-    <main class="contenido contenedor pila pila-5">
+    <main class="contenido pila pila-5">
         <?php $mensajes = Sesion::sacarMensajes(); ?>
 
         <?php if ($mensajes !== []) : ?>

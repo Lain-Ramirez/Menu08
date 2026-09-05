@@ -315,6 +315,25 @@
 
 .tabla th.cifra, .tabla td.cifra { text-align: right; font-variant-numeric: tabular-nums; }
 
+/* Acciones de una fila. Sin flex-wrap: dentro de una columna estrecha, .fila
+   las partiria en dos lineas y la tabla quedaria con las filas de distinta
+   altura. Alineadas a la derecha, junto al borde, que es donde el ojo las
+   busca al recorrer la fila. */
+.tabla-acciones {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--esp-2);
+}
+
+/* Columna que debe ocupar solo lo que mide su contenido: la miniatura, un
+   numero corto, una etiqueta de estado, los botones de accion. El 1% no es un
+   ancho literal —la tabla reparte el sobrante entre las columnas y una tan
+   pequeña se encoge a su contenido—: sin esto, la columna de la foto acaba tan
+   ancha como la del nombre del producto. */
+.tabla .columna-minima { width: 1%; white-space: nowrap; }
+
 /* Fila con foco. Una fila puede ser recorrible con teclado —el listado de
    ordenes del SVP— y entonces el anillo va por dentro: en el borde exterior
    lo recortaria .tabla-envoltura, que tiene overflow. */
@@ -363,6 +382,10 @@
 
   /* Una celda vacia —la de acciones— no debe dejar una linea en blanco. */
   .tabla-apilable td:empty { display: none; }
+
+  /* Apilada, cada celda ocupa su propia fila: el ancho minimo y el nowrap
+     sobran, y el nowrap ademas desbordaria. */
+  .tabla-apilable .columna-minima { width: auto; white-space: normal; }
 }
 
 /* =============================================================== 5. AVISO ==
@@ -625,7 +648,18 @@
 }
 
 /* --- Contenido y pie --- */
-.contenido { display: block; }
+/* El contenido comparte el ancho del marco: cabecera, navegacion, contenido y
+   pie arrancan en la misma linea vertical. Las vistas que piden menos ancho
+   —la carta, el comprobante, el acceso— se limitan ellas con su propia clase,
+   asi que subir este ancho no las descuadra. */
+.contenido {
+  display: block;
+  width: 100%;
+  max-width: var(--ancho-marco);
+  margin-inline: auto;
+  padding: var(--esp-5) var(--esp-4);
+}
+
 .contenido.pila { display: flex; }
 
 .pie {
@@ -648,7 +682,163 @@
 
 .acceso-titulo { font: var(--tipo-titulo-m); }
 
-/* ============================================== 9. SOLO PARA EL MUESTRARIO ==
+/* ============================== 9. PANEL DE CARTA (issue #16) ==============
+   Lo especifico de las tres pantallas de administracion. Todo lo demas —boton,
+   campo, tarjeta, tabla, aviso y etiqueta— sale del catalogo de arriba. */
+
+/* Grupo de campos dentro de una tarjeta. El formulario se lee como una lista de
+   bloques con titulo, no como un muro de controles seguidos. */
+/* El formulario no ocupa todo el ancho del marco. Un campo de texto de mil
+   pixeles es incomodo: el ojo pierde la referencia entre el rotulo, lo que
+   escribe y el mensaje de apoyo. Las tablas si usan el ancho entero, porque ahi
+   el espacio se reparte entre columnas y ninguna se estira sola. */
+.panel-formulario { max-width: 56rem; }
+
+.panel-grupo { gap: var(--esp-5); padding: var(--esp-5); }
+.panel-grupo .tarjeta-titulo { font: var(--tipo-titulo-p); }
+
+/* Sobre una tarjeta el campo hereda el fondo del contenedor, para que la muesca
+   del rotulo se pinte del mismo color que el borde que interrumpe. */
+.panel-grupo .campo { --campo-fondo: var(--surface); }
+
+/* El asterisco de obligatorio. abbr sin borde punteado, que en varios
+   navegadores se dibuja y parece un error de maquetacion. */
+.campo-obligatorio {
+  color: var(--error);
+  text-decoration: none;
+  border-bottom: none;
+  cursor: help;
+}
+
+/* Campo de archivo. El control nativo no admite el rotulo flotante —siempre
+   tiene contenido, asi que nunca casa con :placeholder-shown—, de modo que su
+   etiqueta se queda fija arriba. */
+.campo-archivo {
+  height: auto;
+  min-height: 56px;
+  padding-top: var(--esp-5);
+  cursor: pointer;
+}
+
+.campo-etiqueta-fija {
+  top: -8px;
+  font: var(--tipo-cuerpo-p);
+}
+
+/* Nombre y orden en una linea: el orden es un numero corto y no merece media
+   pantalla. Por debajo de 768 px se apilan. */
+.panel-formulario-linea { display: grid; gap: var(--esp-4); grid-template-columns: repeat(1, minmax(0, 1fr)); }
+
+@media (min-width: 768px) {
+  /* El nombre se limita en vez de estirarse: con 1fr se llevaba todo el
+     sobrante del marco. */
+  .panel-formulario-linea { grid-template-columns: minmax(0, 28rem) 8rem; justify-content: start; }
+}
+
+.panel-campo-corto { max-width: 100%; }
+
+/* Filtro por categoria. Son enlaces, no botones: cada uno es una direccion. */
+.panel-filtro { display: flex; flex-direction: column; gap: var(--esp-2); }
+.panel-filtro-lista { list-style: none; padding: 0; }
+
+.panel-filtro-lista .etiqueta {
+  text-decoration: none;
+  min-height: 36px;
+  transition: background-color var(--transicion), color var(--transicion);
+}
+
+.panel-filtro-lista .etiqueta:hover { background: var(--surface-container-high); color: var(--on-surface); }
+.panel-filtro-lista .etiqueta:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+/* Sin elegir. Colores propios del filtro, no los de una etiqueta de estado:
+   antes reutilizaba .etiqueta-entregada y .etiqueta-preparacion, que significan
+   otra cosa —el estado de una orden—. Si algun dia cambia el color del aviso,
+   el filtro no tiene por que cambiar con el. */
+.panel-filtro-opcion {
+  background: transparent;
+  color: var(--on-surface-variant);
+  border-color: var(--outline);
+}
+
+/* La elegida. Mismo tratamiento que la seccion abierta de la navegacion, para
+   que "donde estoy" se lea igual en toda la aplicacion: fondo, texto y peso,
+   tres canales, no solo el color. */
+.panel-filtro-opcion[aria-current="page"] {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  border-color: transparent;
+  font-weight: 700;
+}
+
+.panel-filtro-opcion[aria-current="page"]:hover {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+}
+
+/* Miniatura del catalogo. Cuadrada y recortada, para que una foto apaisada y
+   una vertical ocupen lo mismo y la columna no baile. */
+/* La miniatura lleva ademas width y height en el HTML: con ellos el navegador
+   reserva el hueco ANTES de descargar la imagen. Sin eso la columna nace
+   vacia, y como es una columna minima se queda encogida hasta que la foto
+   llega —que con archivos de varios cientos de kilobytes se nota— y entonces
+   la tabla salta. */
+.panel-miniatura {
+  display: block;
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: var(--radio-p);
+  background: var(--surface-container);
+}
+
+.panel-miniatura-vacia {
+  display: grid;
+  place-items: center;
+  color: var(--outline);
+  border: 1px dashed var(--outline-variant);
+}
+
+.panel-miniatura-vacia svg { width: 24px; height: 24px; }
+
+/* Imagen actual y vista previa, una al lado de la otra. */
+.panel-medio { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--esp-4); }
+.panel-medio .campo { flex: 1 1 16rem; }
+
+.panel-logo, .panel-foto {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: var(--radio-m);
+  background: var(--surface-container);
+}
+
+/* La vista previa se distingue de la imagen ya guardada: sin esto, el usuario
+   no sabe cual de las dos es la que va a subir. */
+.panel-previa { outline: 2px dashed var(--secondary); outline-offset: 2px; }
+
+/* Casilla con texto de apoyo. El area pulsable llega al minimo de toque. */
+.panel-casilla {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-3);
+  min-height: var(--toque);
+  padding: var(--esp-2) 0;
+  cursor: pointer;
+}
+
+.panel-casilla input { width: 20px; height: 20px; margin-top: 2px; flex: none; accent-color: var(--primary); }
+.panel-casilla span { display: flex; flex-direction: column; gap: 2px; }
+.panel-casilla:hover { color: var(--on-surface); }
+
+/* La parada vigente de /panel/ubicaciones, que hasta ahora no tenia regla. */
+.panel-vigente {
+  padding: var(--esp-4);
+  border-radius: var(--radio-m);
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+}
+
+/* ============================================== 10. SOLO PARA EL MUESTRARIO ==
    Un catalogo tiene que enseñar a la vez estados que en uso son excluyentes.
    Estas tres clases los fuerzan; ninguna vista de la aplicacion las usa. */
 
@@ -682,7 +872,7 @@
   border-radius: var(--radio-m);
 }
 
-/* =============================== 10. PIEZAS DE MODULO, PROVISIONALES =======
+/* =============================== 11. PIEZAS DE MODULO, PROVISIONALES =======
    Venian del bloque <style> que plantillas/base.php llevaba antes de esta hoja.
    No son del catalogo y no se reutilizan: las reemplaza el #16 al maquetar
    cada vista con las clases de arriba. Se mantienen para que carta, caja y

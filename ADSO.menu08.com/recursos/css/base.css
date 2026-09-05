@@ -54,7 +54,13 @@
      de pie, en la ventanilla y con prisa. */
   --toque: 48px;
 
-  /* Anchos. Los tres que ya usaban las vistas. */
+  /* Anchos.
+
+     --ancho-marco es el del panel: lo comparten la cabecera, la navegacion, el
+     contenido y el pie, y por eso los cuatro empiezan en la misma linea
+     vertical. Si el contenido usara otro, se veria un escalon entre el marco y
+     lo que hay dentro. */
+  --ancho-marco: 1200px;
   --ancho-lectura: 52rem;
   --ancho-carta: 34rem;
   --ancho-comprobante: 22rem;
@@ -146,7 +152,11 @@ hr { height: 1px; border: none; background: var(--outline-variant); margin: var(
   padding: var(--esp-5) var(--esp-4);
 }
 
-.contenedor-ancho { max-width: 1200px; }
+.contenedor-ancho { max-width: var(--ancho-marco); }
+
+/* Prosa suelta: la linea larga cansa de leer. Para bloques de texto corrido
+   dentro de una pagina ancha. */
+.contenedor-lectura { max-width: var(--ancho-lectura); }
 .contenedor-carta { max-width: var(--ancho-carta); }
 .contenedor-comprobante { max-width: var(--ancho-comprobante); }
 

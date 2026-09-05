@@ -398,6 +398,7 @@ Todos los POST necesitan `_token` **y lo invalidan**: hay que repetir el GET ant
 | `POST` | `/panel/categorias` | `id` (**`0` para crear**), `nombre`, `orden`, `_token` | `302` |
 | `POST` | `/panel/categorias/estado` | `id`, `_token` | `302`. **Alterna** activa/inactiva: no lleva el valor nuevo, lo invierte |
 | `GET` | `/panel/productos` | — | `200` |
+| `GET` | `/panel/productos?categoria={id}` | — | `200` · solo los de esa categoría. Un valor no numérico, `0` o negativo se ignora y devuelve todas; un `id` de otro food truck devuelve la lista vacía, nunca productos ajenos |
 | `GET` | `/panel/productos/nuevo` | — | `200` con el formulario vacío |
 | `GET` | `/panel/productos/{id}` | — | `200` · `404` si es de otro truck |
 | `POST` | `/panel/productos` | `id` (**`0` para crear**), `categoria_id`, `nombre`, `descripcion`, `precio`, `orden`, `disponible`, `_token`, y `foto` como archivo | `302` |

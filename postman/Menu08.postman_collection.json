@@ -1711,6 +1711,44 @@
           ]
         },
         {
+          "name": "GET /panel/productos?categoria={id} (filtro)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/panel/productos?categoria={{categoriaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "panel",
+                "productos"
+              ],
+              "query": [
+                {
+                  "key": "categoria",
+                  "value": "{{categoriaId}}"
+                }
+              ]
+            },
+            "description": "Filtro por categoria. El id viaja en la URL para que la vista filtrada se pueda compartir y recargar. Un valor no numerico o <= 0 se ignora y devuelve todas; un id de otro food truck devuelve la lista vacia, porque la consulta filtra siempre por food_truck_id."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('La categoria elegida queda marcada', function () {",
+                  "    pm.expect(pm.response.text()).to.include('aria-current=\"page\"');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "GET /panel/productos/nuevo",
           "request": {
             "method": "GET",

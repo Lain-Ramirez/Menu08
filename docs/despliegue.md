@@ -158,10 +158,18 @@ de prueba dejaría basura en `ADSO.menu08.com/subidas/`, así que se deja sin co
 
 ### La versión de MySQL
 
-**MySQL 8.0.41.** La versión no aparece en ningún encabezado ni la expone ninguna ruta, y
-phpMyAdmin está detrás de cPanel, bloqueado desde fuera de las direcciones autorizadas: la
-comprobó el desarrollador en phpMyAdmin el 5 de septiembre de 2026, con `SELECT VERSION();`.
-Cumple el requisito de MySQL 8 que declara el `README.md`.
+**MySQL 8.0.46.** Consultado contra el servidor el 5 de septiembre de 2026 con `SELECT VERSION()`,
+que responde `8.0.46-cll-lve` —la compilación de CloudLinux que acompaña a LiteSpeed en este
+hosting—. Cumple el requisito de MySQL 8 que declara el `README.md`.
+
+La base **no se llama `menu08`**: es `sfacturs2_ADSO_9d9wd`, con el prefijo de cuenta que impone
+cPanel. Sus nueve tablas y las 25 columnas de texto están en `utf8mb4_unicode_ci`, como declara
+`esquema.sql`, pero **el cotejamiento por omisión de la base es `utf8mb4_0900_ai_ci`**, el del
+servidor. Mientras cada `CREATE TABLE` traiga su `COLLATE` explícito no pasa nada; una tabla nueva
+que lo omita heredaría el del servidor y mezclaría cotejamientos en los `JOIN`.
+
+Comparado columna por columna contra `menu08_app/basedatos/esquema.sql` el 5 de septiembre de 2026:
+**nueve tablas de nueve, sin una sola diferencia de nombre ni de columna.**
 
 ## Configuración del servidor
 

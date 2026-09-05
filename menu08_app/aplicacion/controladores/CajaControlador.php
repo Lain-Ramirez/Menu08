@@ -24,7 +24,9 @@ use Menu08\Nucleo\Validador;
  */
 final class CajaControlador extends Controlador
 {
-    private const ROLES = ['food_truck', 'cajero'];
+    /** Quien entra a CAJA. Publica: plantillas/navegacion.php la lee para
+        no repetir el mapa de permisos en la vista. */
+    public const ROLES = ['food_truck', 'cajero'];
 
     /**
      * Pantalla de venta. La construccion real de la orden llega con su issue;

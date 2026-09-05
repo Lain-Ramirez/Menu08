@@ -203,20 +203,40 @@ y el #16.
 
 ---
 
+## Comprobado
+
+El muestrario y el marco del panel se revisaron en navegador sobre el sitio publicado,
+`https://adso.menu08.com/componentes`, a los tres anchos de referencia —360, 768 y 1280 px—, y
+los componentes se ven correctos. La evidencia por criterio está en el
+[issue #14](https://github.com/Lain-Ramirez/Menu08/issues/14) y en el
+[PR #51](https://github.com/Lain-Ramirez/Menu08/pull/51), y la del marco en el
+[issue #15](https://github.com/Lain-Ramirez/Menu08/issues/15).
+
+## El marco del panel
+
+Cabecera, navegación y pie viven en `plantillas/cabecera.php`, `navegacion.php` y `pie.php`, y
+`base.php` se limita a encadenarlos. Sus clases están en la sección 8 de `componentes.css`.
+
+Dos cosas de ahí que conviene no deshacer:
+
+- **La navegación no escribe los roles.** Los lee de las constantes `ROLES` de `PanelControlador`,
+  `CajaControlador` y `SvpControlador`, que son las mismas que usa `exigirRol()`. Con una copia
+  propia, cualquier cambio de permisos dejaría enlaces que llevan a un 403.
+- **El colapso corta en `767.98px`, no en `767`.** El ancho de la ventana puede ser fraccionario
+  —con el zoom del navegador— y entre 767 y 768 no aplicaría ninguna de las dos consultas: quedaba
+  un botón visible que no alternaba nada. El valor está en dos sitios, `componentes.css` y el
+  `data-alterna-desde` de `cabecera.php`; si se cambia uno, el otro también.
+
+`Interfaz.menu()` acepta esa consulta de medios y solo gobierna dentro de ella. Fuera, quita el
+`hidden` del panel: ese atributo saca el elemento del árbol de accesibilidad, y una navegación
+visible en pantalla ancha no puede estar oculta para un lector de pantalla.
+
 ## Lo que estas hojas **no** cubren
 
 Dicho aquí para que nadie lo dé por hecho:
 
-- **No se contrastó contra la pantalla de producción de menu08.com.** Es una tarea del #14 que
-  queda abierta: la paleta, la tipografía y el espaciado salen de `md3.css` y de las escalas de
-  MD3, no de medir el sitio publicado.
-- **No se revisó en Chrome ni en Firefox.** Los tres anchos de referencia —360, 768 y 1280— están
-  resueltos en la hoja y en el muestrario, pero nadie los ha abierto todavía en un navegador
-  real. La comprobación se hace sobre `https://adso.menu08.com/componentes` una vez desplegado.
 - **El modo oscuro no tiene interruptor.** `md3.css` lo define bajo `html.o`, pero nada añade esa
   clase. Las hojas están listas; falta decidir dónde vive el control.
-- **El marco del panel no está.** Cabecera, navegación y pie son del #15, que también engancha
-  `Interfaz.menu()` a la navegación real.
 - **Dos funciones modernas de CSS**, las únicas de las que dependen las hojas: `color-mix()` en
   los estados deshabilitados (Chrome 111, Safari 16.2, Firefox 113) y `:has()` en el aviso
   (Chrome 105, Safari 15.4, Firefox 121). Si `:has()` faltara, el icono del aviso caería a la

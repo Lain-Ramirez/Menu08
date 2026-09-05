@@ -325,7 +325,7 @@ preparadas de PDO.
 
 ## Puesta en marcha
 
-**Requisitos:** PHP 8.3 con las extensiones `pdo_mysql` y `gd`, MySQL 8 o MariaDB 10.6,
+**Requisitos:** PHP 8.3 con las extensiones `pdo_mysql`, `mbstring` y `zlib`, MySQL 8 o MariaDB 10.6,
 y un servidor que lea `.htaccess` con reescritura compatible con `mod_rewrite`. En producción
 es LiteSpeed.
 

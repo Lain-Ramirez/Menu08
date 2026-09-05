@@ -60,7 +60,7 @@ funciona igual en el servidor y en el repositorio, donde las dos carpetas tambi�
 Estas tres deben responder:
 
 ```
-https://adso.menu08.com/                              comprobación del núcleo
+https://adso.menu08.com/                              portada con las cartas publicadas
 https://adso.menu08.com/comprobacion/festin-rodante   ruta con parámetro
 https://adso.menu08.com/no-existe                     404 con la vista propia
 ```

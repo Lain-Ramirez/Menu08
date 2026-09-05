@@ -25,7 +25,7 @@ use Menu08\Controladores\SvpControlador;
 use Menu08\Controladores\UbicacionControlador;
 
 // --- Publicas --------------------------------------------------------------
-$enrutador->get('/', [InicioControlador::class, 'comprobacion']);
+$enrutador->get('/', [InicioControlador::class, 'portada']);
 $enrutador->get('/comprobacion/{slug}', [InicioControlador::class, 'porSlug']);
 
 // Muestrario del catalogo de componentes. Sin sesion: no toca la base ni

@@ -937,7 +937,7 @@
                 ""
               ]
             },
-            "description": "Pagina de comprobacion del nucleo."
+            "description": "Portada publica: las cartas de los food trucks activos, cada una enlazada a /carta/{slug}, con la parada vigente de cada truck."
           },
           "event": [
             {
@@ -945,7 +945,10 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });"
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Enlaza las cartas por slug', function () {",
+                  "    pm.expect(pm.response.text()).to.include('/carta/');",
+                  "});"
                 ]
               }
             }

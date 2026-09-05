@@ -4,39 +4,55 @@ declare(strict_types=1);
 
 namespace Menu08\Controladores;
 
+use Menu08\Modelos\FoodTruck;
+use Menu08\Modelos\Ubicacion;
 use Menu08\Nucleo\ConexionBD;
 use Menu08\Nucleo\Controlador;
 use Menu08\Nucleo\RutaNoEncontrada;
+use Menu08\Nucleo\Sesion;
 
 /**
- * Controlador de comprobacion del nucleo.
+ * Portada publica.
  *
- * Demuestra que el ciclo completo funciona: el front controller recibe la
- * peticion, el enrutador la resuelve, el controlador consulta la base con PDO
- * y la vista se renderiza dentro de la plantilla comun.
- *
- * Se retira cuando el panel real ocupe la ruta raiz.
+ * Es lo primero que ve quien escribe la direccion, y quien llega asi casi
+ * siempre es un cliente buscando que comer: por eso el bloque principal son los
+ * food trucks, cada uno con su carta a un clic y con el punto donde esta ahora.
+ * El acceso del personal va despues, que es la minoria de las visitas.
  */
 final class InicioControlador extends Controlador
 {
-    public function comprobacion(): void
+    public function portada(): void
     {
-        $pdo = ConexionBD::obtener();
+        $trucks = FoodTruck::publicos();
 
-        $trucks = $pdo
-            ->query('SELECT nombre, slug, ciudad, activo FROM food_trucks ORDER BY nombre')
-            ->fetchAll();
-
-        $estados = $pdo
-            ->query('SELECT codigo, nombre FROM estados_orden ORDER BY orden')
-            ->fetchAll();
+        // Donde para cada truck en este momento. Son pocas consultas —una por
+        // truck activo— y es el dato que decide si el cliente se acerca o no,
+        // asi que compensa: sin el, la portada no responde "donde estan hoy".
+        foreach ($trucks as $i => $truck) {
+            $trucks[$i]['vigente'] = Ubicacion::vigente((int) $truck['id']);
+        }
 
         $this->vista(
-            'inicio/comprobacion',
-            ['trucks' => $trucks, 'estados' => $estados],
-            'Comprobacion del nucleo'
+            'inicio/portada',
+            [
+                'trucks'  => $trucks,
+                'usuario' => Sesion::autenticado() ? $this->usuario() : null,
+                'inicio'  => Sesion::autenticado() ? self::INICIO_POR_ROL[Sesion::rol()] ?? '/panel' : null,
+            ],
+            'Cartas de food trucks'
         );
     }
+
+    /**
+     * A donde lleva a cada rol su boton de "ir a mi zona". Es el mismo destino
+     * al que redirige el ingreso, en AutenticacionControlador.
+     */
+    private const INICIO_POR_ROL = [
+        'plataforma' => '/panel',
+        'food_truck' => '/panel',
+        'cajero'     => '/caja',
+        'produccion' => '/svp',
+    ];
 
     /**
      * Ruta con parametro. La consulta usa una sentencia preparada: el slug

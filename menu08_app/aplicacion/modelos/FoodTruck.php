@@ -39,6 +39,27 @@ final class FoodTruck
         return $fila === false ? null : $fila;
     }
 
+    /**
+     * Los food trucks que se muestran al publico en la portada.
+     *
+     * Solo los activos: uno dado de baja no debe aparecer, ni siquiera con la
+     * carta vacia. Se piden las columnas que la portada pinta, no SELECT *, para
+     * no arrastrar datos de contacto que ahi no se usan.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public static function publicos(): array
+    {
+        return ConexionBD::obtener()
+            ->query(
+                'SELECT id, nombre, slug, descripcion, ciudad, logo
+                   FROM food_trucks
+                  WHERE activo = 1
+                  ORDER BY nombre'
+            )
+            ->fetchAll();
+    }
+
     public static function slugRepetido(string $slug, int $excepto): bool
     {
         $s = ConexionBD::obtener()->prepare(

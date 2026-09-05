@@ -7,6 +7,7 @@ menu08_app/almacenamiento/bitacora/*
 ADSO.menu08.com/subidas/*
 !ADSO.menu08.com/subidas/.gitkeep
 !ADSO.menu08.com/subidas/.htaccess
+!ADSO.menu08.com/subidas/festin-*.jpg
 
 # Bitacoras bajadas del servidor para revisarlas. Nunca se versionan: llevan
 # rutas internas del hosting y los correos de quien intento entrar.

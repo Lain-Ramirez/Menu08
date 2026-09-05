@@ -42,7 +42,7 @@ final class PanelControlador extends Controlador
 
         $id = $this->foodTruckActual();
 
-        $this->vista('panel/food_truck', [
+        $this->vista('panel/negocio', [
             'truck'   => FoodTruck::porId($id),
             'errores' => [],
         ], 'Datos del food truck');
@@ -78,7 +78,7 @@ final class PanelControlador extends Controlador
         if (!$v->correcto()) {
             GestorImagenes::borrar($logo);
 
-            $this->vista('panel/food_truck', [
+            $this->vista('panel/negocio', [
                 'truck'   => array_merge((array) $truck, $_POST, ['slug' => $slug]),
                 'errores' => $v->errores(),
             ], 'Datos del food truck', 422);

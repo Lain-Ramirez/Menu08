@@ -24,8 +24,18 @@ final class ProductoControlador extends Controlador
 
         $ft = $this->foodTruckActual();
 
+        // Filtro por categoria. Llega como ?categoria=<id>; cualquier otra cosa
+        // —vacio, texto, cero— se trata como "todas". No hace falta comprobar
+        // que la categoria sea de este food truck: delFoodTruck() ya filtra por
+        // food_truck_id, asi que un id ajeno devuelve una lista vacia y nunca
+        // productos de otro negocio.
+        $categoriaId = (int) ($_GET['categoria'] ?? 0);
+        $categoriaId = $categoriaId > 0 ? $categoriaId : null;
+
         $this->vista('panel/productos', [
-            'productos' => Producto::delFoodTruck($ft),
+            'productos'  => Producto::delFoodTruck($ft, $categoriaId),
+            'categorias' => Categoria::delFoodTruck($ft),
+            'filtro'     => $categoriaId,
         ], 'Productos');
     }
 

@@ -18,9 +18,13 @@ use Menu08\Nucleo\Validador;
  */
 final class PanelControlador extends Controlador
 {
+    /** Quien entra al panel de CARTA. Publica: la lee plantillas/navegacion.php
+        para no repetir el mapa de permisos en la vista. */
+    public const ROLES = ['plataforma', 'food_truck'];
+
     public function inicio(): void
     {
-        $this->exigirRol('plataforma', 'food_truck');
+        $this->exigirRol(...self::ROLES);
 
         $id = Sesion::foodTruckId();
 

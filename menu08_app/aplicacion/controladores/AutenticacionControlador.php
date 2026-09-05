@@ -30,7 +30,7 @@ final class AutenticacionControlador extends Controlador
             $this->redirigir(self::INICIO_POR_ROL[Sesion::rol()] ?? '/panel');
         }
 
-        $this->vista('auth/ingresar', ['correo' => ''], 'Ingresar');
+        $this->vista('auth/acceso', ['correo' => ''], 'Ingresar');
     }
 
     public function ingresar(): void
@@ -49,7 +49,7 @@ final class AutenticacionControlador extends Controlador
             Bitacora::registrar(sprintf('Ingreso fallido para el correo "%s"', $correo), 'AVISO');
 
             $this->vista(
-                'auth/ingresar',
+                'auth/acceso',
                 ['correo' => $correo, 'error' => 'Correo o contraseña incorrectos.'],
                 'Ingresar',
                 401

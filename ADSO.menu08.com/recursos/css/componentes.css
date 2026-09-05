@@ -969,9 +969,13 @@
 
 /* =============================== 12. PIEZAS DE MODULO, PROVISIONALES =======
    Venian del bloque <style> que plantillas/base.php llevaba antes de esta hoja.
-   No son del catalogo y no se reutilizan: las reemplaza el #16 al maquetar
-   cada vista con las clases de arriba. Se mantienen para que carta, caja y
-   panel no se descuadren mientras tanto. */
+   No son del catalogo y no se reutilizan: las reemplaza cada issue al maquetar
+   su vista con las clases de arriba. Se mantienen para que caja y panel no se
+   descuadren mientras tanto.
+
+   Las clases .carta-* ya no estan aqui: se las llevo el #17 a su propia hoja,
+   recursos/css/carta.css, que solo cargan las pantallas publicas. Quedan las
+   .comprobante-*, que salen con el #19. */
 
 /* Linea base de los controles PELADOS, los que todavia no van dentro de un
    .campo. Sin esto, las vistas del panel y de caja se quedan con inputs sin
@@ -1003,25 +1007,6 @@ input[type="number"]:not(.campo-control) { width: 5rem; }
 
 button:not(.boton):not(.boton-simbolo) { cursor: pointer; background: var(--surface-container-high); }
 button:not(.boton):not(.boton-simbolo):hover { background: var(--surface-container); }
-
-.carta { max-width: var(--ancho-carta); margin-inline: auto; }
-.carta-cabecera { text-align: center; margin-bottom: var(--esp-5); }
-.carta-logo { max-height: 6rem; }
-.carta-contacto { color: var(--on-surface-variant); font: var(--tipo-cuerpo-m); }
-.carta-categoria h2 { border-bottom: 2px solid var(--outline-variant); padding-bottom: var(--esp-1); }
-.carta-lista { list-style: none; }
-.carta-item {
-  display: flex;
-  gap: var(--esp-3);
-  align-items: flex-start;
-  padding: var(--esp-3) 0;
-  border-bottom: 1px solid var(--outline-variant);
-}
-.carta-foto { width: 4.5rem; height: 4.5rem; object-fit: cover; flex: none; }
-.carta-texto { flex: 1; min-width: 0; }
-.carta-texto h3 { font: var(--tipo-cuerpo-g); font-weight: 500; }
-.carta-texto p { color: var(--on-surface-variant); font: var(--tipo-cuerpo-m); }
-.carta-precio { font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
 
 .comprobante { max-width: var(--ancho-comprobante); margin-inline: auto; }
 .comprobante header { text-align: center; }

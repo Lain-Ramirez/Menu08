@@ -26,24 +26,39 @@ final class CartaControlador extends Controlador
             throw new RutaNoEncontrada(sprintf('No hay un food truck activo con el slug "%s".', $slug));
         }
 
-        $catalogo = Producto::catalogoPublico((int) $truck['id']);
+        // catalogoCarta y no catalogoPublico: la carta si muestra lo agotado,
+        // atenuado y con su etiqueta. El de CAJA lo deja fuera.
+        $catalogo = Producto::catalogoCarta((int) $truck['id']);
 
         // Se agrupa por categoria conservando el orden que trae la consulta.
+        // Se guarda el id ademas del nombre porque la barra de categorias
+        // enlaza a cada bloque con un ancla: dos categorias podrian llamarse
+        // parecido, pero el id es unico y no cambia si se renombra una.
         $porCategoria = [];
 
         foreach ($catalogo as $fila) {
-            $porCategoria[$fila['categoria']][] = $fila;
+            $id = (int) $fila['categoria_id'];
+
+            $porCategoria[$id] ??= ['nombre' => (string) $fila['categoria'], 'productos' => []];
+            $porCategoria[$id]['productos'][] = $fila;
         }
 
         // La agenda de paradas responde la pregunta que el cliente hace en la
-        // fila: donde esta el truck. agendaPublica() ya deja fuera las paradas
-        // desactivadas, igual que catalogoPublico() con los productos agotados.
-        $this->vista('carta/publica', [
-            'truck'        => $truck,
-            'porCategoria' => $porCategoria,
-            'agenda'       => Ubicacion::agendaPublica((int) $truck['id']),
-            'vigente'      => Ubicacion::vigente((int) $truck['id']),
-            'dias'         => Ubicacion::DIAS,
-        ], (string) $truck['nombre']);
+        // fila: donde esta el truck. agendaPublica() deja fuera las paradas
+        // desactivadas.
+        // vistaPublica y no vista: esta pantalla la abre el cliente desde el
+        // codigo QR, sin sesion. No lleva el marco del panel.
+        $this->vistaPublica(
+            'carta/publica',
+            [
+                'truck'        => $truck,
+                'porCategoria' => $porCategoria,
+                'agenda'       => Ubicacion::agendaPublica((int) $truck['id']),
+                'vigente'      => Ubicacion::vigente((int) $truck['id']),
+                'dias'         => Ubicacion::DIAS,
+            ],
+            sprintf('%s · carta', $truck['nombre']),
+            ['carta.css']
+        );
     }
 }

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use Menu08\Nucleo\Csrf;
 use Menu08\Nucleo\Sesion;
 use Menu08\Nucleo\Vista;
 
 /**
- * Plantilla comun. $contenido ya viene renderizado y escapado por su vista,
- * por eso es lo unico que se imprime sin volver a escapar.
+ * Plantilla comun. Ya no maqueta nada: encadena las tres piezas del marco
+ * —cabecera, navegacion y pie— y coloca entre ellas el contenido de la vista.
  *
- * El marco del panel —cabecera, navegacion y pie— lo maqueta el issue #15.
+ * $contenido ya viene renderizado y escapado por su vista, por eso es lo unico
+ * que se imprime sin volver a escapar.
  *
  * @var string $titulo
  * @var string $contenido
@@ -34,45 +34,15 @@ $iconoAviso = static function (string $tipo): string {
         $trazos[$tipo]
     );
 };
+
+echo Vista::renderizar('plantillas/cabecera', ['titulo' => $titulo]);
+
+// La navegacion es del panel: sin sesion no hay modulos que ofrecer.
+if (Sesion::autenticado()) {
+    echo Vista::renderizar('plantillas/navegacion');
+}
 ?>
-<!doctype html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php // Los formularios llevan el token en un campo oculto, pero el tablero del
-          // SVP lo necesita desde JavaScript para POST /svp/orden/{id}/estado, y no
-          // tiene ningun formulario de donde sacarlo. Solo en zona privada. ?>
-    <?php if (Sesion::autenticado()) : ?>
-    <meta name="csrf-token" content="<?= Vista::e(Csrf::token()) ?>">
-    <?php endif; ?>
-    <title><?= Vista::e($titulo) ?> · Menu08</title>
-
-    <?php // El orden importa: md3.css declara los tokens de color, base.css los de
-          // tipografia, espaciado, radios y foco, y componentes.css los consume.
-          // Todo local: ni un marco CSS ni un recurso remoto. ?>
-    <link rel="stylesheet" href="<?= Vista::e(Vista::url('/recursos/css/md3.css')) ?>">
-    <link rel="stylesheet" href="<?= Vista::e(Vista::url('/recursos/css/base.css')) ?>">
-    <link rel="stylesheet" href="<?= Vista::e(Vista::url('/recursos/css/componentes.css')) ?>">
-
-    <?php // defer: no bloquea el pintado y corre con el DOM ya construido. Nada de
-          // lo que hay dentro es requisito para operar; todo es mejora progresiva. ?>
-    <script src="<?= Vista::e(Vista::url('/recursos/js/interfaz.js')) ?>" defer></script>
-</head>
-<body>
-    <header class="contenedor barra sin-impresion">
-        <span><strong>Menu08</strong> · carta, caja y produccion para food trucks</span>
-        <?php if (Sesion::autenticado()) : ?>
-            <span>
-                <?= Vista::e(Sesion::usuario()['nombre']) ?>
-                (<?= Vista::e(Sesion::rol()) ?>) ·
-                <a href="<?= Vista::e(Vista::url('/salir')) ?>">Salir</a>
-            </span>
-        <?php endif; ?>
-    </header>
-
-    <?php // Un solo <main> por documento: los mensajes van dentro, no en uno aparte. ?>
-    <main class="contenedor pila pila-5">
+    <main class="contenido contenedor pila pila-5">
         <?php $mensajes = Sesion::sacarMensajes(); ?>
 
         <?php if ($mensajes !== []) : ?>
@@ -96,9 +66,4 @@ $iconoAviso = static function (string $tipo): string {
 
         <?= $contenido ?>
     </main>
-
-    <footer class="contenedor texto-apagado texto-m sin-impresion">
-        Prototipo del proyecto formativo · SENA ADSO ficha 3235887
-    </footer>
-</body>
-</html>
+<?= Vista::renderizar('plantillas/pie') ?>

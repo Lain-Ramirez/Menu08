@@ -520,7 +520,135 @@
 
 .menu-desplegable a:hover { background: var(--surface-container); }
 
-/* ============================================== 8. SOLO PARA EL MUESTRARIO ==
+/* ================================= 8. MARCO DEL PANEL Y ACCESO (issue #15) ==
+   Cabecera, navegacion, pie y pantalla de acceso. Se escriben una vez y las
+   comparten todas las vistas internas de CARTA, CAJA y el SVP. */
+
+/* --- Cabecera --- */
+.cabecera {
+  background: var(--surface-container);
+  color: var(--on-surface);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.cabecera-interior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-4);
+  padding: var(--esp-2) var(--esp-4);
+  margin-inline: auto;
+}
+
+.cabecera-marca {
+  display: flex;
+  flex-direction: column;
+  min-height: var(--toque);
+  justify-content: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.cabecera-marca:hover { color: inherit; }
+.cabecera-marca:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+.cabecera-nombre { font: var(--tipo-titulo-p); }
+
+/* El lema es lo primero que sobra cuando falta ancho. */
+.cabecera-lema { color: var(--on-surface-variant); font-size: 12px; line-height: 16px; }
+
+.cabecera-sesion { display: flex; align-items: center; gap: var(--esp-2); }
+.cabecera-nombre-usuario { font: var(--tipo-etiqueta-g); }
+
+.cabecera-usuario { display: flex; align-items: center; gap: var(--esp-2); }
+
+/* --- Navegacion --- */
+.navegacion { background: var(--surface-container-low); border-bottom: 1px solid var(--outline-variant); }
+
+.navegacion-lista {
+  display: flex;
+  gap: var(--esp-2);
+  list-style: none;
+  margin-inline: auto;
+  padding: var(--esp-2) var(--esp-4);
+}
+
+.navegacion-enlace {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: var(--toque);
+  padding: var(--esp-1) var(--esp-4);
+  border-radius: var(--radio-p);
+  color: var(--on-surface-variant);
+  text-decoration: none;
+  transition: background-color var(--transicion), color var(--transicion);
+}
+
+.navegacion-enlace:hover { background: var(--surface-container-high); color: var(--on-surface); }
+.navegacion-enlace:focus-visible { outline: var(--foco); outline-offset: calc(var(--foco-separacion) * -1); }
+
+.navegacion-rotulo { font: var(--tipo-etiqueta-g); letter-spacing: .5px; }
+.navegacion-descripcion { font-size: 11px; line-height: 14px; }
+
+/* La seccion abierta. No se distingue solo por color: ademas del fondo lleva
+   el texto a --on-primary-container y un filete inferior, para que se lea
+   tambien en escala de grises. */
+.navegacion-activa {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  box-shadow: inset 0 -3px 0 0 var(--primary);
+}
+
+.navegacion-activa:hover { background: var(--primary-container); color: var(--on-primary-container); }
+
+/* --- Colapso por debajo de 768 px --- */
+/* Sobre ancho el menu esta siempre desplegado y el boton sobra. Por debajo se
+   invierte: manda el boton, y el panel arranca cerrado en cuanto hay
+   JavaScript. Sin JavaScript se queda abierto, que es utilizable.
+
+   El corte va en 767.98 y no en 767: el ancho de la ventana puede ser
+   fraccionario —con el zoom del navegador o en pantallas de alta densidad— y
+   entre 767 y 768 no aplicaria ninguna de las dos consultas. En esa franja
+   quedaba un boton visible que no alternaba nada. El mismo valor esta en el
+   data-alterna-desde de plantillas/cabecera.php: si se cambia uno, el otro
+   tambien. */
+@media (min-width: 768px) {
+  .cabecera-alterna { display: none; }
+}
+
+@media (max-width: 767.98px) {
+  .cabecera-lema { display: none; }
+  .navegacion-lista { flex-direction: column; gap: var(--esp-1); }
+  .navegacion-enlace { padding: var(--esp-2) var(--esp-4); }
+  .navegacion[hidden] { display: none; }
+}
+
+/* --- Contenido y pie --- */
+.contenido { display: block; }
+.contenido.pila { display: flex; }
+
+.pie {
+  border-top: 1px solid var(--outline-variant);
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-p);
+}
+
+.pie > div { padding: var(--esp-5) var(--esp-4); margin-inline: auto; }
+
+/* --- Pantalla de acceso --- */
+.acceso { display: flex; justify-content: center; padding-block: var(--esp-6); }
+
+.acceso-tarjeta {
+  width: 100%;
+  max-width: 24rem;
+  gap: var(--esp-5);
+  padding: var(--esp-6);
+}
+
+.acceso-titulo { font: var(--tipo-titulo-m); }
+
+/* ============================================== 9. SOLO PARA EL MUESTRARIO ==
    Un catalogo tiene que enseñar a la vez estados que en uso son excluyentes.
    Estas tres clases los fuerzan; ninguna vista de la aplicacion las usa. */
 
@@ -554,18 +682,11 @@
   border-radius: var(--radio-m);
 }
 
-/* ================================ 9. PIEZAS DE MODULO, PROVISIONALES =======
+/* =============================== 10. PIEZAS DE MODULO, PROVISIONALES =======
    Venian del bloque <style> que plantillas/base.php llevaba antes de esta hoja.
-   No son del catalogo y no se reutilizan: las reemplazan #15 y #16 al maquetar
+   No son del catalogo y no se reutilizan: las reemplaza el #16 al maquetar
    cada vista con las clases de arriba. Se mantienen para que carta, caja y
    panel no se descuadren mientras tanto. */
-
-.barra { display: flex; justify-content: space-between; align-items: center; gap: var(--esp-4); flex-wrap: wrap; }
-
-/* Los filetes que separaban cabecera y pie del contenido. Los sustituye el
-   marco del panel del #15. */
-body > header.barra { border-bottom: 1px solid var(--outline-variant); }
-body > footer { border-top: 1px solid var(--outline-variant); }
 
 /* Linea base de los controles PELADOS, los que todavia no van dentro de un
    .campo. Sin esto, las vistas del panel y de caja se quedan con inputs sin

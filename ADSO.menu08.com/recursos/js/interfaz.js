@@ -254,9 +254,12 @@ var Interfaz = (function () {
      *
      * @param {HTMLElement} boton
      * @param {HTMLElement} panel
+     * @param {string} [consulta] Consulta de medios en la que el alternado manda.
+     *                            Fuera de ella el panel queda visible y el boton
+     *                            no pinta nada. Sin consulta, manda siempre.
      * @returns {Object|null} { abrir, cerrar, alternar } o null si falta alguno.
      */
-    function menu(boton, panel) {
+    function menu(boton, panel, consulta) {
         if (!boton || !panel) {
             return null;
         }
@@ -271,20 +274,56 @@ var Interfaz = (function () {
 
         boton.dataset.menuEnlazado = '1';
 
+        /* Sin consulta de medios el alternado manda siempre. Con ella, solo
+           dentro. matchMedia siempre existe en los navegadores que soportan las
+           hojas de este proyecto. */
+        var medios = consulta ? window.matchMedia(consulta) : null;
+
+        function alternadoManda() {
+            return medios === null || medios.matches;
+        }
+
         function fijar(abierto) {
             boton.setAttribute('aria-expanded', abierto ? 'true' : 'false');
             panel.hidden = !abierto;
         }
 
-        /* El panel arranca cerrado solo cuando hay JavaScript. Sin el se queda
-           como lo dejo el servidor, desplegado y utilizable. */
-        fijar(false);
+        /* Fuera de la consulta el panel se muestra y se le quita hidden. Esto no
+           es cosmetica: hidden lo saca del arbol de accesibilidad, asi que una
+           navegacion "oculta" pero visible en pantalla ancha desapareceria para
+           un lector de pantalla. */
+        function sincronizar() {
+            if (alternadoManda()) {
+                fijar(false);
+            } else {
+                panel.hidden = false;
+                boton.removeAttribute('aria-expanded');
+            }
+        }
+
+        /* El panel arranca cerrado solo cuando hay JavaScript y solo donde el
+           alternado manda. Sin JavaScript se queda como lo dejo el servidor,
+           desplegado y utilizable. */
+        sincronizar();
+
+        if (medios !== null) {
+            /* addEventListener y no addListener: el segundo esta obsoleto. Al
+               cruzar el punto de quiebre hay que rehacer el estado, o el panel
+               se queda cerrado en ancho o abierto en estrecho. */
+            if (typeof medios.addEventListener === 'function') {
+                medios.addEventListener('change', sincronizar);
+            }
+        }
 
         if (!boton.hasAttribute('aria-controls') && panel.id !== '') {
             boton.setAttribute('aria-controls', panel.id);
         }
 
         boton.addEventListener('click', function () {
+            if (!alternadoManda()) {
+                return;
+            }
+
             fijar(boton.getAttribute('aria-expanded') !== 'true');
         });
 
@@ -308,6 +347,7 @@ var Interfaz = (function () {
     /* Enganche por atributos, para que una vista no necesite escribir JavaScript:
 
          <button data-alterna="menu-panel">          alterna #menu-panel
+         <button data-alterna="nav" data-alterna-desde="(max-width: 767px)">
          <form data-confirmar="Cerrar el turno?">    pregunta antes de enviar
          <a data-confirmar="..." data-confirmar-peligro>
          <button data-aviso="Copiado" data-aviso-tipo="exito">
@@ -321,7 +361,11 @@ var Interfaz = (function () {
         var botones = ambito.querySelectorAll('[data-alterna]');
 
         for (i = 0; i < botones.length; i += 1) {
-            menu(botones[i], document.getElementById(botones[i].getAttribute('data-alterna')));
+            menu(
+                botones[i],
+                document.getElementById(botones[i].getAttribute('data-alterna')),
+                botones[i].getAttribute('data-alterna-desde') || undefined
+            );
         }
 
         var confirmables = ambito.querySelectorAll('[data-confirmar]');

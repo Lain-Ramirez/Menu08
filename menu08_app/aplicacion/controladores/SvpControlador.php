@@ -18,7 +18,8 @@ use Menu08\Nucleo\RutaNoEncontrada;
  */
 final class SvpControlador extends Controlador
 {
-    private const ROLES = ['food_truck', 'produccion'];
+    /** Quien entra al SVP. Publica: la lee plantillas/navegacion.php. */
+    public const ROLES = ['food_truck', 'produccion'];
 
     /** Minutos a partir de los cuales una orden se marca como demorada. */
     private const MINUTOS_DEMORA = 10;

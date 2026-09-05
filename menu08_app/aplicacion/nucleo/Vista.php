@@ -63,10 +63,16 @@ final class Vista
      *
      * @param array<string, mixed> $datos
      */
-    public static function pagina(string $plantilla, array $datos = [], string $titulo = 'Menu08'): string
-    {
-        return self::renderizar('plantillas/base', [
+    public static function pagina(
+        string $plantilla,
+        array $datos = [],
+        string $titulo = 'Menu08',
+        string $marco = 'plantillas/base',
+        array $hojas = []
+    ): string {
+        return self::renderizar($marco, [
             'titulo'    => $titulo,
+            'hojas'     => $hojas,
             'contenido' => self::renderizar($plantilla, $datos),
         ]);
     }

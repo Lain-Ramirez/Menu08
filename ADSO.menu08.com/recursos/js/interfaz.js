@@ -6,6 +6,7 @@
      Interfaz.aviso(texto, tipo, ms)   aviso temporal que se retira solo
      Interfaz.confirmar(opciones)      dialogo de confirmacion, devuelve Promise
      Interfaz.menu(boton, panel)       alternado de menu
+     Interfaz.barraCategorias(barra)   resalta la categoria que se esta leyendo
 
    Sin bibliotecas y sin paso de compilacion: se carga con <script defer> desde
    la plantilla comun y publica un unico objeto global.
@@ -354,6 +355,84 @@ var Interfaz = (function () {
 
        En data-confirmar-* el texto llega escapado por Vista::e() y se inserta
        con textContent, nunca como HTML. */
+    /* Barra de categorias de la carta publica.
+
+       El salto al bloque NO lo hace esta funcion: son anclas de verdad y el
+       navegador ya las resuelve, con o sin JavaScript. Lo que aporta aqui es
+       decir cual se esta leyendo, que es lo que el ancla sola no puede.
+
+       Con IntersectionObserver y no escuchando 'scroll': el observador avisa
+       solo cuando una seccion entra o sale, en vez de correr en cada pixel de
+       desplazamiento. En un telefono de gama baja, que es donde se abre esta
+       carta, esa diferencia se nota.
+
+       El margen superior del observador descuenta la altura de la barra pegada,
+       para que la categoria se marque cuando su titulo asoma bajo ella y no
+       cuando ya se paso de largo. */
+    function barraCategorias(barra) {
+        if (!barra || typeof IntersectionObserver !== 'function') {
+            return null;
+        }
+
+        var enlaces = barra.querySelectorAll('a[href^="#"]');
+        var porId = {};
+        var secciones = [];
+        var i;
+
+        for (i = 0; i < enlaces.length; i += 1) {
+            var id = decodeURIComponent(enlaces[i].getAttribute('href').slice(1));
+            var seccion = document.getElementById(id);
+
+            if (seccion !== null) {
+                porId[id] = enlaces[i];
+                secciones.push(seccion);
+            }
+        }
+
+        if (secciones.length === 0) {
+            return null;
+        }
+
+        function marcar(id) {
+            for (var clave in porId) {
+                if (Object.prototype.hasOwnProperty.call(porId, clave)) {
+                    if (clave === id) {
+                        porId[clave].setAttribute('aria-current', 'true');
+                    } else {
+                        porId[clave].removeAttribute('aria-current');
+                    }
+                }
+            }
+        }
+
+        var visibles = {};
+
+        var observador = new IntersectionObserver(function (entradas) {
+            var j;
+
+            for (j = 0; j < entradas.length; j += 1) {
+                visibles[entradas[j].target.id] = entradas[j].isIntersecting;
+            }
+
+            /* Puede haber varias secciones a la vista a la vez. Manda la
+               primera en el orden del documento, que es la que el lector tiene
+               arriba: tomar la ultima haria saltar la marca hacia adelante. */
+            for (j = 0; j < secciones.length; j += 1) {
+                if (visibles[secciones[j].id]) {
+                    marcar(secciones[j].id);
+
+                    return;
+                }
+            }
+        }, { rootMargin: '-96px 0px -60% 0px', threshold: 0 });
+
+        for (i = 0; i < secciones.length; i += 1) {
+            observador.observe(secciones[i]);
+        }
+
+        return { detener: function () { observador.disconnect(); } };
+    }
+
     function iniciar(raiz) {
         var ambito = raiz || document;
         var i;
@@ -378,6 +457,12 @@ var Interfaz = (function () {
 
         for (i = 0; i < avisables.length; i += 1) {
             enlazarAviso(avisables[i]);
+        }
+
+        var barras = ambito.querySelectorAll('[data-carta-barra]');
+
+        for (i = 0; i < barras.length; i += 1) {
+            barraCategorias(barras[i]);
         }
     }
 
@@ -464,6 +549,7 @@ var Interfaz = (function () {
         aviso: aviso,
         confirmar: confirmar,
         menu: menu,
+        barraCategorias: barraCategorias,
         iniciar: iniciar
     };
 }());

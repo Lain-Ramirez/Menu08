@@ -24,6 +24,32 @@ abstract class Controlador
     }
 
     /**
+     * Respuesta HTML de una pantalla publica: la carta que abre el cliente al
+     * leer el codigo QR y la pantalla de turnos de la ventanilla.
+     *
+     * Usa 'plantillas/publica' en vez de 'plantillas/base', que es el marco del
+     * panel. Quien llega por el QR no tiene sesion ni la va a tener: la barra
+     * con el nombre del usuario, los enlaces a los modulos y el pie del
+     * proyecto formativo no le dicen nada y le roban pantalla al unico
+     * contenido que vino a ver.
+     *
+     * @param array<string, mixed> $datos
+     * @param list<string>         $hojas hojas de estilo propias de la pantalla
+     */
+    protected function vistaPublica(
+        string $plantilla,
+        array $datos = [],
+        string $titulo = 'Menu08',
+        array $hojas = [],
+        int $codigo = 200
+    ): void {
+        http_response_code($codigo);
+        header('Content-Type: text/html; charset=utf-8');
+
+        echo Vista::pagina($plantilla, $datos, $titulo, 'plantillas/publica', $hojas);
+    }
+
+    /**
      * Respuesta JSON. La consume el Sistema de Visualizacion de Produccion.
      *
      * @param array<array-key, mixed> $datos

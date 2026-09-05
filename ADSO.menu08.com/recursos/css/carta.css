@@ -1,0 +1,259 @@
+/* carta.css — la carta publica que se abre desde el codigo QR.
+   Menu08 · carta, caja y produccion para food trucks.
+
+   Solo la cargan las pantallas publicas, desde plantillas/publica.php. Recoge
+   lo que antes vivia como bloque provisional en componentes.css.
+
+   Telefono primero, y no por moda: el caso de uso es una persona de pie en la
+   fila de la ventanilla, con una mano ocupada y a plena luz. De ahi salen las
+   tres decisiones de esta hoja —una columna, area de toque de 48 px y foto
+   cuadrada pequena— y por eso los anchos mayores solo ensanchan, no reordenan.
+
+   Ni un color literal: todo sale de los tokens de md3.css, asi que el modo
+   oscuro funciona sin una sola regla propia.
+
+   Issue #17 · Fase 4 - Frontend */
+
+/* 1. Marco de la pagina publica -------------------------------------------- */
+
+.contenido-publico {
+  max-width: var(--ancho-carta);
+  margin-inline: auto;
+  padding: var(--esp-4) var(--esp-4) var(--esp-8);
+}
+
+/* 2. Cabecera del negocio --------------------------------------------------- */
+
+.carta-cabecera {
+  text-align: center;
+  margin-bottom: var(--esp-5);
+}
+
+.carta-logo {
+  max-height: 6rem;
+  border-radius: var(--radio-m);
+}
+
+.carta-descripcion {
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-m);
+}
+
+.carta-contacto {
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-m);
+}
+
+/* 3. Agenda de paradas ------------------------------------------------------ */
+
+.carta-agenda {
+  margin-bottom: var(--esp-5);
+  padding: var(--esp-4);
+  background: var(--surface-container-low);
+  border-radius: var(--radio-m);
+}
+
+.carta-vigente {
+  padding: var(--esp-3);
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+  border-radius: var(--radio-p);
+}
+
+.carta-paradas {
+  list-style: none;
+  margin-top: var(--esp-3);
+}
+
+.carta-parada {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+  align-items: baseline;
+  justify-content: space-between;
+  padding: var(--esp-2) 0;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.carta-parada:last-child { border-bottom: none; }
+
+/* El nombre manda: si no cabe con el horario al lado, este baja de renglon en
+   vez de estrujar el texto contra el margen. */
+.carta-parada .carta-texto { flex: 1 1 12rem; }
+
+.carta-horario {
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-m);
+  white-space: nowrap;
+}
+
+/* 4. Barra de categorias ----------------------------------------------------
+
+   Se queda pegada arriba al desplazar: en una carta de cinco categorias, volver
+   al principio para cambiar de bloque es justo lo que no se puede pedir a quien
+   esta en la fila.
+
+   El scroll horizontal es de la barra, nunca del documento: por eso el
+   overflow-x va aqui dentro y no en el cuerpo. */
+
+.carta-barra {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin: 0 calc(var(--esp-4) * -1) var(--esp-4);
+  padding: var(--esp-2) var(--esp-4);
+  background: var(--surface);
+  border-bottom: 1px solid var(--outline-variant);
+  overflow-x: auto;
+  /* La barra se desplaza sola; el gesto no debe arrastrar la pagina detras. */
+  overscroll-behavior-x: contain;
+}
+
+.carta-barra ul {
+  display: flex;
+  gap: var(--esp-2);
+  list-style: none;
+  margin: 0;
+  width: max-content;
+}
+
+.carta-barra a {
+  display: inline-flex;
+  align-items: center;
+  /* 48 px: el minimo de toque del proyecto, por encima de los 44 de WCAG. */
+  min-height: var(--toque);
+  padding: 0 var(--esp-4);
+  border-radius: var(--radio-completo);
+  background: var(--surface-container);
+  color: var(--on-surface);
+  font: var(--tipo-etiqueta-g);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.carta-barra a:hover { background: var(--surface-container-high); }
+
+.carta-barra a:focus-visible {
+  outline: var(--foco);
+  outline-offset: calc(var(--foco-separacion) * -1);
+}
+
+/* La categoria que se esta leyendo. La marca interfaz.js al desplazar; sin
+   JavaScript la barra sigue navegando igual, solo que sin resaltar. */
+.carta-barra a[aria-current="true"] {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+/* 5. Bloques de categoria y productos --------------------------------------- */
+
+.carta-categoria {
+  /* La barra pegada arriba taparia el titulo al saltar al ancla. */
+  scroll-margin-top: calc(var(--toque) + var(--esp-4));
+}
+
+.carta-categoria h2 {
+  border-bottom: 2px solid var(--outline-variant);
+  padding-bottom: var(--esp-1);
+}
+
+.carta-lista {
+  list-style: none;
+  margin-bottom: var(--esp-5);
+}
+
+.carta-item {
+  display: flex;
+  gap: var(--esp-3);
+  align-items: flex-start;
+  padding: var(--esp-3) 0;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.carta-item:last-child { border-bottom: none; }
+
+.carta-foto {
+  width: 4.5rem;
+  height: 4.5rem;
+  object-fit: cover;
+  border-radius: var(--radio-p);
+  flex: none;
+}
+
+/* Reemplazo del producto sin foto: mismo hueco, para que la lista no baile. */
+.carta-foto-vacia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+}
+
+.carta-foto-vacia svg { width: 40%; height: 40%; }
+
+.carta-texto {
+  flex: 1;
+  /* Sin el minimo en cero, una descripcion larga estira la fila y saca la barra
+     horizontal del documento entero. */
+  min-width: 0;
+}
+
+/* Nombre y precio comparten renglon; la descripcion va debajo a todo el ancho
+   de la columna. Con el precio en su propia columna, a 360 px el nombre se
+   parte en tres renglones y la ficha se lee peor. */
+.carta-fila {
+  display: flex;
+  gap: var(--esp-3);
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.carta-texto h3 {
+  font: var(--tipo-cuerpo-g);
+  font-weight: 500;
+}
+
+/* 14 px es el suelo que fija el issue: por debajo no se lee de pie y con sol. */
+.carta-texto p {
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-m);
+}
+
+.carta-precio {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* 6. Producto agotado -------------------------------------------------------
+
+   Se atenua, pero se queda: saber que hoy no hay chunchullo es informacion util
+   antes de llegar a la ventanilla. La atenuacion no decide sola —la tarjeta
+   lleva ademas la etiqueta "No disponible"—, porque md3.css advierte que la
+   banda calida de esta paleta es densa y el color solo no basta. */
+
+.carta-item-agotado .carta-foto,
+.carta-item-agotado .carta-precio {
+  opacity: .45;
+}
+
+.carta-item-agotado .carta-texto h3,
+.carta-item-agotado .carta-texto p {
+  color: color-mix(in srgb, var(--on-surface) 45%, transparent);
+}
+
+.carta-item-agotado .etiqueta { margin-top: var(--esp-2); }
+
+/* 7. Pantallas anchas -------------------------------------------------------
+
+   Solo ensanchan. La carta sigue siendo una columna: en tableta o escritorio se
+   lee igual de bien y no hay que mantener una segunda maquetacion. */
+
+@media (min-width: 768px) {
+  .contenido-publico { padding-top: var(--esp-6); }
+
+  .carta-foto,
+  .carta-foto-vacia {
+    width: 6rem;
+    height: 6rem;
+  }
+}

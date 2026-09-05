@@ -838,7 +838,102 @@
   color: var(--on-secondary-container);
 }
 
-/* ============================================== 10. SOLO PARA EL MUESTRARIO ==
+/* ================================= 10. PORTADA PUBLICA ====================
+   Lo primero que ve quien escribe la direccion. Casi siempre es un cliente con
+   hambre, asi que manda la lista de cartas. */
+
+.portada-encabezado { display: flex; flex-direction: column; gap: var(--esp-3); max-width: 46rem; }
+
+.portada-titulo { font: var(--tipo-titulo-g); margin-block: 0; }
+
+.portada-entrada { font-size: 18px; line-height: 28px; color: var(--on-surface-variant); }
+
+/* Barra de "ya entraste": informa y ofrece el atajo, sin tapar las cartas. */
+.portada-sesion { align-items: center; gap: var(--esp-4); flex-wrap: wrap; }
+.portada-sesion p { flex: 1 1 12rem; margin-block: 0; }
+
+.portada-lista {
+  display: grid;
+  gap: var(--esp-4);
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  list-style: none;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .portada-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* La tarjeta ENTERA es el enlace: en el telefono el blanco pulsable es toda la
+   ficha, no solo el nombre. */
+.portada-truck {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--esp-4);
+  min-height: var(--toque);
+  padding: var(--esp-4);
+  color: inherit;
+  text-decoration: none;
+  transition: box-shadow var(--transicion), background-color var(--transicion);
+}
+
+.portada-truck:hover { background: var(--surface-container); color: inherit; box-shadow: var(--elev-2); }
+.portada-truck:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+.portada-logo {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: var(--radio-m);
+  background: var(--surface-container);
+}
+
+/* Sin logotipo, la inicial del nombre. Mejor que un hueco gris: da algo
+   reconocible con lo que distinguir un truck de otro en la lista. */
+.portada-logo-vacio {
+  display: grid;
+  place-items: center;
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+  font: var(--tipo-titulo-m);
+  text-transform: uppercase;
+}
+
+.portada-truck-texto { display: flex; flex-direction: column; gap: var(--esp-1); min-width: 0; flex: 1; }
+.portada-truck-nombre { font: var(--tipo-titulo-p); }
+
+/* Una linea y a otra cosa: la descripcion orienta, no es para leerla entera. */
+.portada-truck-descripcion {
+  font: var(--tipo-cuerpo-m);
+  color: var(--on-surface-variant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.portada-parada { align-self: flex-start; margin-top: var(--esp-1); white-space: normal; height: auto; padding-block: var(--esp-1); }
+.portada-truck-ciudad { font: var(--tipo-cuerpo-p); color: var(--on-surface-variant); }
+
+/* La flecha dice "esto lleva a otro sitio" sin gastar una palabra. */
+.portada-truck-ir { flex: none; color: var(--primary); display: grid; place-items: center; }
+.portada-truck-ir svg { width: 24px; height: 24px; }
+
+/* El acceso del personal: presente, pero sin competir con las cartas. */
+.portada-personal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-4);
+  padding: var(--esp-5);
+  border-top: 1px solid var(--outline-variant);
+}
+
+.portada-personal-texto { display: flex; flex-direction: column; gap: var(--esp-1); }
+.portada-personal-titulo { font: var(--tipo-titulo-p); margin-block: 0; }
+
+/* ============================================== 11. SOLO PARA EL MUESTRARIO ==
    Un catalogo tiene que enseñar a la vez estados que en uso son excluyentes.
    Estas tres clases los fuerzan; ninguna vista de la aplicacion las usa. */
 
@@ -872,7 +967,7 @@
   border-radius: var(--radio-m);
 }
 
-/* =============================== 11. PIEZAS DE MODULO, PROVISIONALES =======
+/* =============================== 12. PIEZAS DE MODULO, PROVISIONALES =======
    Venian del bloque <style> que plantillas/base.php llevaba antes de esta hoja.
    No son del catalogo y no se reutilizan: las reemplaza el #16 al maquetar
    cada vista con las clases de arriba. Se mantienen para que carta, caja y

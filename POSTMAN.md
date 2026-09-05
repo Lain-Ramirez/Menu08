@@ -361,7 +361,7 @@ servicios JSON del SVP, que responden **401** con un objeto de error.
 
 | Método | Ruta | Cuerpo | Qué esperas |
 |---|---|---|---|
-| `GET` | `/` | — | `200` · comprobación del núcleo |
+| `GET` | `/` | — | `200` · portada pública con las cartas de los food trucks activos |
 | `GET` | `/comprobacion/{slug}` | — | `200` · datos del truck. `404` si el slug no existe |
 | `GET` | `/carta/{slug}` | — | `200` · la carta que abre el cliente al leer el QR |
 | `GET` | `/componentes` | — | `200` · muestrario del catálogo de componentes |

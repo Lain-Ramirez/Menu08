@@ -143,8 +143,9 @@ flowchart TD
 
 ### Estructura de carpetas
 
-El repositorio es un **espejo del servidor**: las dos carpetas de primer nivel se llaman
-igual que en el hosting y se copian tal cual, sin traducir nada.
+El repositorio es un **espejo del servidor**: `menu08_app/` y `ADSO.menu08.com/` se llaman
+igual que en el hosting y se copian tal cual, sin traducir nada. Las demás carpetas de primer
+nivel no se despliegan.
 
 ```
 menu08_app/                 🔒 privada · se copia a /home/sfacturs2/menu08_app/
@@ -174,6 +175,8 @@ ADSO.menu08.com/            🌐 pública · se copia a /home/sfacturs2/ADSO.men
   subidas/                  logos, fotos de producto y códigos QR
 
 docs/                       documentación del proyecto
+postman/                    colección ejecutable de las rutas — ver POSTMAN.md
+movil/                      submódulo · anexo Android (ver «Anexo: aplicación móvil»)
 ```
 
 **Nada sensible vive en la carpeta pública.** La configuración con las credenciales, los
@@ -330,8 +333,13 @@ y un servidor que lea `.htaccess` con reescritura compatible con `mod_rewrite`. 
 es LiteSpeed.
 
 ```bash
-git clone git@github.com:Lain-Ramirez/Menu08.git
+# movil/ es el anexo móvil: no hace falta para levantar el sitio, pero sin
+# --recurse-submodules la carpeta queda vacía y git no avisa
+git clone --recurse-submodules git@github.com:Lain-Ramirez/Menu08.git
 cd Menu08
+
+# si ya se clonó sin la bandera
+git submodule update --init movil
 
 # 1. Base de datos — en este orden
 mysql -u root -p < basedatos/esquema.sql
@@ -401,6 +409,33 @@ gantt
 | Pruebas | [Fase 5](https://github.com/Lain-Ramirez/Menu08/milestone/5) | Pendiente |
 | Despliegue | [Fase 6](https://github.com/Lain-Ramirez/Menu08/milestone/6) | Pendiente |
 | Documentación | [Fase 7](https://github.com/Lain-Ramirez/Menu08/milestone/7) | Pendiente |
+
+---
+
+## Anexo: aplicación móvil
+
+`movil/` es un **submódulo de git**: su código vive en la rama `production` del repositorio
+[GA8-220501096-AA2-EV02](https://github.com/Lain-Ramirez/GA8-220501096-AA2-EV02) y aquí solo se
+guarda el commit al que apunta. Las rutas de aquel repositorio se leen desde aquí con el prefijo
+`movil/`: lo que allá sea `aplicacion/src/main/`, aquí será `movil/aplicacion/src/main/`.
+
+No es un cuarto módulo: la plataforma sigue siendo CARTA, CAJA y SVP. Es la evidencia SENA
+**GA8-220501096-AA2-EV02 (APK)**, y por eso el alcance es corto a propósito. Será una aplicación
+Android nativa en Kotlin, sin bibliotecas de terceros, con dos funciones y ninguna más:
+
+- **Ingresar** con los usuarios que ya existen en Menu08.
+- **Reportar dónde está parado el truck.** Un botón lee el GPS y actualiza la latitud y la
+  longitud de la parada vigente; si no hay ninguna vigente, registra una parada nueva.
+
+La segunda sale de `UBICACIONES`: quien sabe dónde paró hoy el truck es quien está en la
+ventanilla, con el teléfono encima.
+
+**Todavía no hay código Android.** Aquel repositorio tiene hoy su README y quince issues abiertos,
+ninguno cerrado. Los dos servicios que la aplicación consumirá, `POST /movil/ingresar` y
+`POST /movil/ubicacion`, se programarán **en este repositorio** y aún no están en
+`menu08_app/configuracion/rutas.php`: issues
+[#2](https://github.com/Lain-Ramirez/GA8-220501096-AA2-EV02/issues/2) y
+[#3](https://github.com/Lain-Ramirez/GA8-220501096-AA2-EV02/issues/3) del anexo.
 
 ---
 

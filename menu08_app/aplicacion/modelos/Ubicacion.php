@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Menu08\Modelos;
 
 use Menu08\Nucleo\ConexionBD;
+use Menu08\Nucleo\DatosInvalidos;
+use PDO;
+use Throwable;
 
 /**
  * Agenda de paradas del food truck.
@@ -158,6 +161,192 @@ final class Ubicacion
     public static function cruzaMedianoche(string $horaInicio, string $horaFin): bool
     {
         return $horaFin <= $horaInicio;
+    }
+
+    /**
+     * Las nueve columnas que viajan al cliente movil.
+     *
+     * Se enumeran en vez de usar SELECT *: food_truck_id, creado_en y
+     * actualizado_en no le dicen nada al telefono, y el contrato de la
+     * respuesta tiene que ser el mismo en las dos ramas de asentarPunto().
+     */
+    private const COLUMNAS_CONTRATO =
+        'id, nombre, referencia, latitud, longitud, dia_semana, hora_inicio, hora_fin, activa';
+
+    /**
+     * Asienta en la agenda el punto que reporta la aplicacion movil.
+     *
+     * Dos ramas y una sola regla: si en este instante hay una parada vigente,
+     * el punto es SUYO y solo se le corrigen las coordenadas; si no la hay
+     * —el truck paro fuera de su horario programado— el reporte no se tira, se
+     * registra como parada nueva que el dueño podra renombrar o desactivar
+     * despues desde /panel/ubicaciones.
+     *
+     * Elegir entre una rama y otra depende de lo que la tabla tenga en ese
+     * momento, asi que todo va en una transaccion que empieza bloqueando la
+     * fila del food truck, igual que Orden::registrar() serializa la
+     * numeracion. Sin ese bloqueo, dos telefonos reportando a la vez fuera de
+     * horario crearian cada uno su parada.
+     *
+     * @param string      $latitud  ya validada y normalizada por Validador::coordenada()
+     * @param string      $longitud igual
+     * @param string|null $momento  'AAAA-MM-DD HH:MM:SS'; null es el reloj del servidor
+     *
+     * @return array{parada: array<string, mixed>, creada: bool}
+     *
+     * @throws DatosInvalidos si el food truck no existe
+     */
+    public static function asentarPunto(
+        int $foodTruckId,
+        string $latitud,
+        string $longitud,
+        ?string $momento = null
+    ): array {
+        // Un solo instante para la consulta y para los campos de la parada
+        // nueva. Leyendo el reloj dos veces, un reporte lanzado en el ultimo
+        // segundo de un dia podria buscar en un dia y escribir en el siguiente.
+        $momento ??= date('Y-m-d H:i:s');
+
+        $pdo = ConexionBD::obtener();
+        $pdo->beginTransaction();
+
+        try {
+            $bloqueo = $pdo->prepare('SELECT id FROM food_trucks WHERE id = :ft FOR UPDATE');
+            $bloqueo->execute(['ft' => $foodTruckId]);
+
+            if ($bloqueo->fetch() === false) {
+                throw new DatosInvalidos('El food truck no existe.');
+            }
+
+            $vigente = self::vigenteBloqueada($pdo, $foodTruckId, $momento);
+
+            if ($vigente !== null) {
+                // Solo el punto. El nombre, la referencia, el dia y las horas
+                // los puso el dueño al programar la parada y el reporte no
+                // viene a reescribirlos: por eso no se usa actualizar(), que
+                // pisa los siete campos del formulario del panel.
+                $u = $pdo->prepare(
+                    'UPDATE ubicaciones
+                        SET latitud = :lat, longitud = :lon
+                      WHERE id = :id AND food_truck_id = :ft'
+                );
+                $u->execute([
+                    'lat' => $latitud,
+                    'lon' => $longitud,
+                    'id'  => (int) $vigente['id'],
+                    'ft'  => $foodTruckId,
+                ]);
+
+                $id     = (int) $vigente['id'];
+                $creada = false;
+            } else {
+                // hora_fin igual a hora_inicio deja esta parada vigente desde
+                // el mismo segundo y durante 24 horas, por la segunda rama de
+                // vigente(). Asi el reporte siguiente cae en la rama de arriba
+                // y actualiza esta fila, en vez de sembrar una parada por cada
+                // pulsacion del boton.
+                $hora = substr($momento, 11, 5) . ':00';
+
+                $id = self::crear($foodTruckId, [
+                    'nombre'      => sprintf('Punto reportado %s', substr($momento, 0, 16)),
+                    'referencia'  => 'Registrado desde la aplicacion movil',
+                    'latitud'     => $latitud,
+                    'longitud'    => $longitud,
+                    'dia_semana'  => (int) date('N', (int) strtotime($momento)),
+                    'hora_inicio' => $hora,
+                    'hora_fin'    => $hora,
+                ]);
+
+                $creada = true;
+            }
+
+            // Se relee dentro de la transaccion para devolver lo que quedo
+            // escrito de verdad, con el formato de DECIMAL(10,7), y no lo que
+            // creemos haber escrito.
+            $p = $pdo->prepare(
+                'SELECT ' . self::COLUMNAS_CONTRATO . '
+                   FROM ubicaciones
+                  WHERE id = :id AND food_truck_id = :ft
+                  LIMIT 1'
+            );
+            $p->execute(['id' => $id, 'ft' => $foodTruckId]);
+
+            /** @var array<string, mixed> $parada */
+            $parada = $p->fetch();
+
+            $pdo->commit();
+
+            return ['parada' => $parada, 'creada' => $creada];
+        } catch (Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * La misma parada que devuelve vigente(), pero con la fila bloqueada.
+     *
+     * Se repite la condicion en vez de reutilizar vigente() por dos motivos que
+     * no se pueden esquivar:
+     *
+     * - Hace falta FOR UPDATE, y vigente() resuelve el instante en la tabla
+     *   derivada `ahora`, que lo impide.
+     * - Sin esa tabla derivada el instante hay que repetirlo siete veces, y
+     *   PDO va sin emulacion de preparadas: un marcador nombrado solo puede
+     *   aparecer una vez por sentencia. De ahi :momento1 ... :momento7.
+     *
+     * Las tres ramas y el envolvimiento del domingo al lunes con
+     * `- INTERVAL 1 DAY` son los de vigente(): si una cambia, la otra tambien.
+     *
+     * @return array<string, mixed>|null
+     */
+    private static function vigenteBloqueada(PDO $pdo, int $foodTruckId, string $momento): ?array
+    {
+        $s = $pdo->prepare(
+            'SELECT ' . self::COLUMNAS_CONTRATO . '
+               FROM ubicaciones
+              WHERE food_truck_id = :ft
+                AND activa = 1
+                AND (
+                     -- Jornada normal: 11:00 -> 15:00 del mismo dia.
+                     (hora_fin > hora_inicio
+                      AND dia_semana = WEEKDAY(CAST(:momento1 AS DATETIME)) + 1
+                      AND TIME(CAST(:momento2 AS DATETIME)) >= hora_inicio
+                      AND TIME(CAST(:momento3 AS DATETIME)) <  hora_fin)
+
+                     -- Jornada nocturna antes de medianoche: 18:00 -> 01:00 a las 23:00.
+                  OR (hora_fin <= hora_inicio
+                      AND dia_semana = WEEKDAY(CAST(:momento4 AS DATETIME)) + 1
+                      AND TIME(CAST(:momento5 AS DATETIME)) >= hora_inicio)
+
+                     -- La misma jornada pasada la medianoche: a las 00:30 sigue
+                     -- abierta, pero la parada esta declarada en el dia anterior.
+                  OR (hora_fin <= hora_inicio
+                      AND dia_semana = WEEKDAY(CAST(:momento6 AS DATETIME) - INTERVAL 1 DAY) + 1
+                      AND TIME(CAST(:momento7 AS DATETIME)) <  hora_fin)
+                )
+              ORDER BY hora_inicio, id
+              LIMIT 1
+              FOR UPDATE'
+        );
+
+        $s->execute([
+            'ft'       => $foodTruckId,
+            'momento1' => $momento,
+            'momento2' => $momento,
+            'momento3' => $momento,
+            'momento4' => $momento,
+            'momento5' => $momento,
+            'momento6' => $momento,
+            'momento7' => $momento,
+        ]);
+
+        $fila = $s->fetch();
+
+        return $fila === false ? null : $fila;
     }
 
     /**

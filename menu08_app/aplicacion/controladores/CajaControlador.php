@@ -29,8 +29,10 @@ final class CajaControlador extends Controlador
     public const ROLES = ['food_truck', 'cajero'];
 
     /**
-     * Pantalla de venta. La construccion real de la orden llega con su issue;
-     * aqui se resuelve la puerta: sin turno abierto no se entra.
+     * Pantalla de venta: catalogo, orden en construccion y cobro.
+     *
+     * La puerta se resuelve aqui: sin turno abierto no se entra, porque la
+     * orden no tendria a que pertenecer ni entraria en ningun cuadre.
      */
     public function inicio(): void
     {
@@ -65,30 +67,20 @@ final class CajaControlador extends Controlador
             $this->redirigir('/caja/turno');
         }
 
-        $lineas = [];
-
-        foreach ((array) ($_POST['cantidad'] ?? []) as $id => $cantidad) {
-            $cantidad = trim((string) $cantidad);
-
-            if ($cantidad === '' || !preg_match('/^\d+$/', $cantidad)) {
-                continue;
-            }
-
-            if ((int) $cantidad > 0) {
-                $lineas[(int) $id] = (int) $cantidad;
-            }
-        }
-
         try {
             $orden = Orden::registrar(
                 $ft,
                 (int) $turno['id'],
-                $lineas,
-                (string) ($_POST['medio_pago'] ?? ''),
-                trim((string) ($_POST['nota'] ?? '')) ?: null
+                self::cantidadesEnviadas(),
+                self::texto('medio_pago'),
+                self::texto('nota') ?: null
             );
         } catch (DatosInvalidos $e) {
-            $this->pantallaVenta($ft, $turno, $e->getMessage(), 422);
+            // El turno se vuelve a leer en vez de reutilizar el de arriba: entre
+            // que se cargo la pantalla y llego este envio pudieron cerrarlo
+            // desde otra sesion, y la pantalla tiene que decir la verdad sobre
+            // el estado del turno en lugar de repetir el que ya caduco.
+            $this->pantallaVenta($ft, TurnoCaja::vigente($ft), $e->getMessage(), 422);
 
             return;
         }
@@ -122,18 +114,80 @@ final class CajaControlador extends Controlador
     }
 
     /**
-     * @param array<string, mixed> $turno
+     * Pinta la pantalla de venta.
+     *
+     * El turno llega como puede venir y no como deberia: null es un estado real
+     * —lo devuelve TurnoCaja::vigente() cuando lo cerraron mientras la pantalla
+     * estaba abierta— y la vista lo dibuja deshabilitado en lugar de romperse.
+     *
+     * @param array<string, mixed>|null $turno
      */
-    private function pantallaVenta(int $foodTruckId, array $turno, ?string $error = null, int $codigo = 200): void
+    private function pantallaVenta(int $foodTruckId, ?array $turno, ?string $error = null, int $codigo = 200): void
     {
-        $this->vista('caja/inicio', [
-            'usuario'   => $this->usuario(),
+        $this->vista('caja/venta', [
             'turno'     => $turno,
-            'resumen'   => TurnoCaja::resumen((int) $turno['id']),
+            'resumen'   => $turno === null ? null : TurnoCaja::resumen((int) $turno['id']),
             'catalogo'  => Producto::catalogoPublico($foodTruckId),
-            'ordenes'   => Orden::delTurno((int) $turno['id']),
+            'ordenes'   => $turno === null ? [] : Orden::delTurno((int) $turno['id']),
             'error'     => $error,
-        ], 'Caja', $codigo);
+            // Tras un rechazo, lo que el cajero ya habia armado vuelve a la
+            // pantalla: caja.js lee estas cantidades de los campos y recompone
+            // la orden sola. En un GET no hay nada que devolver.
+            'seleccion' => self::cantidadesEnviadas(),
+            'medioPago' => self::texto('medio_pago'),
+            'nota'      => self::texto('nota'),
+        ], 'Caja', $codigo, ['caja.css'], ['caja.js']);
+    }
+
+    /**
+     * Cantidades del formulario, ya saneadas: producto_id => cantidad.
+     *
+     * Lo usan el registro de la venta y el repintado tras un rechazo, para que
+     * los dos entiendan por orden exactamente lo mismo.
+     *
+     * Lo que no sea un entero positivo se descarta en silencio, la clave
+     * incluida: el navegador envia un campo por producto del catalogo y casi
+     * todos valen cero. El tope de 99 por producto lo hace cumplir
+     * Orden::registrar, que es donde estan los precios.
+     *
+     * @return array<int, int>
+     */
+    private static function cantidadesEnviadas(): array
+    {
+        $lineas = [];
+
+        foreach ((array) ($_POST['cantidad'] ?? []) as $id => $cantidad) {
+            // Un valor anidado —cantidad[7][] — llegaria como arreglo, y
+            // convertirlo a texto avisa por la bitacora y devuelve "Array".
+            if (!is_scalar($cantidad) || !preg_match('/^\d+$/', (string) $id)) {
+                continue;
+            }
+
+            $cantidad = trim((string) $cantidad);
+
+            if ($cantidad === '' || !preg_match('/^\d+$/', $cantidad)) {
+                continue;
+            }
+
+            if ((int) $cantidad > 0) {
+                $lineas[(int) $id] = (int) $cantidad;
+            }
+        }
+
+        return $lineas;
+    }
+
+    /**
+     * Valor de texto del formulario, sin espacios sobrantes.
+     *
+     * Cualquier cosa que no sea una cadena —un arreglo enviado a proposito para
+     * provocar un aviso— se trata como ausente.
+     */
+    private static function texto(string $clave): string
+    {
+        $valor = $_POST[$clave] ?? '';
+
+        return is_string($valor) ? trim($valor) : '';
     }
 
     /**

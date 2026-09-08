@@ -27,3 +27,7 @@ Thumbs.db
 *~
 .vscode/
 .idea/
+
+# Guia del asistente. Fuera del repositorio: se sincroniza a mano entre
+# Lain-Ramirez y JovannyCO cada vez que cambia.
+CLAUDE.md

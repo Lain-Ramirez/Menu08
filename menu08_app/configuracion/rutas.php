@@ -18,6 +18,7 @@ use Menu08\Controladores\CartaControlador;
 use Menu08\Controladores\CategoriaControlador;
 use Menu08\Controladores\ComponentesControlador;
 use Menu08\Controladores\InicioControlador;
+use Menu08\Controladores\MovilControlador;
 use Menu08\Controladores\PanelControlador;
 use Menu08\Controladores\ProductoControlador;
 use Menu08\Controladores\QrControlador;
@@ -39,6 +40,15 @@ $enrutador->get('/carta/{slug}', [CartaControlador::class, 'publica']);
 $enrutador->get('/ingresar',  [AutenticacionControlador::class, 'formulario']);
 $enrutador->post('/ingresar', [AutenticacionControlador::class, 'ingresar']);
 $enrutador->get('/salir',     [AutenticacionControlador::class, 'salir']);
+
+// --- Servicios del modulo movil -------------------------------------------
+// Los consume el APK, que no tiene navegador: responden JSON siempre, tambien
+// al fallar. El ingreso no lleva token porque el token nace con la sesion.
+$enrutador->post('/movil/ingresar', [MovilControlador::class, 'ingresar']);
+
+// Reporte del punto del GPS. Rol food_truck y token, la misma puerta que
+// /panel/ubicaciones: por el telefono no se entra mas ancho que por el panel.
+$enrutador->post('/movil/ubicacion', [MovilControlador::class, 'ubicacion']);
 
 // --- Zonas privadas --------------------------------------------------------
 $enrutador->get('/panel', [PanelControlador::class, 'inicio']);   // plataforma, food_truck

@@ -10,9 +10,10 @@ Cubren las dos rutas que consumirá el APK y que no existían hasta ahora:
 | Ingreso de la aplicación móvil | `POST /movil/ingresar` | #2 |
 | Reporte del punto del GPS | `POST /movil/ubicacion` | #3 |
 
-Todo corre sobre el **Truck de Pruebas** (`food_truck_id = 4`), que es el único con agenda
-sembrada. Festín Rodante no se toca: su agenda es un bloque PENDIENTE en `datos_iniciales.sql` y no
-se inventa.
+Todo corre sobre el **Truck de Pruebas** (`food_truck_id = 4`). Festín Rodante no se toca, y por un
+motivo que conviene precisar: **en producción sí tiene agenda** —ocho paradas que su dueño cargó el
+5 de septiembre—, aunque el bloque `ubicaciones` de `datos_iniciales.sql` siga comentado como
+PENDIENTE. Escribir sobre ellas con reportes de prueba sería ensuciar datos reales.
 
 El reloj del servidor durante la sesión marcaba **martes 8 de septiembre, 08:09 hora de Bogotá**
 (`date: Tue, 08 Sep 2026 13:09:54 GMT`, y Bogotá es UTC−5). El martes **no hay ninguna parada
@@ -87,10 +88,38 @@ Los cuatro roles entran, y `plataforma` devuelve `food_truck_id` nulo, como debe
 | Cuerpo totalmente vacío | **422** | ídem |
 | Correo inexistente | **401** | `{"error":"credenciales_invalidas","mensaje":"Correo o contraseña incorrectos."}` |
 | Contraseña equivocada | **401** | ídem |
+| **Cuenta con `activo = 0`**, contraseña correcta | **401** | ídem |
 
-Los dos motivos de fallo que se pueden provocar desde fuera devuelven **el mismo cuerpo**: por la
-respuesta no se puede averiguar qué cuentas existen. Es la propiedad que ya tenía el recorrido del
-navegador y que había que conservar.
+### Los tres motivos son indistinguibles
+
+El tercero necesita una cuenta desactivada, y para no tumbar ninguna de las de demostración se creó
+una **cuenta de prueba ya desactivada**, copiando el hash de una existente para que su contraseña
+fuese válida —lo que se quiere ejercitar es el `activo = 0`, no un fallo de contraseña—:
+
+```sql
+INSERT INTO usuarios (food_truck_id, nombre, correo, contrasena, rol, activo)
+SELECT food_truck_id, 'Cuenta desactivada de prueba', 'pruebas.desactivado@menu08.local',
+       contrasena, rol, 0
+  FROM usuarios WHERE correo = 'cajero@menu08.local';
+```
+
+Con esa cuenta y **la contraseña correcta**, el servicio responde 401. Los tres cuerpos se
+compararon con `cmp`:
+
+```
+cuenta desactivada (clave BUENA)  http=401  {"error":"credenciales_invalidas","mensaje":"Correo o contraseña incorrectos."}
+correo inexistente                http=401  {"error":"credenciales_invalidas","mensaje":"Correo o contraseña incorrectos."}
+contrasena equivocada             http=401  {"error":"credenciales_invalidas","mensaje":"Correo o contraseña incorrectos."}
+
+IDENTICOS. sha256 comun: fc1273f34d343075d58ecf3e2e6b3858
+```
+
+**Idénticos byte a byte.** Por la respuesta no se puede averiguar qué cuentas existen ni cuáles
+están activas. El recorrido del navegador conserva la misma propiedad: esa cuenta contra
+`POST /ingresar` devuelve 401 con la vista `auth/acceso` y el mismo texto.
+
+La fila se borró al terminar; la tabla `usuarios` vuelve a tener sus siete cuentas, todas con
+`activo = 1`.
 
 Las cinco variantes de datos incompletos responden **antes de consultar la tabla**, porque la guarda
 está escrita por encima de `Usuario::porCorreo()`.
@@ -221,27 +250,114 @@ reporte 2  http=200  id 20  creada False
 Uno creó y el otro actualizó **la misma fila**. Sin el bloqueo previo de la fila del food truck, los
 dos habrían visto la tabla sin parada vigente y habrían insertado cada uno la suya.
 
+## 9 · Comprobación contra las tablas
+
+Las secciones anteriores leen la respuesta HTTP. Ésta lee la base de datos directamente, con el
+cliente de MySQL y la conexión remota autorizada, para confirmar que lo que dijo el servicio es lo
+que quedó escrito.
+
+Las cuatro filas que tocaron las pruebas:
+
+```
++----+----+----------------------------------+-----------+-------------+-----+-------------+----------+--------+
+| id | ft | nombre                           | latitud   | longitud    | dia | hora_inicio | hora_fin | activa |
++----+----+----------------------------------+-----------+-------------+-----+-------------+----------+--------+
+| 18 |  4 | Punto reportado 2026-09-08 08:09 | 4.7110000 | -74.0721000 |   2 | 08:09:00    | 08:09:00 |      0 |
+| 19 |  4 | Parque programado por el dueno   | 4.6512345 | -74.0987654 |   2 | 07:00:00    | 23:00:00 |      0 |
+| 20 |  4 | Punto reportado 2026-09-08 08:12 | 4.6000001 | -74.0100001 |   2 | 08:12:00    | 08:12:00 |      0 |
+| 21 |  4 | Punto reportado 2026-09-08 08:28 | 4.6000000 | -74.0200000 |   2 | 08:28:00    | 08:28:00 |      0 |
++----+----+----------------------------------+-----------+-------------+-----+-------------+----------+--------+
+```
+
+Cinco cosas que la tabla confirma y que la respuesta HTTP solo insinuaba:
+
+- **La parada 19 conserva lo del dueño.** `nombre`, `referencia`, `dia_semana` y las dos horas
+  —07:00 a 23:00— siguen como se crearon desde el panel. Solo cambiaron las coordenadas: el
+  `UPDATE` del servicio toca dos columnas y ninguna más.
+- **La 18 acumuló cuatro reportes en una sola fila.** Su latitud final, `4.7110000`, es la del
+  último envío, el de la coma decimal ya normalizada. No hay ninguna fila hermana.
+- **La 20 salió de los dos reportes simultáneos** y su latitud es `4.6000001`, la del segundo: el
+  primero creó la fila y el segundo la actualizó. **Una sola fila**, que es lo que el `FOR UPDATE`
+  tenía que garantizar.
+- **Las cuatro quedaron en `activa = 0`.** La limpieza fue completa.
+- **Las cuatro son del `food_truck_id = 4`.** Ninguna del 1.
+
+Ese último punto, comprobado al revés —buscando en toda la tabla las filas que escribió el móvil:
+
+```sql
+SELECT id, food_truck_id, nombre, creado_en FROM ubicaciones
+ WHERE referencia = 'Registrado desde la aplicacion movil' OR nombre LIKE 'Punto reportado%';
+```
+
+```
+| 18 |  4 | Punto reportado 2026-09-08 08:09 | 2026-09-08 08:09:56 |
+| 20 |  4 | Punto reportado 2026-09-08 08:12 | 2026-09-08 08:12:15 |
+| 21 |  4 | Punto reportado 2026-09-08 08:28 | 2026-09-08 08:28:26 |
+```
+
+**Las tres en el truck de la sesión.** La 21 se envió con `food_truck_id=1` en el cuerpo, intentando
+escribir en Festín Rodante, y aun así quedó en el 4: el identificador sale de la sesión y lo que
+diga la petición se descarta. Es el invariante de aislamiento entre food trucks, comprobado sobre la
+tabla y no sobre la respuesta.
+
+Estado final del banco:
+
+```
+| ft | truck            | paradas | activas |
+|  1 | Festin Rodante   |       8 |       8 |   <- intactas
+|  4 | Truck de Pruebas |      10 |       3 |   <- las tres sembradas
+```
+
+## 10 · La bitácora del servidor
+
+Bajada de `menu08_app/almacenamiento/bitacora/` al terminar la sesión. **Se queda fuera del
+repositorio**: lleva rutas internas del hosting y los correos de quien intentó entrar, y `.gitignore`
+cubre `*.log`.
+
+```
+[2026-09-08 08:05:07] AVISO: Menu08\Nucleo\RutaNoEncontrada: No hay ruta registrada para POST /movil/ingresar en …/nucleo/Enrutador.php:81
+[2026-09-08 08:05:27] AVISO: Menu08\Nucleo\RutaNoEncontrada: No hay ruta registrada para POST /movil/ubicacion en …/nucleo/Enrutador.php:81
+[2026-09-08 08:09:24] AVISO: Ingreso movil fallido para el correo "nadie@menu08.local"
+[2026-09-08 08:09:24] AVISO: Ingreso movil fallido para el correo "foodtruck@menu08.local"
+[2026-09-08 08:09:55] AVISO: Token CSRF invalido en POST /movil/ubicacion
+[2026-09-08 09:36:41] AVISO: Ingreso fallido para el correo "foodtruck@menu08.local"
+```
+
+Tres cosas quedan probadas:
+
+- **Ninguna contraseña se escribe.** Buscadas explícitamente en el archivo la clave de demostración
+  y las cadenas equivocadas que se enviaron: **cero coincidencias**. El apunte guarda el correo,
+  que es lo que sirve para investigar, y nada más.
+- **Los dos caminos se distinguen.** `Ingreso movil fallido` sale del servicio nuevo y
+  `Ingreso fallido` de `AutenticacionControlador::ingresar()`, el del navegador. Dos entradas del
+  primero —el correo inexistente y la contraseña equivocada— y una del segundo, la comprobación de
+  que el recorrido del panel sigue intacto. Ante un incidente se sabe por dónde entró el intento.
+- **El rechazo por token también deja rastro**, sin cuerpo de la petición.
+
+Las dos primeras líneas son del despliegue fallido que abre este documento: el enrutador no conocía
+las rutas y las registró como `RutaNoEncontrada`. Confirma la causa que se dio allí.
+
 ---
 
 ## Lo que estas pruebas no cubren
 
-- **La cuenta desactivada.** El tercer motivo que el servicio iguala a propósito —`activo = 0`—
-  **no se probó**: exige un `UPDATE` sobre `usuarios` y no hay acceso a la base de datos desde
-  fuera. Comparte rama con los otros dos motivos, pero la rama no se ejecutó con ese valor.
-- **Las dos ramas nocturnas de `vigenteBloqueada()`.** La sesión fue un martes por la mañana y la
-  única parada que cruza la medianoche —Zona Rosa de Pruebas, sábado de 18:00 a 01:00— no estaba en
-  su franja. Las tres ramas están copiadas de `Ubicacion::vigente()`, que sí tiene su comprobación
+- **El 500 `fallo_interno`.** No se provocó ningún fallo no previsto, así que la salida en JSON del
+  manejador de errores para estos dos servicios queda sin ejercitar. Se decidió no forzarlo: romper
+  algo a propósito en producción no compensa, y el mecanismo es el mismo que ya usa el SVP.
+- **Las dos ramas nocturnas de `vigenteBloqueada()`.** La sesión fue un martes por la mañana y
+  ninguna parada que cruce la medianoche estaba en su franja: ni Zona Rosa de Pruebas —sábado de
+  18:00 a 01:00— ni las dos de Festín Rodante que cierran a las 02:00. Las tres ramas están
+  copiadas de `Ubicacion::vigente()`, que sí tiene su comprobación
   en [`pruebas-agenda-paradas.md`](pruebas-agenda-paradas.md), pero **la copia bloqueante no se ha
   ejercitado de noche**. Es lo primero que hay que probar en la próxima sesión nocturna.
 - **El token vencido.** Se probó el token ausente, no uno caducado por los 120 minutos de vida.
-- **El 500 `fallo_interno`.** No se provocó ningún fallo no previsto, así que la salida en JSON del
-  manejador de errores para estos dos servicios queda sin ejercitar.
 - **El error `food_truck_invalido`.** Inalcanzable desde fuera: el `food_truck_id` sale de la sesión
   y la clave foránea garantiza que existe. Está en el código como red, no como caso probable.
 - **`php -l`.** Los tres archivos nunca pasaron por el analizador de sintaxis: no hay PHP en la
   máquina donde se escribieron. Que el servicio responda es la única evidencia de que compilan.
-- **Festín Rodante.** No se usó en ninguna prueba. Sin agenda sembrada no tiene parada vigente que
-  actualizar, y su agenda la define su dueño.
+- **Festín Rodante.** No se usó en ninguna prueba, a propósito: sus ocho paradas de producción son
+  datos reales de su dueño. Queda sin ejercitar el servicio sobre el food truck que de verdad lo va
+  a usar; lo que sí quedó comprobado es que **ningún** reporte de estas pruebas llegó a su agenda.
 
 ## Lo que estas pruebas dejaron en el banco
 

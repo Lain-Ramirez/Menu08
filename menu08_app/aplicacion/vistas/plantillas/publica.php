@@ -22,6 +22,7 @@ use Menu08\Nucleo\Vista;
  * @var string       $titulo
  * @var string       $contenido ya renderizado y escapado por su vista
  * @var list<string> $hojas     hojas propias de la pantalla, tras las tres base
+ * @var list<string> $guiones   guiones propios de la pantalla, tras interfaz.js
  */
 ?>
 <!doctype html>
@@ -44,6 +45,10 @@ use Menu08\Nucleo\Vista;
     <?php endforeach; ?>
 
     <script src="<?= Vista::e(Vista::url('/recursos/js/interfaz.js')) ?>" defer></script>
+
+    <?php foreach (($guiones ?? []) as $guion) : ?>
+    <script src="<?= Vista::e(Vista::url('/recursos/js/' . $guion)) ?>" defer></script>
+    <?php endforeach; ?>
 </head>
 <body class="publico">
     <main class="contenido-publico">

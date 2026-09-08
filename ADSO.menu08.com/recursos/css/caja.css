@@ -1,0 +1,711 @@
+/* caja.css — la pantalla de venta del modulo CAJA.
+   Menu08 · carta, caja y produccion para food trucks.
+
+   Solo la carga /caja, desde plantillas/cabecera.php a traves del parametro
+   $hojas. Reune la reticula de la pantalla, el catalogo, la orden en
+   construccion y el dialogo de cobro.
+
+   Ni un color literal: todo sale de los 31 tokens de md3.css, asi que el modo
+   oscuro de html.o funciona sin una sola regla propia. Las medidas salen de la
+   escala de base.css y los componentes son los de componentes.css; aqui solo
+   esta lo que es de esta pantalla y no se reutiliza fuera.
+
+   LA DECISION DE FONDO: LA ORDEN SE QUEDA PEGADA, EL CATALOGO FLUYE.
+
+   El total y el boton de cobro no pueden irse nunca por debajo del pliegue.
+   Hay dos maneras de conseguirlo y la primera es una trampa:
+
+     1. Atar la pantalla al alto de la ventana y desplazar el catalogo por
+        dentro. Funciona a 720 px de alto y se rompe por debajo: en un portatil
+        con 600 px utiles al catalogo le quedan poco mas de 250 y entra UNA fila
+        de fichas, cortada por la mitad. La pantalla se estrecha justo donde mas
+        se usa.
+
+     2. Dejar que el catalogo ocupe lo que necesite y PEGAR la columna de la
+        orden. El documento se desplaza con normalidad, se ven tantas filas como
+        quepan, y el total y el boton siguen a la vista a cualquier alto de
+        ventana porque la columna viaja con la pagina.
+
+   Se usa la segunda. La orden se limita ademas a --venta-tope, que caja.js
+   calcula como la distancia entre donde nace la columna y el borde de abajo de
+   la ventana: asi, ya de entrada y sin desplazar nada, el boton de cobro cae
+   dentro de la primera pantalla aunque la orden lleve quince renglones. Lo que
+   se desplaza entonces es la lista de renglones, por dentro.
+
+   Issue #18 · Fase 4 - Frontend */
+
+/* ================================================== 1. RETICULA DE PANTALLA */
+
+.venta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  min-width: 0;
+}
+
+.venta-zonas {
+  display: grid;
+  gap: var(--esp-4);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+
+/* Dos zonas a partir de 1024 px. Por debajo se apilan, que es lo que pide el
+   criterio de 768 px: la reticula ya arranca en una sola columna, asi que no
+   hace falta un punto de quiebre propio para eso. */
+@media (min-width: 1024px) {
+  .venta-zonas {
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: var(--esp-5);
+  }
+}
+
+@media (min-width: 1360px) {
+  .venta-zonas { grid-template-columns: minmax(0, 1fr) 400px; }
+}
+
+/* ==================================================== 2. BARRA DEL TURNO ==
+   Encabeza la pantalla porque el estado del turno manda sobre todo lo demas:
+   sin turno abierto no se arma nada. */
+
+.venta-turno {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-3);
+}
+
+.venta-turno-datos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-3);
+  min-width: 0;
+}
+
+/* El turno abierto se lee en verde, pero nunca solo por el color: la etiqueta
+   lleva icono y la palabra "abierto". */
+.etiqueta-turno {
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+}
+
+.venta-turno-cifras {
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-m);
+}
+
+.venta-turno-cifras strong {
+  color: var(--on-surface);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========================================================== 3. CATALOGO ==== */
+
+.venta-catalogo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  min-width: 0;
+}
+
+.venta-buscador { flex: none; }
+
+/* Filtro por categoria. El chip activo no se distingue solo por el fondo:
+   lleva ademas la marca de verificado y aria-pressed, que es lo que lee un
+   lector de pantalla. md3.css advierte que la banda calida es densa, asi que
+   el color nunca decide solo. */
+.venta-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+  flex: none;
+}
+
+.venta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-1);
+  min-height: 40px;
+  padding: 0 var(--esp-4);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-completo);
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+  font: var(--tipo-etiqueta-g);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transicion), color var(--transicion);
+}
+
+.venta-chip:hover { background: var(--surface-container-high); }
+
+.venta-chip[aria-pressed="true"] {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+}
+
+.venta-chip-marca { display: none; width: 16px; height: 16px; flex: none; }
+.venta-chip[aria-pressed="true"] .venta-chip-marca { display: block; }
+
+/* La reticula fluye: ni alto fijo ni desplazamiento propio. Se ven tantas
+   filas como quepan y el resto se alcanza desplazando la pagina, que es lo
+   que mantiene la ficha a su tamaño util en cualquier ventana.
+
+   El relleno de 2 px deja sitio al anillo de foco de la primera fila. */
+.venta-rejilla {
+  list-style: none;
+  margin: 0;
+  padding: 2px;
+  display: grid;
+  gap: var(--esp-3);
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  align-content: start;
+}
+
+.venta-ficha { display: flex; min-width: 0; }
+
+/* El filtro y la busqueda esconden con el atributo hidden, que saca la ficha
+   tambien del arbol de accesibilidad. Hace falta decirlo: la regla de arriba
+   pisa el display:none que el navegador le da por omision. */
+.venta-ficha[hidden] { display: none; }
+
+/* La ficha entera es el boton: en la ventanilla se pulsa con prisa y de pie,
+   asi que el blanco pulsable es la tarjeta completa y no un icono dentro. */
+.venta-ficha-boton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  width: 100%;
+  padding: var(--esp-2);
+  border: 1px solid transparent;
+  border-radius: var(--radio-m);
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+  box-shadow: var(--elev-1);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition: box-shadow var(--transicion), background-color var(--transicion);
+}
+
+.venta-ficha-boton:hover {
+  background: var(--surface-container);
+  box-shadow: var(--elev-2);
+}
+
+.venta-ficha-boton:active { box-shadow: var(--elev-1); }
+
+.venta-ficha-boton:focus-visible {
+  outline: var(--foco);
+  outline-offset: var(--foco-separacion);
+}
+
+/* Sin JavaScript el boton no puede hacer nada, y por eso el servidor lo emite
+   deshabilitado: un boton que se anuncia como boton y no responde es peor que
+   uno que se anuncia como no disponible. caja.js lo habilita al arrancar. */
+.venta-ficha-boton:disabled {
+  cursor: default;
+  box-shadow: none;
+}
+
+.venta-ficha-boton:disabled:hover { background: var(--surface-container-low); }
+
+/* 3:2 y no 4:3: la foto sigue reconociendose y la ficha baja unos 30 px, que
+   es una fila mas de catalogo en una ventana de portatil. */
+.venta-ficha-foto {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: var(--radio-p);
+  background: var(--surface-container);
+}
+
+/* Reemplazo del producto sin foto: mismo hueco, para que la reticula no baile.
+   Es un SVG de trazo y no un archivo, asi se recolorea con el tema. */
+.venta-ficha-vacia {
+  display: grid;
+  place-items: center;
+  color: var(--on-surface-variant);
+}
+
+.venta-ficha-vacia svg { width: 28px; height: 28px; }
+
+/* Dos renglones reservados: sin el minimo, una ficha de nombre corto y otra de
+   nombre largo dejan el precio a distinta altura en la misma fila. */
+.venta-ficha-nombre {
+  font: var(--tipo-etiqueta-g);
+  min-height: 40px;
+}
+
+.venta-ficha-precio {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.venta-vacio {
+  margin: 0;
+  padding: var(--esp-5) var(--esp-4);
+  color: var(--on-surface-variant);
+  text-align: center;
+}
+
+/* ============================================ 4. ORDEN EN CONSTRUCCION ==== */
+
+.venta-orden {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  min-height: 0;
+  padding: var(--esp-4);
+  border-radius: var(--radio-m);
+  background: var(--surface-container-low);
+  box-shadow: var(--elev-1);
+}
+
+/* Pegada al desplazar, y solo en dos zonas.
+
+   align-self:start es lo que la deja a su tamaño: sin eso la reticula la estira
+   hasta la altura del catalogo y, con la orden vacia, queda un recuadro enorme
+   con dos lineas de texto perdidas en el medio.
+
+   --venta-tope lo mide caja.js: es lo que va desde donde nace la columna hasta
+   el borde inferior de la ventana. Asi el boton de cobro entra en la primera
+   pantalla aunque la orden sea larga, y lo que se desplaza es la lista de
+   renglones. El valor de respaldo cubre el marco tipico por si no hay
+   JavaScript, aunque entonces la pantalla tampoco arma ordenes. */
+@media (min-width: 1024px) {
+  .venta-orden {
+    position: sticky;
+    top: var(--esp-5);
+    align-self: start;
+    min-height: 18rem;
+    max-height: var(--venta-tope, calc(100vh - 15rem));
+    max-height: var(--venta-tope, calc(100dvh - 15rem));
+  }
+}
+
+.venta-orden-cabeza {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--esp-2);
+  flex: none;
+}
+
+.venta-orden-titulo {
+  margin: 0;
+  font: var(--tipo-titulo-p);
+}
+
+.venta-lineas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+
+/* Sin renglones la lista desaparece y deja el hueco entero al aviso de orden
+   vacia. Sin esto, las dos se repartirian el alto y el aviso quedaria centrado
+   en la mitad de abajo. */
+.venta-lineas:empty { display: none; }
+
+.venta-linea {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-1);
+  padding: var(--esp-1) 0;
+  border-top: 1px solid var(--outline-variant);
+}
+
+.venta-linea:first-child { border-top: none; }
+
+.venta-linea-texto { flex: 1; min-width: 0; }
+
+.venta-linea-nombre {
+  display: block;
+  font: var(--tipo-etiqueta-g);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.venta-linea-unitario {
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-p);
+  font-variant-numeric: tabular-nums;
+}
+
+.venta-linea-cantidad {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+
+/* 40 px y no 48: en una columna de 380 px, tres areas de 48 mas el subtotal
+   dejan el nombre en poco mas de cien pixeles y se corta casi siempre. El
+   trazo sigue siendo de 20 px y los tres botones estan separados, que es lo
+   que evita el error de pulsacion. */
+.venta-linea-cantidad .boton-simbolo {
+  width: 40px;
+  height: 40px;
+}
+
+.venta-linea-cantidad .boton-simbolo svg { width: 20px; height: 20px; }
+
+.venta-linea-numero {
+  min-width: 26px;
+  text-align: center;
+  font: var(--tipo-etiqueta-g);
+  font-size: 16px;
+  line-height: 24px;
+  font-variant-numeric: tabular-nums;
+}
+
+.venta-linea-subtotal {
+  flex: none;
+  width: 74px;
+  text-align: right;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.venta-orden-vacia {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: var(--esp-4);
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-m);
+  text-align: center;
+}
+
+/* Igual que en la ficha: el display de arriba pisa el del atributo hidden. */
+.venta-orden-vacia[hidden] { display: none; }
+
+/* ------------------------------------------------------------- el resumen */
+
+.venta-resumen {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-1);
+  padding: var(--esp-3) var(--esp-4);
+  border-radius: var(--radio-m);
+  background: var(--surface-container);
+}
+
+/* Pegado abajo solo cuando la pantalla se apila: en un telefono la lista de
+   renglones puede ser mas larga que la ventana y el total tiene que seguir a la
+   vista. En dos zonas ya lo resuelve la columna pegada, y ahi sticky sobra.
+
+   El corte va en 1023.98 y no en 1023 por lo mismo que el del marco en
+   componentes.css: el ancho puede ser fraccionario con el zoom del navegador,
+   y entre 1023 y 1024 no aplicaria ninguna de las dos consultas. */
+@media (max-width: 1023.98px) {
+  .venta-resumen {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+  }
+}
+
+.venta-resumen-fila {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--esp-3);
+}
+
+.venta-resumen-rotulo { font: var(--tipo-titulo-p); }
+
+.venta-resumen-total {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* El boton mas usado de la aplicacion. 56 px y no los 40 del catalogo comun,
+   porque es el unico que cierra la venta y se pulsa con la mano ocupada. */
+.venta-cobrar {
+  flex: none;
+  width: 100%;
+  min-height: 56px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* ==================================================== 5. DIALOGO DE COBRO ==
+   Se usa <dialog> nativo en vez del velo que dibuja interfaz.js: aquel se
+   construye desde JavaScript para preguntar si o no, y este tiene que llevar
+   dentro campos que viajan en el envio del formulario. El elemento nativo
+   ademas encierra el foco, lo devuelve al cerrar y atiende Escape sin que haya
+   que reimplementarlo. El aspecto es el mismo .dialogo de componentes.css. */
+
+.venta-dialogo {
+  width: min(420px, calc(100vw - var(--esp-6)));
+  max-height: calc(100vh - var(--esp-6));
+  max-height: calc(100dvh - var(--esp-6));
+  padding: 0;
+  border: none;
+  border-radius: var(--radio-xg);
+  background: var(--surface-container-high);
+  color: var(--on-surface);
+  box-shadow: var(--elev-3);
+  overflow: hidden;
+}
+
+.venta-dialogo::backdrop { background: var(--velo); }
+
+.venta-dialogo-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  max-height: inherit;
+  padding: var(--esp-5);
+  overflow-y: auto;
+}
+
+.venta-dialogo-titulo {
+  margin: 0;
+  font: var(--tipo-titulo-m);
+}
+
+.venta-dialogo-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--esp-3);
+  padding: var(--esp-3) var(--esp-4);
+  border-radius: var(--radio-m);
+  background: var(--surface);
+}
+
+.venta-dialogo-total-valor {
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.venta-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+/* En versalitas por CSS y no escrito en mayusculas en el marcado: un lector de
+   pantalla deletrea "MEDIO DE PAGO" y lee bien "Medio de pago". */
+.venta-grupo-rotulo {
+  padding: 0;
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-m);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+/* Medios de pago en segmentos y no en lista desplegable: los tres a la vista,
+   un solo toque y sin abrir nada. El elegido lleva fondo, marca de verificado
+   y el estado en el propio radio, que es lo que anuncia el lector. */
+.venta-medios { display: flex; }
+
+.venta-medio {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-1);
+  flex: 1;
+  min-height: var(--toque);
+  padding: var(--esp-2) var(--esp-1);
+  border: 1px solid var(--outline);
+  background: transparent;
+  color: var(--on-surface);
+  font: var(--tipo-etiqueta-m);
+  text-align: center;
+  cursor: pointer;
+  transition: background-color var(--transicion), color var(--transicion);
+}
+
+.venta-medio:first-of-type { border-radius: var(--radio-completo) 0 0 var(--radio-completo); }
+.venta-medio:last-of-type { border-radius: 0 var(--radio-completo) var(--radio-completo) 0; }
+.venta-medio + .venta-medio { border-left: none; }
+
+.venta-medio:hover { background: var(--surface-container); }
+
+.venta-medio:has(input:checked) {
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+}
+
+.venta-medio:has(input:focus-visible) {
+  outline: var(--foco);
+  outline-offset: calc(var(--foco-separacion) * -1);
+}
+
+.venta-medio svg { width: 20px; height: 20px; }
+
+/* La marca va en la esquina y fuera del flujo. Dentro de la columna añadia un
+   tercer renglon SOLO al segmento elegido, y entonces su icono y su rotulo
+   quedaban a distinta altura que los de los otros dos. */
+.venta-medio-marca {
+  display: none;
+  position: absolute;
+  top: var(--esp-1);
+  right: var(--esp-1);
+  width: 16px;
+  height: 16px;
+}
+
+.venta-medio:has(input:checked) .venta-medio-marca { display: block; }
+
+/* El bloque del efectivo solo aparece con efectivo elegido: con tarjeta no hay
+   cambio que calcular y el campo sobrando invita a rellenarlo. */
+.venta-efectivo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+}
+
+.venta-efectivo[hidden] { display: none; }
+
+/* Valores frecuentes. En la ventanilla se paga casi siempre con un billete
+   redondo, asi que un toque resuelve el caso normal y el teclado queda para la
+   excepcion. Ademas evita que el cajero tenga que enfocar el campo, que es lo
+   que hacia parecer un error un campo vacio recien abierto: en esta paleta el
+   foco de un control pinta el borde de --primary, y --primary es rojo. */
+.venta-sugerencias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+}
+
+.venta-sugerencia {
+  flex: 1 1 6rem;
+  min-height: var(--toque);
+  padding: 0 var(--esp-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.venta-cambio {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--esp-3);
+  padding: var(--esp-3) var(--esp-4);
+  border-radius: var(--radio-m);
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+}
+
+.venta-cambio-rotulo { font: var(--tipo-titulo-p); }
+
+.venta-cambio-valor {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sin valor suficiente el cambio no es cero: es que todavia no se puede
+   calcular. El bloque se apaga entero para que no se lea como un importe. */
+.venta-cambio-sin {
+  background: var(--surface);
+  color: var(--on-surface-variant);
+}
+
+/* La nota se usa poco —"sin cebolla", "para llevar"— y ocupaba un campo entero
+   en un dialogo que ya va justo de alto. Plegada con <details>, que no
+   necesita ni una linea de JavaScript y el campo de dentro se envia igual. */
+.venta-nota {
+  border-top: 1px solid var(--outline-variant);
+  padding-top: var(--esp-3);
+}
+
+.venta-nota-resumen {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-height: 40px;
+  color: var(--primary);
+  font: var(--tipo-etiqueta-g);
+  cursor: pointer;
+  list-style: none;
+}
+
+.venta-nota-resumen::-webkit-details-marker { display: none; }
+
+.venta-nota-resumen::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform var(--transicion);
+}
+
+.venta-nota[open] .venta-nota-resumen::before { transform: rotate(45deg); }
+
+.venta-nota-resumen:focus-visible {
+  outline: var(--foco);
+  outline-offset: var(--foco-separacion);
+}
+
+.venta-nota-campo { margin-top: var(--esp-3); }
+
+.venta-dialogo-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--esp-2);
+}
+
+.venta-dialogo-acciones .boton { min-height: var(--toque); }
+
+/* ============================================ 6. ORDENES DE ESTE TURNO ==== */
+
+/* Va debajo de la pantalla y no dentro: se consulta de vez en cuando, no en
+   cada orden. El hueco lo reparte el gap de .contenido.pila-5, asi que aqui no
+   hace falta ningun margen. */
+.venta-historial { min-width: 0; }
+
+/* ========================================== 7. SIN JAVASCRIPT ============= */
+
+/* Esta pantalla NO funciona sin JavaScript, y es la unica de la aplicacion de
+   la que eso es cierto. No es un descuido: los propios criterios del issue
+   —recalcular el total en el navegador y cobrar sin recargar— describen una
+   pantalla que se arma en el cliente.
+
+   El resto de la aplicacion sigue siendo mejora progresiva. Aqui el servidor
+   emite las fichas DESHABILITADAS, porque un boton que se anuncia como boton y
+   no responde es peor que uno que se anuncia como no disponible, y la vista
+   deja un aviso <noscript> que lo explica. caja.js las habilita al arrancar.
+
+   Las cantidades viajan en campos type=hidden dentro de cada ficha, asi que no
+   hacen falta reglas de presentacion para ellas. */
+.venta-noscript { margin: 0; }
+
+/* La venta no se imprime: lo que va al papel es el comprobante. */
+@media print {
+  .venta { display: none; }
+}

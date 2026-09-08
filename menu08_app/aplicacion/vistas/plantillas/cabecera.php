@@ -14,7 +14,9 @@ use Menu08\Nucleo\Vista;
  * garantiza que no bloquea el pintado y que corre con el DOM construido, y asi
  * la apertura y el cierre del documento quedan cada una en su archivo.
  *
- * @var string $titulo
+ * @var string       $titulo
+ * @var list<string> $hojas   hojas propias de la pantalla, tras las tres base
+ * @var list<string> $guiones guiones propios de la pantalla, tras interfaz.js
  */
 ?>
 <!doctype html>
@@ -37,7 +39,18 @@ use Menu08\Nucleo\Vista;
     <link rel="stylesheet" href="<?= Vista::e(Vista::url('/recursos/css/base.css')) ?>">
     <link rel="stylesheet" href="<?= Vista::e(Vista::url('/recursos/css/componentes.css')) ?>">
 
+    <?php // Lo propio de la pantalla va al final, para que pueda afinar lo
+          // anterior sin pelear con el orden de carga. Es el mismo reparto que
+          // hace plantillas/publica.php con la carta. ?>
+    <?php foreach (($hojas ?? []) as $hoja) : ?>
+    <link rel="stylesheet" href="<?= Vista::e(Vista::url('/recursos/css/' . $hoja)) ?>">
+    <?php endforeach; ?>
+
     <script src="<?= Vista::e(Vista::url('/recursos/js/interfaz.js')) ?>" defer></script>
+
+    <?php foreach (($guiones ?? []) as $guion) : ?>
+    <script src="<?= Vista::e(Vista::url('/recursos/js/' . $guion)) ?>" defer></script>
+    <?php endforeach; ?>
 </head>
 <body>
     <header class="cabecera sin-impresion">

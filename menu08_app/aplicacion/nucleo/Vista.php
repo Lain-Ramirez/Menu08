@@ -61,18 +61,26 @@ final class Vista
     /**
      * Renderiza una plantilla y la envuelve en plantillas/base.
      *
+     * Las hojas y los guiones propios de una pantalla se le pasan al marco, que
+     * los enlaza despues de los comunes. Es lo que permite que /caja cargue
+     * caja.css y caja.js sin que los arrastren las demas vistas.
+     *
      * @param array<string, mixed> $datos
+     * @param list<string>         $hojas   hojas de estilo propias de la pantalla
+     * @param list<string>         $guiones archivos de JavaScript propios
      */
     public static function pagina(
         string $plantilla,
         array $datos = [],
         string $titulo = 'Menu08',
         string $marco = 'plantillas/base',
-        array $hojas = []
+        array $hojas = [],
+        array $guiones = []
     ): string {
         return self::renderizar($marco, [
             'titulo'    => $titulo,
             'hojas'     => $hojas,
+            'guiones'   => $guiones,
             'contenido' => self::renderizar($plantilla, $datos),
         ]);
     }

@@ -374,8 +374,9 @@ php -S localhost:8000 -t ADSO.menu08.com ADSO.menu08.com/index.php
 Los usuarios de demostración y sus contraseñas están en
 [`docs/basedatos.md`](docs/basedatos.md). **Cambiarlas antes de publicar el sitio.**
 
-El contrato del servicio JSON que sondea el tablero está en
-[`docs/api-svp.md`](docs/api-svp.md).
+Los contratos de los servicios JSON están en [`docs/api-svp.md`](docs/api-svp.md), el que sondea el
+tablero, y en [`docs/api-movil.md`](docs/api-movil.md), los dos que consume la aplicación móvil del
+anexo.
 
 ---
 

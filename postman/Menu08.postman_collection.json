@@ -3367,6 +3367,424 @@
           ]
         }
       ]
+    },
+    {
+      "name": "8 - Modulo movil (ejecutar en orden)",
+      "description": "Los dos servicios que consume el APK. Se ejecuta entera con Run, sin tocar nada a mano, sobre el Truck de Pruebas. A diferencia del SVP, el token sale del CUERPO del ingreso y no de una etiqueta <meta>, y estos servicios no lo rotan: el mismo token vale para todos los reportes. Contrato en docs/api-movil.md.",
+      "item": [
+        {
+          "name": "1 - GET /salir (llegar sin sesion)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/salir",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "salir"
+              ]
+            },
+            "description": "Cierra cualquier sesion previa para que la carpeta arranque siempre igual."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 302', function () { pm.response.to.have.status(302); });",
+                  "pm.collectionVariables.set('token', '');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2 - POST /movil/ubicacion sin sesion -> 401",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "latitud",
+                  "value": "4.6767000",
+                  "type": "text"
+                },
+                {
+                  "key": "longitud",
+                  "value": "-74.0483000",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/movil/ubicacion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "movil",
+                "ubicacion"
+              ]
+            },
+            "description": "Sin sesion el servicio responde 401 en JSON, nunca la pagina de ingreso."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 401', function () { pm.response.to.have.status(401); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "pm.test('Es no_autenticado', function () { pm.expect(pm.response.json().error).to.eql('no_autenticado'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "3 - POST /movil/ingresar (food_truck) -> 200",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "correo",
+                  "value": "{{foodtruck}}",
+                  "type": "text"
+                },
+                {
+                  "key": "contrasena",
+                  "value": "{{clave}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/movil/ingresar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "movil",
+                "ingresar"
+              ]
+            },
+            "description": "El ingreso del APK. Devuelve el token en el CUERPO, no en un <meta>: aqui se guarda en la variable de coleccion 'token'."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "const d = pm.response.json();",
+                  "pm.test('Trae usuario y token_csrf', function () {",
+                  "  pm.expect(d).to.have.all.keys('usuario', 'token_csrf');",
+                  "  pm.expect(d.usuario).to.have.all.keys('id', 'nombre', 'correo', 'rol', 'food_truck_id');",
+                  "});",
+                  "pm.test('No devuelve la contrasena', function () {",
+                  "  pm.expect(d.usuario).to.not.have.property('contrasena');",
+                  "});",
+                  "pm.test('El rol es food_truck', function () { pm.expect(d.usuario.rol).to.eql('food_truck'); });",
+                  "pm.collectionVariables.set('token', d.token_csrf);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "4 - POST /movil/ubicacion sin _token -> 403",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "latitud",
+                  "value": "4.6767000",
+                  "type": "text"
+                },
+                {
+                  "key": "longitud",
+                  "value": "-74.0483000",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/movil/ubicacion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "movil",
+                "ubicacion"
+              ]
+            },
+            "description": "Con sesion pero sin token. Todo POST que modifique datos pasa por CSRF."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', function () { pm.response.to.have.status(403); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "pm.test('Es token_invalido', function () { pm.expect(pm.response.json().error).to.eql('token_invalido'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5 - POST /movil/ubicacion coordenada invalida -> 422",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "latitud",
+                  "value": "90.0000001",
+                  "type": "text"
+                },
+                {
+                  "key": "longitud",
+                  "value": "-74.0483000",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/movil/ubicacion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "movil",
+                "ubicacion"
+              ]
+            },
+            "description": "Latitud fuera de rango. La validacion corre antes de abrir la transaccion: la tabla no se toca."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 422', function () { pm.response.to.have.status(422); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "pm.test('Es coordenadas_invalidas', function () { pm.expect(pm.response.json().error).to.eql('coordenadas_invalidas'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6 - POST /movil/ubicacion correcto -> 200 o 201",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "latitud",
+                  "value": "4.6767000",
+                  "type": "text"
+                },
+                {
+                  "key": "longitud",
+                  "value": "-74.0483000",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/movil/ubicacion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "movil",
+                "ubicacion"
+              ]
+            },
+            "description": "El reporte de verdad. 201 si registro una parada nueva, 200 si actualizo la vigente. El mismo token del paso 3 sirve: estos servicios no rotan."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200 o 201', function () { pm.expect(pm.response.code).to.be.oneOf([200, 201]); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "const d = pm.response.json();",
+                  "pm.test('Trae parada y creada', function () {",
+                  "  pm.expect(d).to.have.all.keys('parada', 'creada');",
+                  "  pm.expect(d.parada).to.have.all.keys('id', 'nombre', 'referencia', 'latitud', 'longitud',",
+                  "    'dia_semana', 'hora_inicio', 'hora_fin', 'activa');",
+                  "});",
+                  "pm.test('El codigo concuerda con creada', function () {",
+                  "  pm.expect(pm.response.code).to.eql(d.creada ? 201 : 200);",
+                  "});",
+                  "pm.test('Guardo las coordenadas enviadas', function () {",
+                  "  pm.expect(d.parada.latitud).to.eql('4.6767000');",
+                  "  pm.expect(d.parada.longitud).to.eql('-74.0483000');",
+                  "});",
+                  "pm.collectionVariables.set('ubicacionId', d.parada.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "7 - POST /movil/ingresar (cajero) -> 200",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "correo",
+                  "value": "{{cajero}}",
+                  "type": "text"
+                },
+                {
+                  "key": "contrasena",
+                  "value": "{{clave}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/movil/ingresar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "movil",
+                "ingresar"
+              ]
+            },
+            "description": "El cajero tambien ingresa: el rol no se filtra aqui, sino en el reporte."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "const d = pm.response.json();",
+                  "pm.test('El rol es cajero', function () { pm.expect(d.usuario.rol).to.eql('cajero'); });",
+                  "pm.collectionVariables.set('token', d.token_csrf);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "8 - POST /movil/ubicacion con rol cajero -> 403",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "latitud",
+                  "value": "4.6767000",
+                  "type": "text"
+                },
+                {
+                  "key": "longitud",
+                  "value": "-74.0483000",
+                  "type": "text"
+                },
+                {
+                  "key": "_token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/movil/ubicacion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "movil",
+                "ubicacion"
+              ]
+            },
+            "description": "La puerta estrecha: solo food_truck administra la agenda, igual que en /panel/ubicaciones."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 403', function () { pm.response.to.have.status(403); });",
+                  "pm.test('Responde JSON, nunca HTML', function () {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "  pm.expect(pm.response.text()).to.not.include('<!doctype');",
+                  "});",
+                  "pm.test('Es rol_no_autorizado', function () { pm.expect(pm.response.json().error).to.eql('rol_no_autorizado'); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }

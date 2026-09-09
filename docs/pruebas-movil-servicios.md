@@ -337,13 +337,71 @@ Tres cosas quedan probadas:
 Las dos primeras líneas son del despliegue fallido que abre este documento: el enrutador no conocía
 las rutas y las registró como `RutaNoEncontrada`. Confirma la causa que se dio allí.
 
+## 11 · Una excepción no atrapada sale como objeto, no como página
+
+Queda por comprobar la última afirmación del contrato: que **ninguna respuesta de estos servicios es
+HTML**, ni siquiera cuando algo falla por donde nadie lo previó. Provocarlo rompiendo algo en
+producción no compensa, pero hay un camino limpio.
+
+`MovilControlador::ubicacion()` atrapa `DatosInvalidos` y la traduce, pero **no atrapa nada más**. Y
+`Controlador::foodTruckActual()` lanza `AccesoDenegado` cuando la cuenta no tiene food truck
+asociado. Basta entonces con una cuenta de rol `food_truck` **sin truck**, que pasa el filtro de rol
+y el del token y revienta después:
+
+```sql
+INSERT INTO usuarios (food_truck_id, nombre, correo, contrasena, rol, activo)
+SELECT NULL, 'Cuenta sin food truck', 'pruebas.sintruck@menu08.local', contrasena, 'food_truck', 1
+  FROM usuarios WHERE correo = 'cajero@menu08.local';
+```
+
+Ingresa sin problema, y el `food_truck_id` nulo viaja en la respuesta:
+
+```json
+{ "usuario": { "id": 9, "nombre": "Cuenta sin food truck", "correo": "pruebas.sintruck@menu08.local",
+               "rol": "food_truck", "food_truck_id": null },
+  "token_csrf": "d8336474f24da8d7b811d9a1e673a497e839e4f8ac45d46ad1bca469d694f43f" }
+```
+
+Y el reporte, con rol y token válidos, muere en `foodTruckActual()`:
+
+```
+http=403
+content-type: application/json; charset=utf-8
+
+{"error":"fallo_interno","codigo":403}
+```
+
+Tres cosas quedan probadas de una vez:
+
+- **El manejador de errores está en modo JSON dentro de estos servicios.** La excepción no la
+  atrapó el controlador: la recogió `ManejadorErrores::manejarExcepcion()`, que en modo HTML
+  habría pintado la plantilla `plantillas/error`. No hay ni una etiqueta HTML en la respuesta.
+- **El cuerpo tiene la forma exacta del contrato**, `{"error": "fallo_interno", "codigo": N}`. Esa
+  línea de `ManejadorErrores::responder()` construye el objeto igual para cualquier código: el
+  `$codigo` solo se interpola. Comprobado con 403, vale para 500.
+- **`entorno` está en `produccion` en el servidor.** El manejador añade un campo `mensaje` con el
+  detalle de la excepción **solo** cuando `Configuracion::esProduccion()` es falso. No aparece, así
+  que el detalle no se le está filtrando a nadie.
+
+La fila se borró al terminar; `usuarios` vuelve a sus siete cuentas.
+
+> **Observación al margen.** Esa combinación —rol `food_truck` sin `food_truck_id`— no debería
+> existir: el sembrado siempre asigna truck a ese rol y nada en el panel permite crearla. Si llegara
+> a darse, quien la usara vería un `fallo_interno` opaco en vez de un mensaje que explique el
+> problema. No es un fallo del módulo móvil, sino un caso de datos imposible por convención y no por
+> restricción, y se comporta igual en el panel. Queda anotado por si algún día conviene cerrarlo con
+> una comprobación en `usuarios`.
+
 ---
 
 ## Lo que estas pruebas no cubren
 
-- **El 500 `fallo_interno`.** No se provocó ningún fallo no previsto, así que la salida en JSON del
-  manejador de errores para estos dos servicios queda sin ejercitar. Se decidió no forzarlo: romper
-  algo a propósito en producción no compensa, y el mecanismo es el mismo que ya usa el SVP.
+- **El código 500 exacto.** La sección 11 comprueba que una excepción no atrapada sale como
+  `{"error":"fallo_interno","codigo":N}` en JSON, pero con `N = 403`, porque `AccesoDenegado` está
+  mapeada. Un 500 necesita una excepción **no** mapeada —un fallo de PDO, un error fatal de PHP—, y
+  provocarla exige romper algo de verdad en producción. La línea que arma el cuerpo es la misma para
+  cualquier código, así que lo que queda sin ejercitar es el `match` que elige el número, no el
+  formato de la respuesta.
 - **Las dos ramas nocturnas de `vigenteBloqueada()`.** La sesión fue un martes por la mañana y
   ninguna parada que cruce la medianoche estaba en su franja: ni Zona Rosa de Pruebas —sábado de
   18:00 a 01:00— ni las dos de Festín Rodante que cierran a las 02:00. Las tres ramas están

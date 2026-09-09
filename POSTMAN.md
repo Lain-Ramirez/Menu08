@@ -10,7 +10,7 @@ recibir en cada uno.
 
 ## Atajo: importa la colección y ya está
 
-En `postman/Menu08.postman_collection.json` está **todo hecho**: las 35 rutas, las credenciales,
+En `postman/Menu08.postman_collection.json` está **todo hecho**: las 38 rutas, las credenciales,
 los cuerpos de ejemplo y las comprobaciones automáticas.
 
 1. Abre Postman.
@@ -352,10 +352,12 @@ valor de lo vendido: es lo correcto, el servidor recalcula el total desde las ó
 
 # Referencia de todas las rutas
 
-35 rutas. Leyenda de roles: **pública** · `plataforma` · `food_truck` · `cajero` · `produccion`.
+38 rutas. Leyenda de roles: **pública** · `plataforma` · `food_truck` · `cajero` · `produccion`.
 
-Sin sesión, las rutas privadas redirigen a `/ingresar` con **302**. Las excepciones son los dos
-servicios JSON del SVP, que responden **401** con un objeto de error.
+Sin sesión, las rutas privadas redirigen a `/ingresar` con **302**. Las excepciones son los cuatro
+servicios JSON —los dos del SVP y los dos del módulo móvil—, que responden **401** con un objeto de
+error. `POST /movil/ingresar` es la única ruta privada que se llama **sin** sesión: es la que la
+abre.
 
 ## Públicas
 
@@ -474,19 +476,70 @@ Sobre `GET /svp/ordenes`:
   devuelve el identificador y la lista vacía, para poder distinguir «producción al día» de
   «ventanilla cerrada».
 
+## Módulo móvil · rol `food_truck`
+
+Los dos servicios que consume el APK. **Responden JSON siempre**, igual que los del SVP, porque un
+cliente sin navegador que recibe `<!doctype html>` falla con un error de sintaxis que no dice nada.
+Contrato completo en [`docs/api-movil.md`](docs/api-movil.md).
+
+| Método | Ruta | Cuerpo | Qué esperas |
+|---|---|---|---|
+| `POST` | `/movil/ingresar` | `correo`, `contrasena` | `200` JSON con `usuario` y `token_csrf`, y la cookie de sesión |
+| `POST` | `/movil/ubicacion` | `latitud`, `longitud`, `_token` | `200` si actualizó la parada vigente · `201` si registró una nueva |
+
+Tres diferencias con todo lo demás de este documento, y conviene tenerlas presentes antes de armar
+las peticiones a mano:
+
+- **El token sale del cuerpo de la respuesta, no del HTML.** `POST /movil/ingresar` devuelve
+  `token_csrf` en el JSON. No hay que raspar ningún campo oculto ni ninguna etiqueta `<meta>`.
+- **Estos dos servicios NO rotan el token.** `POST /caja/vender` y las rutas del panel llaman a
+  `Csrf::rotar()`, así que hay que releer el token entre una operación y la siguiente. Aquí no: el
+  token del ingreso sirve para todos los reportes que vengan después.
+- **El cuerpo va como `x-www-form-urlencoded`**, nunca como JSON. `Csrf` lee el token solo de
+  `$_POST['_token']`, sin mirar ninguna cabecera, y `$_POST` únicamente se llena con ese tipo de
+  cuerpo.
+
+Sobre `POST /movil/ingresar`:
+
+- Lo llama **cualquier rol**, no solo `food_truck`. El filtro está en el reporte, para que la
+  aplicación pueda decir «esta cuenta no administra la agenda» en vez de «contraseña incorrecta».
+- `usuario.food_truck_id` viene **`null`** con el rol `plataforma`.
+
+Sobre `POST /movil/ubicacion`:
+
+- Si hay parada vigente, le cambia **solo** `latitud` y `longitud`; el nombre, la referencia y el
+  horario del dueño quedan intactos. Responde `200` con `"creada": false`.
+- Si no hay ninguna vigente, registra una parada nueva llamada `Punto reportado AAAA-MM-DD HH:MM`,
+  con `hora_fin` igual a `hora_inicio`. Responde `201` con `"creada": true`.
+- Esa igualdad de horas la deja vigente 24 horas, así que **el reporte siguiente actualiza esa misma
+  fila**. Pulsar el botón diez veces deja una parada, no diez.
+- El `food_truck_id` sale de la sesión: mandarlo en el cuerpo no cambia a qué truck se escribe.
+
+**Lo que deja la carpeta «8 - Modulo movil» al ejecutarse.** La petición 6 escribe de verdad. Si en
+ese momento hay una parada vigente del Truck de Pruebas —miércoles de 11:00 a 15:00, viernes de
+12:00 a 20:00 o sábado de 18:00 a 01:00—, le cambia las coordenadas y no crea nada. Fuera de esas
+franjas **registra una parada nueva**, que queda visible en `/panel/ubicaciones`. Repetir la
+carpeta el mismo día no añade más: la primera deja una parada vigente 24 horas y las siguientes la
+actualizan. Para dejarlo como estaba, desactívala desde el panel al terminar.
+
 ## Errores de los servicios JSON
 
 | Código | `error` | Cuándo |
 |---|---|---|
 | `401` | `no_autenticado` | Sin sesión, o con la cookie caducada |
-| `403` | `rol_no_autorizado` | Sesión con rol `cajero` o `plataforma` |
+| `401` | `credenciales_invalidas` | `POST /movil/ingresar`: correo inexistente, contraseña equivocada **o cuenta desactivada**. Los tres responden lo mismo |
+| `403` | `rol_no_autorizado` | Sesión con rol `cajero` o `plataforma`. En `/movil/ubicacion` también `produccion` |
 | `403` | `token_invalido` | `_token` ausente, vencido o alterado |
 | `404` | `orden_no_encontrada` | La orden no existe **o es de otro food truck** |
+| `422` | `datos_incompletos` | `POST /movil/ingresar` sin `correo` o sin `contrasena`, o con alguno vacío |
+| `422` | `coordenadas_invalidas` | `POST /movil/ubicacion` con una coordenada ausente, fuera de rango o con más de 7 decimales. **No toca la tabla** |
 | `422` | `transicion_invalida` | Salto de estado, estado inexistente, u orden ya entregada. **No modifica la orden** |
 | `500` | `fallo_interno` | Fallo no previsto. El campo `mensaje` solo aparece fuera de producción |
 
 Que «no existe» y «es de otro food truck» respondan **lo mismo** es deliberado: un `403` confirmaría
-que esa orden existe, y eso ya es información que no debe salir.
+que esa orden existe, y eso ya es información que no debe salir. Por el mismo motivo los tres
+motivos de `credenciales_invalidas` son indistinguibles byte a byte: si la cuenta desactivada
+respondiera algo distinto, la respuesta diría qué correos están registrados.
 
 ---
 

@@ -47,13 +47,37 @@ funciona igual en el servidor y en el repositorio, donde las dos carpetas tambi�
 
 ## Pasos
 
-1. **Vaciar `ADSO.menu08.com`.** Conserva los archivos del WordPress que venía instalado.
-   La base de datos ya se limpió y tiene el esquema de Menu08 cargado; faltan los archivos.
-2. Subir los dos paquetes al directorio de la cuenta, `/home/sfacturs2/`, y extraerlos ahí
-   con el Administrador de archivos de cPanel.
+1. **Solo la primera vez: vaciar `ADSO.menu08.com`**, que conserva los archivos del WordPress que
+   venía instalado. La base de datos ya se limpió y tiene el esquema de Menu08 cargado; faltan los
+   archivos. **En las actualizaciones no se vacía nada**: `subidas/` guarda las fotos de producto y
+   los códigos QR, que solo existen en el servidor. Se extrae encima.
+2. Subir cada paquete y extraerlo **dentro de su carpeta destino**: `menu08_app.zip` dentro de
+   `/home/sfacturs2/menu08_app/` y `ADSO.menu08.com.zip` dentro de `/home/sfacturs2/ADSO.menu08.com/`.
 3. Comprobar que quedó `menu08_app/publico/index.php` y `ADSO.menu08.com/index.php`.
 4. Permisos de escritura **775** en `menu08_app/almacenamiento/bitacora` y en
    `ADSO.menu08.com/subidas`.
+
+> **Dentro de su carpeta, no en la raíz de la cuenta.** Los paquetes se generan **sin el envoltorio**
+> —`menu08_app.zip` contiene `aplicacion/ configuracion/ basedatos/ publico/ almacenamiento/` en su
+> primer nivel— porque con el envoltorio cPanel deja `menu08_app/menu08_app/`. Extraerlos en
+> `/home/sfacturs2/` esparce esas carpetas por la raíz de la cuenta y deja el código viejo en su
+> sitio, sin ningún error visible: la aplicación sigue respondiendo, pero con la versión anterior.
+> Así se perdió el primer despliegue de las rutas del módulo móvil, que respondían 404 mientras el
+> resto del sitio funcionaba. Si pasa, el síntoma está en la bitácora como `RutaNoEncontrada`.
+
+Cómo se generan los dos paquetes, desde la raíz del repositorio:
+
+```bash
+( cd menu08_app && zip -r -q ../menu08_app.zip . \
+    -x 'configuracion/configuracion.php' -x 'almacenamiento/bitacora/*' -x '*.log' )
+( cd menu08_app && zip -q ../menu08_app.zip almacenamiento/bitacora/.gitkeep )
+( cd ADSO.menu08.com && zip -r -q ../ADSO.menu08.com.zip . )
+```
+
+El `cd` antes del `zip` es lo que deja el contenido en el primer nivel. Se excluyen
+`configuracion/configuracion.php`, que nunca sale de la máquina, y el contenido de la bitácora, del
+que solo viaja el `.gitkeep` para que la carpeta exista. `.gitignore` cubre `*.zip`, así que los
+paquetes no entran al repositorio.
 
 ## Comprobación
 

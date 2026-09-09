@@ -13,14 +13,28 @@ use JsonException;
 abstract class Controlador
 {
     /**
+     * Respuesta HTML de una pantalla del panel.
+     *
+     * $hojas y $guiones van al final y con valor por omision para no tocar las
+     * llamadas que ya existen: una pantalla que no pide nada propio se sigue
+     * escribiendo igual que antes.
+     *
      * @param array<string, mixed> $datos
+     * @param list<string>         $hojas   hojas de estilo propias de la pantalla
+     * @param list<string>         $guiones archivos de JavaScript propios
      */
-    protected function vista(string $plantilla, array $datos = [], string $titulo = 'Menu08', int $codigo = 200): void
-    {
+    protected function vista(
+        string $plantilla,
+        array $datos = [],
+        string $titulo = 'Menu08',
+        int $codigo = 200,
+        array $hojas = [],
+        array $guiones = []
+    ): void {
         http_response_code($codigo);
         header('Content-Type: text/html; charset=utf-8');
 
-        echo Vista::pagina($plantilla, $datos, $titulo);
+        echo Vista::pagina($plantilla, $datos, $titulo, 'plantillas/base', $hojas, $guiones);
     }
 
     /**
@@ -34,19 +48,21 @@ abstract class Controlador
      * contenido que vino a ver.
      *
      * @param array<string, mixed> $datos
-     * @param list<string>         $hojas hojas de estilo propias de la pantalla
+     * @param list<string>         $hojas   hojas de estilo propias de la pantalla
+     * @param list<string>         $guiones archivos de JavaScript propios
      */
     protected function vistaPublica(
         string $plantilla,
         array $datos = [],
         string $titulo = 'Menu08',
         array $hojas = [],
-        int $codigo = 200
+        int $codigo = 200,
+        array $guiones = []
     ): void {
         http_response_code($codigo);
         header('Content-Type: text/html; charset=utf-8');
 
-        echo Vista::pagina($plantilla, $datos, $titulo, 'plantillas/publica', $hojas);
+        echo Vista::pagina($plantilla, $datos, $titulo, 'plantillas/publica', $hojas, $guiones);
     }
 
     /**

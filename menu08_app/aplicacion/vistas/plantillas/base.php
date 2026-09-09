@@ -12,8 +12,10 @@ use Menu08\Nucleo\Vista;
  * $contenido ya viene renderizado y escapado por su vista, por eso es lo unico
  * que se imprime sin volver a escapar.
  *
- * @var string $titulo
- * @var string $contenido
+ * @var string       $titulo
+ * @var string       $contenido
+ * @var list<string> $hojas     hojas propias de la pantalla, tras las tres base
+ * @var list<string> $guiones   guiones propios de la pantalla, tras interfaz.js
  */
 
 /**
@@ -35,7 +37,11 @@ $iconoAviso = static function (string $tipo): string {
     );
 };
 
-echo Vista::renderizar('plantillas/cabecera', ['titulo' => $titulo]);
+echo Vista::renderizar('plantillas/cabecera', [
+    'titulo'  => $titulo,
+    'hojas'   => $hojas ?? [],
+    'guiones' => $guiones ?? [],
+]);
 
 // La navegacion es del panel: sin sesion no hay modulos que ofrecer.
 if (Sesion::autenticado()) {

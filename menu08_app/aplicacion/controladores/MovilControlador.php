@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Menu08\Controladores;
 
+use Menu08\Modelos\FoodTruck;
 use Menu08\Modelos\Ubicacion;
 use Menu08\Modelos\Usuario;
 use Menu08\Nucleo\Bitacora;
@@ -91,8 +92,28 @@ final class MovilControlador extends Controlador
         // La sesion guarda exactamente las cinco claves publicas del usuario,
         // asi que se copian de ahi y no de la fila: la contrasena cifrada que
         // devuelve Usuario::porCorreo() no puede colarse en la respuesta.
+        $publico = Sesion::usuario();
+
+        // Y una sexta, el NOMBRE del food truck, que no vive en la sesion. La
+        // aplicacion ya recibia food_truck_id, pero un numero no sirve para lo
+        // que hace falta: que quien atiende vea en la cabecera sobre que truck
+        // esta reportando. Dos sesiones de pruebas acabaron escribiendo en la
+        // agenda real de Festin Rodante porque la pantalla decia el nombre del
+        // USUARIO —«Administrador del food truck»— y ninguno del negocio.
+        //
+        // Se lee aqui y no en la sesion a proposito: el nombre del truck lo
+        // puede cambiar su dueño desde el panel, y guardarlo en la sesion
+        // dejaria el viejo hasta el siguiente ingreso.
+        //
+        // Es null para el rol plataforma, que no esta asociado a ningun truck.
+        $truck = $publico['food_truck_id'] === null
+            ? null
+            : FoodTruck::porId((int) $publico['food_truck_id']);
+
+        $publico['food_truck'] = $truck === null ? null : (string) $truck['nombre'];
+
         $this->json([
-            'usuario'    => Sesion::usuario(),
+            'usuario'    => $publico,
             'token_csrf' => Csrf::token(),
         ]);
     }

@@ -50,7 +50,8 @@ sesión, y aquí todavía no hay ninguna.
     "nombre": "Administrador del food truck",
     "correo": "foodtruck@menu08.local",
     "rol": "food_truck",
-    "food_truck_id": 1
+    "food_truck_id": 1,
+    "food_truck": "Festín Rodante"
   },
   "token_csrf": "d0dc375a4f9ede4ec0b56425b5f761eb6e2c06ce9a25d0252a08c6a155f04183"
 }
@@ -66,10 +67,17 @@ set-cookie: menu08_sesion=dv9qflbqh9ot7ge2kcvnnd0r0f; path=/; secure; HttpOnly; 
 |---|---|
 | `usuario.rol` | `plataforma`, `food_truck`, `cajero` o `produccion`. La aplicación lo usa para saber si podrá reportar |
 | `usuario.food_truck_id` | El truck de la cuenta. **`null` en el rol `plataforma`**, que no está asociado a ninguno |
+| `usuario.food_truck` | El **nombre** de ese truck, para que la aplicación lo enseñe en la cabecera. `null` cuando `food_truck_id` lo es |
 | `token_csrf` | El que hay que mandar como `_token` en el reporte. Vive 120 minutos |
 
-El objeto `usuario` lleva **esas cinco claves y ninguna más**. La contraseña cifrada que sí devuelve
-`Usuario::porCorreo()` no aparece: el controlador copia de la sesión, no de la fila.
+El objeto `usuario` lleva **esas seis claves y ninguna más**. La contraseña cifrada que sí devuelve
+`Usuario::porCorreo()` no aparece: cinco claves se copian de la sesión, no de la fila.
+
+`food_truck` es la excepción: no está en la sesión y se lee de `food_trucks` en cada ingreso, porque
+su dueño puede cambiarlo desde el panel y una copia en la sesión se quedaría con el nombre viejo hasta
+el siguiente ingreso. Se añadió en el #21 después de que dos sesiones de prueba escribieran en la
+agenda real de Festín Rodante: la pantalla decía el nombre del **usuario** y ninguno del **negocio**,
+y las cuentas de demostración y de pruebas se llaman casi igual.
 
 Una cuenta con rol `cajero`, `produccion` o `plataforma` **ingresa igual**. El rol no se filtra
 aquí, sino en el reporte: así la aplicación puede decir «esta cuenta no administra la agenda» en vez

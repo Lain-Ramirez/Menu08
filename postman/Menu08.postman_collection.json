@@ -3501,7 +3501,7 @@
                   "const d = pm.response.json();",
                   "pm.test('Trae usuario y token_csrf', function () {",
                   "  pm.expect(d).to.have.all.keys('usuario', 'token_csrf');",
-                  "  pm.expect(d.usuario).to.have.all.keys('id', 'nombre', 'correo', 'rol', 'food_truck_id');",
+                  "  pm.expect(d.usuario).to.have.all.keys('id', 'nombre', 'correo', 'rol', 'food_truck_id', 'food_truck');",
                   "});",
                   "pm.test('No devuelve la contrasena', function () {",
                   "  pm.expect(d.usuario).to.not.have.property('contrasena');",

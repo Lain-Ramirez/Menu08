@@ -5,7 +5,12 @@ declare(strict_types=1);
 use Menu08\Nucleo\Vista;
 
 /**
- * Bloque de resumen del turno, compartido por el cierre y por el detalle.
+ * Bloque de resumen del turno, de la pantalla de detalle.
+ *
+ * El cierre dejo de usarlo con el #19: alli el resumen se maqueta con las
+ * clases de turno.css —tarjeta, cifras y tabla con iconos—, y esta version en
+ * tablas sueltas se queda para caja/turno_detalle.php hasta que le toque su
+ * remaquetado.
  *
  * @var array{total: string, ordenes: int, unidades: int, medios: list<array<string, mixed>>} $resumen
  * @var array<string, mixed> $turno

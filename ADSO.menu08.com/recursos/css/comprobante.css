@@ -1,0 +1,258 @@
+/* comprobante.css — el comprobante imprimible de CAJA, a 80 mm.
+   Menu08 · carta, caja y produccion para food trucks.
+
+   Solo la carga /caja/comprobante/{id}, desde plantillas/cabecera.php a traves
+   del parametro $hojas. Declara dos cosas: como se ve la cinta en pantalla,
+   antes de imprimir, y como sale por la impresora.
+
+   Ni un color literal: todo sale de los 31 tokens de md3.css.
+
+   TRES DECISIONES DE FONDO.
+
+   1. EL PAPEL SE DIBUJA AL ANCHO REAL. En pantalla la cinta mide 302 px, que son
+      los 80 mm del rollo a 96 ppp; en el papel mide 80 mm de verdad. Una vista
+      previa que no mide lo que sale del rollo no sirve de vista previa: el
+      cajero descubriria el corte de los nombres largos al entregar el tiquete.
+
+   2. FILETES EN LUGAR DE FONDOS. Una termica de rollo quema el papel para
+      ennegrecerlo: un fondo relleno gasta consumible y se entrega gris. Los
+      bloques se separan con reglas —de puntos, continua y doble— que en una
+      termica cuestan una linea.
+
+   3. EN EL PAPEL SIEMPRE SE IMPRIME EN CLARO. Con html.o puesto, --on-surface es
+      un crema casi blanco: el navegador no imprime el fondo oscuro y el tiquete
+      saldria en blanco sobre blanco. La cinta resuelve su color en cuatro
+      variables propias y, al imprimir en oscuro, las apunta a los tokens
+      inversos —que en html.o son justamente los claros—; asi sigue sin haber ni
+      un color literal y del rollo sale tinta oscura sobre papel claro.
+
+   Issue #19 · Fase 4 - Frontend */
+
+/* ===================================================== 1. LA MESA ==========
+   Lo que envuelve al papel en pantalla y no se imprime: el fondo sobre el que
+   se apoya la cinta y la regla que anuncia cuanto mide. */
+
+.comprobante-mesa {
+  display: grid;
+  place-items: center;
+  padding: var(--esp-5);
+  border-radius: var(--radio-m);
+  background: var(--surface-container);
+}
+
+.comprobante-medida {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-2);
+  width: 302px;
+  max-width: 100%;
+  margin: 0 auto var(--esp-2);
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-p);
+}
+
+.comprobante-medida-linea { flex: 1; height: 1px; background: var(--outline-variant); }
+
+.comprobante-hoja {
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-xp);
+  box-shadow: var(--elev-1);
+  overflow: hidden;
+}
+
+/* ===================================================== 2. EL PAPEL =========
+   302 px son 80 mm a 96 ppp, el ancho del rollo. En un telefono la pantalla
+   puede ser mas estrecha que el papel, asi que la cinta se deja encoger: lo que
+   no puede es mentir hacia arriba. */
+
+.comprobante {
+  --papel: var(--surface);
+  --tinta: var(--on-surface);
+  --tinta-suave: var(--on-surface-variant);
+  --filete: var(--outline);
+
+  width: 302px;
+  max-width: 100%;
+  padding: var(--esp-4);
+  background: var(--papel);
+  color: var(--tinta);
+  font: var(--tipo-cuerpo-m);
+}
+
+.comprobante-negocio {
+  margin: 0;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.comprobante-contacto {
+  margin: 2px 0 0;
+  color: var(--tinta-suave);
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+}
+
+/* Las tres reglas de la cinta. La de puntos separa bloques, la continua enmarca
+   los renglones y la doble cierra el total: en un tiquete el grosor de la linea
+   es la unica jerarquia que sobrevive a la termica. */
+.comprobante-regla {
+  height: 0;
+  border: none;
+  border-top: 1px dashed var(--filete);
+  margin: var(--esp-3) 0;
+}
+
+.comprobante-regla-solida { border-top-style: solid; }
+.comprobante-regla-doble  { border-top: 3px double var(--filete); }
+
+.comprobante-rotulo {
+  margin: 0;
+  color: var(--tinta-suave);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 1px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* El numero de orden es lo que se canta en la ventanilla: es el dato mas grande
+   de la cinta despues del total. */
+.comprobante-numero {
+  margin: 2px 0 0;
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .5px;
+  text-align: center;
+}
+
+.comprobante-fecha {
+  margin: 2px 0 0;
+  color: var(--tinta-suave);
+  font-size: 13px;
+  line-height: 18px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+/* Un renglon: cantidad, nombre con su unitario debajo y subtotal a la derecha.
+   La cantidad va delante y en negrita porque es lo que se coteja con la bolsa. */
+.comprobante-linea { display: flex; gap: var(--esp-2); padding-block: 6px; }
+
+.comprobante-cantidad {
+  flex: none;
+  width: 22px;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.comprobante-detalle { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+
+.comprobante-nombre { font-size: 14px; line-height: 18px; font-weight: 600; }
+
+.comprobante-unitario {
+  color: var(--tinta-suave);
+  font-size: 12px;
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.comprobante-subtotal {
+  flex: none;
+  font-size: 14px;
+  line-height: 18px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.comprobante-total { display: flex; align-items: baseline; justify-content: space-between; gap: var(--esp-2); }
+
+.comprobante-total-rotulo { font-size: 15px; line-height: 20px; font-weight: 700; letter-spacing: .5px; }
+
+.comprobante-total-valor {
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.comprobante-dato {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--esp-2);
+  font-size: 13px;
+  line-height: 22px;
+}
+
+.comprobante-dato-rotulo { color: var(--tinta-suave); }
+.comprobante-dato-valor  { font-weight: 600; }
+
+.comprobante-nota { margin: 0; font-size: 13px; line-height: 18px; }
+
+.comprobante-nota-rotulo {
+  display: block;
+  color: var(--tinta-suave);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.comprobante-gracias { margin: 0; font-size: 13px; line-height: 18px; text-align: center; }
+
+.comprobante-pie {
+  margin: 2px 0 0;
+  color: var(--tinta-suave);
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+/* ================================================== 3. LA IMPRESION ========
+   Lo que va al rollo es la cinta y nada mas: fuera la cabecera, fuera la
+   navegacion, fuera el pie del proyecto y fuera la barra de acciones —que lleva
+   .sin-impresion, la utilidad de base.css—. Sin esto, el tiquete sale con el
+   menu del panel encima y ocupa dos palmos de papel. */
+
+@media print {
+  /* 80 mm de ancho y el alto que pida el contenido: es un rollo continuo, no
+     una hoja. El margen lo pone la pagina, no el papel, para que el contenido
+     ocupe los 80 mm completos menos lo que la impresora no alcanza. */
+  @page { size: 80mm auto; margin: 4mm; }
+
+  .cabecera,
+  .navegacion,
+  .pie { display: none; }
+
+  /* El marco del panel deja de limitar y de separar: en el papel no hay
+     ventana que centrar ni borde del que alejarse. */
+  .contenido { max-width: none; padding: 0; gap: 0; }
+
+  .comprobante-mesa { display: block; padding: 0; border-radius: 0; background: none; }
+  .comprobante-medida { display: none; }
+  .comprobante-hoja { border: none; border-radius: 0; box-shadow: none; overflow: visible; }
+
+  .comprobante { width: 80mm; max-width: 100%; padding: 0; }
+
+  /* En oscuro, la cinta cambia a los tokens inversos: en html.o el inverso es
+     justamente el claro, asi que del rollo sale tinta oscura sobre papel claro
+     sin escribir un solo color literal. Los tonos intermedios se derivan de esos
+     mismos dos tokens con color-mix, que tampoco introduce color nuevo. */
+  html.o .comprobante {
+    --papel: var(--inverse-surface);
+    --tinta: var(--inverse-on-surface);
+    --tinta-suave: color-mix(in srgb, var(--inverse-on-surface) 75%, var(--inverse-surface));
+    --filete: color-mix(in srgb, var(--inverse-on-surface) 45%, var(--inverse-surface));
+  }
+}

@@ -106,11 +106,13 @@ final class CajaControlador extends Controlador
             throw new RutaNoEncontrada(sprintf('Orden %s inexistente para este food truck.', $id));
         }
 
+        // La hoja y el guion del comprobante solo viajan aqui: el formato de 80 mm
+        // y el dialogo de impresion no le sirven a ninguna otra pantalla.
         $this->vista('caja/comprobante', [
             'orden' => $orden,
             'items' => Orden::items((int) $orden['id']),
             'truck' => FoodTruck::porId($ft),
-        ], 'Orden ' . $orden['numero']);
+        ], 'Orden ' . $orden['numero'], 200, ['comprobante.css'], ['comprobante.js']);
     }
 
     /**
@@ -198,14 +200,44 @@ final class CajaControlador extends Controlador
     {
         $this->exigirRol(...self::ROLES);
 
-        $ft    = $this->foodTruckActual();
-        $turno = TurnoCaja::vigente($ft);
+        $this->pantallaTurno(TurnoCaja::vigente($this->foodTruckActual()));
+    }
+
+    /**
+     * Pinta la pantalla del turno, la misma para las dos caras.
+     *
+     * Las cuatro salidas que llevan a esta pantalla —entrar, abrir mal, abrir
+     * con uno ya abierto y cerrar mal— tienen que enlazar la misma hoja y el
+     * mismo guion y devolver los mismos datos a la vista. Repetirlo cuatro veces
+     * era la forma segura de que algun dia solo tres siguieran igual.
+     *
+     * El turno llega como puede venir y no como deberia: null es un estado real
+     * y la vista lo dibuja como la apertura, que es lo que toca cuando no hay
+     * turno abierto.
+     *
+     * @param array<string, mixed>|null $turno
+     * @param array<string, string>     $errores
+     */
+    private function pantallaTurno(
+        ?array $turno,
+        array $errores = [],
+        ?string $aviso = null,
+        int $codigo = 200
+    ): void {
+        $usuario = $this->usuario();
 
         $this->vista('caja/turno', [
             'turno'   => $turno,
             'resumen' => $turno === null ? null : TurnoCaja::resumen((int) $turno['id']),
-            'errores' => [],
-        ], $turno === null ? 'Abrir turno' : 'Cerrar turno');
+            'errores' => $errores,
+            'aviso'   => $aviso,
+            'cajero'  => (string) ($usuario['nombre'] ?? ''),
+            // Lo que el cajero ya habia marcado vuelve a la pantalla tras un
+            // rechazo, para que no tenga que contar el cajon otra vez. En un GET
+            // no hay nada que devolver.
+            'base'      => self::texto('base_inicial'),
+            'declarado' => self::texto('total_declarado'),
+        ], $turno === null ? 'Abrir turno' : 'Cerrar turno', $codigo, ['turno.css'], ['turno.js']);
     }
 
     public function abrir(): void
@@ -219,11 +251,7 @@ final class CajaControlador extends Controlador
         $base = $v->precio('base_inicial', $_POST['base_inicial'] ?? '');
 
         if (!$v->correcto()) {
-            $this->vista('caja/turno', [
-                'turno'   => null,
-                'resumen' => null,
-                'errores' => $v->errores(),
-            ], 'Abrir turno', 422);
+            $this->pantallaTurno(null, $v->errores(), null, 422);
 
             return;
         }
@@ -235,14 +263,12 @@ final class CajaControlador extends Controlador
             // Ya habia un turno vigente: no se crea otro. El aviso va aparte de
             // los errores de campo, porque la vista pasa a mostrar la rama de
             // cierre y alli no existe el campo de la base inicial.
-            $vigente = TurnoCaja::vigente($ft);
-
-            $this->vista('caja/turno', [
-                'turno'   => $vigente,
-                'resumen' => $vigente === null ? null : TurnoCaja::resumen((int) $vigente['id']),
-                'errores' => [],
-                'aviso'   => 'Ya hay un turno abierto. Cierrelo antes de abrir otro.',
-            ], 'Turno de caja', 409);
+            $this->pantallaTurno(
+                TurnoCaja::vigente($ft),
+                [],
+                'Ya hay un turno abierto. Cierrelo antes de abrir otro.',
+                409
+            );
 
             return;
         }
@@ -271,11 +297,7 @@ final class CajaControlador extends Controlador
         $declarado = $v->precio('total_declarado', $_POST['total_declarado'] ?? '');
 
         if (!$v->correcto()) {
-            $this->vista('caja/turno', [
-                'turno'   => $turno,
-                'resumen' => TurnoCaja::resumen((int) $turno['id']),
-                'errores' => $v->errores(),
-            ], 'Cerrar turno', 422);
+            $this->pantallaTurno($turno, $v->errores(), null, 422);
 
             return;
         }

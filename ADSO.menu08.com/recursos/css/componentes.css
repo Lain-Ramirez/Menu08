@@ -444,6 +444,11 @@
   border-color: var(--outline-variant);
 }
 
+/* Turno abierto. Se lee en verde, pero nunca solo por el color: la etiqueta
+   lleva siempre icono y la palabra "abierto". Esta aqui y no en una hoja de
+   pantalla porque la emiten dos, /caja y /caja/turno, y cada una carga la suya. */
+.etiqueta-turno { background: var(--tertiary-container); color: var(--on-tertiary-container); }
+
 .etiqueta-preparacion { background: var(--warning-container); color: var(--on-warning-container); }
 .etiqueta-lista { background: var(--tertiary-container); color: var(--on-tertiary-container); }
 .etiqueta-entregada { background: transparent; color: var(--on-surface-variant); border-color: var(--outline); }
@@ -973,9 +978,11 @@
    su vista con las clases de arriba. Se mantienen para que caja y panel no se
    descuadren mientras tanto.
 
-   Las clases .carta-* ya no estan aqui: se las llevo el #17 a su propia hoja,
-   recursos/css/carta.css, que solo cargan las pantallas publicas. Quedan las
-   .comprobante-*, que salen con el #19. */
+   Aqui ya no queda ninguna clase de modulo: las .carta-* se las llevo el #17 a
+   recursos/css/carta.css, que solo cargan las pantallas publicas, y las
+   .comprobante-* se las llevo el #19 a recursos/css/comprobante.css, donde
+   ademas viven las reglas de impresion de los 80 mm. Lo que sigue abajo es la
+   linea base de los controles pelados, y se va con el #16. */
 
 /* Linea base de los controles PELADOS, los que todavia no van dentro de un
    .campo. Sin esto, las vistas del panel y de caja se quedan con inputs sin
@@ -1007,13 +1014,3 @@ input[type="number"]:not(.campo-control) { width: 5rem; }
 
 button:not(.boton):not(.boton-simbolo) { cursor: pointer; background: var(--surface-container-high); }
 button:not(.boton):not(.boton-simbolo):hover { background: var(--surface-container); }
-
-.comprobante { max-width: var(--ancho-comprobante); margin-inline: auto; }
-.comprobante header { text-align: center; }
-.comprobante-numero { font: var(--tipo-titulo-g); font-weight: 700; margin: var(--esp-1) 0; }
-.comprobante-total { font: var(--tipo-titulo-p); font-variant-numeric: tabular-nums; }
-.comprobante-gracias { text-align: center; color: var(--on-surface-variant); }
-
-@media print {
-  .comprobante { max-width: none; }
-}

@@ -84,13 +84,6 @@
   min-width: 0;
 }
 
-/* El turno abierto se lee en verde, pero nunca solo por el color: la etiqueta
-   lleva icono y la palabra "abierto". */
-.etiqueta-turno {
-  background: var(--tertiary-container);
-  color: var(--on-tertiary-container);
-}
-
 .venta-turno-cifras {
   color: var(--on-surface-variant);
   font: var(--tipo-cuerpo-m);

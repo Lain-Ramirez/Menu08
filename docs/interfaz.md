@@ -193,13 +193,21 @@ El texto de un aviso se inserta con `textContent`, nunca como HTML.
   en oscuro, el navegador pintaba los controles nativos en oscuro sobre una página que seguía en
   claro.
 
-## La sección 9 de `componentes.css` es temporal
+## La última sección de `componentes.css` es temporal
 
-Al final de la hoja hay un bloque marcado **«piezas de módulo, provisionales»**: `.carta-*`,
-`.comprobante-*` y `.barra`. Venían del `<style>` de `base.php` y se reescribieron contra los
-tokens, pero **no son del catálogo y no se reutilizan**. Siguen ahí porque `carta/publica.php` y
-`caja/comprobante.php` todavía emiten esas clases; se borran al remaquetar esas vistas en el #15
-y el #16.
+Al final de la hoja hay un bloque marcado **«piezas de módulo, provisionales»**. Venían del
+`<style>` de `base.php` y se reescribieron contra los tokens, pero **no son del catálogo y no se
+reutilizan**: cada issue se lleva las suyas al remaquetar su vista.
+
+Ya no queda ninguna clase de módulo ahí. Las `.carta-*` se las llevó el #17 a
+`recursos/css/carta.css`, y las `.comprobante-*` el #19 a `recursos/css/comprobante.css`, que es
+donde viven también las reglas `@media print` del rollo de 80 mm. Lo que sigue en esa sección es
+la línea base de los controles pelados —los que aún no van dentro de un `.campo`—, y se va con
+el #16.
+
+`.etiqueta-turno` hizo el camino contrario: la declaraba `caja.css`, pero desde el #19 la emiten
+dos pantallas —`/caja` y `/caja/turno`— y cada una carga su propia hoja, así que subió al
+catálogo junto a las demás variantes de `.etiqueta`.
 
 ---
 

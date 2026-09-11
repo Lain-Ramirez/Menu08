@@ -135,10 +135,19 @@
   text-align: center;
 }
 
-/* El tinte de cada estado sale del mismo token que su etiqueta en
-   componentes.css, asi que la cabecera, el filete de la tarjeta y la etiqueta
-   nunca se contradicen: pendiente en neutro —esperar no es un estado que haya
-   que colorear—, preparacion en la banda calida y lista en verde. */
+/* EL SEMAFORO. Rojo lo que espera, amarillo lo que esta en la plancha, verde lo
+   que ya se puede entregar. Es la lectura que la cocina hace sin leer: de lejos
+   no se distinguen los rotulos, se distingue el color de la columna.
+
+   Los tres tintes son tokens de contenedor —pensados justamente para llevar
+   texto encima— y cada uno arrastra su color de texto, asi que el contraste se
+   mantiene en claro y en oscuro sin una sola regla mas. */
+.svp-columna-pendiente .svp-columna-cabeza {
+  border-left-color: var(--error);
+  background: var(--error-container);
+  color: var(--on-error-container);
+}
+
 .svp-columna-preparacion .svp-columna-cabeza {
   border-left-color: var(--warning);
   background: var(--warning-container);
@@ -251,34 +260,68 @@
 
 /* Codigo de color por estado, en el filete izquierdo de la tarjeta. Es el mismo
    reparto que las etiquetas de componentes.css. */
-.svp-tarjeta-pendiente   { border-left-color: var(--outline); }
-.svp-tarjeta-preparacion { border-left-color: var(--warning); }
-.svp-tarjeta-lista       { border-left-color: var(--tertiary); }
+/* La tarjeta lleva el color de SU estado, el mismo de la cabecera que tiene
+   encima: la orden se mueve de columna y se mueve de color con ella. */
+.svp-tarjeta-pendiente {
+  border-left-color: var(--error);
+  background: var(--error-container);
+  color: var(--on-error-container);
+}
+
+.svp-tarjeta-preparacion {
+  border-left-color: var(--warning);
+  background: var(--warning-container);
+  color: var(--on-warning-container);
+}
+
+.svp-tarjeta-lista {
+  border-left-color: var(--tertiary);
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+}
+
+/* Lo que va encima del tinte se despega de el en lugar de heredarlo: la cifra
+   de cantidad y la nota van sobre el fondo limpio de la aplicacion, que es el
+   mismo en las tres columnas. Sin esto, cada estado tendria su propia version
+   de cada pieza y habria que comprobar nueve combinaciones en vez de tres. */
+.svp-tarjeta .svp-cantidad,
+.svp-tarjeta .svp-nota { background: var(--surface); color: var(--on-surface); }
+
+.svp-tarjeta .svp-tiempos,
+.svp-tarjeta .svp-reloj { color: inherit; }
 
 /* ===================================================== 4. LA DEMORA ======== */
 
 /* Realce de la orden que paso del umbral.
 
-   EL ROJO SUBRAYA, NO INUNDA. Rellenar la tarjeta entera funciona con una
-   demorada suelta y se vuelve inservible con doce: un tablero todo rojo no
-   senala nada, cansa la vista y, de paso, tapa el codigo de color de los
-   estados, que es el que dice que hay que hacer con cada orden. Aqui el rojo se
-   queda en el filete, en el cronometro y en la etiqueta —el dato que se
-   disparo—, y la tarjeta conserva su fondo y su estado.
+   AQUI EL COLOR YA ESTA OCUPADO. Con el semaforo puesto, el rojo significa
+   «pendiente» y no «lleva demasiado»: pintar de rojo la demorada la volveria
+   indistinguible de sus vecinas en la primera columna, que es justo donde mas
+   demoras hay. Asi que la demora no cambia de color: cambia de PESO.
 
-   Siguen siendo cuatro senales y ninguna es solo color: el filete del estado
-   pasa a rojo, el cronometro se pone en rojo y en negrita, el fondo recibe un
-   lavado apenas perceptible y la etiqueta pone la palabra «Demorada» con su
-   icono. El lavado se saca del propio
-   token de error mezclado con el fondo de la tarjeta, asi que no entra ni un
-   color nuevo y en oscuro se resuelve solo. */
+   El anillo saturado rodea la tarjeta sin tocar su tinte, y se ve igual de bien
+   sobre el rojo palido, el ambar y el verde, porque --error es un tono lleno y
+   los tres fondos son contenedores palidos. Con el van el cronometro en negrita
+   y la etiqueta con la palabra «Demorada» y su icono: tres senales, y ninguna
+   pide distinguir un color de otro. */
 .svp-tarjeta-demorada {
-  border-color: color-mix(in srgb, var(--error) 35%, var(--outline-variant));
-  border-left-color: var(--error);
-  background: color-mix(in srgb, var(--error-container) 30%, var(--surface-container-low));
+  box-shadow: var(--elev-1), 0 0 0 3px var(--error);
 }
 
-.svp-tarjeta-demorada .svp-reloj { color: var(--error); font-weight: 700; }
+.svp-tarjeta-demorada .svp-reloj {
+  color: var(--error);
+  font-weight: 700;
+}
+
+/* La etiqueta del catalogo se pinta sobre --error-container, que es justo el
+   fondo de la tarjeta pendiente: alli desapareceria. Dentro del tablero se
+   rellena con el tono lleno, el mismo del anillo, y asi se ve igual sobre los
+   tres tintes. */
+.svp-tarjeta .etiqueta-demorada {
+  background: var(--error);
+  color: var(--on-error);
+  border-color: transparent;
+}
 
 /* ================================================= 5. TABLERO SIN NADA ===== */
 

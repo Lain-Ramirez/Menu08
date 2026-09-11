@@ -274,11 +274,19 @@ final class Orden
      * abierto, y el tablero no podia saber si la ventanilla estaba cerrada o si
      * produccion iba al dia.
      *
-     * @return array{turno: int|null, ordenes: list<array<string, mixed>>}
+     * Cada orden viaja con su `creado_en`, y la respuesta entera con el `ahora`
+     * del servidor. El tablero necesita las dos para llevar el cronometro por su
+     * cuenta, un segundo a la vez, sin pedir la lista otra vez: con la marca
+     * sola, el reloj de una tableta mal puesta en hora contaria minutos que no
+     * son. Con las dos, el desfase se descuenta y el cronometro dice la verdad
+     * aunque el dispositivo no sepa que hora es.
+     *
+     * @return array{turno: int|null, ahora: string, ordenes: list<array<string, mixed>>}
      */
     public static function enCurso(int $foodTruckId, int $minutosDemora = 10): array
     {
-        $pdo = ConexionBD::obtener();
+        $pdo   = ConexionBD::obtener();
+        $ahora = date('Y-m-d H:i:s');
 
         $turnoVigente = "(SELECT v.id FROM turnos_caja v
                            WHERE v.food_truck_id = :ft AND v.estado = 'abierto'
@@ -287,7 +295,7 @@ final class Orden
         $enCurso = "('pendiente', 'en_preparacion', 'lista')";
 
         $o = $pdo->prepare(
-            "SELECT t.id AS turno_id, o.id AS orden_id, o.numero, o.nota,
+            "SELECT t.id AS turno_id, o.id AS orden_id, o.numero, o.nota, o.creado_en,
                     e.codigo AS estado, e.nombre AS estado_nombre,
                     TIMESTAMPDIFF(MINUTE, o.creado_en, NOW()) AS minutos
                FROM turnos_caja t
@@ -304,7 +312,7 @@ final class Orden
 
         // Ni una fila: no hay ningun turno abierto. La ventanilla esta cerrada.
         if ($filas === []) {
-            return ['turno' => null, 'ordenes' => []];
+            return ['turno' => null, 'ahora' => $ahora, 'ordenes' => []];
         }
 
         $turno = (int) $filas[0]['turno_id'];
@@ -312,7 +320,7 @@ final class Orden
         // Turno abierto y nada en la plancha: el LEFT JOIN deja una unica fila
         // con la orden en NULL. Se informa el turno igual, con la lista vacia.
         if ($filas[0]['orden_id'] === null) {
-            return ['turno' => $turno, 'ordenes' => []];
+            return ['turno' => $turno, 'ahora' => $ahora, 'ordenes' => []];
         }
 
         $i = $pdo->prepare(
@@ -346,6 +354,7 @@ final class Orden
                 'numero'        => (string) $fila['numero'],
                 'estado'        => (string) $fila['estado'],
                 'estado_nombre' => (string) $fila['estado_nombre'],
+                'creado_en'     => (string) $fila['creado_en'],
                 'minutos'       => $minutos,
                 'demorada'      => $minutos >= $minutosDemora,
                 'nota'          => $fila['nota'] === null ? null : (string) $fila['nota'],
@@ -353,7 +362,7 @@ final class Orden
             ];
         }
 
-        return ['turno' => $turno, 'ordenes' => $salida];
+        return ['turno' => $turno, 'ahora' => $ahora, 'ordenes' => $salida];
     }
 
     /**

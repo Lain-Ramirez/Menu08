@@ -1,0 +1,289 @@
+/* svp.css — el tablero del Sistema de Visualizacion de Produccion.
+   Menu08 · carta, caja y produccion para food trucks.
+
+   Solo la carga /svp, desde plantillas/cabecera.php a traves del parametro
+   $hojas. Reune la reticula de las tres columnas, la tarjeta de orden, el
+   codigo de color por estado y el realce de las demoradas.
+
+   Ni un color literal: todo sale de los 31 tokens de md3.css, asi que el modo
+   oscuro de html.o funciona sin una sola regla propia.
+
+   ESTA PANTALLA SE LEE DE PIE Y A DISTANCIA. No es el panel: quien la mira
+   tiene las manos ocupadas, esta a metro y medio y no va a acercarse a leer.
+   De ahi las tres medidas que no se negocian:
+
+     - El numero de orden a 40 px. Es lo que se canta por la ventanilla.
+     - El cronometro a 24 px y con cifras de ancho fijo, para que no baile
+       cada segundo.
+     - El boton de avance a 56 px de alto, que se pulsa con el canto del dedo
+       y a veces con guante.
+
+   EL COLOR NUNCA DECIDE SOLO. md3.css advierte que la banda calida de esta
+   paleta queda densa: el estado se distingue por columna, por etiqueta con
+   palabra y por color, y la demora ademas por el cronometro en negrita y la
+   palabra «Demorada». Un tablero que solo cambia de tono no sirve en una
+   cocina con vapor ni a quien no distingue el rojo del ambar.
+
+   Issue #20 · Fase 4 - Frontend */
+
+/* ================================================== 1. MARCO DEL TABLERO === */
+
+.svp { display: flex; flex-direction: column; gap: var(--esp-4); }
+
+/* El atributo hidden tiene que ganar DENTRO del tablero.
+
+   svp.js esconde y muestra con hidden: las columnas, las dos pantallas de
+   tablero vacio, el aviso de red y la etiqueta de demora. Todas esas piezas
+   traen su propio display —grid en .svp-columnas, flex en .svp-vacio y en
+   .aviso, inline-flex en .etiqueta—, y el navegador esconde el atributo con una
+   regla de su propia hoja.
+
+   Los navegadores al dia marcan esa regla como !important y ganan igual. Los
+   que no —una tableta vieja en la ventanilla, que es justo donde vive este
+   tablero— dejan que la regla de autor mande, y entonces el tablero mostraria a
+   la vez las ordenes y el cartel de que no hay ninguna. Una linea despeja la
+   duda en los dos casos.
+
+   Con un selector de dos piezas para ganarle a todas, y no repetida clase por
+   clase: lo que se esconda manana funciona igual. */
+.svp [hidden] { display: none; }
+
+/* Barra de estado del propio tablero: de que turno son las ordenes, cuantas
+   hay y cuando se refresco por ultima vez. Lo ultimo no es un adorno: en una
+   pantalla que se pinta sola, saber que sigue viva es la mitad de la
+   informacion. */
+.svp-barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-3);
+}
+
+.svp-barra-datos { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-3); min-width: 0; }
+
+.svp-barra-cifras { color: var(--on-surface-variant); font: var(--tipo-cuerpo-m); }
+
+.svp-barra-cifras strong { color: var(--on-surface); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* El latido del sondeo. Se apaga cuando una peticion falla, y entonces manda
+   el aviso de error que hay debajo. */
+.svp-latido {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-m);
+  font-variant-numeric: tabular-nums;
+}
+
+.svp-latido-punto {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border-radius: var(--radio-completo);
+  background: var(--tertiary);
+}
+
+.svp-latido-caido .svp-latido-punto { background: var(--error); }
+
+/* ====================================================== 2. LAS COLUMNAS ==== */
+
+/* Una columna por estado en curso. Por debajo de 1024 px se apilan: el tablero
+   vive en una pantalla ancha, pero tambien se abre en la tableta de la
+   ventanilla para comprobar una orden concreta. */
+.svp-columnas { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--esp-4); align-items: start; }
+
+@media (min-width: 1024px) {
+  .svp-columnas { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.svp-columna { display: flex; flex-direction: column; gap: var(--esp-3); min-width: 0; }
+
+.svp-columna-cabeza {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-2);
+  padding: var(--esp-2) var(--esp-3);
+  border-radius: var(--radio-p);
+  background: var(--surface-container);
+}
+
+.svp-columna-titulo { margin: 0; font: var(--tipo-titulo-p); }
+
+/* Cuantas ordenes hay en la columna. A distancia es lo primero que se mira:
+   dice si la cocina va al dia o se esta acumulando trabajo. */
+.svp-columna-cuenta {
+  min-width: 32px;
+  padding: 0 var(--esp-2);
+  border-radius: var(--radio-completo);
+  background: var(--surface-container-high);
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-g);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+/* El color de la columna sale del mismo sitio que el de la etiqueta de estado,
+   asi que la cabecera y la tarjeta nunca se contradicen. */
+.svp-columna-preparacion .svp-columna-cabeza { background: var(--warning-container); color: var(--on-warning-container); }
+.svp-columna-preparacion .svp-columna-cuenta { background: var(--surface); color: var(--on-surface-variant); }
+.svp-columna-lista .svp-columna-cabeza { background: var(--tertiary-container); color: var(--on-tertiary-container); }
+.svp-columna-lista .svp-columna-cuenta { background: var(--surface); color: var(--on-surface-variant); }
+
+.svp-lista { display: flex; flex-direction: column; gap: var(--esp-3); list-style: none; margin: 0; padding: 0; }
+
+/* Columna sin nada: no se deja el hueco en blanco, porque un hueco en blanco
+   tambien es lo que se ve cuando el tablero se rompe. */
+.svp-columna-vacia {
+  padding: var(--esp-4);
+  border: 1px dashed var(--outline-variant);
+  border-radius: var(--radio-m);
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-m);
+  text-align: center;
+}
+
+/* ======================================================= 3. LA TARJETA ===== */
+
+.svp-tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding: var(--esp-4);
+  border: 1px solid var(--outline-variant);
+  border-left: 4px solid var(--outline);
+  border-radius: var(--radio-m);
+  background: var(--surface-container-low);
+  box-shadow: var(--elev-1);
+}
+
+.svp-tarjeta-cabeza { display: flex; align-items: center; justify-content: space-between; gap: var(--esp-2); }
+
+/* 40 px: el criterio pide 32 como minimo y este es el dato que se canta por la
+   ventanilla. Cifras de ancho fijo para que la columna de numeros no baile. */
+.svp-numero { font-size: 40px; line-height: 44px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.svp-tiempos {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--esp-2);
+  margin: 0;
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-m);
+}
+
+/* El cronometro lo lleva el navegador, un segundo a la vez, sin esperar al
+   sondeo. */
+.svp-reloj { color: var(--on-surface); font-size: 24px; line-height: 32px; font-weight: 500; }
+
+.svp-lineas { display: flex; flex-direction: column; gap: var(--esp-1); list-style: none; margin: 0; padding: 0; }
+
+.svp-linea { display: flex; align-items: baseline; gap: var(--esp-2); font-size: 16px; line-height: 24px; }
+
+/* La cantidad delante y en negrita: es lo que se cuenta contra la plancha. */
+.svp-cantidad {
+  flex: none;
+  min-width: 28px;
+  padding: 0 var(--esp-1);
+  border-radius: var(--radio-xp);
+  background: var(--surface-container-high);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.svp-producto { min-width: 0; }
+
+/* La nota es lo unico que el cliente pidio con palabras: no se apaga. */
+.svp-nota {
+  margin: 0;
+  padding: var(--esp-2) var(--esp-3);
+  border-radius: var(--radio-xp);
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.svp-nota-rotulo {
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: .8;
+}
+
+/* 56 px de alto, por encima de los 48 del token de toque: se pulsa de pie, con
+   prisa y a veces con guante. */
+.svp-avance { min-height: 56px; font-size: 16px; line-height: 24px; }
+
+.svp-avance:disabled { cursor: default; }
+
+/* Codigo de color por estado, en el filete izquierdo de la tarjeta. Es el mismo
+   reparto que las etiquetas de componentes.css. */
+.svp-tarjeta-pendiente   { border-left-color: var(--outline); }
+.svp-tarjeta-preparacion { border-left-color: var(--warning); }
+.svp-tarjeta-lista       { border-left-color: var(--tertiary); }
+
+/* ===================================================== 4. LA DEMORA ======== */
+
+/* Realce de la orden que paso del umbral. Fondo, filete, cronometro en negrita
+   Y etiqueta con la palabra: cuatro senales, porque esta es la que no se puede
+   pasar por alto. */
+.svp-tarjeta-demorada {
+  border-color: var(--error);
+  border-left-color: var(--error);
+  background: var(--error-container);
+  color: var(--on-error-container);
+}
+
+.svp-tarjeta-demorada .svp-reloj,
+.svp-tarjeta-demorada .svp-tiempos { color: var(--on-error-container); }
+
+.svp-tarjeta-demorada .svp-reloj { font-weight: 700; }
+
+.svp-tarjeta-demorada .svp-cantidad { background: var(--surface); color: var(--on-surface); }
+
+.svp-tarjeta-demorada .svp-nota { background: var(--surface); color: var(--on-surface); }
+
+/* ================================================= 5. TABLERO SIN NADA ===== */
+
+/* Dos pantallas distintas que se parecen mucho y no significan lo mismo: la
+   ventanilla cerrada —no hay turno abierto— y la produccion al dia —turno
+   abierto y nada en la plancha—. Confundirlas manda a alguien a buscar una
+   orden que nadie registro. */
+.svp-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-3);
+  padding: var(--esp-7) var(--esp-5);
+  border: 1px dashed var(--outline-variant);
+  border-radius: var(--radio-g);
+  text-align: center;
+}
+
+.svp-vacio-icono {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radio-completo);
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+}
+
+.svp-vacio-icono svg { width: 32px; height: 32px; }
+
+.svp-vacio-titulo { margin: 0; font: var(--tipo-titulo-m); }
+
+.svp-vacio-texto { margin: 0; max-width: 36rem; color: var(--on-surface-variant); }
+
+/* El tablero no se imprime: es una pantalla que vive en la pared del truck. */
+@media print {
+  .svp { display: none; }
+}

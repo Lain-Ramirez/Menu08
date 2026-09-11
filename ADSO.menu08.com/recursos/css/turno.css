@@ -63,6 +63,14 @@
 .turno-cifra   { font-size: 32px; line-height: 40px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .turno-cifra-m { font-size: 24px; line-height: 32px; font-weight: 700; font-variant-numeric: tabular-nums; }
 
+/* turno.js esconde con el atributo hidden el mensaje de rechazo del servidor en
+   cuanto se corrige la cifra, y .error-campo trae su propio display:block. Los
+   navegadores al dia marcan como !important la regla que esconde el atributo y
+   ganan solos; los viejos dejan mandar a la regla de autor y el mensaje se
+   quedaria en pantalla despues de corregido. Es el mismo seguro que lleva
+   svp.css. */
+.turno-apertura [hidden] { display: none; }
+
 /* Enlace suelto bajo una tarjeta —turnos anteriores, seguir vendiendo—. Va
    centrado bajo la columna que cierra, no pegado al margen izquierdo. */
 .turno-enlace-centro { text-align: center; }

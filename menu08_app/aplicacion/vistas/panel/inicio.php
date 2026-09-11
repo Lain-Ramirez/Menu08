@@ -148,7 +148,7 @@ $hm = static fn (mixed $hora): string => substr((string) $hora, 0, 5);
                 <?php if ($vigente !== null) : ?>
                     Abierto hasta las <strong><?= Vista::e($hm($vigente['hora_fin'])) ?></strong>
                 <?php else : ?>
-                    Cerrado ahora · abre
+                    Cerrado ahora · abre el
                     <?= Vista::e(mb_strtolower($dias[(int) $proxima['dia_semana']] ?? '')) ?>
                     a las <strong><?= Vista::e($hm($proxima['hora_inicio'])) ?></strong>
                 <?php endif; ?>

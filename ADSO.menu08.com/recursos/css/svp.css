@@ -188,6 +188,10 @@
   border-radius: var(--radio-m);
   background: var(--surface-container-low);
   box-shadow: var(--elev-1);
+  /* Respaldo del tono: una tarjeta sin clase de estado no llegaria a pintarse
+     nunca —la plantilla siempre trae la suya—, pero sin este valor el anillo de
+     demora se quedaria sin color en lugar de caer en uno neutro. */
+  --svp-tono: var(--on-surface);
 }
 
 .svp-tarjeta-cabeza { display: flex; align-items: center; justify-content: space-between; gap: var(--esp-2); }
@@ -263,21 +267,24 @@
 /* La tarjeta lleva el color de SU estado, el mismo de la cabecera que tiene
    encima: la orden se mueve de columna y se mueve de color con ella. */
 .svp-tarjeta-pendiente {
+  --svp-tono: var(--on-error-container);
   border-left-color: var(--error);
   background: var(--error-container);
-  color: var(--on-error-container);
+  color: var(--svp-tono);
 }
 
 .svp-tarjeta-preparacion {
+  --svp-tono: var(--on-warning-container);
   border-left-color: var(--warning);
   background: var(--warning-container);
-  color: var(--on-warning-container);
+  color: var(--svp-tono);
 }
 
 .svp-tarjeta-lista {
+  --svp-tono: var(--on-tertiary-container);
   border-left-color: var(--tertiary);
   background: var(--tertiary-container);
-  color: var(--on-tertiary-container);
+  color: var(--svp-tono);
 }
 
 /* Lo que va encima del tinte se despega de el en lugar de heredarlo: la cifra
@@ -294,32 +301,35 @@
 
 /* Realce de la orden que paso del umbral.
 
-   AQUI EL COLOR YA ESTA OCUPADO. Con el semaforo puesto, el rojo significa
-   «pendiente» y no «lleva demasiado»: pintar de rojo la demorada la volveria
-   indistinguible de sus vecinas en la primera columna, que es justo donde mas
-   demoras hay. Asi que la demora no cambia de color: cambia de PESO.
+   NINGUNA TARJETA SE SALE DE SU COLOR. El semaforo manda: pendiente es rojo, en
+   preparacion es amarillo y lista es verde, pase lo que pase con el reloj. Un
+   anillo rojo alrededor de una comanda amarilla la saca de su columna de un
+   vistazo y, como casi todas las ordenes acaban pasando del umbral, el tablero
+   se llena de rojo otra vez por la puerta de atras.
 
-   El anillo saturado rodea la tarjeta sin tocar su tinte, y se ve igual de bien
-   sobre el rojo palido, el ambar y el verde, porque --error es un tono lleno y
-   los tres fondos son contenedores palidos. Con el van el cronometro en negrita
-   y la etiqueta con la palabra «Demorada» y su icono: tres senales, y ninguna
-   pide distinguir un color de otro. */
+   Asi que la demora no cambia de color: cambia de PESO. El anillo se dibuja con
+   --svp-tono, que cada estado declara como el tono oscuro del suyo —verde
+   oscuro sobre la verde, ambar oscuro sobre la amarilla—, y con el van el
+   cronometro en negrita y la etiqueta con la palabra «Demorada» y su icono.
+   Tres senales dentro de la misma familia de color.
+
+   Se usa una variable y no currentColor porque dentro de la etiqueta
+   currentColor resolveria a SU propio color, que es el contrario, y la dejaria
+   rellena del mismo tono que su texto. */
 .svp-tarjeta-demorada {
-  box-shadow: var(--elev-1), 0 0 0 3px var(--error);
+  box-shadow: var(--elev-1), 0 0 0 2px var(--svp-tono);
 }
 
-.svp-tarjeta-demorada .svp-reloj {
-  color: var(--error);
-  font-weight: 700;
-}
+.svp-tarjeta-demorada .svp-reloj { font-weight: 700; }
 
 /* La etiqueta del catalogo se pinta sobre --error-container, que es justo el
-   fondo de la tarjeta pendiente: alli desapareceria. Dentro del tablero se
-   rellena con el tono lleno, el mismo del anillo, y asi se ve igual sobre los
-   tres tintes. */
+   fondo de la tarjeta pendiente: alli desapareceria, y sobre la amarilla y la
+   verde meteria el rojo que no toca. Dentro del tablero se invierte contra el
+   color de su propia tarjeta: relleno del tono del estado y texto del fondo
+   limpio, que es lo que la hace legible en los tres tintes y en los dos temas. */
 .svp-tarjeta .etiqueta-demorada {
-  background: var(--error);
-  color: var(--on-error);
+  background: var(--svp-tono);
+  color: var(--surface);
   border-color: transparent;
 }
 

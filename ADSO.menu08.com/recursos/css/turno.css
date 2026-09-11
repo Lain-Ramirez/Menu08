@@ -1,0 +1,327 @@
+/* turno.css — la apertura y el cierre del turno de CAJA.
+   Menu08 · carta, caja y produccion para food trucks.
+
+   Solo la carga /caja/turno, desde plantillas/cabecera.php a traves del
+   parametro $hojas. Reune las dos caras de la misma pantalla: el marcador con
+   el que se abre el turno y el cuadre con el que se cierra.
+
+   Ni un color literal: todo sale de los 31 tokens de md3.css, asi que el modo
+   oscuro de html.o funciona sin una sola regla propia. Las medidas salen de la
+   escala de base.css y los componentes son los de componentes.css; aqui solo
+   esta lo que es de esta pantalla y no se reutiliza fuera.
+
+   DOS DECISIONES DE FONDO.
+
+   1. LA BASE SE MARCA EN UN TECLADO PROPIO. El turno se abre de pie, en la
+      ventanilla y con la mano ocupada. El teclado del sistema tapa media
+      pantalla de una tableta y obliga a apuntar a teclas de 30 px; las de aqui
+      miden 64, por encima de los 48 del token de toque, porque a veces se
+      teclea con guante. El campo sigue siendo un <input> de verdad: sin
+      JavaScript se escribe con el teclado del dispositivo y la apertura
+      funciona igual, que es lo unico que no se puede negociar.
+
+   2. EL CUADRE SE QUEDA PEGADO. Es la misma decision que caja.css toma con la
+      orden: el resumen del turno crece con el numero de medios de pago, y el
+      boton de cerrar no puede irse por debajo del pliegue mientras se revisa.
+      A partir de 1024 px la columna del cierre viaja con la pagina.
+
+   Issue #19 · Fase 4 - Frontend */
+
+/* ============================================ 1. PIEZAS COMUNES A LAS DOS ==
+   Los datos del turno —quien, desde cuando— encabezan las dos caras, porque en
+   las dos hay que saber de que turno se habla antes de tocar nada. */
+
+.turno-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--esp-3);
+  padding: var(--esp-3) var(--esp-4);
+  border-radius: var(--radio-p);
+  background: var(--surface-container);
+}
+
+.turno-meta-dato { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+
+.turno-meta-rotulo {
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-m);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+/* El nombre del cajero puede ser largo y la tarjeta no puede ensancharse por
+   eso: se corta con puntos suspensivos y el dato completo sigue en el titulo. */
+.turno-meta-valor {
+  font: var(--tipo-etiqueta-g);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Cifras de dinero. Dos tamanos: el total del turno manda sobre todo lo demas
+   y el resto de importes lo acompana un escalon por debajo. */
+.turno-cifra   { font-size: 32px; line-height: 40px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.turno-cifra-m { font-size: 24px; line-height: 32px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* Enlace suelto bajo una tarjeta —turnos anteriores, seguir vendiendo—. Va
+   centrado bajo la columna que cierra, no pegado al margen izquierdo. */
+.turno-enlace-centro { text-align: center; }
+
+/* Texto de apoyo fuera de un .campo. El componente lo separa del margen del
+   control con margenes laterales que aqui no tienen a que alinearse. */
+.turno-apoyo { margin-inline: 0; }
+
+/* Boton que cierra cada cara. Mas alto que el token de toque: es el unico de la
+   pantalla que no se puede pulsar por error ni fallar por poco. */
+.turno-enviar { min-height: 56px; font-size: 16px; line-height: 24px; }
+
+/* Prefijo de moneda dentro de un .campo. Extiende el componente sin tocarlo: el
+   conteo solo admite dinero, y el signo evita tener que deducirlo del rotulo.
+
+   El prefijo se esconde mientras el campo esta vacio porque entonces el rotulo
+   flotante ocupa ese mismo sitio. Lo resuelve :placeholder-shown, no JavaScript:
+   el campo lleva placeholder=" " igual que el resto de la aplicacion. */
+.campo-con-prefijo .campo-control { padding-left: 36px; }
+.campo-con-prefijo .campo-control:focus { padding-left: 35px; }
+
+.campo-prefijo {
+  position: absolute;
+  left: var(--esp-4);
+  top: 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-g);
+  pointer-events: none;
+}
+
+.campo-control:placeholder-shown ~ .campo-prefijo { display: none; }
+
+/* =========================================== 2. APERTURA: EL MARCADOR ======
+   Una tarjeta centrada con dos zonas: la cifra a la izquierda y el teclado a la
+   derecha. Por debajo de 768 px se apilan y el teclado queda abajo, que es donde
+   cae el pulgar. */
+
+.turno-centrado { display: flex; justify-content: center; }
+
+.turno-apertura {
+  width: 100%;
+  max-width: 44rem;
+  padding: var(--esp-6);
+  gap: var(--esp-5);
+}
+
+/* Corona del titulo: un solo icono, en el contenedor de la marca. */
+.turno-corona {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-radius: var(--radio-completo);
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+}
+
+.turno-corona svg { width: 24px; height: 24px; }
+
+/* El nombre del turno puede quedarse sin sitio al lado de la corona: se deja
+   encoger en vez de empujarla fuera de la tarjeta. */
+.turno-encabezado-texto { min-width: 0; }
+
+/* En la apertura el boton crece hasta la altura de una tecla: se pulsa con el
+   mismo dedo y en la misma postura que el teclado que tiene al lado. */
+.turno-apertura .turno-enviar { min-height: 64px; }
+
+.turno-marcador { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--esp-5); }
+
+@media (min-width: 768px) {
+  .turno-marcador { grid-template-columns: minmax(0, 1fr) 260px; align-items: start; }
+}
+
+/* Lectura de la base. La cifra va a la derecha y el signo a la izquierda: la
+   coma decimal no existe aqui —la base se cuenta en billetes— y asi las dos
+   ultimas cifras no bailan al escribir.
+
+   El anillo de foco lo lleva la caja entera y no el control: el control no tiene
+   borde propio, asi que un anillo pegado a el se veria flotando dentro. */
+.turno-lectura {
+  display: flex;
+  align-items: baseline;
+  gap: var(--esp-2);
+  padding: var(--esp-3) var(--esp-4);
+  border: 1px solid transparent;
+  border-radius: var(--radio-m);
+  background: var(--surface-container);
+}
+
+.turno-lectura:focus-within { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+.turno-lectura-error { border-color: var(--error); }
+
+.turno-lectura-signo { flex: none; color: var(--on-surface-variant); font-size: 24px; line-height: 40px; }
+
+.turno-lectura-valor {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--on-surface);
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.turno-lectura-valor:focus { outline: none; }
+
+/* El cero de referencia mientras no hay cifra: apagado, para que se lea como
+   hueco y no como una base de cero pesos ya marcada. */
+.turno-lectura-valor::placeholder {
+  color: color-mix(in srgb, var(--on-surface) 38%, transparent);
+  opacity: 1;
+}
+
+/* Valores frecuentes de la base. Mismo gesto que .venta-sugerencia del dialogo
+   de cobro: un toque resuelve el caso normal y el teclado queda para la
+   excepcion. */
+.turno-sugerencias { display: flex; flex-wrap: wrap; gap: var(--esp-2); }
+
+.turno-sugerencia {
+  flex: 1 1 6rem;
+  min-height: var(--toque);
+  padding: 0 var(--esp-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Teclado. 64 px de tecla, por encima de los 48 del token de toque: se marca de
+   pie y a veces con guante. */
+.turno-teclado { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--esp-2); }
+
+.turno-tecla {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  padding: 0;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-m);
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background-color var(--transicion), box-shadow var(--transicion);
+}
+
+.turno-tecla:hover { background: var(--surface-container-high); box-shadow: var(--elev-1); }
+.turno-tecla:active { box-shadow: none; }
+.turno-tecla svg { width: 24px; height: 24px; }
+
+/* El cero triple y el borrado no son cifras: se distinguen del bloque numerico
+   por fondo y tamano, no solo por su sitio en la reticula. */
+.turno-tecla-secundaria { background: var(--surface-container); font-size: 18px; }
+
+/* Sin JavaScript el teclado no puede escribir en el campo, asi que la vista lo
+   emite deshabilitado y turno.js lo habilita al arrancar: un boton que se
+   anuncia como boton y no responde es peor que uno que se anuncia apagado. */
+.turno-tecla:disabled,
+.turno-sugerencia:disabled { cursor: default; color: color-mix(in srgb, var(--on-surface) 38%, transparent); }
+
+.turno-tecla:disabled:hover { background: var(--surface-container-low); box-shadow: none; }
+
+/* ============================================== 3. CIERRE: EL CUADRE =======
+   Dos zonas, como la pantalla de venta: el resumen a la izquierda y el cierre en
+   una columna que viaja con la pagina. */
+
+.turno-cierre { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--esp-5); align-items: start; }
+
+@media (min-width: 1024px) {
+  .turno-cierre { grid-template-columns: minmax(0, 1fr) 380px; }
+
+  /* La columna del cierre se queda a la vista mientras se revisa el desglose.
+     El tope de arriba la separa del borde de la ventana. */
+  .turno-cierre-panel { position: sticky; top: var(--esp-5); }
+}
+
+.turno-cierre-panel { gap: var(--esp-4); padding: var(--esp-5); }
+
+/* Tarjeta del total vendido y sus tres datos. Hueco propio: la tarjeta reparte
+   var(--esp-3) y aqui separan tres bloques, no tres renglones. */
+.turno-resumen { gap: var(--esp-4); }
+.turno-datos { gap: var(--esp-4); }
+
+/* Titulo de bloque dentro de la columna del resumen. Es un h2 de documento, no
+   un titulo de pagina: pesa como el titulo de una tarjeta. */
+.turno-subtitulo { font: var(--tipo-titulo-p); }
+
+/* Barra del turno. Misma pieza que .venta-turno de caja.css: el estado del
+   turno encabeza todas las pantallas de CAJA. */
+.turno-barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-3);
+}
+
+.turno-barra-datos { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-3); min-width: 0; }
+
+.turno-barra-cifras { color: var(--on-surface-variant); font: var(--tipo-cuerpo-m); }
+
+.turno-barra-cifras strong { color: var(--on-surface); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* Regla interior de una tarjeta. No es un <hr>: separa dos bloques de la misma
+   tarjeta, no dos temas del documento. */
+.turno-regla { height: 1px; background: var(--outline-variant); }
+
+/* La cuenta del cuadre: base + ventas = esperado. Se escribe como una cuenta y
+   no como una tabla porque es exactamente eso, una cuenta. */
+.turno-cuenta { display: flex; flex-direction: column; gap: var(--esp-2); }
+
+.turno-cuenta-linea { display: flex; align-items: baseline; justify-content: space-between; gap: var(--esp-3); }
+
+.turno-cuenta-rotulo {
+  display: flex;
+  align-items: baseline;
+  gap: var(--esp-2);
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-m);
+}
+
+.turno-cuenta-signo { width: 12px; flex: none; text-align: center; }
+
+.turno-cuenta-valor { font: var(--tipo-cuerpo-g); font-variant-numeric: tabular-nums; }
+
+.turno-cuenta-regla { height: 1px; background: var(--outline); margin-block: var(--esp-1); }
+
+.turno-cuenta-total .turno-cuenta-rotulo { color: var(--on-surface); font: var(--tipo-etiqueta-g); }
+
+/* Diferencia del cuadre. Nunca solo por color: fondo, icono Y palabra, que es lo
+   que md3.css exige en la banda calida de esta paleta. */
+.turno-diferencia {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-3);
+  padding: var(--esp-3) var(--esp-4);
+  border-radius: var(--radio-m);
+  background: var(--surface);
+  color: var(--on-surface-variant);
+}
+
+.turno-diferencia-rotulo { display: flex; align-items: center; gap: var(--esp-2); font: var(--tipo-etiqueta-g); }
+.turno-diferencia-rotulo svg { flex: none; width: 20px; height: 20px; }
+
+.turno-diferencia-cuadra   { background: var(--tertiary-container); color: var(--on-tertiary-container); }
+.turno-diferencia-sobrante { background: var(--warning-container);  color: var(--on-warning-container); }
+.turno-diferencia-faltante { background: var(--error-container);    color: var(--on-error-container); }
+
+/* Medio de pago en la tabla del resumen: icono y nombre en la misma celda. */
+.turno-medio { display: flex; align-items: center; gap: var(--esp-2); }
+.turno-medio svg { width: 18px; height: 18px; flex: none; color: var(--on-surface-variant); }

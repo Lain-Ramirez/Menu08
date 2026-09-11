@@ -100,37 +100,56 @@
 
 .svp-columna { display: flex; flex-direction: column; gap: var(--esp-3); min-width: 0; }
 
+/* Las tres cabeceras son la MISMA pieza: mismo alto, mismo relleno, misma
+   cuenta al mismo sitio. Lo unico que cambia entre ellas es el tinte y el filete
+   de la izquierda, que es el color del estado. Asi el tablero se lee como una
+   sola cosa con tres tiempos, y no como tres tableros distintos pegados. */
 .svp-columna-cabeza {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--esp-2);
   padding: var(--esp-2) var(--esp-3);
+  /* El mismo filete de 6 px que llevan las tarjetas de debajo: la columna entera
+     queda colgada de un solo rail de color. */
+  border-left: 6px solid var(--outline);
   border-radius: var(--radio-p);
-  background: var(--surface-container);
+  background: var(--surface-container-high);
+  color: var(--on-surface);
 }
 
 .svp-columna-titulo { margin: 0; font: var(--tipo-titulo-p); }
 
 /* Cuantas ordenes hay en la columna. A distancia es lo primero que se mira:
-   dice si la cocina va al dia o se esta acumulando trabajo. */
+   dice si la cocina va al dia o se esta acumulando trabajo. Igual en las tres,
+   para poder compararlas de un vistazo sin que el tinte de la cabecera cambie
+   como se lee el numero. */
 .svp-columna-cuenta {
   min-width: 32px;
   padding: 0 var(--esp-2);
   border-radius: var(--radio-completo);
-  background: var(--surface-container-high);
+  background: var(--surface);
   color: var(--on-surface-variant);
   font: var(--tipo-etiqueta-g);
   font-variant-numeric: tabular-nums;
   text-align: center;
 }
 
-/* El color de la columna sale del mismo sitio que el de la etiqueta de estado,
-   asi que la cabecera y la tarjeta nunca se contradicen. */
-.svp-columna-preparacion .svp-columna-cabeza { background: var(--warning-container); color: var(--on-warning-container); }
-.svp-columna-preparacion .svp-columna-cuenta { background: var(--surface); color: var(--on-surface-variant); }
-.svp-columna-lista .svp-columna-cabeza { background: var(--tertiary-container); color: var(--on-tertiary-container); }
-.svp-columna-lista .svp-columna-cuenta { background: var(--surface); color: var(--on-surface-variant); }
+/* El tinte de cada estado sale del mismo token que su etiqueta en
+   componentes.css, asi que la cabecera, el filete de la tarjeta y la etiqueta
+   nunca se contradicen: pendiente en neutro —esperar no es un estado que haya
+   que colorear—, preparacion en la banda calida y lista en verde. */
+.svp-columna-preparacion .svp-columna-cabeza {
+  border-left-color: var(--warning);
+  background: var(--warning-container);
+  color: var(--on-warning-container);
+}
+
+.svp-columna-lista .svp-columna-cabeza {
+  border-left-color: var(--tertiary);
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+}
 
 .svp-lista { display: flex; flex-direction: column; gap: var(--esp-3); list-style: none; margin: 0; padding: 0; }
 
@@ -153,7 +172,10 @@
   gap: var(--esp-3);
   padding: var(--esp-4);
   border: 1px solid var(--outline-variant);
-  border-left: 4px solid var(--outline);
+  /* El filete del estado mide siempre lo mismo —tambien cuando la orden se
+     demora— para que la tarjeta no pegue un salto de dos pixeles al cruzar el
+     umbral y la columna entera quede alineada. */
+  border-left: 6px solid var(--outline);
   border-radius: var(--radio-m);
   background: var(--surface-container-low);
   box-shadow: var(--elev-1);
@@ -197,24 +219,28 @@
 
 .svp-producto { min-width: 0; }
 
-/* La nota es lo unico que el cliente pidio con palabras: no se apaga. */
+/* La nota es lo unico que el cliente pidio con palabras: no se apaga, pero
+   tampoco se pinta entera. Un bloque relleno en cada tarjeta metia un tercer
+   color en una pantalla que ya reparte tres estados; con el filete dorado a la
+   izquierda destaca lo justo y el tablero se queda tranquilo. */
 .svp-nota {
   margin: 0;
   padding: var(--esp-2) var(--esp-3);
-  border-radius: var(--radio-xp);
-  background: var(--secondary-container);
-  color: var(--on-secondary-container);
+  border-left: 3px solid var(--secondary);
+  border-radius: 0 var(--radio-xp) var(--radio-xp) 0;
+  background: var(--surface-container-high);
+  color: var(--on-surface);
   font-size: 14px;
   line-height: 20px;
 }
 
 .svp-nota-rotulo {
   display: block;
+  color: var(--on-surface-variant);
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  opacity: .8;
 }
 
 /* 56 px de alto, por encima de los 48 del token de toque: se pulsa de pie, con
@@ -231,24 +257,28 @@
 
 /* ===================================================== 4. LA DEMORA ======== */
 
-/* Realce de la orden que paso del umbral. Fondo, filete, cronometro en negrita
-   Y etiqueta con la palabra: cuatro senales, porque esta es la que no se puede
-   pasar por alto. */
+/* Realce de la orden que paso del umbral.
+
+   EL ROJO SUBRAYA, NO INUNDA. Rellenar la tarjeta entera funciona con una
+   demorada suelta y se vuelve inservible con doce: un tablero todo rojo no
+   senala nada, cansa la vista y, de paso, tapa el codigo de color de los
+   estados, que es el que dice que hay que hacer con cada orden. Aqui el rojo se
+   queda en el filete, en el cronometro y en la etiqueta —el dato que se
+   disparo—, y la tarjeta conserva su fondo y su estado.
+
+   Siguen siendo cuatro senales y ninguna es solo color: el filete del estado
+   pasa a rojo, el cronometro se pone en rojo y en negrita, el fondo recibe un
+   lavado apenas perceptible y la etiqueta pone la palabra «Demorada» con su
+   icono. El lavado se saca del propio
+   token de error mezclado con el fondo de la tarjeta, asi que no entra ni un
+   color nuevo y en oscuro se resuelve solo. */
 .svp-tarjeta-demorada {
-  border-color: var(--error);
+  border-color: color-mix(in srgb, var(--error) 35%, var(--outline-variant));
   border-left-color: var(--error);
-  background: var(--error-container);
-  color: var(--on-error-container);
+  background: color-mix(in srgb, var(--error-container) 30%, var(--surface-container-low));
 }
 
-.svp-tarjeta-demorada .svp-reloj,
-.svp-tarjeta-demorada .svp-tiempos { color: var(--on-error-container); }
-
-.svp-tarjeta-demorada .svp-reloj { font-weight: 700; }
-
-.svp-tarjeta-demorada .svp-cantidad { background: var(--surface); color: var(--on-surface); }
-
-.svp-tarjeta-demorada .svp-nota { background: var(--surface); color: var(--on-surface); }
+.svp-tarjeta-demorada .svp-reloj { color: var(--error); font-weight: 700; }
 
 /* ================================================= 5. TABLERO SIN NADA ===== */
 

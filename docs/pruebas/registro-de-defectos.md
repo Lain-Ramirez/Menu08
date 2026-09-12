@@ -9,6 +9,13 @@ numeración corrida, sin reutilizar.
 
 ---
 
+## Historial por ciclo de prueba
+
+| Ciclo / Módulo | Issue | Casos ejecutados | Casos pasan | Casos fallan | Defectos registrados | Estado |
+|---|---|---|---|---|---|---|
+| CARTA | #22 | 16 | 14 | 2 | DEF-01, DEF-02 | Operativo con 2 defectos menores abiertos |
+| CAJA | #23 | 16 | 16 | 0 | Ninguno | Aprobado sin defectos (16 pasan, 0 fallan) |
+
 ## La tabla
 
 | Identificador | Módulo | Severidad | Pasos de reproducción | Estado | Responsable |
@@ -17,6 +24,13 @@ numeración corrida, sin reutilizar.
 | DEF-02 | CARTA | Baja | 1. Abrir `/carta/festin-rodante` con la ventana a **320 px** de ancho. 2. Comparar `document.documentElement.scrollWidth` con `clientWidth`. → 324 contra 320: el precio del primer producto termina cuatro píxeles fuera y el documento se desplaza de lado. A 360 y 768 px no ocurre | Abierto | — |
 
 ## Los defectos abiertos, con su historia
+
+### Módulo CAJA (Issue #23)
+
+En el ciclo de pruebas del módulo CAJA ([`casos/caja.md`](casos/caja.md)) se ejecutaron los dieciséis casos funcionales planificados (`CP-CAJA-01` a `CP-CAJA-16`). Se cubrieron apertura con base positiva/negativa y concurrencia de turnos, armado de órdenes y validación reactiva de importes en el carrito, venta con los tres medios de pago (efectivo, tarjeta, transferencia), rechazos de orden vacía y venta con turno cerrado, comprobante e impresión térmica a 80 mm en PDF, cuadre del turno contrastado contra cálculo a mano y consultas SQL, y cierre de turno con faltante.
+
+**Resultado:** 16 casos pasaron exitosamente y 0 fallaron. No se identificaron defectos funcionales ni discrepancias en los totales almacenados contra la base de datos, por lo que **no se abrieron defectos** para este módulo.
+
 
 ### DEF-01 · El producto no disponible sigue saliendo en la carta
 

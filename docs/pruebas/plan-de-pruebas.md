@@ -7,8 +7,9 @@ lo que hace que dos registros hechos por separado se puedan leer juntos.
 
 No es un listado de casos. Los casos viven en `docs/pruebas/casos/`, uno por módulo y con la
 plantilla de [`plantilla-caso-de-prueba.md`](plantilla-caso-de-prueba.md); lo que falla se anota en
-[`registro-de-defectos.md`](registro-de-defectos.md). Los dos primeros ejecutados son
-[`casos/carta.md`](casos/carta.md), del issue #22, y [`casos/caja.md`](casos/caja.md), del issue #23.
+[`registro-de-defectos.md`](registro-de-defectos.md). Los tres primeros ejecutados son
+[`casos/carta.md`](casos/carta.md), del issue #22, [`casos/caja.md`](casos/caja.md), del issue #23,
+y [`casos/svp.md`](casos/svp.md), del issue #24.
 
 ---
 

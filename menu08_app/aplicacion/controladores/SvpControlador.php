@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Menu08\Controladores;
 
+use Menu08\Modelos\FoodTruck;
 use Menu08\Modelos\Orden;
 use Menu08\Nucleo\Controlador;
 use Menu08\Nucleo\DatosInvalidos;
+use Menu08\Nucleo\ManejadorErrores;
 use Menu08\Nucleo\RutaNoEncontrada;
 
 /**
@@ -91,5 +93,63 @@ final class SvpControlador extends Controlador
         }
 
         $this->json(['orden' => $orden]);
+    }
+
+    /**
+     * Pantalla publica de turnos para la ventanilla del food truck.
+     *
+     * Es la vista que el cliente mira desde la fila para saber si su pedido ya esta
+     * listo. No exige sesion. Muestra unicamente dos columnas: «En preparacion» y «Listos»,
+     * con tipografia de gran tamano para leerse a tres metros de distancia.
+     */
+    public function turnos(string $slug): void
+    {
+        $truck = FoodTruck::porSlug($slug);
+
+        if ($truck === null) {
+            throw new RutaNoEncontrada(sprintf('No hay un food truck activo con el slug "%s".', $slug));
+        }
+
+        $datos = Orden::turnosPublicos((int) $truck['id']);
+
+        $this->vistaPublica(
+            'svp/turnos',
+            [
+                'foodTruck' => $truck,
+                'turno'     => $datos['turno'],
+                'ordenes'   => $datos['ordenes'],
+                'ahora'     => $datos['ahora'],
+            ],
+            sprintf('Turnos · %s', (string) $truck['nombre']),
+            ['turnos.css'],
+            200,
+            ['turnos.js']
+        );
+    }
+
+    /**
+     * Servicio JSON publico de turnos para el sondeo de la pantalla de ventanilla.
+     *
+     * Hermano de /svp/ordenes, pero sin sesion y devolviendo unicamente numero de orden
+     * y estado. No expone productos, cantidades, totales, medios de pago ni notas.
+     */
+    public function turnosOrdenes(string $slug): void
+    {
+        ManejadorErrores::responderEnJson();
+
+        $truck = FoodTruck::porSlug($slug);
+
+        if ($truck === null) {
+            $this->jsonError('food_truck_no_encontrado', sprintf('No hay un food truck activo con el slug "%s".', $slug), 404);
+        }
+
+        $datos = Orden::turnosPublicos((int) $truck['id']);
+
+        $this->json([
+            'turno'   => $datos['turno'],
+            'ahora'   => $datos['ahora'],
+            'total'   => $datos['total'],
+            'ordenes' => $datos['ordenes'],
+        ]);
     }
 }

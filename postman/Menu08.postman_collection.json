@@ -1046,6 +1046,146 @@
           ]
         },
         {
+          "name": "GET /turnos/{slug}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/turnos/{{slug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "turnos",
+                "{{slug}}"
+              ]
+            },
+            "description": "Pantalla publica de turnos para la ventanilla. Muestra las columnas En preparacion y Listos sin sesion."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Muestra columnas de turnos', function () {",
+                  "  pm.expect(pm.response.text()).to.include('En preparación');",
+                  "  pm.expect(pm.response.text()).to.include('Listos');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /turnos/{slug}/ordenes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/turnos/{{slug}}/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "turnos",
+                "{{slug}}",
+                "ordenes"
+              ]
+            },
+            "description": "Servicio JSON publico de turnos para el sondeo de la pantalla de ventanilla. Solo devuelve numero y estado, sin items ni notas."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200 JSON', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.response.to.be.json;",
+                  "});",
+                  "pm.test('Estructura publica de turnos', function () {",
+                  "  var res = pm.response.json();",
+                  "  pm.expect(res).to.have.property('turno');",
+                  "  pm.expect(res).to.have.property('ordenes');",
+                  "  if (res.ordenes && res.ordenes.length > 0) {",
+                  "    var o = res.ordenes[0];",
+                  "    pm.expect(o).to.have.property('numero');",
+                  "    pm.expect(o).to.have.property('estado');",
+                  "    pm.expect(o).to.not.have.property('items');",
+                  "    pm.expect(o).to.not.have.property('nota');",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /turnos/no-existe (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/turnos/no-existe",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "turnos",
+                "no-existe"
+              ]
+            },
+            "description": "Un slug que no existe da 404 con la vista de error propia del sitio."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /turnos/no-existe/ordenes (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/turnos/no-existe/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "turnos",
+                "no-existe",
+                "ordenes"
+              ]
+            },
+            "description": "Un slug que no existe da 404 en JSON para no romper el sondeo."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404 JSON', function () {",
+                  "  pm.response.to.have.status(404);",
+                  "  pm.response.to.be.json;",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "HEAD / (mismo codigo que GET, sin cuerpo)",
           "request": {
             "method": "HEAD",

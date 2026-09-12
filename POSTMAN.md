@@ -10,7 +10,7 @@ recibir en cada uno.
 
 ## Atajo: importa la colección y ya está
 
-En `postman/Menu08.postman_collection.json` está **todo hecho**: las 38 rutas, las credenciales,
+En `postman/Menu08.postman_collection.json` está **todo hecho**: las 40 rutas, las credenciales,
 los cuerpos de ejemplo y las comprobaciones automáticas.
 
 1. Abre Postman.
@@ -352,7 +352,7 @@ valor de lo vendido: es lo correcto, el servidor recalcula el total desde las ó
 
 # Referencia de todas las rutas
 
-38 rutas. Leyenda de roles: **pública** · `plataforma` · `food_truck` · `cajero` · `produccion`.
+40 rutas. Leyenda de roles: **pública** · `plataforma` · `food_truck` · `cajero` · `produccion`.
 
 Sin sesión, las rutas privadas redirigen a `/ingresar` con **302**. Las excepciones son los cuatro
 servicios JSON —los dos del SVP y los dos del módulo móvil—, que responden **401** con un objeto de
@@ -367,6 +367,8 @@ abre.
 | `GET` | `/comprobacion/{slug}` | — | `200` · datos del truck. `404` si el slug no existe |
 | `GET` | `/carta/{slug}` | — | `200` · la carta que abre el cliente al leer el QR |
 | `GET` | `/componentes` | — | `200` · muestrario del catálogo de componentes |
+| `GET` | `/turnos/{slug}` | — | `200` · pantalla pública de turnos para la ventanilla. `404` si el slug no existe |
+| `GET` | `/turnos/{slug}/ordenes` | — | `200` JSON · turnos en curso (en preparación y listos) para el sondeo. `404` si no existe |
 
 En `/carta/truck-de-pruebas` **no** deben aparecer «Categoria desactivada» ni «Entrada agotada»:
 la carta pública oculta lo que está dado de baja.

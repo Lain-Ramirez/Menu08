@@ -2,7 +2,12 @@
 
 PHP 8.3 con MVC construido a mano. Sin Composer, sin marcos de trabajo, sin dependencias externas.
 
-## Ciclo de una petición
+Esta es la guía **de trabajo**: cómo se pone en marcha, cómo se agrega una ruta y cómo se comprueba
+que responde. La descripción formal de la arquitectura —el recorrido completo de una petición, la
+responsabilidad de cada clase, la máquina de estados de la orden y las prácticas de calidad— está en
+[`arquitectura.md`](arquitectura.md), y el modelo de datos en [`modelo_datos.md`](modelo_datos.md).
+
+## Ciclo de una petición, en corto
 
 ```
 navegador
@@ -33,16 +38,9 @@ dejan de servir.
 
 ## Piezas
 
-| Clase | Responsabilidad |
-|---|---|
-| `Configuracion` | Lee `configuracion.php` una vez. Acceso por clave con puntos: `base_datos.servidor` |
-| `Enrutador` | Registra rutas por método y patrón, extrae parámetros nombrados |
-| `Controlador` | Base de los controladores: respuesta HTML, JSON y redirección |
-| `Vista` | Renderiza plantillas dentro de `plantillas/base`, escapa la salida, arma direcciones |
-| `ConexionBD` | Instancia única de PDO, con la zona horaria de la aplicación fijada en la sesión de MySQL |
-| `Bitacora` | Escribe en `almacenamiento/bitacora`, un archivo por día |
-| `ManejadorErrores` | Traduce avisos, excepciones y fatales a una respuesta controlada |
-| `RutaNoEncontrada` | Excepción que el manejador convierte en 404 |
+La responsabilidad de cada clase del núcleo está en la tabla de
+[`arquitectura.md`](arquitectura.md#qué-hace-cada-clase-del-núcleo), para no mantener la misma lista
+en dos sitios. Lo que sigue es lo que hace falta para trabajar con ellas.
 
 ## Agregar una ruta
 

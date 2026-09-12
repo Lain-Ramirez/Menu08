@@ -15,6 +15,11 @@ Todos los montos se declaran como `DECIMAL(10,2)`.
 | `ordenes` | CAJA y SVP | La venta registrada en CAJA, con su número de turno, que el SVP muestra. |
 | `orden_items` | CAJA | Detalle de la orden con copia histórica del nombre y del precio. |
 
+El **diccionario de datos** —cada tabla y cada columna con su tipo, nulidad y llave foránea, más
+el diagrama entidad-relación— está en [`modelo_datos.md`](modelo_datos.md). Aquí está lo operativo:
+por qué el modelo es así, cómo se reconstruye la base y cómo se respalda.
+
+
 ## Dos decisiones de modelo propias de un food truck
 
 ### Por qué existe `ubicaciones` y no un campo de dirección

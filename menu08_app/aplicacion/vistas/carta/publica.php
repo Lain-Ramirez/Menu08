@@ -14,9 +14,38 @@ use Menu08\Nucleo\Vista;
  * @var array<string, mixed>                          $truck
  * @var array<int, array{nombre: string, productos: list<array<string, mixed>>}> $porCategoria
  * @var list<array<string, mixed>>                    $agenda
- * @var array<string, mixed>|null                     $vigente
+ * @var array<string, mixed>|null                     $vigente  parada abierta ahora
+ * @var array<string, mixed>|null                     $proxima  la siguiente que abre, si no hay vigente
  * @var array<int, string>                            $dias
  */
+
+/** La base devuelve TIME como 18:00:00 y en la carta solo interesa 18:00. */
+$hm = static fn (mixed $hora): string => substr((string) $hora, 0, 5);
+
+/**
+ * Cuando abre la proxima parada, dicho como lo diria alguien: hoy, manana o el
+ * dia por su nombre. La fecha la calcula el modelo en `abre_en`; aqui solo se
+ * traduce a palabras, que es lo unico que el cliente en la fila necesita.
+ */
+$cuando = static function (string $abreEn) use ($dias): string {
+    $marca = strtotime($abreEn);
+
+    if ($marca === false) {
+        return '';
+    }
+
+    $faltan = (int) ((strtotime(date('Y-m-d', $marca)) - strtotime(date('Y-m-d'))) / 86400);
+
+    if ($faltan <= 0) {
+        return 'hoy';
+    }
+
+    if ($faltan === 1) {
+        return 'mañana';
+    }
+
+    return 'el ' . mb_strtolower($dias[(int) date('N', $marca)] ?? '');
+};
 
 /**
  * Reemplazo para el producto sin foto. Es un SVG de trazo y no un archivo de
@@ -57,38 +86,74 @@ $sinFoto = static fn (): string =>
         </p>
     </header>
 
-    <?php if ($agenda !== []) : ?>
-        <section class="carta-agenda">
-            <h2>Donde estamos</h2>
+    <?php // ------------------------------------------ donde estamos hoy --
+          // Es la pregunta que trae al cliente a esta pantalla: la abre haciendo
+          // fila, desde el telefono, para saber si el truck esta donde cree.
+          // Por eso encabeza la carta, antes de los productos, y por eso nunca
+          // se queda vacia: sin parada abierta, dice cuando vuelve. ?>
+    <?php if ($vigente !== null || $proxima !== null) : ?>
+        <section class="carta-agenda" aria-labelledby="carta-donde">
+            <h2 id="carta-donde">Dónde estamos</h2>
 
-            <?php if ($vigente !== null) : ?>
-                <p class="carta-vigente">
-                    <strong>Ahora en <?= Vista::e($vigente['nombre']) ?></strong>
-                    <?php if (!empty($vigente['referencia'])) : ?>
-                        · <?= Vista::e($vigente['referencia']) ?>
+            <?php $destacada = $vigente ?? $proxima; ?>
+
+            <div class="carta-ahora<?= $vigente === null ? ' carta-ahora-cerrado' : '' ?>">
+                <?php if ($vigente !== null) : ?>
+                    <span class="etiqueta etiqueta-lista">Abierto ahora</span>
+                <?php else : ?>
+                    <span class="etiqueta etiqueta-pendiente">Cerrado ahora</span>
+                <?php endif; ?>
+
+                <p class="carta-ahora-punto"><?= Vista::e($destacada['nombre']) ?></p>
+
+                <?php if (!empty($destacada['referencia'])) : ?>
+                    <p class="carta-ahora-referencia"><?= Vista::e($destacada['referencia']) ?></p>
+                <?php endif; ?>
+
+                <?php // El titular del horario no repite el dia cuando esta abierto: una
+                      // jornada nocturna empezo AYER, y decir «hoy de 18:00 a 01:00» a las
+                      // 00:30 seria mentira. Lo que importa a esa hora es hasta cuando. ?>
+                <p class="carta-ahora-horario numerica">
+                    <?php if ($vigente !== null) : ?>
+                        Hasta las <strong><?= Vista::e($hm($vigente['hora_fin'])) ?></strong>
+                    <?php else : ?>
+                        Abre <?= Vista::e($cuando((string) $proxima['abre_en'])) ?>
+                        a las <strong><?= Vista::e($hm($proxima['hora_inicio'])) ?></strong>
                     <?php endif; ?>
-                    · hasta las <?= Vista::e(substr((string) $vigente['hora_fin'], 0, 5)) ?>
                 </p>
+
+                <p class="carta-ahora-franja numerica">
+                    <?= Vista::e($dias[(int) $destacada['dia_semana']] ?? '') ?>
+                    de <?= Vista::e($hm($destacada['hora_inicio'])) ?>
+                    a <?= Vista::e($hm($destacada['hora_fin'])) ?>
+                    <?php if ($hm($destacada['hora_fin']) <= $hm($destacada['hora_inicio'])) : ?>
+                        · cierra al día siguiente
+                    <?php endif; ?>
+                </p>
+            </div>
+
+            <?php // El resto de la semana, resumido: dia, punto y franja. Sin la parada
+                  // que ya va arriba, que se repetiria dos veces en la misma pantalla. ?>
+            <?php $resto = array_values(array_filter(
+                $agenda,
+                static fn (array $u): bool => (int) $u['id'] !== (int) $destacada['id']
+            )); ?>
+
+            <?php if ($resto !== []) : ?>
+                <h3 class="carta-agenda-titulo">El resto de la semana</h3>
+
+                <ul class="carta-paradas">
+                    <?php foreach ($resto as $u) : ?>
+                        <li class="carta-parada">
+                            <span class="carta-parada-dia"><?= Vista::e(mb_substr($dias[(int) $u['dia_semana']] ?? '', 0, 3)) ?></span>
+                            <span class="carta-parada-punto"><?= Vista::e($u['nombre']) ?></span>
+                            <span class="carta-parada-horario numerica">
+                                <?= Vista::e($hm($u['hora_inicio'])) ?>–<?= Vista::e($hm($u['hora_fin'])) ?>
+                            </span>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
             <?php endif; ?>
-
-            <ul class="carta-paradas">
-                <?php foreach ($agenda as $u) : ?>
-                    <li class="carta-parada">
-                        <div class="carta-texto">
-                            <h3><?= Vista::e($u['nombre']) ?></h3>
-                            <?php if (!empty($u['referencia'])) : ?>
-                                <p><?= Vista::e($u['referencia']) ?></p>
-                            <?php endif; ?>
-                        </div>
-
-                        <span class="carta-horario numerica">
-                            <?= Vista::e($dias[(int) $u['dia_semana']] ?? '') ?>
-                            <?= Vista::e(substr((string) $u['hora_inicio'], 0, 5)) ?>
-                            a <?= Vista::e(substr((string) $u['hora_fin'], 0, 5)) ?>
-                        </span>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
         </section>
     <?php endif; ?>
 

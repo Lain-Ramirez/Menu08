@@ -28,11 +28,21 @@ final class PanelControlador extends Controlador
 
         $id = Sesion::foodTruckId();
 
+        // Donde para el truck AHORA es lo primero que mira quien entra al panel:
+        // es lo unico de esta pantalla que puede estar diciendole al cliente algo
+        // distinto de lo que el dueno cree. Y si no hay ninguna vigente, cuando
+        // vuelve a abrir, que es la misma pregunta con otra respuesta.
+        $vigente = $id === null ? null : Ubicacion::vigente($id);
+        $proxima = $id === null || $vigente !== null ? null : Ubicacion::proxima($id);
+
         $this->vista('panel/inicio', [
             'usuario'   => $this->usuario(),
             'truck'     => $id === null ? null : FoodTruck::porId($id),
             'resumen'   => $id === null ? null : Producto::resumen($id),
             'paradas'   => $id === null ? null : Ubicacion::resumen($id),
+            'vigente'   => $vigente,
+            'proxima'   => $proxima,
+            'dias'      => Ubicacion::DIAS,
         ], 'Panel');
     }
 

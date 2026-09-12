@@ -835,13 +835,213 @@
 .panel-casilla span { display: flex; flex-direction: column; gap: 2px; }
 .panel-casilla:hover { color: var(--on-surface); }
 
-/* La parada vigente de /panel/ubicaciones, que hasta ahora no tenia regla. */
+/* --- Portada del panel ---
+
+   No es un menu con cifras al lado: es la respuesta a «que esta viendo ahora el
+   cliente». De ahi el reparto —negocio, donde estamos, cifras, avisos y
+   atajos— y de ahi que los avisos salgan solo cuando hay algo que arreglar. */
+
+.panel-inicio-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-4);
+}
+
+.panel-inicio-datos { flex: 1 1 14rem; min-width: 0; display: flex; flex-direction: column; gap: var(--esp-1); }
+
+.panel-inicio-datos h1 { margin-block: 0; overflow-wrap: anywhere; }
+
+/* La direccion publica, en pequeno y sin adornos: es un dato que se comprueba,
+   no un enlace mas —el enlace es el boton de al lado—. */
+.panel-inicio-slug {
+  margin-block: 0;
+  color: var(--on-surface-variant);
+  font: var(--tipo-cuerpo-m);
+  overflow-wrap: anywhere;
+}
+
+.panel-inicio-acciones { display: flex; flex-wrap: wrap; gap: var(--esp-2); }
+
+/* Cuatro cifras que son enlaces: cada una lleva a la pantalla donde se cambia
+   lo que cuenta. Dos por fila en el telefono y cuatro a partir de 768 px. */
+.panel-cifras { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--esp-3); }
+
+@media (min-width: 768px) {
+  .panel-cifras { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.panel-cifra {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-1);
+  min-height: var(--toque);
+  padding: var(--esp-4);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-m);
+  background: var(--surface-container-low);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--transicion);
+}
+
+.panel-cifra:hover { background: var(--surface-container); color: inherit; }
+.panel-cifra:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+.panel-cifra-valor { font-size: 32px; line-height: 40px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.panel-cifra-rotulo { color: var(--on-surface-variant); font: var(--tipo-cuerpo-m); }
+
+/* Un cero que importa. La cifra en cero no siempre es un problema —cero
+   categorias con cero productos es un negocio que empieza—, pero cero
+   disponibles o cero paradas activas si: es lo que el cliente no ve. Se marca
+   con el filete y con el aviso de abajo, nunca solo con el color. */
+.panel-cifra-aviso { border-color: var(--warning); }
+
+.panel-cifra-aviso .panel-cifra-valor { color: var(--warning); }
+
+/* Atajos a las pantallas de CARTA. La navegacion de arriba lleva a los tres
+   modulos; estos llevan a lo de dentro, que es lo que se administra aqui. */
+.panel-atajo { flex-direction: row; align-items: center; gap: var(--esp-3); }
+
+.panel-atajo-icono {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: var(--radio-completo);
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+}
+
+.panel-atajo-icono svg { width: 20px; height: 20px; }
+
+.panel-atajo-texto { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+
+/* La flecha no es decoracion: dice que la tarjeta entera es pulsable. Se apaga
+   para no competir con el titulo. */
+.panel-atajo-ir { flex: none; width: 20px; height: 20px; color: var(--on-surface-variant); }
+
+/* --- Agenda de paradas (issue #37) ---
+
+   La pantalla tiene dos mitades que se usan de forma distinta: el formulario,
+   que se toca de vez en cuando, y la semana, que se lee cada vez que se entra.
+   Por debajo de 1024 px el formulario va primero —quien llega pulsando «Editar»
+   espera caer en el—, y a partir de ahi la semana pasa a la izquierda, que es
+   donde se lee, y el formulario se queda pegado a la derecha. */
+
+/* El bloque de «donde estamos»: lo mismo que ve el cliente en la carta, para
+   comprobar de un vistazo que la agenda dice lo que el dueno cree. */
 .panel-vigente {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
   padding: var(--esp-4);
   border-radius: var(--radio-m);
   background: var(--secondary-container);
   color: var(--on-secondary-container);
 }
+
+.panel-vigente > * { margin-block: 0; }
+
+.panel-vigente-titulo { font: var(--tipo-titulo-p); }
+
+.panel-vigente-punto {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+.panel-vigente-icono { flex: none; width: 20px; height: 20px; }
+
+.panel-vigente-texto { font: var(--tipo-cuerpo-m); }
+
+/* La consulta de otro momento. El campo manda y los botones lo siguen; por
+   debajo de su ancho minimo saltan de linea en vez de estrujarlo. */
+.panel-momento {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-2);
+  margin-top: var(--esp-2);
+}
+
+.panel-momento .campo { flex: 1 1 14rem; min-width: 0; }
+
+.panel-paradas { display: grid; gap: var(--esp-5); align-items: start; }
+
+@media (min-width: 1024px) {
+  .panel-paradas { grid-template-columns: minmax(0, 1fr) 22rem; }
+
+  /* Se invierten en pantalla sin tocar el orden del documento: el formulario
+     sigue siendo el primero para el teclado y para quien llega por el ancla. */
+  .panel-paradas-formulario { order: 2; position: sticky; top: var(--esp-5); }
+  .panel-paradas-agenda { order: 1; }
+}
+
+/* Dos campos por linea, a lo ancho: las dos horas y las dos coordenadas. Es
+   otra reparticion que la de nombre y orden, que son de tamanos distintos. */
+@media (min-width: 768px) {
+  .panel-formulario-linea-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); justify-content: stretch; }
+}
+
+.panel-dia {
+  margin-block: 0;
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-g);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.panel-paradas-lista { display: flex; flex-direction: column; gap: var(--esp-2); list-style: none; margin: 0; padding: 0; }
+
+/* Una parada: el texto crece, las acciones no. Por debajo de su ancho las
+   acciones caen debajo y quedan alineadas a la izquierda, que es donde esta el
+   pulgar en un telefono. */
+.panel-parada {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--esp-3);
+  padding: var(--esp-3) var(--esp-4);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-m);
+  background: var(--surface-container-low);
+}
+
+.panel-parada > * { margin-block: 0; }
+
+.panel-parada-texto { flex: 1 1 14rem; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+
+.panel-parada-texto > p { margin-block: 0; }
+
+/* Los nombres de punto largos parten por donde haga falta: la tarjeta no se
+   ensancha por uno de ellos. */
+.panel-parada-punto { font: var(--tipo-etiqueta-g); font-size: 16px; line-height: 24px; overflow-wrap: anywhere; }
+
+.panel-parada-referencia { color: var(--on-surface-variant); font: var(--tipo-cuerpo-m); overflow-wrap: anywhere; }
+
+.panel-parada-horario { color: var(--on-surface-variant); font: var(--tipo-cuerpo-p); }
+
+.panel-parada-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-2); }
+
+/* Parada dada de baja: se atenua, pero no se esconde ni se distingue solo por
+   el tono —lleva su etiqueta con la palabra—, porque sigue siendo editable y
+   reactivable. */
+.panel-parada-inactiva { background: var(--surface); }
+
+.panel-parada-inactiva .panel-parada-punto,
+.panel-parada-inactiva .panel-parada-referencia,
+.panel-parada-inactiva .panel-parada-horario {
+  color: color-mix(in srgb, var(--on-surface) 55%, transparent);
+}
+
+.panel-parada-inactiva .etiqueta { align-self: flex-start; margin-top: var(--esp-1); }
 
 /* ================================= 10. PORTADA PUBLICA ====================
    Lo primero que ve quien escribe la direccion. Casi siempre es un cliente con

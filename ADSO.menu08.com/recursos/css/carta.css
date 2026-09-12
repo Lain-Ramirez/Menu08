@@ -44,7 +44,17 @@
   font: var(--tipo-cuerpo-m);
 }
 
-/* 3. Agenda de paradas ------------------------------------------------------ */
+/* 3. Agenda de paradas ------------------------------------------------------
+
+   ES LO PRIMERO QUE SE MIRA. Quien abre esta carta esta en la fila y trae una
+   pregunta antes que el hambre: si el truck esta donde cree. Por eso el bloque
+   encabeza la pagina, por eso el punto va mas grande que el resto del texto y
+   por eso nunca se queda vacio: sin parada abierta, dice cuando vuelve.
+
+   TODO CABE EN 320 px. Es el ancho real del caso de uso —un telefono pequeno,
+   de pie, con una mano—, y a ese ancho el documento no se desplaza de lado:
+   ningun renglon de esta seccion tiene minimo mayor que su hueco, y los que no
+   caben saltan de linea en vez de empujar la pagina. */
 
 .carta-agenda {
   margin-bottom: var(--esp-5);
@@ -53,35 +63,88 @@
   border-radius: var(--radio-m);
 }
 
-.carta-vigente {
+/* El destacado: la parada abierta, o la siguiente si no hay ninguna. */
+.carta-ahora {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-1);
   padding: var(--esp-3);
+  border-radius: var(--radio-p);
   background: var(--tertiary-container);
   color: var(--on-tertiary-container);
-  border-radius: var(--radio-p);
 }
 
-.carta-paradas {
-  list-style: none;
-  margin-top: var(--esp-3);
+/* Cerrado no es un error: es un horario. Va en el contenedor neutro de la
+   paleta y no en el rojo, que aqui significaria que algo se rompio. La palabra
+   la pone la etiqueta, que es lo que de verdad distingue los dos estados. */
+.carta-ahora-cerrado {
+  background: var(--surface-container-high);
+  color: var(--on-surface);
 }
 
+/* El nombre del punto, que es el dato que se busca. Se deja partir por donde
+   haga falta: hay puntos con nombres largos y a 320 px no hay sitio para
+   negociar. */
+.carta-ahora-punto {
+  margin: var(--esp-1) 0 0;
+  font: var(--tipo-titulo-p);
+  overflow-wrap: anywhere;
+}
+
+.carta-ahora-referencia {
+  margin: 0;
+  font: var(--tipo-cuerpo-m);
+  overflow-wrap: anywhere;
+}
+
+.carta-ahora-horario { margin: var(--esp-1) 0 0; font: var(--tipo-cuerpo-g); }
+
+/* La franja completa, en pequeno y bajo el titular: dice el dia y las dos horas
+   sin competir con el «hasta las 15:00», que es lo que se lee de un vistazo. */
+.carta-ahora-franja {
+  margin: 0;
+  font: var(--tipo-cuerpo-p);
+  opacity: .85;
+}
+
+.carta-agenda-titulo {
+  margin: var(--esp-4) 0 var(--esp-1);
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-g);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.carta-paradas { list-style: none; margin: 0; padding: 0; }
+
+/* Un renglon por parada: dia, punto y franja. El punto es el unico que crece y
+   el unico que puede saltar de linea; el dia y la franja miden lo que miden. */
 .carta-parada {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--esp-2);
   align-items: baseline;
-  justify-content: space-between;
+  gap: var(--esp-2);
   padding: var(--esp-2) 0;
   border-bottom: 1px solid var(--outline-variant);
 }
 
 .carta-parada:last-child { border-bottom: none; }
 
-/* El nombre manda: si no cabe con el horario al lado, este baja de renglon en
-   vez de estrujar el texto contra el margen. */
-.carta-parada .carta-texto { flex: 1 1 12rem; }
+/* Tres letras del dia, en una caja de ancho fijo: asi la columna de puntos
+   arranca siempre en la misma linea vertical y la lista se lee de un barrido. */
+.carta-parada-dia {
+  flex: none;
+  min-width: 2.5rem;
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-g);
+}
 
-.carta-horario {
+.carta-parada-punto { flex: 1 1 8rem; min-width: 0; overflow-wrap: anywhere; }
+
+.carta-parada-horario {
+  flex: none;
+  margin-left: auto;
   color: var(--on-surface-variant);
   font: var(--tipo-cuerpo-m);
   white-space: nowrap;

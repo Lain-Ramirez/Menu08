@@ -181,9 +181,10 @@ El texto de un aviso se inserta con `textContent`, nunca como HTML.
 ## Lo que cambió en `plantillas/base.php`
 
 - Se **vació el bloque `<style>`** provisional: la plantilla ya no lleva ni una regla propia.
-  Quedan cinco atributos `style` en línea en vistas todavía sin remaquetar —`panel/productos.php`,
-  `panel/categorias.php`, `panel/ubicaciones.php`, `caja/inicio.php` y `plantillas/error.php`—;
-  desaparecen con el #16.
+  De los cinco atributos `style` en línea que quedaban entonces **solo sobrevive uno**, en
+  `plantillas/error.php`: `panel/productos.php` y `panel/categorias.php` los perdieron con el #16,
+  `panel/ubicaciones.php` con el #37 —que la reescribió entera con los componentes del catálogo—
+  y `caja/inicio.php` ya no existe.
 - Se enlazan las tres hojas y `interfaz.js`.
 - **Un solo `<main>` por documento.** Antes se emitía uno por cada mensaje de sesión más otro
   para el contenido; eso no es HTML válido.

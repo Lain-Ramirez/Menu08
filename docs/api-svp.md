@@ -26,6 +26,7 @@ fuera: ya salieron por la ventanilla.
 ```json
 {
   "turno": 3,
+  "ahora": "2026-09-11 19:44:07",
   "minutos_demora": 10,
   "total": 2,
   "ordenes": [
@@ -34,6 +35,7 @@ fuera: ya salieron por la ventanilla.
       "numero": "T3-002",
       "estado": "pendiente",
       "estado_nombre": "Pendiente",
+      "creado_en": "2026-09-11 19:42:11",
       "minutos": 2,
       "demorada": false,
       "nota": "Sin cebolla",
@@ -46,6 +48,7 @@ fuera: ya salieron por la ventanilla.
       "numero": "T3-001",
       "estado": "en_preparacion",
       "estado_nombre": "En preparacion",
+      "creado_en": "2026-09-11 19:30:02",
       "minutos": 14,
       "demorada": true,
       "nota": null,
@@ -60,8 +63,10 @@ fuera: ya salieron por la ventanilla.
 | Campo | Significado |
 |---|---|
 | `turno` | Identificador del turno abierto, o `null` solo si no hay ninguno. Un turno abierto se informa aunque no tenga órdenes en curso |
+| `ahora` | Reloj del servidor en el instante de responder. El tablero le resta el suyo para saber su desfase y contar el tiempo contra la hora buena |
 | `minutos_demora` | Umbral a partir del cual una orden se marca como demorada |
 | `total` | Cantidad de órdenes en curso |
+| `ordenes[].creado_en` | Cuándo la registró CAJA. Es la «hora de recepción» que imprime la tarjeta y el punto de partida del cronómetro |
 | `ordenes[].minutos` | Minutos transcurridos desde que CAJA registró la orden |
 | `ordenes[].demorada` | `true` cuando `minutos >= minutos_demora` |
 | `ordenes[].items[]` | Nombre y cantidad, copiados al momento de la venta |
@@ -69,10 +74,22 @@ fuera: ya salieron por la ventanilla.
 El orden del arreglo es por estado y, dentro de cada estado, por antigüedad: lo más urgente
 primero.
 
+**Por qué viajan `minutos` y `creado_en`, que son el mismo dato contado de dos maneras.** `minutos`
+y `demorada` los calcula el servidor y valen para cualquier cliente que solo quiera leer la lista.
+El tablero del #20 necesita además la marca: con ella lleva su propio cronómetro, un segundo a la
+vez, sin pedir la lista otra vez sólo para que el reloj avance. Y como el reloj de la tableta de la
+ventanilla puede estar mal puesto en hora, la respuesta trae también `ahora`: el tablero calcula el
+desfase entre los dos relojes y lo descuenta, de modo que el tiempo que se ve en la pared es el del
+servidor aunque el dispositivo no sepa qué hora es. Sin eso, el realce de demora saltaría cuando no
+toca —o no saltaría nunca—.
+
+Las dos son añadidos del #20 y **no quitan nada**: un cliente escrito contra el contrato anterior
+sigue funcionando igual.
+
 ### Turno abierto y sin órdenes en curso · 200
 
 ```json
-{ "turno": 3, "minutos_demora": 10, "total": 0, "ordenes": [] }
+{ "turno": 3, "ahora": "2026-09-11 19:44:07", "minutos_demora": 10, "total": 0, "ordenes": [] }
 ```
 
 La ventanilla está abierta y producción va al día. El tablero muestra la pantalla vacía, pero
@@ -81,7 +98,7 @@ sabe que el turno sigue corriendo.
 ### Sin turno abierto · 200
 
 ```json
-{ "turno": null, "minutos_demora": 10, "total": 0, "ordenes": [] }
+{ "turno": null, "ahora": "2026-09-11 19:44:07", "minutos_demora": 10, "total": 0, "ordenes": [] }
 ```
 
 No es un error: el truck simplemente no está vendiendo.

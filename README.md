@@ -169,6 +169,7 @@ menu08_app/                 🔒 privada · se copia a /home/sfacturs2/menu08_ap
   basedatos/
     esquema.sql             las nueve tablas
     datos_iniciales.sql     estados, food truck y usuarios de demostración
+    datos_pruebas.sql       banco de pruebas, aislado por food_truck_id
   almacenamiento/
     bitacora/               registro de errores
 
@@ -379,6 +380,9 @@ php -S localhost:8000 -t ADSO.menu08.com ADSO.menu08.com/index.php
 
 Los usuarios de demostración y sus contraseñas están en
 [`docs/basedatos.md`](docs/basedatos.md). **Cambiarlas antes de publicar el sitio.**
+
+El plan de pruebas, las plantillas de caso y de defecto y el procedimiento para levantar el
+ambiente están en [`docs/pruebas/`](docs/pruebas/plan-de-pruebas.md).
 
 Los contratos de los servicios JSON están en [`docs/api-svp.md`](docs/api-svp.md), el que sondea el
 tablero, y en [`docs/api-movil.md`](docs/api-movil.md), los dos que consume la aplicación móvil del

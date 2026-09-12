@@ -154,6 +154,10 @@ final class UbicacionControlador extends Controlador
      */
     private function pantalla(int $ft, ?array $edita, array $errores, ?string $momento = null, int $codigo = 200): void
     {
+        // validacion.js adelanta en el navegador el mismo rechazo que da el
+        // servidor. Va por el parametro del marco y no con una etiqueta <script>
+        // dentro de la vista porque esta pantalla tiene un solo sitio donde se
+        // pinta —este metodo—, y asi el guion se enlaza una vez y con defer.
         $this->vista('panel/ubicaciones', [
             'ubicaciones' => Ubicacion::delFoodTruck($ft),
             'edita'       => $edita,
@@ -161,7 +165,7 @@ final class UbicacionControlador extends Controlador
             'dias'        => Ubicacion::DIAS,
             'vigente'     => Ubicacion::vigente($ft, $momento),
             'momento'     => $momento,
-        ], $edita === null ? 'Paradas' : 'Editar parada', $codigo);
+        ], $edita === null ? 'Paradas' : 'Editar parada', $codigo, [], ['validacion.js']);
     }
 
     /**

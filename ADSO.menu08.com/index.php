@@ -13,6 +13,14 @@ declare(strict_types=1);
  * carpeta publica cuelga del directorio de la cuenta o de public_html.
  */
 
+if (PHP_SAPI === 'cli-server') {
+    $solicitado = __DIR__ . (string) (parse_url((string) ($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH) ?: '/');
+
+    if (is_file($solicitado)) {
+        return false;
+    }
+}
+
 $aplicacion = null;
 
 for ($carpeta = __DIR__, $intento = 0; $intento < 4; $intento++, $carpeta = dirname($carpeta)) {

@@ -30,14 +30,19 @@ final class Ubicacion
      *
      * Viven aqui, en un solo sitio, igual que Orden::TRANSICIONES. La vista los
      * recibe como dato y no los vuelve a escribir.
+     *
+     * Van con tilde, a diferencia del resto del codigo: no son identificadores,
+     * son las palabras que lee el cliente en la carta publica —«Miércoles de
+     * 11:00 a 15:00»— y ahi un «Miercoles» se lee como una errata del negocio.
+     * No viajan en ningun contrato JSON, asi que la tilde no rompe nada.
      */
     public const DIAS = [
         1 => 'Lunes',
         2 => 'Martes',
-        3 => 'Miercoles',
+        3 => 'Miércoles',
         4 => 'Jueves',
         5 => 'Viernes',
-        6 => 'Sabado',
+        6 => 'Sábado',
         7 => 'Domingo',
     ];
 
@@ -145,6 +150,65 @@ final class Ubicacion
                       AND TIME(ahora.m) <  u.hora_fin)
                 )
               ORDER BY u.hora_inicio, u.id
+              LIMIT 1'
+        );
+        $s->execute(['momento' => $momento, 'ft' => $foodTruckId]);
+
+        $fila = $s->fetch();
+
+        return $fila === false ? null : $fila;
+    }
+
+    /**
+     * La proxima parada que abre, contando desde este momento o desde el que se
+     * pida.
+     *
+     * Es la respuesta cuando vigente() devuelve null: la carta publica no puede
+     * quedarse en blanco justo con la pregunta que el cliente vino a hacer. Si
+     * el truck no esta parado ahora, lo util es decirle cuando vuelve.
+     *
+     * COMO SE CALCULA. La agenda es semanal y se repite, asi que "la proxima"
+     * no es un ORDEN por dia y hora: el domingo a las 23:00 la proxima parada es
+     * la del lunes, que ordenando por dia_semana quedaria la primera de todas y
+     * ordenando por fecha no existe todavia. Se convierte cada parada en la
+     * FECHA en la que abre:
+     *
+     *   1. Cuantos dias faltan hasta su dia de la semana, entre 0 y 6, con el
+     *      modulo 7. El 0 es hoy.
+     *   2. Esa fecha con su hora de apertura.
+     *   3. Si ya paso —una parada de hoy que abria a las 11:00 cuando son las
+     *      14:00— se le suma una semana, que es cuando vuelve a abrir.
+     *
+     * Y se ordena por esa fecha. El envolvimiento del domingo al lunes sale
+     * solo, sin ningun caso especial, que es la misma idea que sostiene la
+     * tercera rama de vigente().
+     *
+     * La fila devuelta trae una columna de mas, `abre_en`, con esa fecha ya
+     * calculada: la vista necesita saber si es hoy, manana o el viernes, y eso
+     * no se puede deducir de dia_semana sin volver a hacer esta cuenta.
+     *
+     * @param string|null $momento 'AAAA-MM-DD HH:MM:SS'; null es el reloj del servidor
+     *
+     * @return array<string, mixed>|null
+     */
+    public static function proxima(int $foodTruckId, ?string $momento = null): ?array
+    {
+        $s = ConexionBD::obtener()->prepare(
+            'SELECT p.id, p.food_truck_id, p.nombre, p.referencia, p.latitud, p.longitud,
+                    p.dia_semana, p.hora_inicio, p.hora_fin, p.activa,
+                    IF(p.base > p.m, p.base, p.base + INTERVAL 7 DAY) AS abre_en
+               FROM (
+                     SELECT u.*,
+                            ahora.m AS m,
+                            TIMESTAMP(
+                              DATE(ahora.m) + INTERVAL ((7 + u.dia_semana - (WEEKDAY(ahora.m) + 1)) % 7) DAY,
+                              u.hora_inicio
+                            ) AS base
+                       FROM ubicaciones u
+                       CROSS JOIN (SELECT COALESCE(CAST(:momento AS DATETIME), NOW()) AS m) AS ahora
+                      WHERE u.food_truck_id = :ft AND u.activa = 1
+                    ) AS p
+              ORDER BY abre_en, p.hora_inicio, p.id
               LIMIT 1'
         );
         $s->execute(['momento' => $momento, 'ft' => $foodTruckId]);

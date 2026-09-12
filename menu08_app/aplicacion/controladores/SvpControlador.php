@@ -24,11 +24,26 @@ final class SvpControlador extends Controlador
     /** Minutos a partir de los cuales una orden se marca como demorada. */
     private const MINUTOS_DEMORA = 10;
 
+    /**
+     * El tablero.
+     *
+     * El primer pintado lo hace el servidor con las mismas ordenes que devuelve
+     * el sondeo, para que la pantalla de la pared no pase por un hueco en blanco
+     * mientras llega la primera respuesta —ni se quede en blanco para siempre si
+     * nunca llega—. Desde ahi manda svp.js.
+     */
     public function inicio(): void
     {
         $this->exigirRol(...self::ROLES);
 
-        $this->vista('svp/inicio', ['usuario' => $this->usuario()], 'Sistema de Visualizacion de Produccion');
+        $datos = Orden::enCurso($this->foodTruckActual(), self::MINUTOS_DEMORA);
+
+        $this->vista('svp/tablero', [
+            'turno'   => $datos['turno'],
+            'ordenes' => $datos['ordenes'],
+            'ahora'   => $datos['ahora'],
+            'demora'  => self::MINUTOS_DEMORA,
+        ], 'Sistema de Visualizacion de Produccion', 200, ['svp.css'], ['svp.js']);
     }
 
     /**
@@ -42,6 +57,9 @@ final class SvpControlador extends Controlador
 
         $this->json([
             'turno'           => $datos['turno'],
+            // El reloj del servidor viaja en cada respuesta: es contra el que el
+            // tablero descuenta el desfase de su propio reloj antes de contar.
+            'ahora'           => $datos['ahora'],
             'minutos_demora'  => self::MINUTOS_DEMORA,
             'total'           => count($datos['ordenes']),
             'ordenes'         => $datos['ordenes'],

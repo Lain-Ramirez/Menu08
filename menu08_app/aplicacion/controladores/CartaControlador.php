@@ -46,6 +46,13 @@ final class CartaControlador extends Controlador
         // La agenda de paradas responde la pregunta que el cliente hace en la
         // fila: donde esta el truck. agendaPublica() deja fuera las paradas
         // desactivadas.
+        $vigente = Ubicacion::vigente((int) $truck['id']);
+
+        // Y si ahora mismo no esta parado en ningun sitio, la siguiente que
+        // abre. Solo se pregunta en ese caso: con el truck abierto, la consulta
+        // sobraria en la pantalla que mas veces se sirve del proyecto.
+        $proxima = $vigente === null ? Ubicacion::proxima((int) $truck['id']) : null;
+
         // vistaPublica y no vista: esta pantalla la abre el cliente desde el
         // codigo QR, sin sesion. No lleva el marco del panel.
         $this->vistaPublica(
@@ -54,7 +61,8 @@ final class CartaControlador extends Controlador
                 'truck'        => $truck,
                 'porCategoria' => $porCategoria,
                 'agenda'       => Ubicacion::agendaPublica((int) $truck['id']),
-                'vigente'      => Ubicacion::vigente((int) $truck['id']),
+                'vigente'      => $vigente,
+                'proxima'      => $proxima,
                 'dias'         => Ubicacion::DIAS,
             ],
             sprintf('%s · carta', $truck['nombre']),

@@ -15,6 +15,7 @@ numeración corrida, sin reutilizar.
 |---|---|---|---|---|---|---|
 | CARTA | #22 | 16 | 14 | 2 | DEF-01, DEF-02 | Operativo con 2 defectos menores abiertos |
 | CAJA | #23 | 16 | 16 | 0 | Ninguno | Aprobado sin defectos (16 pasan, 0 fallan) |
+| SVP — integración con CAJA | #24 | 10 | 10 | 0 | Ninguno | Aprobado sin defectos (10 pasan, 0 fallan) |
 
 ## La tabla
 

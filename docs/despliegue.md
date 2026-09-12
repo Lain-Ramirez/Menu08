@@ -195,6 +195,85 @@ que lo omita heredaría el del servidor y mezclaría cotejamientos en los `JOIN`
 Comparado columna por columna contra `menu08_app/basedatos/esquema.sql` el 5 de septiembre de 2026:
 **nueve tablas de nueve, sin una sola diferencia de nombre ni de columna.**
 
+### El código privado no se alcanza por HTTP
+
+La separación en dos carpetas no vale de nada si el servidor sirve la privada. Comprobado el
+9 de septiembre de 2026 pidiendo por HTTPS las rutas que **no** deben responder:
+
+| Petición | Código |
+|---|---|
+| `/menu08_app/configuracion/rutas.php` | **404** |
+| `/menu08_app/aplicacion/nucleo/ConexionBD.php` | **404** |
+| `/menu08_app/basedatos/esquema.sql` | **404** |
+| `/menu08_app/almacenamiento/bitacora/` | **404** |
+| `/../menu08_app/configuracion/configuracion.php` | **404** |
+
+Y las que sí deben responder, para descartar que el 404 venga de un sitio caído:
+
+| Petición | Código |
+|---|---|
+| `/recursos/css/base.css` | 200 |
+| `/subidas/festin-choripan-del-truck.jpg` | 200 |
+
+El 404 lo devuelve el front controller porque esas direcciones no existen bajo la raíz del sitio:
+`menu08_app/` es **hermana** de `ADSO.menu08.com/`, no está dentro. No es una regla de `.htaccess`
+que alguien pueda desactivar, es que el archivo no está donde el servidor mira.
+
+**Las dos carpetas que sí se escriben**, comprobadas por su efecto y no por un `ls`:
+
+- `menu08_app/almacenamiento/bitacora/` — el archivo del día registró los intentos de ingreso
+  fallidos y los rechazos por token de las pruebas del módulo móvil. Si no tuviera permiso, no
+  habría archivo.
+- `ADSO.menu08.com/subidas/` — las fotos de producto y los códigos QR se sirven con 200.
+
+### El usuario de base solo alcanza la suya
+
+```console
+mysql> SHOW DATABASES;
++----------------------+
+| information_schema   |
+| performance_schema   |
+| sfacturs2_ADSO_9d9wd |
++----------------------+
+```
+
+Las dos primeras son vistas del propio motor, sin datos de nadie. **No aparece ninguna otra base de
+la cuenta**, así que el usuario de la aplicación no puede leer ni escribir fuera de la suya.
+
+Y el cotejamiento, verificado sobre el servidor y no sobre el archivo `.sql`:
+
+| Comprobación | Resultado |
+|---|---|
+| Tablas con motor InnoDB y `utf8mb4_unicode_ci` | **9 de 9** |
+| Columnas de texto con otro cotejamiento | **0** |
+| Cotejamiento por omisión de la base | `utf8mb4_0900_ai_ci`, el del servidor |
+
+La última fila es la que importa: el `COLLATE` explícito de cada `CREATE TABLE` **surtió efecto**
+pese a que la base por omisión trae otro. Una tabla nueva que lo omitiera heredaría el del servidor
+y mezclaría cotejamientos en los `JOIN`.
+
+### Los límites de subida, medidos
+
+El editor de INI de cPanel dice lo que declara; lo que vale es lo que el servidor aplica. Medido el
+9 de septiembre de 2026 enviando cuerpos de tamaño creciente a `POST /movil/ingresar`: si el cuerpo
+supera `post_max_size`, PHP **vacía `$_POST`** y el servicio responde `422 datos_incompletos` en vez
+de `401`. La sonda no escribe nada.
+
+| Cuerpo | Respuesta | Lectura |
+|---|---|---|
+| 2 MB | 401 | `$_POST` intacto |
+| 4 MB | 401 | intacto |
+| 6 MB | 401 | intacto |
+| 7 MB | 401 | intacto |
+| **8 MB** | **422** | **`$_POST` vaciado** |
+| 16 y 32 MB | 422 | vaciado |
+
+**`post_max_size = 8M`**, el valor por omisión de PHP. Da de sobra para el límite de **2 MB** por
+foto que impone `subidas.tamano_maximo` en la configuración, con margen para el resto del
+formulario. `upload_max_filesize` no se puede medir así sin subir un archivo de verdad y dejar
+basura en `subidas/`, pero es irrelevante mientras `subidas.tamano_maximo` sea el más restrictivo
+de los tres: la aplicación rechaza antes de que PHP tenga que decidir.
+
 ## Configuración del servidor
 
 `menu08_app/configuracion/configuracion.php` no se versiona nunca. En el servidor:

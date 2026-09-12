@@ -119,6 +119,10 @@ PHP 8.3 con programación orientada a objetos, patrón **MVC construido a mano**
 sin gestor de dependencias ni marcos de trabajo externos. Una sola puerta de entrada:
 `publico/index.php`.
 
+El recorrido completo de una petición, la responsabilidad de cada clase del núcleo, la máquina de
+estados de la orden y las prácticas de calidad aplicadas están en
+[`docs/arquitectura.md`](docs/arquitectura.md).
+
 ```mermaid
 flowchart TD
     N["🌐 Navegador"] -->|"petición HTTP"| H[".htaccess<br/>mod_rewrite"]
@@ -302,7 +306,9 @@ Dos decisiones de modelo que vienen de trabajar con food trucks y no con locales
 - **`ORDEN_ITEMS` copia el nombre y el precio** del producto en el momento de la venta.
   Si el truck cambia el precio después, las órdenes ya registradas no se alteran.
 
-El detalle completo está en [`docs/basedatos.md`](docs/basedatos.md).
+El **diccionario de datos** completo —cada columna con su tipo, nulidad y llave foránea— está en
+[`docs/modelo_datos.md`](docs/modelo_datos.md), y cómo se reconstruye y se respalda la base, en
+[`docs/basedatos.md`](docs/basedatos.md).
 
 ## Roles y acceso
 

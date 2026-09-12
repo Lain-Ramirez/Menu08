@@ -13,14 +13,51 @@ numeración corrida, sin reutilizar.
 
 | Identificador | Módulo | Severidad | Pasos de reproducción | Estado | Responsable |
 |---|---|---|---|---|---|
-| DEF-01 | CAJA | Alta | 1. Entrar como `pruebas.cajero`. 2. Abrir turno con base `50000`. 3. Abrir `/caja/turno` en otra pestaña. 4. Pulsar «Abrir turno» otra vez. → Se crean dos turnos abiertos | Cerrado | Lain Ramírez |
-| DEF-02 | SVP | Media | 1. Tablero abierto con órdenes. 2. Desconectar la red. 3. Esperar un ciclo de sondeo. → El tablero se queda en blanco en vez de avisar | Cerrado | Lain Ramírez |
-| DEF-nn | | | | Abierto | |
+| DEF-01 | CARTA | Media | 1. Entrar como `pruebas.foodtruck@menu08.local`. 2. En `/panel/productos`, marcar un producto como **no disponible**. 3. Abrir `/carta/{slug}`. → El producto **sigue apareciendo**, atenuado y con la etiqueta «No disponible». El criterio del #22 pide que no aparezca | Abierto | — |
+| DEF-02 | CARTA | Baja | 1. Abrir `/carta/festin-rodante` con la ventana a **320 px** de ancho. 2. Comparar `document.documentElement.scrollWidth` con `clientWidth`. → 324 contra 320: el precio del primer producto termina cuatro píxeles fuera y el documento se desplaza de lado. A 360 y 768 px no ocurre | Abierto | — |
 
-> Las dos filas de arriba son ejemplos de formato con defectos ya corregidos durante la
-> construcción. La primera se resolvió con la transacción y el `SELECT … FOR UPDATE` de
-> `TurnoCaja::abrir()`; la segunda, con el aviso y el reintento del sondeo de `svp.js`. Se
-> sustituyen por los defectos reales del primer ciclo.
+## Los defectos abiertos, con su historia
+
+### DEF-01 · El producto no disponible sigue saliendo en la carta
+
+Lo encontró [`CP-CARTA-08`](casos/carta.md#cp-carta-08--producto-marcado-como-no-disponible).
+
+**No es un descuido, es una contradicción entre dos decisiones escritas.** El criterio de
+aceptación del #22 pide que un producto no disponible no aparezca en la carta. La vista hace lo
+contrario a propósito: `carta/publica.php` lo pinta atenuado con su etiqueta, y `Producto::`
+`catalogoCarta()` lo trae a propósito —lo dice su comentario: «la carta sí muestra lo agotado,
+atenuado y con su etiqueta. El de CAJA lo deja fuera»—. Las dos decisiones son del mismo autor, en
+issues distintos.
+
+Por eso se registra en vez de corregirse sobre la marcha: **elegir entre esconderlo y atenuarlo es
+una decisión de producto**, no un arreglo de código. Las dos posturas tienen argumento —esconderlo
+evita que alguien pida lo que no hay; atenuarlo dice que el producto existe y que hoy se acabó—.
+Quien decida cierra el defecto de una de estas dos maneras:
+
+- **Esconderlo:** `CartaControlador` pasa a `Producto::catalogoPublico()`, que es el que ya usa
+  CAJA, y la vista pierde la rama del agotado.
+- **Dejarlo como está:** se corrige el criterio del issue #22 y este caso pasa a esperar lo que la
+  aplicación hace.
+
+Mientras tanto, quien quiera esconder un producto de la carta **sí tiene cómo**: desactivar su
+categoría lo saca, y eso está comprobado en `CP-CARTA-09`.
+
+### DEF-02 · La carta se desplaza de lado a 320 px
+
+Lo encontró [`CP-CARTA-16`](casos/carta.md#cp-carta-16--la-carta-a-320-px).
+
+Cuatro píxeles, y solo a 320. Los mide el precio del primer producto: en `.carta-fila` el nombre y
+el precio comparten renglón, el precio lleva `white-space: nowrap` y a ese ancho, con la foto de
+56 px y los huecos, no queda sitio para los dos. El documento entero acaba desplazándose en
+horizontal, que es justo lo que el criterio del #37 prohíbe.
+
+Severidad baja porque no impide leer ni pedir nada, pero es visible: en un teléfono pequeño la
+carta «baila» al tocarla.
+
+**Por dónde sale:** dejar que `.carta-fila` salte de línea —`flex-wrap: wrap` con el precio
+alineado a la derecha con `margin-left: auto`— para que el precio baje a su propio renglón cuando
+no cabe, en vez de empujar la página. Es una línea en `carta.css`, pero toca la maqueta del #17 y
+se hace con su defecto delante, no de paso.
 
 ## Severidad
 

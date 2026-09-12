@@ -5,9 +5,10 @@ Visualización de Producción— y describe el ambiente en el que se ejecutan lo
 dos personas del equipo, así que todo lo que aquí se fija —nomenclatura, plantillas, ambiente— es
 lo que hace que dos registros hechos por separado se puedan leer juntos.
 
-No es un listado de casos. Los casos viven en `docs/pruebas/` con la plantilla de
-[`plantilla-caso-de-prueba.md`](plantilla-caso-de-prueba.md), y lo que falla se anota en
-[`registro-de-defectos.md`](registro-de-defectos.md).
+No es un listado de casos. Los casos viven en `docs/pruebas/casos/`, uno por módulo y con la
+plantilla de [`plantilla-caso-de-prueba.md`](plantilla-caso-de-prueba.md); lo que falla se anota en
+[`registro-de-defectos.md`](registro-de-defectos.md). El primero ejecutado es
+[`casos/carta.md`](casos/carta.md), del issue #22.
 
 ---
 

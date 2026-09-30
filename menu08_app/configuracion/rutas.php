@@ -36,6 +36,10 @@ $enrutador->get('/componentes', [ComponentesControlador::class, 'muestrario']);
 // La carta que abre el cliente al leer el QR de la ventanilla. Sin sesion.
 $enrutador->get('/carta/{slug}', [CartaControlador::class, 'publica']);
 
+// Pantalla publica de turnos para la ventanilla y su servicio de sondeo. Sin sesion.
+$enrutador->get('/turnos/{slug}',         [SvpControlador::class, 'turnos']);
+$enrutador->get('/turnos/{slug}/ordenes', [SvpControlador::class, 'turnosOrdenes']);
+
 // --- Autenticacion ---------------------------------------------------------
 $enrutador->get('/ingresar',  [AutenticacionControlador::class, 'formulario']);
 $enrutador->post('/ingresar', [AutenticacionControlador::class, 'ingresar']);

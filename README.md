@@ -372,6 +372,7 @@ php -S localhost:8000 -t ADSO.menu08.com ADSO.menu08.com/index.php
 |---|---|---|
 | `/carta/festin-rodante` | pública | CARTA |
 | `/turnos/festin-rodante` | pública, pantalla de la ventanilla | SVP |
+| `/turnos/festin-rodante/ordenes` | pública, responde JSON | SVP |
 | `/ingresar` | pública | — |
 | `/panel` | rol `food_truck` o `plataforma` | CARTA |
 | `/caja` | rol `cajero` | CAJA |

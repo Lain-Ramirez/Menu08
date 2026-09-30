@@ -1,0 +1,410 @@
+/* turnos.css — la pantalla publica de turnos para la ventanilla.
+   Menu08 · carta, caja y produccion para food trucks.
+
+   Solo la carga /turnos/{slug}, desde plantillas/publica.php a traves del
+   parametro $hojas.
+
+   PANTALLA DE ALTA VISIBILIDAD A DISTANCIA.
+   Diseñada especificamente para televisores o monitores de 24 pulgadas o superiores
+   instalados en la ventanilla del food truck:
+     - Se lee comodamente a 3 metros de distancia en la fila de clientes.
+     - Tipografia gigante con font-variant-numeric: tabular-nums para evitar saltos.
+     - Contraste reforzado (WCAG AAA) con colores MD3 aptos para plena luz del dia.
+     - Dos columnas equilibradas: «En preparación» y «Listos para entrega».
+     - Soporte nativo para pantalla completa (Fullscreen API).
+
+   Issue #38 · Fase 5 - Pruebas */
+
+/* 1. Marco y contenedor principal ----------------------------------------- */
+
+.contenido-publico {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.turnos-pantalla {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: var(--esp-4) var(--esp-6);
+  box-sizing: border-box;
+  background: var(--surface);
+  color: var(--on-surface);
+  gap: var(--esp-4);
+}
+
+.turnos-pantalla [hidden] {
+  display: none !important;
+}
+
+/* 2. Cabecera e identidad del food truck ----------------------------------- */
+
+.turnos-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-4);
+  padding-bottom: var(--esp-3);
+  border-bottom: 2px solid var(--outline-variant);
+}
+
+.turnos-identidad {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-4);
+  min-width: 0;
+}
+
+.turnos-logo {
+  height: clamp(48px, 6vw, 72px);
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  border-radius: var(--radio-p);
+}
+
+.turnos-titulos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.turnos-negocio {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--on-surface);
+}
+
+.turnos-subtitulo {
+  font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+  color: var(--on-surface-variant);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.turnos-controles {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-4);
+}
+
+/* Latido de conexion activa */
+.turnos-latido {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  padding: var(--esp-2) var(--esp-3);
+  border-radius: var(--radio-xp);
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.turnos-latido-punto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tertiary);
+  box-shadow: 0 0 0 2px var(--tertiary-container);
+  transition: background 0.25s, box-shadow 0.25s;
+}
+
+.turnos-latido-caido .turnos-latido-punto {
+  background: var(--error);
+  box-shadow: 0 0 0 2px var(--error-container);
+  animation: pulso-alerta 1.5s infinite;
+}
+
+@keyframes pulso-alerta {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.2); }
+}
+
+.turnos-btn-pantalla {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-height: 44px;
+  padding: 0 var(--esp-3);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.turnos-icono-btn {
+  width: 20px;
+  height: 20px;
+}
+
+/* Aviso de red / reconexion */
+.turnos-aviso-red {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  padding: var(--esp-3) var(--esp-4);
+  border-radius: var(--radio-m);
+  background: var(--error-container);
+  color: var(--on-error-container);
+  border: 2px solid var(--error);
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: var(--elev-2);
+}
+
+/* 3. Pantalla vacia / Ventanilla cerrada ----------------------------------- */
+
+.turnos-vacio-cerrado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+  padding: var(--esp-8) var(--esp-4);
+  max-width: 600px;
+  gap: var(--esp-3);
+}
+
+.turnos-vacio-icono svg {
+  width: 80px;
+  height: 80px;
+  stroke: var(--outline);
+}
+
+.turnos-vacio-titulo {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--on-surface);
+  margin: 0;
+}
+
+.turnos-vacio-texto {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  color: var(--on-surface-variant);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 4. Columnas principales de turnos --------------------------------------- */
+
+.turnos-columnas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--esp-6);
+  flex: 1;
+  min-height: 0;
+}
+
+.turnos-columna {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-container-low);
+  border: 2px solid var(--outline-variant);
+  border-radius: var(--radio-g);
+  padding: var(--esp-4);
+  box-shadow: var(--elev-1);
+  min-height: 0;
+}
+
+.turnos-columna-preparacion {
+  border-top: 8px solid var(--warning);
+}
+
+.turnos-columna-lista {
+  border-top: 8px solid var(--tertiary);
+}
+
+.turnos-columna-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--esp-4);
+  border-bottom: 2px dashed var(--outline-variant);
+  margin-bottom: var(--esp-4);
+}
+
+.turnos-columna-titulo-grupo {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+}
+
+.turnos-columna-icono svg {
+  width: clamp(28px, 4vw, 36px);
+  height: clamp(28px, 4vw, 36px);
+}
+
+.turnos-columna-preparacion .turnos-columna-icono svg {
+  stroke: var(--warning);
+}
+
+.turnos-columna-lista .turnos-columna-icono svg {
+  stroke: var(--tertiary);
+}
+
+.turnos-columna-titulo {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.turnos-columna-cuenta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 var(--esp-2);
+  border-radius: var(--radio-p);
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.turnos-columna-preparacion .turnos-columna-cuenta {
+  background: var(--warning-container);
+  color: var(--on-warning-container);
+  border: 2px solid var(--warning);
+}
+
+.turnos-columna-lista .turnos-columna-cuenta {
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+  border: 2px solid var(--tertiary);
+}
+
+/* 5. Lista de numeros y tarjetas ------------------------------------------ */
+
+.turnos-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--esp-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  align-content: start;
+  flex: 1;
+}
+
+.turnos-columna-vacia {
+  margin: auto;
+  padding: var(--esp-6);
+  text-align: center;
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  color: var(--on-surface-variant);
+  font-weight: 500;
+}
+
+/* Tarjeta de número: visible a tres metros */
+.turno-tarjeta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--esp-4) var(--esp-3);
+  border-radius: var(--radio-m);
+  box-shadow: var(--elev-2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+}
+
+.turno-numero {
+  font-size: clamp(3rem, 6.5vw, 5.5rem);
+  line-height: 1;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -1px;
+  text-align: center;
+}
+
+/* Estilo de tarjeta en preparación */
+.turno-tarjeta-preparacion {
+  background: var(--warning-container);
+  color: var(--on-warning-container);
+  border: 3px solid var(--warning);
+}
+
+/* Estilo de tarjeta lista */
+.turno-tarjeta-lista {
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+  border: 3px solid var(--tertiary);
+  animation: resalte-lista 0.8s ease-out;
+}
+
+@keyframes resalte-lista {
+  0% {
+    transform: scale(0.92);
+    box-shadow: 0 0 0 8px var(--tertiary);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: var(--elev-2);
+  }
+}
+
+/* 6. Modo Pantalla Completa (Fullscreen) ----------------------------------- */
+
+:fullscreen .turnos-pantalla,
+:-webkit-full-screen .turnos-pantalla {
+  padding: var(--esp-6) var(--esp-8);
+  height: 100vh;
+}
+
+:fullscreen .turnos-lista,
+:-webkit-full-screen .turnos-lista {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--esp-5);
+}
+
+:fullscreen .turno-numero,
+:-webkit-full-screen .turno-numero {
+  font-size: clamp(3.8rem, 8vw, 6.8rem);
+}
+
+/* 7. Responsividad para dispositivos y monitores verticales ---------------- */
+
+@media (max-width: 768px) {
+  .turnos-pantalla {
+    padding: var(--esp-3);
+  }
+
+  .turnos-columnas {
+    grid-template-columns: 1fr;
+    gap: var(--esp-4);
+  }
+
+  .turnos-cabecera {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .turnos-controles {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .turnos-lista {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--esp-3);
+  }
+
+  .turno-numero {
+    font-size: clamp(2.5rem, 9vw, 4rem);
+  }
+}

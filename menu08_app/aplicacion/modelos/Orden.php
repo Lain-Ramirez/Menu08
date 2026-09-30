@@ -366,6 +366,73 @@ final class Orden
     }
 
     /**
+     * Turnos en curso para la pantalla publica de la ventanilla del food truck.
+     *
+     * Devuelve UNICAMENTE el numero de turno y su estado (en_preparacion o lista).
+     * No incluye productos, cantidades, totales, medios de pago ni notas: esos datos
+     * pertenecen a la operacion interna y no deben exponerse al publico en la ventanilla.
+     *
+     * Resuelve en una sola consulta sobre turnos_caja y ordenes. Si no hay turno abierto,
+     * informa turno en null. Si hay turno abierto pero sin ordenes en preparacion o listas,
+     * informa el id del turno con la lista de ordenes vacia.
+     *
+     * @return array{turno: int|null, ahora: string, total: int, ordenes: list<array{numero: string, estado: string}>}
+     */
+    public static function turnosPublicos(int $foodTruckId): array
+    {
+        $pdo   = ConexionBD::obtener();
+        $ahora = date('Y-m-d H:i:s');
+
+        $turnoVigente = "(SELECT v.id FROM turnos_caja v
+                           WHERE v.food_truck_id = :ft AND v.estado = 'abierto'
+                           ORDER BY v.id DESC LIMIT 1)";
+
+        $enCurso = "('en_preparacion', 'lista')";
+
+        $o = $pdo->prepare(
+            "SELECT t.id AS turno_id, o.id AS orden_id, o.numero,
+                    e.codigo AS estado
+               FROM turnos_caja t
+               LEFT JOIN ordenes o
+                      ON o.turno_id = t.id
+                     AND o.food_truck_id = t.food_truck_id
+                     AND o.estado_id IN (SELECT id FROM estados_orden WHERE codigo IN {$enCurso})
+               LEFT JOIN estados_orden e ON e.id = o.estado_id
+              WHERE t.id = {$turnoVigente}
+              ORDER BY e.orden, o.estado_actualizado_en, o.creado_en"
+        );
+        $o->execute(['ft' => $foodTruckId]);
+        $filas = $o->fetchAll();
+
+        // Sin turno abierto para este food truck.
+        if ($filas === []) {
+            return ['turno' => null, 'ahora' => $ahora, 'total' => 0, 'ordenes' => []];
+        }
+
+        $turno = (int) $filas[0]['turno_id'];
+
+        // Turno abierto pero sin ordenes en preparacion ni listas.
+        if ($filas[0]['orden_id'] === null) {
+            return ['turno' => $turno, 'ahora' => $ahora, 'total' => 0, 'ordenes' => []];
+        }
+
+        $salida = [];
+        foreach ($filas as $fila) {
+            $salida[] = [
+                'numero' => (string) $fila['numero'],
+                'estado' => (string) $fila['estado'],
+            ];
+        }
+
+        return [
+            'turno'   => $turno,
+            'ahora'   => $ahora,
+            'total'   => count($salida),
+            'ordenes' => $salida,
+        ];
+    }
+
+    /**
      * Avanza la orden al siguiente estado de su ciclo de vida. Todo o nada.
      *
      * La orden se bloquea con FOR UPDATE dentro de la transaccion. En un food

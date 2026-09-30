@@ -274,6 +274,43 @@ formulario. `upload_max_filesize` no se puede medir así sin subir un archivo de
 basura en `subidas/`, pero es irrelevante mientras `subidas.tamano_maximo` sea el más restrictivo
 de los tres: la aplicación rechaza antes de que PHP tenga que decidir.
 
+### `date.timezone`, verificado por su efecto y no por el valor declarado
+
+El prototipo nunca llama `date_default_timezone_set()`: `date()`, `strtotime()` y el cronómetro del
+Sistema de Visualización de Producción dependen enteramente de lo que declare el servidor. Y
+`ConexionBD::obtener()` fuerza `SET time_zone = '-05:00'` en cada conexión, así que `creado_en` en
+la base **siempre** queda en hora de Bogotá sin importar la zona de PHP —lo que deja exactamente un
+punto donde un `date.timezone` mal puesto sí se nota: `svp/tablero.php` resta
+`strtotime($ahora) - strtotime($o['creado_en'])`, comparando un texto que escribió PHP contra un
+texto que escribió MySQL. Si las dos zonas no coinciden, el cronómetro de cada orden se ve
+corrido por la diferencia completa.
+
+Comprobado en vivo el 12 de septiembre de 2026: se registró la orden `T5-018` a través de
+`/caja/vender` a las `15:11:56 GMT` según la cabecera `Date` de la respuesta —`10:11:56` en
+Bogotá— y quedó en la base como `creado_en = 2026-09-12 10:11:57`. Veintiséis segundos después,
+`GET /svp` (cabecera `Date: 15:12:22 GMT`) mostraba esa misma tarjeta con **`00:25`** en el
+cronómetro y sin la etiqueta «Demorada». Coincide con el tiempo real transcurrido, no con uno
+corrido cinco horas, así que **`date.timezone` ya está resuelto a la hora de Bogotá** en el
+servidor —da igual si el valor declarado en el editor de INI es `America/Bogota` o un equivalente
+en desplazamiento fijo, lo que importa es que el efecto es el correcto.
+
+> Esta prueba dejó su propia orden real en el turno #5 vigente: **`T5-018`**, $ 14.900, nota
+> «PRUEBA ZONA HORARIA - descartar». Mismo caso que `T5-017` en la ronda de seguridad del
+> issue #25: no hay ruta de borrado para una orden ya registrada.
+
+### Lo que sigue pendiente en el editor de INI de PHP de cPanel
+
+Esta tarea necesita entrar a cPanel, y el cortafuegos del hosting solo deja pasar la dirección
+autorizada: no se puede verificar ni aplicar por HTTPS ni por este medio. Queda para quien tenga
+esa sesión abierta, con los valores que corresponden según lo medido arriba:
+
+| Directiva | Valor recomendado | Por qué |
+|---|---|---|
+| `display_errors` | `Off` | `ManejadorErrores::registrar()` ya hace `ini_set('display_errors', '0')` en cada petición, pero eso no cubre un fallo catastrófico *antes* de esa línea —un error de sintaxis en un archivo que se carga primero, por ejemplo—. Ponerlo en el INI cierra ese hueco. |
+| `log_errors` | `On` | Mismo caso: `Bitacora` registra lo que la aplicación alcanza a atrapar, pero un fallo anterior a `ManejadorErrores::registrar()` solo queda escrito si PHP mismo lo registra. |
+| `date.timezone` | `America/Bogota` | Por completar el valor declarado, aunque el comportamiento ya mide correcto como se documentó arriba. |
+| `upload_max_filesize` | `8M` | Para igualar a `post_max_size`, ya medido. Sigue siendo un límite de repuesto: `subidas.tamano_maximo` (2 MB) rechaza antes en la aplicación. |
+
 ## Configuración del servidor
 
 `menu08_app/configuracion/configuracion.php` no se versiona nunca. En el servidor:

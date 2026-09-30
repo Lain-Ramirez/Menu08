@@ -1,12 +1,14 @@
 # Contrato del servicio del Sistema de Visualización de Producción
 
-Dos operaciones: el tablero **consulta** las órdenes en curso por sondeo periódico y **avanza**
-cada orden por su ciclo de vida. Ambas responden JSON siempre, también al fallar.
+Tres operaciones: el tablero de producción **consulta** las órdenes en curso por sondeo periódico y **avanza**
+cada orden por su ciclo de vida, y la pantalla pública de la ventanilla **consulta** los turnos listos y en preparación.
+Todas responden JSON siempre, también al fallar.
 
 | Operación | Ruta |
 |---|---|
 | Órdenes en curso del turno vigente | `GET /svp/ordenes` |
 | Avanzar una orden de estado | `POST /svp/orden/{id}/estado` |
+| Turnos públicos para la ventanilla | `GET /turnos/{slug}/ordenes` |
 
 ## Consulta de órdenes en curso
 
@@ -218,6 +220,78 @@ hacerlo porque no lo necesita para evitar duplicados —de eso ya se encarga la 
 estados: repetir el mismo envío encuentra la orden ya movida y responde 422 sin tocar nada.
 
 Sin sesión y con rol equivocado se responde igual que en la consulta: 401 y 403.
+
+## Consulta de turnos públicos para la ventanilla
+
+```
+GET /turnos/{slug}/ordenes
+```
+
+**Autenticación:** ninguna (servicio público).
+**Parámetros:** `slug` en la dirección, correspondiente al food truck.
+**Respuesta:** `Content-Type: application/json; charset=utf-8`.
+
+Hermano público de `GET /svp/ordenes`, diseñado para alimentar la pantalla de turnos que cuelga en
+la ventanilla del food truck. Incluye únicamente órdenes en preparación (`en_preparacion`) y listas
+para entrega (`lista`).
+
+**Aislamiento y privacidad:**
+A diferencia del servicio privado de cocina, este servicio **no expone productos, cantidades,
+totales, medios de pago ni notas de clientes**. Devuelve exclusivamente el número de turno y su
+estado actual.
+
+### Respuesta correcta · 200
+
+```json
+{
+  "turno": 3,
+  "ahora": "2026-09-12 10:30:00",
+  "total": 2,
+  "ordenes": [
+    {
+      "numero": "T3-002",
+      "estado": "en_preparacion"
+    },
+    {
+      "numero": "T3-001",
+      "estado": "lista"
+    }
+  ]
+}
+```
+
+| Campo | Significado |
+|---|---|
+| `turno` | Identificador del turno abierto, o `null` si no hay ninguno |
+| `ahora` | Reloj del servidor en el instante de responder |
+| `total` | Cantidad total de turnos en preparación y listos |
+| `ordenes[].numero` | Consecutivo de la orden que el cliente tiene en su comprobante |
+| `ordenes[].estado` | Estado actual: `"en_preparacion"` o `"lista"` |
+
+### Turno abierto y sin órdenes en preparación ni listas · 200
+
+```json
+{ "turno": 3, "ahora": "2026-09-12 10:30:00", "total": 0, "ordenes": [] }
+```
+
+El turno está abierto, pero la cocina está al día y no hay pedidos pendientes de entrega.
+
+### Sin turno abierto · 200
+
+```json
+{ "turno": null, "ahora": "2026-09-12 10:30:00", "total": 0, "ordenes": [] }
+```
+
+La ventanilla está cerrada. La pantalla muestra el aviso correspondiente.
+
+### Food truck inexistente o inactivo · 404
+
+```json
+{
+  "error": "food_truck_no_encontrado",
+  "mensaje": "No hay un food truck activo con el slug \"no-existe\"."
+}
+```
 
 ## Por qué los errores también son JSON
 

@@ -103,7 +103,7 @@
   align-items: center;
   gap: var(--esp-2);
   padding: var(--esp-2) var(--esp-3);
-  border-radius: var(--radio-xp);
+  border-radius: var(--radio-completo);
   background: var(--surface-container);
   color: var(--on-surface-variant);
   font-size: 0.9rem;
@@ -117,6 +117,10 @@
   background: var(--tertiary);
   box-shadow: 0 0 0 2px var(--tertiary-container);
   transition: background 0.25s, box-shadow 0.25s;
+  /* Late mientras el sondeo responde: desde la fila, es lo que dice que la
+     pantalla esta viva y los numeros son los de ahora. */
+  --latido-tono: color-mix(in srgb, var(--tertiary) 55%, transparent);
+  animation: latido 2s var(--curva-salida) infinite;
 }
 
 .turnos-latido-caido .turnos-latido-punto {
@@ -175,6 +179,17 @@
   gap: var(--esp-3);
 }
 
+.turnos-vacio-icono {
+  display: grid;
+  place-items: center;
+  width: 144px;
+  height: 144px;
+  border-radius: 50%;
+  background: var(--surface-container);
+  box-shadow: 0 0 0 14px var(--surface-container-low);
+  margin-bottom: var(--esp-4);
+}
+
 .turnos-vacio-icono svg {
   width: 80px;
   height: 80px;
@@ -210,9 +225,9 @@
   flex-direction: column;
   background: var(--surface-container-low);
   border: 2px solid var(--outline-variant);
-  border-radius: var(--radio-g);
-  padding: var(--esp-4);
-  box-shadow: var(--elev-1);
+  border-radius: var(--radio-xg);
+  padding: var(--esp-5);
+  box-shadow: var(--elev-2);
   min-height: 0;
 }
 
@@ -329,11 +344,14 @@
   text-align: center;
 }
 
-/* Estilo de tarjeta en preparación */
+/* Estilo de tarjeta en preparación. Entra deslizando cuando turnos.js la
+   inserta: el numero nuevo se ve llegar, sin el destello de la que pasa a
+   lista, que es la que de verdad pide que alguien se acerque. */
 .turno-tarjeta-preparacion {
   background: var(--warning-container);
   color: var(--on-warning-container);
   border: 3px solid var(--warning);
+  animation: entra var(--mov-lento) both;
 }
 
 /* Estilo de tarjeta lista */
@@ -406,5 +424,39 @@
 
   .turno-numero {
     font-size: clamp(2.5rem, 9vw, 4rem);
+  }
+}
+
+/* 8. El numero cabe siempre en un renglon ---------------------------------
+
+   El tamano en vw no sabe cuanto mide la tarjeta: a 1920 px el numero pide
+   88 px y la tarjeta, 265 de ancho, asi que «T5-018» se partia por el guion en
+   dos renglones —«T5-» arriba y «018» abajo— y desde la fila se leia como dos
+   datos. Con unidades de contenedor el numero mide una fraccion del ancho de SU
+   tarjeta: crece con ella y nunca la desborda.
+
+   Dentro de @supports: un navegador que no conozca cqi —un televisor con
+   algunos anos— se queda con el tamano en vw de arriba, que parte el numero
+   pero no lo saca de la tarjeta. */
+@supports (font-size: 1cqi) {
+  .turnos-lista { grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
+
+  .turno-tarjeta { container-type: inline-size; }
+
+  .turno-numero { font-size: clamp(2.5rem, 22cqi, 7rem); white-space: nowrap; }
+
+  :fullscreen .turno-numero { font-size: clamp(2.5rem, 22cqi, 8rem); }
+
+  :fullscreen .turnos-lista { grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+}
+
+@supports (font-size: 1cqi) {
+  :-webkit-full-screen .turno-numero { font-size: clamp(2.5rem, 22cqi, 8rem); }
+  :-webkit-full-screen .turnos-lista { grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+}
+
+@supports (font-size: 1cqi) {
+  @media (max-width: 768px) {
+    .turnos-lista { grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); }
   }
 }

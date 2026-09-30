@@ -42,14 +42,18 @@ acaba usando mal. Se conservaron los nueve que tienen un sitio concreto en el pr
 | Variable | Valor | Dónde |
 |---|---|---|
 | `--tipo-pantalla` | 57/64 · 400 | El número de turno del SVP, leído desde la calle |
-| `--tipo-titulo-g` | 32/40 · 400 | `h1` |
-| `--tipo-titulo-m` | 24/32 · 400 | `h2`, título de diálogo |
-| `--tipo-titulo-p` | 22/28 · 500 | `h3`, título de tarjeta |
+| `--tipo-titulo-g` | 32/40 · 700 | `h1` |
+| `--tipo-titulo-m` | 24/32 · 600 | `h2`, título de diálogo |
+| `--tipo-titulo-p` | 20/28 · 600 | `h3`, título de tarjeta |
 | `--tipo-cuerpo-g` | 16/24 · 400 | Base del documento |
 | `--tipo-cuerpo-m` | 14/20 · 400 | Celdas de tabla, avisos |
 | `--tipo-cuerpo-p` | 12/16 · 400 | Texto de apoyo y de error |
-| `--tipo-etiqueta-g` | 14/20 · 500 | Rótulo de botón |
-| `--tipo-etiqueta-m` | 12/16 · 500 | Encabezado de tabla, etiqueta de estado |
+| `--tipo-etiqueta-g` | 14/20 · 600 | Rótulo de botón |
+| `--tipo-etiqueta-m` | 12/16 · 600 | Encabezado de tabla, etiqueta de estado |
+
+Los títulos pesan 600–700 y no los 400 de MD3: con la pila tipográfica del sistema, un `h1` de
+32 px en peso normal no se distinguía del cuerpo más que por el tamaño, y la página se leía sin
+jerarquía. El `h1` además encoge en el teléfono (`clamp(26px, …, 32px)`).
 
 El dinero y las horas llevan `font-variant-numeric: tabular-nums` (`.cifra`, `.numerica`). Sin
 cifras de ancho fijo, una columna de totales baila de fila en fila y se lee torcida.
@@ -73,8 +77,56 @@ código nuevo reparte con `gap` y el viejo se sigue leyendo mientras le llega el
 ### Espaciado, radios y elevación
 
 Retícula de 4 px (`--esp-1` a `--esp-8`: 4, 8, 12, 16, 24, 32, 48, 64). Escala de forma de MD3
-(`--radio-xp` 4 → `--radio-completo`): campo 4, etiqueta 8, tarjeta y aviso 12, diálogo 28,
-botón completo. Elevación solo de los niveles 1 a 3; del 4 en adelante no aparece nada.
+(`--radio-xp` 4 → `--radio-completo`): campo 8, tarjeta y aviso 12, tarjeta destacada 16,
+diálogo 28, botón y etiqueta completos.
+
+Tres niveles de elevación (`--elev-1` a `--elev-3`) y un cuarto, `--elev-realce`, que es la sombra
+de una pieza pulsable con el puntero encima. Las sombras son anchas y suaves, y su color sale de
+`--on-surface` con `color-mix()` —un marrón casi negro—: la de MD3 lleva un 30 % de negro en el
+primer trazo y sobre el crema de esta paleta se leía como un borde sucio.
+
+### La respuesta al puntero y a la acción
+
+Toda pieza pulsable responde igual en toda la aplicación, y la respuesta tiene tres tiempos. El
+vocabulario sale de estudiar cómo reaccionan los elementos de [sena.edu.co](https://www.sena.edu.co/)
+—la elevación de las tarjetas, el acercamiento de las fotos, la ficha de icono que se invierte, el
+filete de la navegación, el hundimiento al pulsar— y está traducido a los tokens de la paleta Brasa.
+
+| Momento | Qué pasa | Dónde |
+|---|---|---|
+| Puntero encima | Tinte de la marca (`--tinte`), borde `--anillo`, sombra `--elev-realce` y un despegue de 1 a 4 px | Botón, tarjeta-enlace, cifra y atajo del panel, ficha de CAJA, truck de la portada |
+| Puntero encima | La ficha del icono se invierte (tinte → rojo lleno) y la flecha avanza | Navegación, atajos del panel, portada |
+| Puntero encima | La foto se acerca dentro de su marco, en 500 ms | Ficha de CAJA, portada, carta, miniatura de la tabla |
+| Pulsación | La pieza se hunde (`scale(.95–.98)`) en 60 ms | Botón, ficha de CAJA, tecla del turno, chip |
+| Acción en curso | El botón que envió gira y no admite otro clic (`.boton-ocupado`); la tarjeta del SVP se atenúa (`data-svp-enviando`) | Todo formulario; tablero del SVP |
+| Algo aparece | Entra deslizando (`entra`) o emerge (`emerge`) | Aviso, renglón de la orden, tarjeta del SVP, diálogo |
+
+Tres tiempos, declarados en `base.css`: `--transicion` (150 ms, color y borde), `--mov-medio`
+(300 ms, lo que se desplaza) y `--mov-lento` (500 ms, el acercamiento de una foto). Los cuatro
+`@keyframes` compartidos —`entra`, `aparece`, `emerge`, `latido`— viven también ahí.
+
+Cuatro reglas que conviene no deshacer:
+
+- **El movimiento va tras dos guardas.** `@media (hover: hover)` deja fuera a las pantallas
+  táctiles, donde `:hover` se queda pegado después del toque y la pieza aparecería levantada hasta
+  tocar otra cosa. `prefers-reduced-motion: no-preference` deja fuera a quien pidió menos
+  movimiento: esa persona conserva el color, el borde y la sombra, que no se mueven.
+- **El hundimiento al pulsar no lleva la guarda de `hover`.** En una tableta no hay puntero que
+  pasar, y el hundimiento es la única confirmación de que el toque entró.
+- **El tablero del SVP no se mueve al pasar el puntero.** Se lee de lejos y con las manos
+  ocupadas: ahí solo se mueve lo que acaba de pasar —una orden que entra, un envío en camino—.
+- **Al papel va el estado final.** `@media print` anula animaciones y transiciones: el comprobante
+  abre el diálogo de impresión al cargar, justo cuando una entrada con fundido estaría a medias.
+
+### La línea base de los controles pelados pesa cero
+
+La última sección de `componentes.css` viste a los controles sin maquetar. Se escribía como
+`button:not(.boton):not(.boton-simbolo)`, y un `:not(.clase)` suma la especificidad de la clase que
+niega: la regla pesaba (0,2,1), más que cualquier clase sola, y **le ganaba a las piezas que ya
+tenían hoja propia** —`.venta-chip`, `.venta-ficha-boton`, `.turno-tecla`, `.turno-lectura-valor`—.
+El chip elegido de CAJA no llegaba a pintarse de rojo y la base del turno salía con un recuadro
+dentro de otro. Ahora va dentro de `:where()`, que deja el peso en cero: sigue vistiendo al control
+pelado y cede ante cualquier clase.
 
 ### El foco es dorado, no rojo
 
@@ -153,6 +205,8 @@ Un solo objeto global, sin bibliotecas y sin paso de compilación. Se carga con 
 | `Interfaz.aviso(texto, tipo, ms)` | Aviso temporal abajo, se retira solo a los 4 s. Se apilan tres como máximo |
 | `Interfaz.confirmar(opciones)` | Diálogo modal. Devuelve una `Promise<boolean>` |
 | `Interfaz.menu(boton, panel)` | Alterna `aria-expanded` y `hidden` |
+| *(sin llamada)* botón ocupado | El botón que envió un formulario recibe `.boton-ocupado` y `aria-busy` hasta que llega la página siguiente |
+| *(sin llamada)* `data-ver-clave` | Muestra u oculta la contraseña del campo cuyo `id` indica |
 
 Y un enganche por atributos, para que una vista no tenga que escribir JavaScript:
 
@@ -175,6 +229,16 @@ Tres detalles que no son evidentes:
   navegador y el evento, así que un formulario inválido se enviaría igual.
 
 El texto de un aviso se inserta con `textContent`, nunca como HTML.
+
+Dos detalles más, de las respuestas que se enganchan solas:
+
+- El botón se marca ocupado **después** del despacho del `submit` y solo si nadie lo detuvo: el
+  diálogo de `data-confirmar` y `validacion.js` cancelan el primer envío, y marcar ahí dejaría el
+  botón girando sobre un formulario que no salió. **No se deshabilita** —un botón deshabilitado no
+  viaja con el formulario— y se limpia en `pageshow`, porque al volver con el botón de atrás el
+  navegador restaura la página tal como quedó.
+- El aviso temporal se retira con su animación de salida (`.aviso-temporal-sale`), y quien manda es
+  un temporizador, no `animationend`: con `prefers-reduced-motion` ese evento puede no llegar.
 
 ---
 
@@ -246,7 +310,15 @@ Dicho aquí para que nadie lo dé por hecho:
 
 - **El modo oscuro no tiene interruptor.** `md3.css` lo define bajo `html.o`, pero nada añade esa
   clase. Las hojas están listas; falta decidir dónde vive el control.
-- **Dos funciones modernas de CSS**, las únicas de las que dependen las hojas: `color-mix()` en
-  los estados deshabilitados (Chrome 111, Safari 16.2, Firefox 113) y `:has()` en el aviso
-  (Chrome 105, Safari 15.4, Firefox 121). Si `:has()` faltara, el icono del aviso caería a la
-  línea de arriba en vez de alinearse al lado: se degrada, no se rompe.
+- **Funciones modernas de CSS** de las que dependen las hojas: `color-mix()` en los estados
+  deshabilitados, las sombras y los tintes (Chrome 111, Safari 16.2, Firefox 113), `:has()` en el
+  aviso (Chrome 105, Safari 15.4, Firefox 121) y `:where()` en la línea base de los controles
+  (Chrome 88, Safari 14, Firefox 78). Si `:has()` faltara, el icono del aviso caería a la línea de
+  arriba en vez de alinearse al lado: se degrada, no se rompe. Las unidades de contenedor (`cqi`)
+  de la pantalla pública de turnos van dentro de `@supports`: sin ellas el número conserva su
+  tamaño anterior.
+- **La revisión visual de esta ronda** se hizo pintando cada vista con datos de ejemplo y
+  capturándola en un navegador sin interfaz a 360, 1280 y 1920 px —en claro, y el panel también en
+  oscuro—. No
+  sustituye la revisión sobre el sitio publicado con datos reales, que queda pendiente tras el
+  despliegue.

@@ -67,6 +67,17 @@ if (!array_key_exists($medioPago, $medios)) {
     $medioPago = 'efectivo';
 }
 
+/**
+ * Estados de una orden en el listado del turno: la clase de la etiqueta y la
+ * palabra. Son los de Orden::TRANSICIONES, con las mismas etiquetas del SVP.
+ */
+$estadosOrden = [
+    'pendiente'      => ['etiqueta-pendiente', 'Pendiente'],
+    'en_preparacion' => ['etiqueta-preparacion', 'En preparación'],
+    'lista'          => ['etiqueta-lista', 'Lista'],
+    'entregada'      => ['etiqueta-entregada', 'Entregada'],
+];
+
 /** Categorias presentes en el catalogo, en el orden en que las trae el modelo. */
 $categorias = [];
 
@@ -192,9 +203,14 @@ $abierto = $turno !== null;
                                     data-precio="<?= $centavos ?>"
                                     data-nombre="<?= Vista::e($p['nombre']) ?>">
                                 <?php if (!empty($p['foto'])) : ?>
-                                    <img class="venta-ficha-foto"
-                                         src="<?= Vista::e(Vista::url('/subidas/' . $p['foto'])) ?>"
-                                         alt="" loading="lazy">
+                                    <?php // El marco recorta el acercamiento de la foto
+                                          // al pasar el puntero: crece dentro de su
+                                          // hueco, no por encima del nombre. ?>
+                                    <span class="venta-ficha-marco">
+                                        <img class="venta-ficha-foto"
+                                             src="<?= Vista::e(Vista::url('/subidas/' . $p['foto'])) ?>"
+                                             alt="" loading="lazy">
+                                    </span>
                                 <?php else : ?>
                                     <?php // Mismo hueco que la foto, para que la
                                           // reticula no baile. ?>
@@ -371,15 +387,30 @@ $abierto = $turno !== null;
                                 <td data-etiqueta="Número"><?= Vista::e($o['numero']) ?></td>
                                 <td data-etiqueta="Total" class="cifra"><?= Vista::e($peso($o['total'])) ?></td>
                                 <td data-etiqueta="Medio"><?= Vista::e(ucfirst((string) $o['medio_pago'])) ?></td>
-                                <td data-etiqueta="Estado"><?= Vista::e($o['estado']) ?></td>
+                                <td data-etiqueta="Estado">
+                                    <?php // El mismo codigo de color y la misma palabra que el
+                                          // tablero del SVP. Un estado que no este en la
+                                          // tabla se imprime tal cual llega. ?>
+                                    <?php $e = $estadosOrden[(string) $o['estado']] ?? null; ?>
+                                    <?php if ($e === null) : ?>
+                                        <?= Vista::e($o['estado']) ?>
+                                    <?php else : ?>
+                                        <span class="etiqueta <?= Vista::e($e[0]) ?>"><?= Vista::e($e[1]) ?></span>
+                                    <?php endif; ?>
+                                </td>
                                 <td data-etiqueta="Hora" class="numerica">
                                     <?= Vista::e(substr((string) $o['creado_en'], 11, 5)) ?>
                                 </td>
-                                <td class="tabla-acciones">
-                                    <a class="boton boton-texto"
-                                       href="<?= Vista::e(Vista::url('/caja/comprobante/' . $o['id'])) ?>">
-                                        Comprobante
-                                    </a>
+                                <td class="columna-minima">
+                                    <?php // Las acciones van en su envoltura y no en la
+                                          // celda: display:flex sobre un <td> le quita el
+                                          // papel de celda y descuadra la fila. ?>
+                                    <div class="tabla-acciones">
+                                        <a class="boton boton-texto"
+                                           href="<?= Vista::e(Vista::url('/caja/comprobante/' . $o['id'])) ?>">
+                                            Comprobante
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

@@ -8,7 +8,8 @@ declare(strict_types=1);
 ?>
     <footer class="pie sin-impresion">
         <div class="contenedor-ancho">
-            Prototipo del proyecto formativo · SENA ADSO ficha 3235887
+            <span><span class="pie-marca">Menu08</span> · carta, caja y produccion para food trucks</span>
+            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>
         </div>
     </footer>
 </body>

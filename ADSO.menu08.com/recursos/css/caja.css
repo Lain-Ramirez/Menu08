@@ -74,6 +74,10 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--esp-3);
+  padding: var(--esp-3) var(--esp-4);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-m);
+  background: var(--surface-container-low);
 }
 
 .venta-turno-datos {
@@ -130,15 +134,22 @@
   font: var(--tipo-etiqueta-g);
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color var(--transicion), color var(--transicion);
+  transition: background-color var(--transicion), color var(--transicion),
+              border-color var(--transicion), box-shadow var(--transicion), transform var(--transicion);
 }
 
-.venta-chip:hover { background: var(--surface-container-high); }
+.venta-chip:hover { background: var(--tinte); color: var(--primary); border-color: var(--primary); }
 
-.venta-chip[aria-pressed="true"] {
+@media (prefers-reduced-motion: no-preference) {
+  .venta-chip:active { transform: scale(.96); transition-duration: .06s; }
+}
+
+.venta-chip[aria-pressed="true"],
+.venta-chip[aria-pressed="true"]:hover {
   background: var(--primary);
   color: var(--on-primary);
   border-color: var(--primary);
+  box-shadow: var(--elev-realce);
 }
 
 .venta-chip-marca { display: none; width: 16px; height: 16px; flex: none; }
@@ -174,23 +185,39 @@
   gap: var(--esp-2);
   width: 100%;
   padding: var(--esp-2);
-  border: 1px solid transparent;
+  border: 1px solid var(--outline-variant);
   border-radius: var(--radio-m);
-  background: var(--surface-container-low);
+  background: var(--surface);
   color: var(--on-surface);
   box-shadow: var(--elev-1);
   text-align: left;
   font: inherit;
   cursor: pointer;
-  transition: box-shadow var(--transicion), background-color var(--transicion);
+  transition: box-shadow var(--mov-medio), border-color var(--transicion), transform var(--mov-medio);
 }
 
+/* La ficha responde en dos tiempos, y los dos importan en la ventanilla.
+
+   Al pasar el puntero se levanta y se enciende: dice cual se va a pulsar. Al
+   pulsar se hunde de golpe, en 60 ms: es la confirmacion de que el toque entro,
+   antes incluso de que el renglon aparezca en la orden. En una tableta —donde
+   no hay puntero que pasar— el hundimiento es la unica de las dos, y por eso
+   no va dentro de la guarda de hover. */
 .venta-ficha-boton:hover {
-  background: var(--surface-container);
-  box-shadow: var(--elev-2);
+  border-color: var(--anillo);
+  box-shadow: var(--elev-realce);
 }
 
-.venta-ficha-boton:active { box-shadow: var(--elev-1); }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .venta-ficha-boton:hover { transform: translateY(-2px); }
+  .venta-ficha-boton:hover .venta-ficha-marco .venta-ficha-foto { transform: scale(1.06); }
+}
+
+.venta-ficha-boton:active { box-shadow: var(--elev-1); border-color: var(--primary); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .venta-ficha-boton:active { transform: scale(.97); transition-duration: .06s; }
+}
 
 .venta-ficha-boton:focus-visible {
   outline: var(--foco);
@@ -205,7 +232,14 @@
   box-shadow: none;
 }
 
-.venta-ficha-boton:disabled:hover { background: var(--surface-container-low); }
+.venta-ficha-boton:disabled:hover,
+.venta-ficha-boton:disabled:active {
+  border-color: var(--outline-variant);
+  box-shadow: none;
+  transform: none;
+}
+
+.venta-ficha-boton:disabled:hover .venta-ficha-foto { transform: none; }
 
 /* 3:2 y no 4:3: la foto sigue reconociendose y la ficha baja unos 30 px, que
    es una fila mas de catalogo en una ventana de portatil. */
@@ -215,6 +249,26 @@
   object-fit: cover;
   border-radius: var(--radio-p);
   background: var(--surface-container);
+}
+
+/* El marco de la foto. Recorta el acercamiento: la foto crece dentro de su
+   hueco en vez de salirse por encima del nombre. El marco lleva la proporcion y
+   el radio, y la foto de dentro solo lo rellena. */
+.venta-ficha-marco {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--radio-p);
+  background: var(--surface-container);
+}
+
+.venta-ficha-marco .venta-ficha-foto {
+  display: block;
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: 0;
+  transition: transform var(--mov-lento);
 }
 
 /* Reemplazo del producto sin foto: mismo hueco, para que la reticula no baile.
@@ -235,11 +289,14 @@
 }
 
 .venta-ficha-precio {
+  color: var(--primary);
   font-size: 16px;
   line-height: 24px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
+
+.venta-ficha-boton:disabled .venta-ficha-precio { color: inherit; }
 
 .venta-vacio {
   margin: 0;
@@ -256,9 +313,10 @@
   gap: var(--esp-3);
   min-height: 0;
   padding: var(--esp-4);
-  border-radius: var(--radio-m);
-  background: var(--surface-container-low);
-  box-shadow: var(--elev-1);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-g);
+  background: var(--surface);
+  box-shadow: var(--elev-2);
 }
 
 /* Pegada al desplazar, y solo en dos zonas.
@@ -313,12 +371,16 @@
    en la mitad de abajo. */
 .venta-lineas:empty { display: none; }
 
+/* El renglon entra deslizando. caja.js lo crea una sola vez por producto y
+   despues solo le cambia la cifra, asi que la animacion corre cuando el
+   producto entra en la orden y no en cada «una mas». */
 .venta-linea {
   display: flex;
   align-items: center;
   gap: var(--esp-1);
   padding: var(--esp-1) 0;
   border-top: 1px solid var(--outline-variant);
+  animation: entra var(--mov-medio) both;
 }
 
 .venta-linea:first-child { border-top: none; }
@@ -402,6 +464,8 @@
   background: var(--surface-container);
 }
 
+.venta-resumen-total { color: var(--primary); }
+
 /* Pegado abajo solo cuando la pantalla se apila: en un telefono la lista de
    renglones puede ser mas larga que la ventana y el total tiene que seguir a la
    vista. En dos zonas ya lo resuelve la columna pegada, y ahi sticky sobra.
@@ -457,13 +521,23 @@
   padding: 0;
   border: none;
   border-radius: var(--radio-xg);
-  background: var(--surface-container-high);
+  background: var(--surface);
   color: var(--on-surface);
   box-shadow: var(--elev-3);
   overflow: hidden;
 }
 
-.venta-dialogo::backdrop { background: var(--velo); }
+/* Misma entrada que el dialogo de confirmacion de interfaz.js: el velo aparece
+   y la caja emerge. Solo con [open]: cerrado, <dialog> es display:none y no hay
+   nada que animar. */
+.venta-dialogo[open] { animation: emerge var(--mov-medio) both; }
+
+.venta-dialogo::backdrop {
+  background: var(--velo);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  animation: aparece .2s var(--curva) both;
+}
 
 .venta-dialogo-cuerpo {
   display: flex;
@@ -486,10 +560,12 @@
   gap: var(--esp-3);
   padding: var(--esp-3) var(--esp-4);
   border-radius: var(--radio-m);
-  background: var(--surface);
+  background: var(--surface-container-low);
 }
 
 .venta-dialogo-total-valor {
+  color: var(--primary);
+  letter-spacing: -.02em;
   font-size: 32px;
   line-height: 40px;
   font-weight: 700;
@@ -536,16 +612,23 @@
   font: var(--tipo-etiqueta-m);
   text-align: center;
   cursor: pointer;
-  transition: background-color var(--transicion), color var(--transicion);
+  transition: background-color var(--transicion), color var(--transicion), border-color var(--transicion);
 }
+
+.venta-medio svg { transition: transform var(--mov-medio); }
 
 .venta-medio:first-of-type { border-radius: var(--radio-completo) 0 0 var(--radio-completo); }
 .venta-medio:last-of-type { border-radius: 0 var(--radio-completo) var(--radio-completo) 0; }
 .venta-medio + .venta-medio { border-left: none; }
 
-.venta-medio:hover { background: var(--surface-container); }
+.venta-medio:hover { background: var(--tinte); color: var(--primary); }
 
-.venta-medio:has(input:checked) {
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .venta-medio:hover svg:not(.venta-medio-marca) { transform: scale(1.12); }
+}
+
+.venta-medio:has(input:checked),
+.venta-medio:has(input:checked):hover {
   background: var(--secondary-container);
   color: var(--on-secondary-container);
 }
@@ -621,8 +704,10 @@
 
 /* Sin valor suficiente el cambio no es cero: es que todavia no se puede
    calcular. El bloque se apaga entero para que no se lea como un importe. */
+.venta-cambio { transition: background-color var(--mov-medio), color var(--mov-medio); }
+
 .venta-cambio-sin {
-  background: var(--surface);
+  background: var(--surface-container-low);
   color: var(--on-surface-variant);
 }
 

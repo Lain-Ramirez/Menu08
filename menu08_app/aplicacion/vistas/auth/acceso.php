@@ -24,7 +24,15 @@ $error = $error ?? null;
 ?>
 <section class="acceso">
     <div class="tarjeta tarjeta-elevada acceso-tarjeta">
-        <header class="pila pila-1">
+        <header class="acceso-encabezado">
+            <span class="cabecera-sello acceso-sello" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 6.5h12v10H2z"></path><path d="M14 10h4l4 3.5v3h-8"></path>
+                    <circle cx="6.5" cy="17.5" r="2"></circle><circle cx="17.5" cy="17.5" r="2"></circle>
+                    <path d="M5 10h6"></path>
+                </svg>
+            </span>
             <h1 class="acceso-titulo">Ingresar</h1>
             <p class="texto-apagado texto-m">Zona privada de Menu08.</p>
         </header>
@@ -51,13 +59,44 @@ $error = $error ?? null;
                 <label class="campo-etiqueta" for="correo">Correo</label>
             </div>
 
-            <div class="campo campo-sobre-contenedor">
+            <div class="campo campo-sobre-contenedor campo-con-accion">
                 <input class="campo-control" type="password" id="contrasena" name="contrasena"
                        placeholder=" " required autocomplete="current-password">
                 <label class="campo-etiqueta" for="contrasena">Contrasena</label>
+
+                <?php // Ver lo que se escribio antes de enviar: en el telefono, con el
+                      // teclado tapando media pantalla, es la diferencia entre entrar a
+                      // la primera y fallar tres veces. Sale oculto y lo muestra
+                      // interfaz.js: sin JavaScript no puede hacer nada. ?>
+                <button type="button" class="boton-simbolo campo-accion" data-ver-clave="contrasena"
+                        aria-label="Mostrar la contrasena" aria-pressed="false" hidden>
+                    <svg class="campo-accion-muestra" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <svg class="campo-accion-oculta" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 3l18 18"></path>
+                        <path d="M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1"></path>
+                        <path d="M6.6 6.6A17.3 17.3 0 0 0 2 12s3.6 7 10 7a10.7 10.7 0 0 0 5.4-1.5"></path>
+                        <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"></path>
+                    </svg>
+                </button>
             </div>
 
-            <button class="boton boton-relleno boton-bloque" type="submit">Entrar</button>
+            <button class="boton boton-relleno boton-bloque acceso-entrar" type="submit">
+                <svg class="boton-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"></path>
+                    <path d="M10 8l4 4-4 4"></path><path d="M14 12H4"></path>
+                </svg>
+                Entrar
+            </button>
         </form>
+
+        <p class="acceso-pie texto-m">
+            <a href="<?= Vista::e(Vista::url('/')) ?>">Ver las cartas publicadas</a>
+        </p>
     </div>
 </section>

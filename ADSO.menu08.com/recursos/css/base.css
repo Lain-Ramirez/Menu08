@@ -19,14 +19,14 @@
   --fuente: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 
   --tipo-pantalla:   400 57px/64px var(--fuente);  /* numero de turno del SVP */
-  --tipo-titulo-g:   400 32px/40px var(--fuente);  /* h1 */
-  --tipo-titulo-m:   400 24px/32px var(--fuente);  /* h2, titulo de dialogo */
-  --tipo-titulo-p:   500 22px/28px var(--fuente);  /* h3, titulo de tarjeta */
+  --tipo-titulo-g:   700 32px/40px var(--fuente);  /* h1 */
+  --tipo-titulo-m:   600 24px/32px var(--fuente);  /* h2, titulo de dialogo */
+  --tipo-titulo-p:   600 20px/28px var(--fuente);  /* h3, titulo de tarjeta */
   --tipo-cuerpo-g:   400 16px/24px var(--fuente);  /* base del documento */
   --tipo-cuerpo-m:   400 14px/20px var(--fuente);  /* celdas, avisos */
   --tipo-cuerpo-p:   400 12px/16px var(--fuente);  /* apoyo y error */
-  --tipo-etiqueta-g: 500 14px/20px var(--fuente);  /* rotulo de boton */
-  --tipo-etiqueta-m: 500 12px/16px var(--fuente);  /* encabezado, estado */
+  --tipo-etiqueta-g: 600 14px/20px var(--fuente);  /* rotulo de boton */
+  --tipo-etiqueta-m: 600 12px/16px var(--fuente);  /* encabezado, estado */
 
   /* Espaciado. Reticula de 4 px de MD3. */
   --esp-1: 4px;  --esp-2: 8px;  --esp-3: 12px; --esp-4: 16px;
@@ -36,10 +36,29 @@
   --radio-xp: 4px;  --radio-p: 8px;   --radio-m: 12px;
   --radio-g:  16px; --radio-xg: 28px; --radio-completo: 999px;
 
-  /* Elevacion. Niveles 1 a 3 de MD3; del 4 en adelante no hace falta. */
-  --elev-1: 0 1px 2px rgba(0, 0, 0, .30), 0 1px 3px 1px rgba(0, 0, 0, .15);
-  --elev-2: 0 1px 2px rgba(0, 0, 0, .30), 0 2px 6px 2px rgba(0, 0, 0, .15);
-  --elev-3: 0 4px 8px 3px rgba(0, 0, 0, .15), 0 1px 3px rgba(0, 0, 0, .30);
+  /* Elevacion. Tres niveles, como en MD3, pero en sombras anchas y suaves: la
+     de MD3 lleva un 30 % de negro en el primer trazo y sobre el crema de esta
+     paleta se leia como un borde sucio. El color de la sombra sale de
+     --on-surface, que es un marron casi negro: asi la sombra es calida como el
+     fondo sobre el que cae, y no un gris frio.
+
+     --elev-realce es la cuarta: la que recibe una pieza pulsable cuando el
+     puntero esta encima. Va tenida de --primary, que es lo que hace que la
+     pieza parezca encenderse y no solo levantarse. */
+  --sombra: color-mix(in srgb, var(--on-surface) 14%, transparent);
+  --sombra-tenue: color-mix(in srgb, var(--on-surface) 7%, transparent);
+  --elev-1: 0 1px 2px var(--sombra-tenue), 0 2px 6px -1px var(--sombra-tenue);
+  --elev-2: 0 2px 4px var(--sombra-tenue), 0 6px 16px -4px var(--sombra);
+  --elev-3: 0 4px 8px var(--sombra-tenue), 0 16px 32px -8px var(--sombra);
+  --elev-realce: 0 4px 8px var(--sombra-tenue),
+                 0 14px 28px -10px color-mix(in srgb, var(--primary) 45%, transparent);
+
+  /* Tinte de "el puntero esta encima": un velo de la marca, no un gris. Lo
+     comparten la navegacion, las filas de tabla y las tarjetas pulsables, para
+     que pasar por encima se lea igual en toda la aplicacion. */
+  --tinte: color-mix(in srgb, var(--primary) 6%, transparent);
+  --tinte-fuerte: color-mix(in srgb, var(--primary) 12%, transparent);
+  --anillo: color-mix(in srgb, var(--primary) 35%, transparent);
 
   /* Velo del dialogo. MD3 lo llama scrim y lo trata como token aparte del
      color: no esta en el contrato de 31, asi que se declara aqui. */
@@ -65,8 +84,19 @@
   --ancho-carta: 34rem;
   --ancho-comprobante: 22rem;
 
-  /* Duracion de las transiciones de estado. */
-  --transicion: .15s ease;
+  /* Movimiento. Tres tiempos, y cada uno tiene su sitio:
+
+       --transicion   150 ms  cambios de color y de borde: responden al instante
+       --mov-medio    300 ms  lo que se desplaza o se eleva: tarjetas, dialogos
+       --mov-lento    500 ms  el acercamiento de una foto, que si va rapido marea
+
+     La curva de salida (0, 0, .2, 1) frena al llegar: la pieza arranca ya en
+     marcha y se posa, que es como se mueve algo con peso. */
+  --curva: cubic-bezier(.4, 0, .2, 1);
+  --curva-salida: cubic-bezier(0, 0, .2, 1);
+  --transicion: .15s var(--curva);
+  --mov-medio: .3s var(--curva-salida);
+  --mov-lento: .5s var(--curva-salida);
 
   /* md3.css define el color en :root y en html.o. Declarar el esquema evita
      que el navegador pinte los controles nativos en oscuro sobre una pagina
@@ -87,12 +117,38 @@ body {
   background: var(--surface);
   color: var(--on-surface);
   font: var(--tipo-cuerpo-g);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* El destello gris que pinta el navegador movil al tocar un enlace. Cada
+     pieza pulsable trae ya su propia respuesta al toque. */
+  -webkit-tap-highlight-color: transparent;
 }
 
-h1, h2, h3, h4, p { text-wrap: pretty; }
+/* El pie se queda abajo aunque la pantalla tenga poco contenido: sin esto, en
+   la pantalla de acceso o en la de error el pie flota a media ventana. Solo en
+   pantalla: en el papel no hay ventana que llenar. */
+@media screen {
+  body { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+  body > main { flex: 1 0 auto; }
+}
 
-h1 { font: var(--tipo-titulo-g); margin-block: var(--esp-5) var(--esp-3); }
-h2 { font: var(--tipo-titulo-m); margin-block: var(--esp-5) var(--esp-2); }
+::selection { background: var(--secondary-container); color: var(--on-secondary-container); }
+
+h1, h2, h3, h4, p { text-wrap: pretty; }
+h1, h2, h3 { text-wrap: balance; }
+
+/* El titulo de pagina encoge en el telefono: 32 px en una ventana de 360 parte
+   «Datos del negocio» en dos renglones. El interlineado va sin unidad para que
+   acompane al tamano. */
+h1 {
+  font: var(--tipo-titulo-g);
+  font-size: clamp(26px, 1.2rem + 2vw, 32px);
+  line-height: 1.2;
+  letter-spacing: -.02em;
+  margin-block: var(--esp-5) var(--esp-3);
+}
+
+h2 { font: var(--tipo-titulo-m); letter-spacing: -.01em; margin-block: var(--esp-5) var(--esp-2); }
 h3 { font: var(--tipo-titulo-p); margin-block: var(--esp-4) var(--esp-1); }
 
 /* El margen de flujo NO se anula globalmente. Anularlo es lo correcto cuando
@@ -104,8 +160,14 @@ h3 { font: var(--tipo-titulo-p); margin-block: var(--esp-4) var(--esp-1); }
    el gap, y el margen sobra. */
 .pila > *, .fila > *, .rejilla > * { margin-block: 0; }
 
-a { color: var(--primary); text-decoration-thickness: 1px; text-underline-offset: 2px; }
-a:hover { color: var(--on-primary-container); }
+a {
+  color: var(--primary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--transicion), text-decoration-color var(--transicion);
+}
+
+a:hover { color: var(--on-primary-container); text-decoration-thickness: 2px; }
 
 img, svg, video { max-width: 100%; vertical-align: middle; }
 img { border-radius: var(--radio-xp); }
@@ -131,6 +193,13 @@ code {
 
 hr { height: 1px; border: none; background: var(--outline-variant); margin: var(--esp-5) 0; }
 
+/* Las anclas —la barra de categorias de la carta, el «Editar» que cae en el
+   formulario— llegan deslizando en vez de saltar: asi se ve de donde se viene.
+   Solo para quien no pidio menos movimiento. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
 /* Quien pide menos movimiento no lo recibe. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -139,6 +208,41 @@ hr { height: 1px; border: none; background: var(--outline-variant); margin: var(
     transition-duration: .01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* -------------------------------------------------------------- movimiento */
+
+/* Las animaciones que comparte toda la aplicacion. Viven aqui y no en cada
+   hoja porque las usan piezas de modulos distintos —el aviso del catalogo, la
+   tarjeta del SVP, el renglon de la orden—, y repetir el mismo @keyframes con
+   otro nombre es como se acaba con tres entradas distintas. */
+
+/* Lo que aparece en su sitio: avisos, renglones, tarjetas nuevas. */
+@keyframes entra {
+  from { opacity: 0; transform: translateY(var(--esp-2)); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Lo que aparece sin desplazarse: velos y fondos. */
+@keyframes aparece {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Lo que se abre encima de la pagina: dialogos. */
+@keyframes emerge {
+  from { opacity: 0; transform: translateY(var(--esp-3)) scale(.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes giro { to { transform: rotate(360deg); } }
+
+/* El latido de lo que sigue vivo: el punto del sondeo en los tableros. La onda
+   sale del color del propio punto, asi que sirve igual en verde que en rojo. */
+@keyframes latido {
+  0%   { box-shadow: 0 0 0 0 var(--latido-tono, transparent); }
+  70%  { box-shadow: 0 0 0 8px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
 }
 
 /* ------------------------------------------------------------- disposicion */
@@ -220,4 +324,10 @@ hr { height: 1px; border: none; background: var(--outline-variant); margin: var(
 @media print {
   .sin-impresion { display: none !important; }
   body { background: #fff; color: #000; }
+
+  /* Al papel va el estado final, nunca uno intermedio. El comprobante abre el
+     dialogo de impresion al cargar, justo cuando las animaciones de entrada
+     estan a mitad de camino: sin esto, lo que entra con un fundido podria salir
+     medio transparente por el rollo. */
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }

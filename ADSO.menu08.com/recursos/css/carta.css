@@ -17,6 +17,9 @@
 /* 1. Marco de la pagina publica -------------------------------------------- */
 
 .contenido-publico {
+  /* El ancho se declara: body es una columna flexible y, con margen automatico
+     a los lados, un hijo sin ancho se encoge a lo que mide su contenido. */
+  width: 100%;
   max-width: var(--ancho-carta);
   margin-inline: auto;
   padding: var(--esp-4) var(--esp-4) var(--esp-8);
@@ -27,11 +30,26 @@
 .carta-cabecera {
   text-align: center;
   margin-bottom: var(--esp-5);
+  animation: entra var(--mov-lento) both;
 }
 
+.carta-cabecera h1 { margin-block: var(--esp-3) var(--esp-1); }
+.carta-cabecera p { margin-block: var(--esp-1); }
+
 .carta-logo {
-  max-height: 6rem;
-  border-radius: var(--radio-m);
+  max-height: 6.5rem;
+  border-radius: var(--radio-g);
+  box-shadow: var(--elev-2);
+}
+
+/* El enlace de contacto es lo unico pulsable de la cabecera: se le da el area
+   de toque entera aunque el texto sea una palabra. */
+.carta-contacto a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--toque);
+  padding-inline: var(--esp-1);
+  font-weight: 600;
 }
 
 .carta-descripcion {
@@ -59,9 +77,13 @@
 .carta-agenda {
   margin-bottom: var(--esp-5);
   padding: var(--esp-4);
+  border: 1px solid var(--outline-variant);
   background: var(--surface-container-low);
-  border-radius: var(--radio-m);
+  border-radius: var(--radio-g);
+  box-shadow: var(--elev-1);
 }
+
+.carta-agenda > h2 { margin-top: 0; }
 
 /* El destacado: la parada abierta, o la siguiente si no hay ninguna. */
 .carta-ahora {
@@ -69,16 +91,36 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--esp-1);
-  padding: var(--esp-3);
-  border-radius: var(--radio-p);
+  padding: var(--esp-4);
+  border: 1px solid color-mix(in srgb, var(--tertiary) 30%, transparent);
+  border-radius: var(--radio-m);
   background: var(--tertiary-container);
   color: var(--on-tertiary-container);
+}
+
+/* La etiqueta «Abierto ahora» va sobre el mismo verde del bloque y no se
+   despegaria: se invierte contra el, tono fuerte de fondo y texto claro. El
+   punto que late delante dice que es un dato vivo, de este momento. */
+.carta-ahora:not(.carta-ahora-cerrado) > .etiqueta {
+  background: var(--tertiary);
+  color: var(--on-tertiary);
+}
+
+.carta-ahora:not(.carta-ahora-cerrado) > .etiqueta::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radio-completo);
+  background: currentColor;
+  --latido-tono: color-mix(in srgb, var(--on-tertiary) 60%, transparent);
+  animation: latido 2s var(--curva-salida) infinite;
 }
 
 /* Cerrado no es un error: es un horario. Va en el contenedor neutro de la
    paleta y no en el rojo, que aqui significaria que algo se rompio. La palabra
    la pone la etiqueta, que es lo que de verdad distingue los dos estados. */
 .carta-ahora-cerrado {
+  border-color: var(--outline-variant);
   background: var(--surface-container-high);
   color: var(--on-surface);
 }
@@ -165,11 +207,19 @@
   z-index: 5;
   margin: 0 calc(var(--esp-4) * -1) var(--esp-4);
   padding: var(--esp-2) var(--esp-4);
-  background: var(--surface);
+  /* Translucida y con desenfoque: los productos pasan por debajo y se intuyen,
+     asi que la barra se lee como algo que flota sobre la carta y no como un
+     corte. Donde no hay backdrop-filter queda el fondo casi opaco, que basta. */
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--outline-variant);
   overflow-x: auto;
   /* La barra se desplaza sola; el gesto no debe arrastrar la pagina detras. */
   overscroll-behavior-x: contain;
+  /* Fina, no escondida: con raton, la barra de desplazamiento es la unica pista
+     de que hay mas categorias a la derecha. */
+  scrollbar-width: thin;
 }
 
 .carta-barra ul {
@@ -177,6 +227,9 @@
   gap: var(--esp-2);
   list-style: none;
   margin: 0;
+  /* Sin el, la lista conserva los 40 px de sangria del navegador y el primer
+     chip arranca desalineado del resto de la carta. */
+  padding: 0;
   width: max-content;
 }
 
@@ -186,15 +239,22 @@
   /* 48 px: el minimo de toque del proyecto, por encima de los 44 de WCAG. */
   min-height: var(--toque);
   padding: 0 var(--esp-4);
+  border: 1px solid var(--outline-variant);
   border-radius: var(--radio-completo);
-  background: var(--surface-container);
+  background: var(--surface);
   color: var(--on-surface);
   font: var(--tipo-etiqueta-g);
   text-decoration: none;
   white-space: nowrap;
+  transition: background-color var(--transicion), color var(--transicion),
+              border-color var(--transicion), box-shadow var(--transicion), transform var(--transicion);
 }
 
-.carta-barra a:hover { background: var(--surface-container-high); }
+.carta-barra a:hover { background: var(--tinte); color: var(--primary); border-color: var(--primary); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .carta-barra a:active { transform: scale(.96); }
+}
 
 .carta-barra a:focus-visible {
   outline: var(--foco);
@@ -206,6 +266,8 @@
 .carta-barra a[aria-current="true"] {
   background: var(--primary);
   color: var(--on-primary);
+  border-color: var(--primary);
+  box-shadow: var(--elev-realce);
 }
 
 /* 5. Bloques de categoria y productos --------------------------------------- */
@@ -215,32 +277,74 @@
   scroll-margin-top: calc(var(--toque) + var(--esp-4));
 }
 
+/* El titulo del bloque lleva una marca de la paleta delante en vez de una raya
+   debajo a todo el ancho: separa igual y no se confunde con el filete que ya
+   divide un producto del siguiente. */
 .carta-categoria h2 {
-  border-bottom: 2px solid var(--outline-variant);
-  padding-bottom: var(--esp-1);
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  margin-bottom: var(--esp-2);
+}
+
+.carta-categoria h2::before {
+  content: "";
+  flex: none;
+  width: 4px;
+  height: 1.1em;
+  border-radius: var(--radio-completo);
+  background: linear-gradient(var(--primary), var(--secondary));
 }
 
 .carta-lista {
   list-style: none;
-  margin-bottom: var(--esp-5);
+  margin: 0 0 var(--esp-5);
+  padding: 0;
 }
 
+/* El renglon sobresale ocho pixeles por cada lado para que el tinte de «el
+   puntero esta encima» tenga aire alrededor del texto sin moverlo de su linea.
+   El contenedor trae dieciseis de relleno, asi que a 320 px sigue sin tocar el
+   borde de la ventana. */
 .carta-item {
   display: flex;
   gap: var(--esp-3);
   align-items: flex-start;
-  padding: var(--esp-3) 0;
-  border-bottom: 1px solid var(--outline-variant);
+  position: relative;
+  margin-inline: calc(var(--esp-2) * -1);
+  padding: var(--esp-3) var(--esp-2);
+  border-radius: var(--radio-m);
+  transition: background-color var(--transicion);
 }
 
-.carta-item:last-child { border-bottom: none; }
+/* El filete que separa un producto del siguiente es una linea aparte y no el
+   borde del renglon: el renglon tiene las esquinas redondeadas para el tinte, y
+   un borde seguiria la curva y acabaria en dos ganchos. */
+.carta-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: var(--esp-2);
+  right: var(--esp-2);
+  bottom: 0;
+  height: 1px;
+  background: var(--outline-variant);
+}
+
+@media (hover: hover) {
+  .carta-item:hover { background: var(--tinte); }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .carta-item:hover img.carta-foto { transform: scale(1.06); box-shadow: var(--elev-2); }
+}
 
 .carta-foto {
   width: 4.5rem;
   height: 4.5rem;
   object-fit: cover;
-  border-radius: var(--radio-p);
+  border-radius: var(--radio-m);
   flex: none;
+  transition: transform var(--mov-lento), box-shadow var(--mov-lento);
 }
 
 /* Reemplazo del producto sin foto: mismo hueco, para que la lista no baile. */
@@ -272,8 +376,9 @@
 }
 
 .carta-texto h3 {
+  margin: 0;
   font: var(--tipo-cuerpo-g);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* 14 px es el suelo que fija el issue: por debajo no se lee de pie y con sol. */
@@ -282,7 +387,10 @@
   font: var(--tipo-cuerpo-m);
 }
 
+.carta-texto p { margin-block: var(--esp-1) 0; }
+
 .carta-precio {
+  color: var(--primary);
   font-weight: 700;
   white-space: nowrap;
 }

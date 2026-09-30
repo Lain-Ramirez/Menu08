@@ -58,6 +58,10 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--esp-3);
+  padding: var(--esp-3) var(--esp-4);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-m);
+  background: var(--surface-container-low);
 }
 
 .svp-barra-datos { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-3); min-width: 0; }
@@ -83,9 +87,14 @@
   flex: none;
   border-radius: var(--radio-completo);
   background: var(--tertiary);
+  /* El punto late mientras el sondeo responde. Un punto quieto y un tablero
+     congelado se ven igual; uno que late dice que la pantalla sigue viva sin
+     que haya que leer la hora. Con el sondeo caido se para y cambia a rojo. */
+  --latido-tono: color-mix(in srgb, var(--tertiary) 55%, transparent);
+  animation: latido 2s var(--curva-salida) infinite;
 }
 
-.svp-latido-caido .svp-latido-punto { background: var(--error); }
+.svp-latido-caido .svp-latido-punto { background: var(--error); animation: none; }
 
 /* ====================================================== 2. LAS COLUMNAS ==== */
 
@@ -188,17 +197,26 @@
   border-radius: var(--radio-m);
   background: var(--surface-container-low);
   box-shadow: var(--elev-1);
+  /* La tarjeta entra deslizando cuando svp.js la inserta: una orden nueva, o la
+     misma que cambia de columna. El tablero reconcilia —no repinta—, asi que
+     las que ya estaban no se mueven y el ojo va solo a la que acaba de llegar.
+     Sin desplazamientos al pasar el puntero: esta pantalla se lee de lejos y
+     con las manos ocupadas, y nada debe moverse si no ha pasado algo. */
+  animation: entra var(--mov-medio) both;
+  transition: opacity var(--transicion), box-shadow var(--mov-medio);
   /* Respaldo del tono: una tarjeta sin clase de estado no llegaria a pintarse
      nunca —la plantilla siempre trae la suya—, pero sin este valor el anillo de
      demora se quedaria sin color en lugar de caer en uno neutro. */
   --svp-tono: var(--on-surface);
 }
 
-.svp-tarjeta-cabeza { display: flex; align-items: center; justify-content: space-between; gap: var(--esp-2); }
+/* Si el numero y la etiqueta no caben en el mismo renglon, la etiqueta baja:
+   el numero no se parte nunca, que es lo que se canta por la ventanilla. */
+.svp-tarjeta-cabeza { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--esp-1) var(--esp-2); }
 
 /* 40 px: el criterio pide 32 como minimo y este es el dato que se canta por la
    ventanilla. Cifras de ancho fijo para que la columna de numeros no baile. */
-.svp-numero { font-size: 40px; line-height: 44px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.svp-numero { font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 .svp-tiempos {
   display: flex;
@@ -261,6 +279,23 @@
 .svp-avance { min-height: 56px; font-size: 16px; line-height: 24px; }
 
 .svp-avance:disabled { cursor: default; }
+
+/* El envio esta en camino. svp.js marca la tarjeta con data-svp-enviando desde
+   la pulsacion hasta la respuesta: la tarjeta se atenua y el boton gira, que es
+   la confirmacion de que el toque entro —con guante no se siente— y la razon
+   visible de que un segundo toque no haga nada. */
+.svp-tarjeta[data-svp-enviando] { opacity: .7; }
+
+.svp-tarjeta[data-svp-enviando] .svp-avance::before {
+  content: "";
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--radio-completo);
+  animation: giro .7s linear infinite;
+}
 
 /* Codigo de color por estado, en el filete izquierdo de la tarjeta. Es el mismo
    reparto que las etiquetas de componentes.css. */
@@ -347,17 +382,20 @@
   padding: var(--esp-7) var(--esp-5);
   border: 1px dashed var(--outline-variant);
   border-radius: var(--radio-g);
+  background: var(--surface-container-low);
   text-align: center;
+  animation: entra var(--mov-lento) both;
 }
 
 .svp-vacio-icono {
   display: grid;
   place-items: center;
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   border-radius: var(--radio-completo);
-  background: var(--surface-container);
-  color: var(--on-surface-variant);
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  box-shadow: 0 0 0 8px var(--tinte);
 }
 
 .svp-vacio-icono svg { width: 32px; height: 32px; }

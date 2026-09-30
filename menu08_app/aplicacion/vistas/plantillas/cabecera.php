@@ -18,6 +18,12 @@ use Menu08\Nucleo\Vista;
  * @var list<string> $hojas   hojas propias de la pantalla, tras las tres base
  * @var list<string> $guiones guiones propios de la pantalla, tras interfaz.js
  */
+
+/** Nombre y rol de quien entro. El rol llega como lo guarda la base
+    —food_truck— y se escribe con espacio: es un dato que se lee, no un codigo. */
+$usuarioSesion = Sesion::autenticado() ? (Sesion::usuario() ?? []) : [];
+$nombreSesion  = (string) ($usuarioSesion['nombre'] ?? '');
+$rolSesion     = str_replace('_', ' ', (string) Sesion::rol());
 ?>
 <!doctype html>
 <html lang="es">
@@ -56,18 +62,41 @@ use Menu08\Nucleo\Vista;
     <header class="cabecera sin-impresion">
         <div class="cabecera-interior contenedor-ancho">
             <a class="cabecera-marca" href="<?= Vista::e(Vista::url('/')) ?>">
-                <span class="cabecera-nombre">Menu08</span>
-                <span class="cabecera-lema">carta, caja y produccion para food trucks</span>
+                <?php // El sello es decorativo: el nombre que va al lado ya dice
+                      // a donde lleva el enlace. ?>
+                <span class="cabecera-sello" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 6.5h12v10H2z"></path><path d="M14 10h4l4 3.5v3h-8"></path>
+                        <circle cx="6.5" cy="17.5" r="2"></circle><circle cx="17.5" cy="17.5" r="2"></circle>
+                        <path d="M5 10h6"></path>
+                    </svg>
+                </span>
+
+                <span class="cabecera-textos">
+                    <span class="cabecera-nombre">Menu08</span>
+                    <span class="cabecera-lema">carta, caja y produccion para food trucks</span>
+                </span>
             </a>
 
             <?php if (Sesion::autenticado()) : ?>
                 <div class="cabecera-sesion">
                     <span class="cabecera-usuario">
-                        <span class="cabecera-nombre-usuario"><?= Vista::e(Sesion::usuario()['nombre']) ?></span>
-                        <span class="etiqueta etiqueta-pendiente"><?= Vista::e(Sesion::rol()) ?></span>
+                        <?php if ($nombreSesion !== '') : ?>
+                            <span class="cabecera-avatar" aria-hidden="true"><?= Vista::e(mb_substr($nombreSesion, 0, 1)) ?></span>
+                        <?php endif; ?>
+                        <span class="cabecera-nombre-usuario"><?= Vista::e($nombreSesion) ?></span>
+                        <span class="etiqueta etiqueta-pendiente cabecera-rol"><?= Vista::e($rolSesion) ?></span>
                     </span>
 
-                    <a class="boton boton-texto" href="<?= Vista::e(Vista::url('/salir')) ?>">Salir</a>
+                    <a class="boton boton-texto cabecera-salir" href="<?= Vista::e(Vista::url('/salir')) ?>">
+                        <svg class="boton-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"></path>
+                            <path d="M15 8l4 4-4 4"></path><path d="M19 12H9"></path>
+                        </svg>
+                        <span class="cabecera-salir-texto">Salir</span>
+                    </a>
 
                     <?php // Solo se ve por debajo de 768 px; lo alterna Interfaz.menu(). ?>
                     <button type="button" class="boton-simbolo cabecera-alterna"

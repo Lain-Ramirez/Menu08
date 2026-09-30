@@ -8,6 +8,10 @@
      Interfaz.menu(boton, panel)       alternado de menu
      Interfaz.barraCategorias(barra)   resalta la categoria que se esta leyendo
 
+   Y dos respuestas que se enganchan solas, sin que la vista escriba nada: el
+   boton que envio un formulario se marca ocupado hasta que llega la pagina
+   siguiente, y data-ver-clave muestra u oculta la contrasena de un campo.
+
    Sin bibliotecas y sin paso de compilacion: se carga con <script defer> desde
    la plantilla comun y publica un unico objeto global.
 
@@ -105,14 +109,32 @@ var Interfaz = (function () {
         caja.appendChild(nodo);
 
         if (duracion > 0) {
-            window.setTimeout(function () {
-                if (nodo.parentNode !== null) {
-                    nodo.parentNode.removeChild(nodo);
-                }
-            }, duracion);
+            window.setTimeout(function () { retirarAviso(nodo); }, duracion);
         }
 
         return nodo;
+    }
+
+    /* Retira el aviso con su salida: la clase dispara la animacion de
+       componentes.css y el nodo se quita cuando termina. Si desaparece de golpe,
+       los avisos de debajo saltan a ocupar su sitio y el ojo se va al salto.
+
+       El temporizador es el que manda, no el evento animationend: con
+       prefers-reduced-motion la animacion dura una centesima y el evento puede
+       no llegar nunca, y un aviso que no se va es peor que uno que se va sin
+       animar. */
+    function retirarAviso(nodo) {
+        if (nodo.parentNode === null) {
+            return;
+        }
+
+        nodo.classList.add('aviso-temporal-sale');
+
+        window.setTimeout(function () {
+            if (nodo.parentNode !== null) {
+                nodo.parentNode.removeChild(nodo);
+            }
+        }, 200);
     }
 
     /* ------------------------------------------------ confirmacion de accion */
@@ -464,7 +486,112 @@ var Interfaz = (function () {
         for (i = 0; i < barras.length; i += 1) {
             barraCategorias(barras[i]);
         }
+
+        var claves = ambito.querySelectorAll('[data-ver-clave]');
+
+        for (i = 0; i < claves.length; i += 1) {
+            enlazarClave(claves[i]);
+        }
     }
+
+    /* ------------------------------------------------- ver la contrasena */
+
+    /* <button data-ver-clave="id-del-campo" hidden>
+
+       El boton sale oculto del servidor y se muestra aqui: sin JavaScript no
+       puede cambiar el tipo del campo, y un boton que no responde es peor que
+       uno que no esta. El estado viaja en aria-pressed, que es lo que lee el
+       lector de pantalla y lo que usa la hoja para cambiar de icono. */
+    function enlazarClave(boton) {
+        var campo = document.getElementById(boton.getAttribute('data-ver-clave'));
+
+        if (campo === null || boton.dataset.claveEnlazada === '1') {
+            return;
+        }
+
+        boton.dataset.claveEnlazada = '1';
+        boton.hidden = false;
+
+        boton.addEventListener('click', function () {
+            var visible = campo.type === 'password';
+
+            campo.type = visible ? 'text' : 'password';
+            boton.setAttribute('aria-pressed', visible ? 'true' : 'false');
+            boton.setAttribute('aria-label', visible ? 'Ocultar la contrasena' : 'Mostrar la contrasena');
+
+            /* El foco vuelve al campo: quien pulso el ojo estaba escribiendo. */
+            campo.focus();
+        });
+
+        /* La contrasena nunca viaja ni se queda a la vista: al enviar, el campo
+           vuelve a su tipo, y asi el navegador tampoco la guarda como texto. */
+        if (campo.form !== null) {
+            campo.form.addEventListener('submit', function () {
+                campo.type = 'password';
+                boton.setAttribute('aria-pressed', 'false');
+            });
+        }
+    }
+
+    /* ------------------------------------------------ boton ocupado al enviar */
+
+    /* Entre la pulsacion y la pagina siguiente hay un hueco en el que no pasa
+       nada a la vista, y en ese hueco es donde se pulsa dos veces. El boton que
+       envio el formulario se marca ocupado: gira, y deja de atender al puntero.
+
+       TRES CUIDADOS.
+
+       1. Se marca DESPUES del despacho del evento y solo si nadie lo detuvo. El
+          dialogo de data-confirmar y validacion.js cancelan el submit para
+          preguntar o para senalar un campo; marcar ahi dejaria el boton girando
+          sobre un formulario que no salio. Es el mismo criterio de turno.js.
+
+       2. NO se deshabilita. Un boton deshabilitado no viaja con el formulario.
+
+       3. Se limpia al volver. Con el boton de atras el navegador puede
+          restaurar la pagina tal como quedo —con el boton girando—, y por eso
+          'pageshow' lo apaga. Y se apaga solo a los ocho segundos, por si el
+          envio no llego a cambiar de pagina. */
+    var CLASE_OCUPADO = 'boton-ocupado';
+
+    function liberarBotones() {
+        var ocupados = document.querySelectorAll('.' + CLASE_OCUPADO);
+        var i;
+
+        for (i = 0; i < ocupados.length; i += 1) {
+            ocupados[i].classList.remove(CLASE_OCUPADO);
+            ocupados[i].removeAttribute('aria-busy');
+        }
+    }
+
+    document.addEventListener('submit', function (e) {
+        var formulario = e.target;
+
+        if (!formulario || formulario.tagName !== 'FORM') {
+            return;
+        }
+
+        /* El boton que disparo el envio. Si el navegador no lo dice —o el envio
+           fue con Enter desde un campo—, el primero de tipo submit. */
+        var boton = e.submitter || formulario.querySelector('button[type="submit"]');
+
+        if (!boton || !boton.classList || !boton.classList.contains('boton')) {
+            return;
+        }
+
+        window.setTimeout(function () {
+            if (e.defaultPrevented) {
+                return;
+            }
+
+            boton.classList.add(CLASE_OCUPADO);
+            boton.setAttribute('aria-busy', 'true');
+
+            window.setTimeout(liberarBotones, 8000);
+        }, 0);
+    });
+
+    window.addEventListener('pageshow', liberarBotones);
 
     function enlazarAviso(elemento) {
         if (elemento.dataset.avisoEnlazado === '1') {

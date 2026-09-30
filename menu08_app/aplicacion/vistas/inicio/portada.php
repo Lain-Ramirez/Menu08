@@ -21,7 +21,15 @@ $hm = static fn (mixed $h): string => substr((string) $h, 0, 5);
 <div class="pila pila-7">
 
     <header class="portada-encabezado">
-        <h1 class="portada-titulo">Que hay para comer hoy</h1>
+        <p class="portada-sobretitulo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"></path>
+                <circle cx="12" cy="10" r="2.5"></circle>
+            </svg>
+            Food trucks de la ciudad
+        </p>
+        <h1 class="portada-titulo">¿Qué hay para comer hoy?</h1>
         <p class="portada-entrada">
             Menu08 reune las cartas de los food trucks de la ciudad. Abra una para ver que venden,
             a que precio y donde estan parados en este momento.
@@ -66,7 +74,7 @@ $hm = static fn (mixed $h): string => substr((string) $h, 0, 5);
                         <a class="tarjeta tarjeta-elevada portada-truck"
                            href="<?= Vista::e(Vista::url('/carta/' . $t['slug'])) ?>">
                             <?php if (!empty($t['logo'])) : ?>
-                                <img class="portada-logo" width="64" height="64" decoding="async"
+                                <img class="portada-logo" width="72" height="72" decoding="async"
                                      src="<?= Vista::e(Vista::url('/subidas/' . $t['logo'])) ?>"
                                      alt="Logotipo de <?= Vista::e($t['nombre']) ?>">
                             <?php else : ?>

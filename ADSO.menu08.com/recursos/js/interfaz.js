@@ -492,7 +492,290 @@ var Interfaz = (function () {
         for (i = 0; i < claves.length; i += 1) {
             enlazarClave(claves[i]);
         }
+
+        var temas = ambito.querySelectorAll('[data-tema]');
+
+        for (i = 0; i < temas.length; i += 1) {
+            enlazarTema(temas[i]);
+        }
+
+        var filtros = ambito.querySelectorAll('[data-filtro]');
+
+        for (i = 0; i < filtros.length; i += 1) {
+            filtro(filtros[i]);
+        }
+
+        var cerrables = ambito.querySelectorAll('[data-aviso-cerrar]');
+
+        for (i = 0; i < cerrables.length; i += 1) {
+            enlazarCierre(cerrables[i]);
+        }
     }
+
+    /* ------------------------------------------------- tema claro y oscuro */
+
+    /* md3.css trae la paleta Brasa en claro (:root) y en oscuro (html.o). El
+       claro es el de siempre y el que sale por omision; el oscuro se elige con
+       este boton y se recuerda en el navegador. La clase la pone al cargar un
+       guion en linea del <head>, antes de pintar; aqui solo se atiende el clic.
+
+       Todos los botones de la pagina se mantienen de acuerdo entre si. */
+    var CLAVE_TEMA = 'menu08-tema';
+
+    function temaOscuro() {
+        return document.documentElement.classList.contains('o');
+    }
+
+    function reflejarTema() {
+        var botones = document.querySelectorAll('[data-tema]');
+        var oscuro = temaOscuro();
+        var i;
+
+        for (i = 0; i < botones.length; i += 1) {
+            botones[i].setAttribute('aria-pressed', oscuro ? 'true' : 'false');
+            botones[i].setAttribute('aria-label', oscuro ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+            botones[i].title = oscuro ? 'Tema claro' : 'Tema oscuro';
+        }
+
+        /* El color de la barra del navegador en el telefono acompana al tema. */
+        var meta = document.querySelector('meta[name="theme-color"]');
+
+        if (meta !== null) {
+            meta.setAttribute('content', oscuro ? '#180f0a' : '#fff8f4');
+        }
+    }
+
+    function enlazarTema(boton) {
+        if (boton.dataset.temaEnlazado === '1') {
+            return;
+        }
+
+        boton.dataset.temaEnlazado = '1';
+        boton.hidden = false;
+
+        boton.addEventListener('click', function () {
+            var oscuro = !temaOscuro();
+
+            document.documentElement.classList.toggle('o', oscuro);
+
+            /* En modo privado el almacenamiento puede no estar: el tema cambia
+               igual, solo que no se recuerda. */
+            try {
+                window.localStorage.setItem(CLAVE_TEMA, oscuro ? 'o' : 'c');
+            } catch (e) { /* sin almacenamiento */ }
+
+            reflejarTema();
+        });
+
+        reflejarTema();
+    }
+
+    /* -------------------------------------------------------------- filtro */
+
+    /** Sin tildes y en minusculas: quien busca «limon» encuentra «Limón». */
+    function normalizar(texto) {
+        var s = String(texto || '').toLowerCase();
+
+        return typeof s.normalize === 'function'
+            ? s.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            : s;
+    }
+
+    /* Filtra una lista YA pintada por el servidor, sin ninguna consulta:
+
+         <section data-filtro>
+           <div data-filtro-controles hidden>
+             <input data-filtro-texto>
+             <button data-filtro-marca="" aria-pressed="true">Todos</button>
+             <button data-filtro-marca="abierto" aria-pressed="false">Abiertos</button>
+           </div>
+           <li data-filtro-item data-filtro-busca="..." data-filtro-marcas="abierto">
+           <p data-filtro-vacio hidden>Nada coincide.</p>
+         </section>
+
+       Los controles salen ocultos y se muestran aqui: sin JavaScript la lista
+       se ve entera, que es lo que habia antes. Con un solo elemento tampoco se
+       muestran: no hay nada que filtrar. */
+    function filtro(raiz) {
+        var controles = raiz.querySelector('[data-filtro-controles]');
+        var items = raiz.querySelectorAll('[data-filtro-item]');
+
+        if (controles === null || items.length < 2 || raiz.dataset.filtroEnlazado === '1') {
+            return;
+        }
+
+        raiz.dataset.filtroEnlazado = '1';
+
+        var campo = raiz.querySelector('[data-filtro-texto]');
+        var chips = raiz.querySelectorAll('[data-filtro-marca]');
+        var vacio = raiz.querySelector('[data-filtro-vacio]');
+        var marca = '';
+        var fichas = [];
+        var i;
+
+        for (i = 0; i < items.length; i += 1) {
+            fichas.push({
+                nodo: items[i],
+                texto: normalizar(items[i].getAttribute('data-filtro-busca') || items[i].textContent),
+                marcas: ' ' + (items[i].getAttribute('data-filtro-marcas') || '') + ' '
+            });
+        }
+
+        function aplicar() {
+            var consulta = campo === null ? '' : normalizar(campo.value).trim();
+            var visibles = 0;
+            var j;
+
+            for (j = 0; j < fichas.length; j += 1) {
+                var coincide = (consulta === '' || fichas[j].texto.indexOf(consulta) !== -1)
+                    && (marca === '' || fichas[j].marcas.indexOf(' ' + marca + ' ') !== -1);
+
+                fichas[j].nodo.hidden = !coincide;
+
+                if (coincide) {
+                    visibles += 1;
+                }
+            }
+
+            if (vacio !== null) {
+                vacio.hidden = visibles > 0;
+            }
+        }
+
+        function elegir(chip) {
+            var j;
+
+            marca = chip.getAttribute('data-filtro-marca') || '';
+
+            for (j = 0; j < chips.length; j += 1) {
+                chips[j].setAttribute('aria-pressed', chips[j] === chip ? 'true' : 'false');
+            }
+
+            aplicar();
+        }
+
+        for (i = 0; i < chips.length; i += 1) {
+            (function (chip) {
+                chip.addEventListener('click', function () { elegir(chip); });
+            }(chips[i]));
+        }
+
+        if (campo !== null) {
+            campo.addEventListener('input', aplicar);
+
+            campo.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && campo.value !== '') {
+                    e.preventDefault();
+                    campo.value = '';
+                    aplicar();
+                }
+            });
+        }
+
+        controles.hidden = false;
+        aplicar();
+    }
+
+    /* ------------------------------------------------- cierre de un aviso */
+
+    /* Los mensajes de Sesion::mensaje() se quedan en la pagina hasta que se
+       recarga. Una vez leidos estorban: el boton los retira, y el de exito se
+       va solo a los ocho segundos —«Producto guardado» no necesita respuesta—.
+       Los de aviso y error se quedan hasta que alguien los cierre. */
+    function enlazarCierre(boton) {
+        var caja = boton.closest ? boton.closest('.aviso') : null;
+
+        if (caja === null || boton.dataset.cierreEnlazado === '1') {
+            return;
+        }
+
+        boton.dataset.cierreEnlazado = '1';
+        boton.hidden = false;
+
+        function retirar() {
+            if (caja.parentNode === null) {
+                return;
+            }
+
+            caja.classList.add('aviso-temporal-sale');
+
+            window.setTimeout(function () {
+                if (caja.parentNode !== null) {
+                    caja.parentNode.removeChild(caja);
+                }
+            }, 200);
+        }
+
+        boton.addEventListener('click', retirar);
+
+        if (caja.getAttribute('data-aviso-sesion') === 'exito') {
+            window.setTimeout(retirar, 8000);
+        }
+    }
+
+    /* ------------------------------------------------- barra de progreso */
+
+    /* Entre el clic y la pagina siguiente no pasa nada a la vista. Una barra
+       fina arriba dice que el clic entro y que algo viene: avanza sola hasta
+       cerca del final y la pagina nueva la sustituye.
+
+       Solo para lo que de verdad cambia de pagina: un enlace del mismo sitio,
+       en la misma pestana, sin tecla modificadora y que no sea un ancla ni una
+       descarga. Se retira en 'pageshow' —al volver atras el navegador restaura
+       la pagina tal como quedo— y, por si el clic no llego a navegar, sola a
+       los ocho segundos. */
+    var barraProgreso = null;
+
+    function mostrarProgreso() {
+        if (barraProgreso === null) {
+            barraProgreso = document.createElement('div');
+            barraProgreso.className = 'progreso sin-impresion';
+            barraProgreso.setAttribute('aria-hidden', 'true');
+        }
+
+        if (barraProgreso.parentNode === null) {
+            document.body.appendChild(barraProgreso);
+            window.setTimeout(ocultarProgreso, 8000);
+        }
+    }
+
+    function ocultarProgreso() {
+        if (barraProgreso !== null && barraProgreso.parentNode !== null) {
+            barraProgreso.parentNode.removeChild(barraProgreso);
+        }
+    }
+
+    document.addEventListener('click', function (e) {
+        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+            return;
+        }
+
+        var enlace = e.target.closest ? e.target.closest('a[href]') : null;
+
+        if (enlace === null || enlace.target === '_blank' || enlace.hasAttribute('download')
+            || enlace.hasAttribute('data-sin-progreso')) {
+            return;
+        }
+
+        var destino = enlace.getAttribute('href') || '';
+
+        /* Un ancla no cambia de pagina, y un enlace a otro sitio tampoco deja
+           esta pagina a la vista el tiempo suficiente para verla. */
+        if (destino.charAt(0) === '#' || enlace.origin !== window.location.origin
+            || (enlace.pathname === window.location.pathname && enlace.search === window.location.search && enlace.hash !== '')) {
+            return;
+        }
+
+        /* Despues del despacho: si otro escuchador detuvo el clic —el visor de
+           fotos de la carta, el dialogo de data-confirmar—, no hay navegacion. */
+        window.setTimeout(function () {
+            if (!e.defaultPrevented) {
+                mostrarProgreso();
+            }
+        }, 0);
+    });
+
+    window.addEventListener('pageshow', ocultarProgreso);
 
     /* ------------------------------------------------- ver la contrasena */
 
@@ -586,6 +869,7 @@ var Interfaz = (function () {
 
             boton.classList.add(CLASE_OCUPADO);
             boton.setAttribute('aria-busy', 'true');
+            mostrarProgreso();
 
             window.setTimeout(liberarBotones, 8000);
         }, 0);

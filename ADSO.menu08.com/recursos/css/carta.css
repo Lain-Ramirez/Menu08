@@ -38,7 +38,15 @@
 .carta [hidden] { display: none; }
 
 /* La marca de la plataforma: una linea fina, sin quitarle la pantalla al truck. */
-.carta-marca { margin: 0; padding-block: var(--esp-2); font: var(--tipo-etiqueta-g); }
+.carta-marca {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-3);
+  margin: 0;
+  padding-block: var(--esp-2);
+  font: var(--tipo-etiqueta-g);
+}
 
 .carta-marca a {
   display: inline-flex;

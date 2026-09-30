@@ -75,6 +75,29 @@ $peso = static fn (mixed $n): string => '$ ' . number_format((float) $n, 0, ',',
             </p>
         </div>
     <?php else : ?>
+        <?php // Buscar por nombre y quedarse con los agotados: con veinte productos,
+              // encontrar el que hay que reponer no deberia ser recorrer la tabla.
+              // Filtra las filas ya pintadas; sale oculto y lo muestra interfaz.js. ?>
+        <div class="pila pila-3" data-filtro>
+        <div class="filtro" data-filtro-controles hidden>
+            <div class="buscador">
+                <svg class="buscador-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path>
+                </svg>
+                <input class="buscador-campo" type="search" placeholder="Buscar en el catalogo"
+                       aria-label="Buscar en el catalogo" autocomplete="off" data-filtro-texto>
+            </div>
+
+            <div class="filtro-chips" role="group" aria-label="Filtrar por disponibilidad">
+                <button type="button" class="chip" data-filtro-marca="" aria-pressed="true">
+                    Todos <span class="chip-cuenta numerica"><?= count($productos) ?></span>
+                </button>
+                <button type="button" class="chip" data-filtro-marca="disponible" aria-pressed="false">Disponibles</button>
+                <button type="button" class="chip" data-filtro-marca="agotado" aria-pressed="false">Agotados</button>
+            </div>
+        </div>
+
         <div class="tabla-envoltura">
             <table class="tabla tabla-apilable">
                 <caption class="solo-lectores">
@@ -93,7 +116,9 @@ $peso = static fn (mixed $n): string => '$ ' . number_format((float) $n, 0, ',',
                 <tbody>
                 <?php foreach ($productos as $p) : ?>
                     <?php $disponible = (int) $p['disponible'] === 1; ?>
-                    <tr<?= $disponible ? '' : ' class="fila-inerte"' ?>>
+                    <tr<?= $disponible ? '' : ' class="fila-inerte"' ?> data-filtro-item
+                        data-filtro-marcas="<?= $disponible ? 'disponible' : 'agotado' ?>"
+                        data-filtro-busca="<?= Vista::e($p['nombre'] . ' ' . $p['categoria']) ?>">
                         <td data-etiqueta="Foto" class="columna-minima">
                             <?php if (!empty($p['foto'])) : ?>
                                 <img class="panel-miniatura" width="56" height="56" loading="lazy" decoding="async"
@@ -149,6 +174,11 @@ $peso = static fn (mixed $n): string => '$ ' . number_format((float) $n, 0, ',',
                 <?php endforeach; ?>
                 </tbody>
             </table>
+        </div>
+
+        <p class="filtro-vacio" data-filtro-vacio role="status" hidden>
+            Ningún producto coincide con la búsqueda.
+        </p>
         </div>
     <?php endif; ?>
 </div>

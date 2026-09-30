@@ -147,11 +147,28 @@ foreach ($porCategoria as $grupo) {
     <?php // ------------------------------------------------------ la marca --
           // Una linea fina arriba: dice de quien es la plataforma y lleva a las
           // demas cartas, sin quitarle la pantalla al truck. ?>
-    <p class="carta-marca">
+    <div class="carta-marca">
         <a href="<?= Vista::e(Vista::url('/')) ?>">
             <span aria-hidden="true">🍴</span> Menu08
         </a>
-    </p>
+
+        <?php // Tema claro u oscuro: de noche, en la fila, una carta clara
+              // deslumbra. Sale oculto y lo muestra interfaz.js. ?>
+        <button type="button" class="boton-simbolo boton-tema" data-tema
+                aria-label="Cambiar a tema oscuro" aria-pressed="false" hidden>
+            <svg class="boton-tema-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"></path>
+            </svg>
+            <svg class="boton-tema-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2"></path><path d="M12 20v2"></path><path d="M4.9 4.9l1.4 1.4"></path>
+                <path d="M17.7 17.7l1.4 1.4"></path><path d="M2 12h2"></path><path d="M20 12h2"></path>
+                <path d="M4.9 19.1l1.4-1.4"></path><path d="M17.7 6.3l1.4-1.4"></path>
+            </svg>
+        </button>
+    </div>
 
     <?php // ----------------------------------------------------- la portada ?>
     <header class="carta-portada">

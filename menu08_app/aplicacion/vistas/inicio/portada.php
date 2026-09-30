@@ -17,6 +17,9 @@ use Menu08\Nucleo\Vista;
  * @var string|null                $inicio   ruta del modulo del usuario en sesion
  */
 $hm = static fn (mixed $h): string => substr((string) $h, 0, 5);
+
+/** Cuantos estan abiertos ahora: es el filtro que mas se usa con hambre. */
+$abiertos = count(array_filter($trucks, static fn (array $t): bool => $t['vigente'] !== null));
 ?>
 <div class="pila pila-7">
 
@@ -50,8 +53,33 @@ $hm = static fn (mixed $h): string => substr((string) $h, 0, 5);
         </div>
     <?php endif; ?>
 
-    <section class="pila pila-4" aria-labelledby="titulo-trucks">
+    <section class="pila pila-4" aria-labelledby="titulo-trucks" data-filtro>
         <h2 id="titulo-trucks" class="solo-lectores">Food trucks</h2>
+
+        <?php // Buscar y quedarse con los abiertos. Filtra las fichas ya pintadas,
+              // sin consulta; sale oculto y lo muestra interfaz.js, asi que sin
+              // JavaScript la lista se ve entera. ?>
+        <?php if (count($trucks) > 1) : ?>
+            <div class="filtro" data-filtro-controles hidden>
+                <div class="buscador">
+                    <svg class="buscador-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path>
+                    </svg>
+                    <input class="buscador-campo" type="search" placeholder="Buscar un food truck"
+                           aria-label="Buscar un food truck" autocomplete="off" data-filtro-texto>
+                </div>
+
+                <div class="filtro-chips" role="group" aria-label="Filtrar por estado">
+                    <button type="button" class="chip" data-filtro-marca="" aria-pressed="true">
+                        Todos <span class="chip-cuenta numerica"><?= count($trucks) ?></span>
+                    </button>
+                    <button type="button" class="chip" data-filtro-marca="abierto" aria-pressed="false">
+                        Abiertos ahora <span class="chip-cuenta numerica"><?= (int) $abiertos ?></span>
+                    </button>
+                </div>
+            </div>
+        <?php endif; ?>
 
         <?php if ($trucks === []) : ?>
             <div class="aviso aviso-aviso" role="status">
@@ -68,7 +96,9 @@ $hm = static fn (mixed $h): string => substr((string) $h, 0, 5);
         <?php else : ?>
             <ul class="portada-lista">
                 <?php foreach ($trucks as $t) : ?>
-                    <li>
+                    <li data-filtro-item
+                        data-filtro-marcas="<?= $t['vigente'] !== null ? 'abierto' : 'cerrado' ?>"
+                        data-filtro-busca="<?= Vista::e(trim(($t['nombre'] ?? '') . ' ' . ($t['ciudad'] ?? '') . ' ' . ($t['descripcion'] ?? '') . ' ' . ($t['vigente']['nombre'] ?? ''))) ?>">
                         <?php // El enlace envuelve la tarjeta entera: en el telefono, el blanco
                               // pulsable es toda la ficha y no solo el nombre. ?>
                         <a class="tarjeta tarjeta-elevada portada-truck"
@@ -127,6 +157,10 @@ $hm = static fn (mixed $h): string => substr((string) $h, 0, 5);
                     </li>
                 <?php endforeach; ?>
             </ul>
+
+            <p class="filtro-vacio" data-filtro-vacio role="status" hidden>
+                Ningún food truck coincide. Pruebe con otro nombre o vea todos.
+            </p>
         <?php endif; ?>
     </section>
 

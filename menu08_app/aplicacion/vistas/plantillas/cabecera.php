@@ -24,6 +24,10 @@ use Menu08\Nucleo\Vista;
 $usuarioSesion = Sesion::autenticado() ? (Sesion::usuario() ?? []) : [];
 $nombreSesion  = (string) ($usuarioSesion['nombre'] ?? '');
 $rolSesion     = str_replace('_', ' ', (string) Sesion::rol());
+
+/** La pantalla de acceso no ofrece el boton «Ingresar»: ya se esta en ella. */
+$rutaPedida = rtrim((string) parse_url((string) ($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH), '/');
+$enAcceso   = str_ends_with($rutaPedida, '/ingresar');
 ?>
 <!doctype html>
 <html lang="es">
@@ -37,6 +41,13 @@ $rolSesion     = str_replace('_', ' ', (string) Sesion::rol());
     <meta name="csrf-token" content="<?= Vista::e(Csrf::token()) ?>">
     <?php endif; ?>
     <title><?= Vista::e($titulo) ?> · Menu08</title>
+    <meta name="description" content="Menu08: carta, caja y produccion para food trucks.">
+    <meta name="theme-color" content="#fff8f4">
+    <?php // El tema se aplica ANTES de pintar: si la clase llegara con interfaz.js,
+          // que va con defer, quien eligio el oscuro veria un fogonazo claro en
+          // cada pagina. Solo lee la preferencia guardada; el boton que la cambia
+          // lo atiende interfaz.js. ?>
+    <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>
     <?php // El icono de la pestana es el mismo emoji de la marca, dibujado en un
           // SVG en linea: no hay archivo que subir ni que cachear. ?>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E">
@@ -62,6 +73,10 @@ $rolSesion     = str_replace('_', ' ', (string) Sesion::rol());
     <?php endforeach; ?>
 </head>
 <body>
+    <?php // Lo primero que encuentra el tabulador: quien navega con teclado salta
+          // la cabecera y la navegacion sin recorrerlas en cada pagina. ?>
+    <a class="salto" href="#contenido">Saltar al contenido</a>
+
     <header class="cabecera sin-impresion">
         <div class="cabecera-interior contenedor-ancho">
             <a class="cabecera-marca" href="<?= Vista::e(Vista::url('/')) ?>">
@@ -75,8 +90,25 @@ $rolSesion     = str_replace('_', ' ', (string) Sesion::rol());
                 </span>
             </a>
 
-            <?php if (Sesion::autenticado()) : ?>
-                <div class="cabecera-sesion">
+            <div class="cabecera-sesion">
+                <?php // Tema claro u oscuro. Sale oculto y lo muestra interfaz.js:
+                      // sin JavaScript no puede cambiar nada. ?>
+                <button type="button" class="boton-simbolo boton-tema" data-tema
+                        aria-label="Cambiar a tema oscuro" aria-pressed="false" hidden>
+                    <svg class="boton-tema-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"></path>
+                    </svg>
+                    <svg class="boton-tema-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <path d="M12 2v2"></path><path d="M12 20v2"></path><path d="M4.9 4.9l1.4 1.4"></path>
+                        <path d="M17.7 17.7l1.4 1.4"></path><path d="M2 12h2"></path><path d="M20 12h2"></path>
+                        <path d="M4.9 19.1l1.4-1.4"></path><path d="M17.7 6.3l1.4-1.4"></path>
+                    </svg>
+                </button>
+
+                <?php if (Sesion::autenticado()) : ?>
                     <span class="cabecera-usuario">
                         <?php if ($nombreSesion !== '') : ?>
                             <span class="cabecera-avatar" aria-hidden="true"><?= Vista::e(mb_substr($nombreSesion, 0, 1)) ?></span>
@@ -103,7 +135,9 @@ $rolSesion     = str_replace('_', ' ', (string) Sesion::rol());
                             <path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path>
                         </svg>
                     </button>
-                </div>
-            <?php endif; ?>
+                <?php elseif (!$enAcceso) : ?>
+                    <a class="boton boton-contorno cabecera-ingresar" href="<?= Vista::e(Vista::url('/ingresar')) ?>">Ingresar</a>
+                <?php endif; ?>
+            </div>
         </div>
     </header>

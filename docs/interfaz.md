@@ -128,6 +128,15 @@ El chip elegido de CAJA no llegaba a pintarse de rojo y la base del turno salía
 dentro de otro. Ahora va dentro de `:where()`, que deja el peso en cero: sigue vistiendo al control
 pelado y cede ante cualquier clase.
 
+### Lo que la hace comportarse como una aplicación
+
+- **Salto al contenido.** Un enlace invisible hasta que recibe el foco, el primero del documento:
+  quien navega con teclado no recorre cabecera y navegación en cada página.
+- **Todo control nuevo sale oculto y lo enciende `interfaz.js`.** El botón de tema, los filtros, el
+  cierre de avisos: sin JavaScript no aparecen y la página es la de siempre, completa.
+- **Los filtros no consultan.** Esconden con `hidden` lo que el servidor ya pintó, sin tildes ni
+  mayúsculas («bogota» encuentra «Bogotá»), y dicen cuándo no queda nada.
+
 ### El foco es dorado, no rojo
 
 `--foco: 3px solid var(--secondary)`, a 2 px de separación. El dorado es la **marca**, no un
@@ -237,6 +246,10 @@ Un solo objeto global, sin bibliotecas y sin paso de compilación. Se carga con 
 | `Interfaz.menu(boton, panel)` | Alterna `aria-expanded` y `hidden` |
 | *(sin llamada)* botón ocupado | El botón que envió un formulario recibe `.boton-ocupado` y `aria-busy` hasta que llega la página siguiente |
 | *(sin llamada)* `data-ver-clave` | Muestra u oculta la contraseña del campo cuyo `id` indica |
+| *(sin llamada)* `data-tema` | Botón de tema claro u oscuro; recuerda la elección |
+| *(sin llamada)* `data-filtro` | Busca y filtra una lista ya pintada (trucks de la portada, productos del panel), sin consulta |
+| *(sin llamada)* `data-aviso-cerrar` | Cierra un mensaje de sesión; el de éxito se retira solo a los 8 s |
+| *(sin llamada)* barra de progreso | Una barra fina arriba al pulsar un enlace interno o enviar un formulario; `data-sin-progreso` la evita en una descarga |
 
 Y un enganche por atributos, para que una vista no tenga que escribir JavaScript:
 
@@ -338,8 +351,11 @@ visible en pantalla ancha no puede estar oculta para un lector de pantalla.
 
 Dicho aquí para que nadie lo dé por hecho:
 
-- **El modo oscuro no tiene interruptor.** `md3.css` lo define bajo `html.o`, pero nada añade esa
-  clase. Las hojas están listas; falta decidir dónde vive el control.
+- **El modo oscuro se elige, no se hereda.** `md3.css` lo define bajo `html.o` y el botón de la
+  cabecera (y el de la carta pública) pone y quita esa clase; la elección se guarda en
+  `localStorage` (`menu08-tema`). Por omisión sale el claro aunque el sistema esté en oscuro: es
+  una decisión, no un descuido. La clase se aplica con un guion en línea en el `<head>`, antes de
+  pintar, para que quien eligió el oscuro no vea un fogonazo claro en cada página.
 - **Funciones modernas de CSS** de las que dependen las hojas: `color-mix()` en los estados
   deshabilitados, las sombras y los tintes (Chrome 111, Safari 16.2, Firefox 113), `:has()` en el
   aviso (Chrome 105, Safari 15.4, Firefox 121) y `:where()` en la línea base de los controles

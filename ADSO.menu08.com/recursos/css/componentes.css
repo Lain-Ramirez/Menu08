@@ -1111,7 +1111,8 @@ a.boton:hover { text-decoration: none; }
   margin-inline: auto;
 }
 
-.pie-marca { color: var(--on-surface); font-weight: 600; }
+.pie-marca { color: var(--on-surface); font-weight: 600; text-decoration: none; }
+.pie-marca:hover { color: var(--primary); }
 
 /* --- Pantalla de acceso ---
    Centrada en la ventana, tambien a lo alto: main crece hasta el pie y el
@@ -1883,6 +1884,195 @@ a.boton:hover { text-decoration: none; }
 
 .portada-personal-texto { display: flex; flex-direction: column; gap: var(--esp-1); }
 .portada-personal-titulo { font: var(--tipo-titulo-p); margin-block: 0; }
+
+/* ============================ 10b. PIEZAS DE APLICACION: TEMA, FILTRO, ETC. ==
+   Lo que no es de ninguna pantalla en concreto y hace que el conjunto se
+   comporte como una aplicacion: el salto al contenido, el cambio de tema, la
+   barra de progreso entre paginas y el filtro de listas. */
+
+/* Salto al contenido. Invisible hasta que recibe el foco: es lo primero que
+   encuentra el tabulador, y evita recorrer cabecera y navegacion en cada
+   pagina a quien navega con teclado. */
+.salto {
+  position: absolute;
+  left: var(--esp-4);
+  top: var(--esp-2);
+  z-index: 40;
+  padding: var(--esp-3) var(--esp-4);
+  border-radius: var(--radio-p);
+  background: var(--inverse-surface);
+  color: var(--inverse-on-surface);
+  font: var(--tipo-etiqueta-g);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.salto:focus { transform: none; color: var(--inverse-on-surface); }
+
+/* El contenido recibe el foco al saltar, pero no es un control: sin anillo. */
+main:focus { outline: none; }
+
+/* Cambio de tema. Un solo boton con los dos iconos; la hoja ensena el del tema
+   al que se va —la luna en claro, el sol en oscuro—, que es lo que hace el
+   boton, no lo que hay. */
+.boton-tema[hidden] { display: none; }
+.boton-tema .boton-tema-sol,
+html.o .boton-tema .boton-tema-luna { display: none; }
+html.o .boton-tema .boton-tema-sol { display: block; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .boton-tema svg { transition: transform var(--mov-medio); }
+  .boton-tema:hover svg { transform: rotate(20deg); }
+}
+
+/* El acceso del personal, en la cabecera de las pantallas sin sesion. */
+.cabecera-ingresar { min-height: 40px; padding: 0 var(--esp-4); }
+
+/* En el telefono los botones de icono de la cabecera bajan a 40 px y la
+   inicial sale de la vista: marca, tema, salida y menu son lo que cabe en
+   320 px. El blanco sigue por encima de los 24 px que pide WCAG 2.2, y los
+   tres estan separados. */
+@media (max-width: 480px) {
+  .cabecera .boton-simbolo { width: 40px; height: 40px; }
+  .cabecera .cabecera-salir { padding: 0 var(--esp-2); }
+  .cabecera-avatar { display: none; }
+  .cabecera-ingresar { padding: 0 var(--esp-3); }
+}
+
+/* Barra de progreso entre paginas. La crea interfaz.js al pulsar un enlace o
+   enviar un formulario; avanza sola hasta cerca del final y la pagina nueva la
+   sustituye. Nunca llega al 100 %: no sabe cuando acaba la carga, y una barra
+   llena sobre una pagina que sigue cargando miente. */
+.progreso {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  transform-origin: left;
+  transform: scaleX(.9);
+  animation: progreso 8s cubic-bezier(.1, .7, .2, 1) both;
+  pointer-events: none;
+}
+
+@keyframes progreso {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(.9); }
+}
+
+/* Chip de filtro. Un boton que se queda pulsado: el elegido lleva el rojo de la
+   marca y su estado en aria-pressed, que es lo que lee el lector de pantalla. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-height: 40px;
+  padding: 0 var(--esp-4);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-completo);
+  background: var(--surface);
+  color: var(--on-surface);
+  font: var(--tipo-etiqueta-g);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transicion), color var(--transicion),
+              border-color var(--transicion), box-shadow var(--transicion), transform var(--transicion);
+}
+
+.chip:hover { background: var(--tinte); color: var(--primary); border-color: var(--primary); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .chip:active { transform: scale(.96); transition-duration: .06s; }
+}
+
+.chip[aria-pressed="true"],
+.chip[aria-pressed="true"]:hover {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+  box-shadow: var(--elev-realce);
+}
+
+.chip-cuenta {
+  min-width: 22px;
+  padding: 0 6px;
+  border-radius: var(--radio-completo);
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-m);
+  line-height: 22px;
+  text-align: center;
+}
+
+.chip[aria-pressed="true"] .chip-cuenta {
+  background: color-mix(in srgb, var(--on-primary) 22%, transparent);
+  color: var(--on-primary);
+}
+
+/* Buscador de una lista: una pastilla con la lupa dentro. */
+.buscador { position: relative; flex: 1 1 16rem; min-width: 0; max-width: 28rem; }
+
+.buscador-icono {
+  position: absolute;
+  left: var(--esp-4);
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  color: var(--on-surface-variant);
+  pointer-events: none;
+}
+
+.buscador-campo {
+  width: 100%;
+  height: var(--toque);
+  padding: 0 var(--esp-4) 0 44px;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-completo);
+  background: var(--surface);
+  color: var(--on-surface);
+  font: var(--tipo-cuerpo-g);
+  transition: border-color var(--transicion), box-shadow var(--transicion);
+}
+
+.buscador-campo:hover { border-color: var(--outline); }
+
+.buscador-campo:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--tinte-fuerte);
+}
+
+/* Los controles de un filtro: el buscador y sus chips, en un renglon que salta
+   cuando no cabe. */
+.filtro { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-3); }
+.filtro[hidden] { display: none; }
+.filtro-chips { display: flex; flex-wrap: wrap; gap: var(--esp-2); }
+
+.filtro-vacio { margin: var(--esp-5) 0; color: var(--on-surface-variant); text-align: center; }
+
+/* Lo que el filtro esconde, escondido de verdad: la fila de una tabla apilable
+   y la ficha de una lista traen su propio display, que le ganaria al atributo. */
+[data-filtro-item][hidden] { display: none !important; }
+
+/* Aviso que se puede cerrar: el boton se pega al borde derecho y no empuja el
+   texto de su linea. */
+.aviso-cerrable { align-items: center; }
+.aviso-cerrable > p { flex: 1; min-width: 0; }
+
+.aviso-cerrar {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  margin: -4px -8px -4px 0;
+  color: inherit;
+}
+
+.aviso-cerrar[hidden] { display: none; }
+.aviso-cerrar svg { width: 18px; height: 18px; }
+.aviso-cerrar:hover { background: color-mix(in srgb, currentColor 12%, transparent); color: inherit; }
 
 /* ============================================== 11. SOLO PARA EL MUESTRARIO ==
    Un catalogo tiene que enseñar a la vez estados que en uso son excluyentes.

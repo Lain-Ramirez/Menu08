@@ -25,14 +25,7 @@ $error = $error ?? null;
 <section class="acceso">
     <div class="tarjeta tarjeta-elevada acceso-tarjeta">
         <header class="acceso-encabezado">
-            <span class="cabecera-sello acceso-sello" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M2 6.5h12v10H2z"></path><path d="M14 10h4l4 3.5v3h-8"></path>
-                    <circle cx="6.5" cy="17.5" r="2"></circle><circle cx="17.5" cy="17.5" r="2"></circle>
-                    <path d="M5 10h6"></path>
-                </svg>
-            </span>
+            <span class="cabecera-sello acceso-sello" aria-hidden="true">🍴</span>
             <h1 class="acceso-titulo">Ingresar</h1>
             <p class="texto-apagado texto-m">Zona privada de Menu08.</p>
         </header>

@@ -103,6 +103,8 @@
     var salidaTotal = raiz.querySelector('[data-venta-total]');
     var botonCobrar = raiz.querySelector('[data-venta-cobrar]');
     var botonVaciar = raiz.querySelector('[data-venta-vaciar]');
+    var insignia = raiz.querySelector('[data-venta-insignia]');
+    var totalCobrar = raiz.querySelector('[data-venta-cobrar-total]');
     var anuncio = raiz.querySelector('[data-venta-anuncio]');
 
     var dialogo = raiz.querySelector('[data-venta-dialogo]');
@@ -244,6 +246,14 @@
         r.numero.textContent = String(r.cantidad);
         r.subtotal.textContent = pesos(r.producto.precio * r.cantidad);
 
+        /* La cifra da un salto al cambiar: es la confirmacion de que el «una
+           mas» entro, sin tener que leer el numero. Quitar y volver a poner la
+           clase no reinicia la animacion por si solo; leer offsetWidth entre
+           medias obliga al navegador a darse por enterado. */
+        r.numero.classList.remove('venta-pulso');
+        void r.numero.offsetWidth;
+        r.numero.classList.add('venta-pulso');
+
         var quita = r.cantidad <= 1;
 
         r.menos.innerHTML = '';
@@ -264,6 +274,16 @@
         for (i = 0; i < fichas.length; i += 1) {
             if (fichas[i].producto.id === id) {
                 fichas[i].campo.value = String(cantidad);
+
+                /* La ficha del catalogo dice cuantas unidades lleva ya la
+                   orden: la hoja pinta la cifra en una insignia a partir de
+                   este atributo. Asi se ve sobre el propio producto, que es
+                   donde esta mirando el cajero al pulsar. */
+                if (cantidad > 0) {
+                    fichas[i].nodo.setAttribute('data-venta-en-orden', String(cantidad));
+                } else {
+                    fichas[i].nodo.removeAttribute('data-venta-en-orden');
+                }
 
                 return;
             }
@@ -410,6 +430,18 @@
 
         if (salidaTotal !== null) {
             salidaTotal.textContent = pesos(t.centavos);
+        }
+
+        /* La insignia del titulo y el importe del boton repiten lo que ya dice
+           el resumen, pero en los dos sitios a los que va la vista: arriba, al
+           mirar que lleva la orden, y en el boton, al ir a cobrarla. */
+        if (insignia !== null) {
+            insignia.textContent = String(t.unidades);
+            insignia.hidden = vacia;
+        }
+
+        if (totalCobrar !== null) {
+            totalCobrar.textContent = vacia ? '' : pesos(t.centavos);
         }
 
         if (ordenVacia !== null) {

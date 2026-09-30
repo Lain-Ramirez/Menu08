@@ -47,6 +47,8 @@ $icono = static fn (string $trazos, string $clase = ''): string => sprintf(
 
 $trazoReloj  = '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>';
 $trazoCheck  = '<path d="m5 12.5 4.5 4.5L19 7"/>';
+$trazoBasura = '<path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/>';
+$trazoBolsa  = '<path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>';
 $trazoCarro  = '<path d="M3 5h2l2.2 10.2a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.55L20.5 9H6"/>'
              . '<circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/>';
 $trazoImagen = '<path d="M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5"/>'
@@ -242,16 +244,26 @@ $abierto = $turno !== null;
         <?php // -------------------------------------- orden en construccion ?>
         <aside class="venta-orden" aria-labelledby="venta-orden-titulo">
             <div class="venta-orden-cabeza">
-                <h2 class="venta-orden-titulo" id="venta-orden-titulo">Orden</h2>
+                <h2 class="venta-orden-titulo" id="venta-orden-titulo">
+                    Orden
+                    <?php // Cuantas unidades lleva, al lado del titulo: se ve sin bajar
+                          // la vista al resumen. Lo escribe caja.js y sale oculta
+                          // mientras la orden esta vacia. ?>
+                    <span class="venta-orden-insignia numerica" data-venta-insignia aria-hidden="true" hidden>0</span>
+                </h2>
 
-                <button type="button" class="boton boton-texto" data-venta-vaciar disabled>Vaciar</button>
+                <button type="button" class="boton boton-texto venta-vaciar" data-venta-vaciar disabled>
+                    <?= $icono($trazoBasura, 'boton-icono') ?>Vaciar
+                </button>
             </div>
 
             <ul class="venta-lineas" data-venta-lineas></ul>
 
-            <p class="venta-orden-vacia" data-venta-orden-vacia>
-                Toque un producto del catálogo para empezar la orden.
-            </p>
+            <div class="venta-orden-vacia" data-venta-orden-vacia>
+                <span class="venta-orden-vacia-icono" aria-hidden="true"><?= $icono($trazoBolsa) ?></span>
+                <p class="venta-orden-vacia-titulo">La orden está vacía</p>
+                <p>Toque un producto del catálogo para empezar la orden.</p>
+            </div>
 
             <div class="venta-resumen">
                 <div class="venta-resumen-fila texto-m texto-apagado">
@@ -265,8 +277,11 @@ $abierto = $turno !== null;
                 </div>
             </div>
 
+            <?php // El boton lleva el importe: «Cobrar $ 44.700» dice lo que va a
+                  // pasar al pulsarlo, y el cajero lo lee sin buscar el total. ?>
             <button type="button" class="boton boton-relleno venta-cobrar" data-venta-cobrar disabled>
                 <?= $icono($trazoCarro, 'boton-icono') ?>Cobrar
+                <span class="venta-cobrar-total numerica" data-venta-cobrar-total></span>
             </button>
         </aside>
     </div>

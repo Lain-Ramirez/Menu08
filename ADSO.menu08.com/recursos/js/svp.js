@@ -571,6 +571,48 @@
         }
     }
 
+    /* --------------------------------------------------- pantalla completa */
+
+    /* El tablero cuelga de una pared: a pantalla completa, la hoja esconde la
+       cabecera, la navegacion y el pie, y queda solo la cocina. El boton sale
+       oculto del servidor y se muestra aqui, y solo si el navegador deja
+       pedirla: en un iPhone no existe y el boton no promete nada. */
+    (function pantallaCompleta() {
+        var boton = raiz.querySelector('[data-svp-pantalla]');
+        var texto = raiz.querySelector('[data-svp-pantalla-texto]');
+        var el = document.documentElement;
+        var pedir = el.requestFullscreen || el.webkitRequestFullscreen;
+
+        if (boton === null || typeof pedir !== 'function') {
+            return;
+        }
+
+        function activa() {
+            return Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+        }
+
+        function reflejar() {
+            boton.setAttribute('aria-pressed', activa() ? 'true' : 'false');
+
+            if (texto !== null) {
+                texto.textContent = activa() ? 'Salir de pantalla completa' : 'Pantalla completa';
+            }
+        }
+
+        boton.hidden = false;
+
+        boton.addEventListener('click', function () {
+            if (activa()) {
+                (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+            } else {
+                pedir.call(el);
+            }
+        });
+
+        document.addEventListener('fullscreenchange', reflejar);
+        document.addEventListener('webkitfullscreenchange', reflejar);
+    }());
+
     /* El primer pintado ya lo hizo el servidor: de el salen el reloj y las
        ordenes con las que arranca el cronometro, para que la pantalla no espere
        al primer sondeo para contar. */

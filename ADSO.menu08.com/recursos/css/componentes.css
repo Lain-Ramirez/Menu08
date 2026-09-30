@@ -865,7 +865,11 @@ a.boton:hover { text-decoration: none; }
 .cabecera-marca:hover { color: inherit; }
 .cabecera-marca:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
 
-/* El sello: el camion de la marca sobre el rojo. Es lo unico de la cabecera
+/* El sello: el emoji de la marca —🍴— sobre una ficha clara. Es el unico emoji
+   de la aplicacion, y a proposito: es el logotipo, no un icono. Los iconos
+   siguen siendo SVG de trazo, que se recolorean con el tema. La ficha es clara
+   y no roja porque el emoji trae su propio color —gris plata en casi todos los
+   sistemas— y sobre el rojo de la marca se apagaba. Es lo unico de la cabecera
    que se mueve, y solo cuando el puntero pasa por la marca. */
 .cabecera-sello {
   display: grid;
@@ -873,14 +877,15 @@ a.boton:hover { text-decoration: none; }
   flex: none;
   width: 40px;
   height: 40px;
+  border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
   border-radius: var(--radio-m);
-  background: var(--primary);
-  color: var(--on-primary);
+  background: var(--primary-container);
+  color: var(--on-primary-container);
   box-shadow: var(--elev-1);
+  font-size: 22px;
+  line-height: 1;
   transition: transform var(--mov-medio), box-shadow var(--mov-medio);
 }
-
-.cabecera-sello svg { width: 24px; height: 24px; }
 
 .cabecera-marca:hover .cabecera-sello { box-shadow: var(--elev-realce); }
 
@@ -1132,8 +1137,7 @@ a.boton:hover { text-decoration: none; }
 .acceso-encabezado { display: flex; flex-direction: column; align-items: center; gap: var(--esp-2); text-align: center; }
 .acceso-encabezado > * { margin-block: 0; }
 
-.acceso-sello { width: 56px; height: 56px; border-radius: var(--radio-g); margin-bottom: var(--esp-2); }
-.acceso-sello svg { width: 32px; height: 32px; }
+.acceso-sello { width: 64px; height: 64px; border-radius: var(--radio-g); margin-bottom: var(--esp-2); font-size: 34px; }
 
 .acceso-titulo { font: var(--tipo-titulo-m); letter-spacing: -.01em; }
 

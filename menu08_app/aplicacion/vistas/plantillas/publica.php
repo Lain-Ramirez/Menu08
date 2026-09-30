@@ -31,6 +31,9 @@ use Menu08\Nucleo\Vista;
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= Vista::e($titulo) ?></title>
+    <?php // El icono de la pestana es el mismo emoji de la marca, dibujado en un
+          // SVG en linea: no hay archivo que subir ni que cachear. ?>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E">
 
     <?php // Mismo orden que en el panel: md3.css declara los tokens de color,
           // base.css los de tipografia, espaciado, radios y foco, y

@@ -343,16 +343,38 @@
 
 .venta-orden-cabeza {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--esp-2);
   flex: none;
+  padding-bottom: var(--esp-3);
+  border-bottom: 1px solid var(--outline-variant);
 }
 
 .venta-orden-titulo {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
   margin: 0;
   font: var(--tipo-titulo-p);
 }
+
+/* Cuantas unidades lleva la orden, junto al titulo. */
+.venta-orden-insignia {
+  min-width: 28px;
+  padding: 0 var(--esp-2);
+  border-radius: var(--radio-completo);
+  background: var(--primary);
+  color: var(--on-primary);
+  font: var(--tipo-etiqueta-g);
+  line-height: 28px;
+  text-align: center;
+}
+
+.venta-orden-insignia[hidden] { display: none; }
+
+.venta-vaciar { color: var(--error); }
+.venta-vaciar:hover { color: var(--error); }
 
 .venta-lineas {
   list-style: none;
@@ -371,83 +393,140 @@
    en la mitad de abajo. */
 .venta-lineas:empty { display: none; }
 
-/* El renglon entra deslizando. caja.js lo crea una sola vez por producto y
+/* EL RENGLON VA EN DOS PISOS. Arriba, el nombre completo y el subtotal; abajo,
+   el unitario y el contador. En un solo piso —nombre, contador y subtotal en
+   fila— a una columna de 380 px le quedaban cien para el nombre, y
+   «Hamburguesa a la parrilla» salia como «Hamburguesa a l…»: el cajero no
+   podia comprobar que habia marcado lo que le pidieron.
+
+   caja.js emite el nombre y el unitario dentro de .venta-linea-texto; con
+   display: contents esa envoltura desaparece de la caja y los dos pasan a ser
+   celdas de la reticula, sin tocar el guion.
+
+   El renglon entra deslizando. caja.js lo crea una sola vez por producto y
    despues solo le cambia la cifra, asi que la animacion corre cuando el
    producto entra en la orden y no en cada «una mas». */
 .venta-linea {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "nombre   subtotal"
+    "unitario cantidad";
   align-items: center;
-  gap: var(--esp-1);
-  padding: var(--esp-1) 0;
+  gap: var(--esp-1) var(--esp-3);
+  padding: var(--esp-3) 0;
   border-top: 1px solid var(--outline-variant);
   animation: entra var(--mov-medio) both;
 }
 
 .venta-linea:first-child { border-top: none; }
 
-.venta-linea-texto { flex: 1; min-width: 0; }
+.venta-linea-texto { display: contents; }
 
 .venta-linea-nombre {
-  display: block;
+  grid-area: nombre;
   font: var(--tipo-etiqueta-g);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 15px;
+  line-height: 20px;
+  overflow-wrap: anywhere;
 }
 
 .venta-linea-unitario {
+  grid-area: unitario;
   color: var(--on-surface-variant);
   font: var(--tipo-cuerpo-p);
   font-variant-numeric: tabular-nums;
 }
 
+/* El contador, en una sola pieza: menos, cifra y mas dentro de la misma
+   pastilla. Se lee como un control y no como tres cosas sueltas. */
 .venta-linea-cantidad {
+  grid-area: cantidad;
   display: flex;
   align-items: center;
   gap: 2px;
-  flex: none;
+  padding: 2px;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-completo);
+  background: var(--surface-container-low);
 }
 
-/* 40 px y no 48: en una columna de 380 px, tres areas de 48 mas el subtotal
-   dejan el nombre en poco mas de cien pixeles y se corta casi siempre. El
-   trazo sigue siendo de 20 px y los tres botones estan separados, que es lo
-   que evita el error de pulsacion. */
+/* 40 px y no 48: caben los tres en la columna sin robarle sitio al nombre, el
+   trazo sigue siendo de 20 px y estan separados, que es lo que evita el error
+   de pulsacion. */
 .venta-linea-cantidad .boton-simbolo {
   width: 40px;
   height: 40px;
+  background: var(--surface);
+  box-shadow: var(--elev-1);
 }
+
+.venta-linea-cantidad .boton-simbolo:hover { background: var(--primary); color: var(--on-primary); }
 
 .venta-linea-cantidad .boton-simbolo svg { width: 20px; height: 20px; }
 
 .venta-linea-numero {
-  min-width: 26px;
+  min-width: 32px;
   text-align: center;
   font: var(--tipo-etiqueta-g);
-  font-size: 16px;
+  font-size: 17px;
   line-height: 24px;
   font-variant-numeric: tabular-nums;
+}
+
+/* El salto de la cifra al cambiar. La clase la pone y la reinicia caja.js. */
+@media (prefers-reduced-motion: no-preference) {
+  .venta-pulso { animation: venta-pulso .25s var(--curva-salida); }
+}
+
+@keyframes venta-pulso {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); color: var(--primary); }
+  100% { transform: scale(1); }
 }
 
 .venta-linea-subtotal {
-  flex: none;
-  width: 74px;
+  grid-area: subtotal;
+  align-self: start;
   text-align: right;
   font-size: 16px;
-  line-height: 24px;
-  font-weight: 500;
+  line-height: 20px;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
+/* Orden vacia: un icono, una frase que dice que pasa y otra que dice que
+   hacer. Un hueco en blanco con dos lineas grises parecia un fallo de carga. */
 .venta-orden-vacia {
   flex: 1;
-  display: grid;
-  place-items: center;
-  margin: 0;
-  padding: var(--esp-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-1);
+  padding: var(--esp-5) var(--esp-4);
   color: var(--on-surface-variant);
   font: var(--tipo-cuerpo-m);
   text-align: center;
 }
+
+.venta-orden-vacia > p { margin: 0; }
+
+.venta-orden-vacia-icono {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: var(--esp-2);
+  border-radius: var(--radio-completo);
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+}
+
+.venta-orden-vacia-icono svg { width: 30px; height: 30px; }
+
+.venta-orden-vacia-titulo { color: var(--on-surface); font: var(--tipo-etiqueta-g); font-size: 16px; line-height: 24px; }
 
 /* Igual que en la ficha: el display de arriba pisa el del atributo hidden. */
 .venta-orden-vacia[hidden] { display: none; }
@@ -464,7 +543,7 @@
   background: var(--surface-container);
 }
 
-.venta-resumen-total { color: var(--primary); }
+.venta-resumen-total { color: var(--primary); letter-spacing: -.02em; }
 
 /* Pegado abajo solo cuando la pantalla se apila: en un telefono la lista de
    renglones puede ser mas larga que la ventana y el total tiene que seguir a la
@@ -491,8 +570,8 @@
 .venta-resumen-rotulo { font: var(--tipo-titulo-p); }
 
 .venta-resumen-total {
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 28px;
+  line-height: 36px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
@@ -502,10 +581,49 @@
 .venta-cobrar {
   flex: none;
   width: 100%;
-  min-height: 56px;
-  font-size: 16px;
+  min-height: 60px;
+  font-size: 17px;
   line-height: 24px;
 }
+
+.venta-cobrar .boton-icono { width: 22px; height: 22px; }
+
+/* El importe dentro del boton, separado del verbo por un filete: «Cobrar» dice
+   que hace y la cifra dice cuanto. Vacio no ocupa sitio. */
+.venta-cobrar-total {
+  margin-left: var(--esp-1);
+  padding-left: var(--esp-3);
+  border-left: 1px solid color-mix(in srgb, currentColor 40%, transparent);
+  font-weight: 700;
+}
+
+.venta-cobrar-total:empty { display: none; }
+
+/* La ficha del catalogo dice cuantas unidades lleva ya la orden. El atributo lo
+   pone caja.js; la insignia es de la hoja, asi que sin el guion no aparece. */
+.venta-ficha { position: relative; }
+
+.venta-ficha[data-venta-en-orden]::after {
+  content: attr(data-venta-en-orden);
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 28px;
+  padding: 0 var(--esp-2);
+  border: 2px solid var(--surface);
+  border-radius: var(--radio-completo);
+  background: var(--primary);
+  color: var(--on-primary);
+  font: var(--tipo-etiqueta-g);
+  line-height: 24px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  box-shadow: var(--elev-1);
+  pointer-events: none;
+  animation: emerge var(--mov-medio) both;
+}
+
+.venta-ficha[data-venta-en-orden] .venta-ficha-boton { border-color: var(--primary); }
 
 /* ==================================================== 5. DIALOGO DE COBRO ==
    Se usa <dialog> nativo en vez del velo que dibuja interfaz.js: aquel se

@@ -37,6 +37,9 @@ $rolSesion     = str_replace('_', ' ', (string) Sesion::rol());
     <meta name="csrf-token" content="<?= Vista::e(Csrf::token()) ?>">
     <?php endif; ?>
     <title><?= Vista::e($titulo) ?> · Menu08</title>
+    <?php // El icono de la pestana es el mismo emoji de la marca, dibujado en un
+          // SVG en linea: no hay archivo que subir ni que cachear. ?>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E">
 
     <?php // El orden importa: md3.css declara los tokens de color, base.css los de
           // tipografia, espaciado, radios y foco, y componentes.css los consume.
@@ -62,16 +65,9 @@ $rolSesion     = str_replace('_', ' ', (string) Sesion::rol());
     <header class="cabecera sin-impresion">
         <div class="cabecera-interior contenedor-ancho">
             <a class="cabecera-marca" href="<?= Vista::e(Vista::url('/')) ?>">
-                <?php // El sello es decorativo: el nombre que va al lado ya dice
-                      // a donde lleva el enlace. ?>
-                <span class="cabecera-sello" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                         stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M2 6.5h12v10H2z"></path><path d="M14 10h4l4 3.5v3h-8"></path>
-                        <circle cx="6.5" cy="17.5" r="2"></circle><circle cx="17.5" cy="17.5" r="2"></circle>
-                        <path d="M5 10h6"></path>
-                    </svg>
-                </span>
+                <?php // El sello es el emoji de la marca. Es decorativo: el nombre
+                      // que va al lado ya dice a donde lleva el enlace. ?>
+                <span class="cabecera-sello" aria-hidden="true">🍴</span>
 
                 <span class="cabecera-textos">
                     <span class="cabecera-nombre">Menu08</span>

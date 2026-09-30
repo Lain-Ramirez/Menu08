@@ -152,6 +152,36 @@ no separe naranja de rojo —o mire el tablero del SVP desde tres metros— sigu
 leyendo. Los iconos son SVG de trazo, nunca emoji: un emoji no se recolorea con el tema y cada
 sistema lo dibuja distinto.
 
+**Una sola excepción: el logotipo.** La marca de Menu08 es el emoji 🍴 y aparece como tal en el
+sello de la cabecera, en la pantalla de acceso, en la carta pública y en el icono de la pestaña
+(un SVG en línea con el emoji dentro, sin archivo que subir). Es el logotipo, no un icono: los
+iconos de la interfaz siguen siendo SVG de trazo. El sello va sobre `--primary-container` y no
+sobre el rojo lleno, porque el emoji trae su propio color —gris plata en casi todos los sistemas—
+y sobre el rojo se apagaba.
+
+### La carta pública, el tablero y la orden de CAJA
+
+Tres pantallas rehechas con el mismo criterio: **el orden de la pantalla es el orden de las
+preguntas de quien la usa.**
+
+- **Carta pública** (`carta/publica.php`, `carta.css`, `carta.js`). Portada con logotipo, nombre y
+  el estado —abierto o cerrado, con la hora— a la vista sin desplazar; el contacto son botones que
+  hacen algo (WhatsApp, llamar, Instagram); el punto del día lleva «Cómo llegar» cuando la parada
+  trae coordenadas; la semana va plegada en un `<details>`; y cada producto es una ficha con la foto
+  a la derecha y el precio siempre en el mismo sitio. A partir de 768 px, dos columnas.
+  `carta.js` añade el buscador, el visor de fotos y el «leer más» de la descripción; los tres salen
+  del servidor ocultos o sin recortar, así que sin JavaScript la carta se lee entera: las
+  categorías son anclas y la foto es un enlace a la imagen.
+- **Tablero del SVP** (`svp/tablero.php`, `svp.css`). La tarjeta tiene dos zonas: la cabeza, teñida
+  del color del estado, con el número y el cronómetro, y el cuerpo, sobre fondo limpio, con los
+  renglones a 18 px. El botón de avance lleva el color del estado **siguiente**. La demora invierte
+  el cronómetro y pone la palabra; no se mueve nada. Botón de pantalla completa, que esconde la
+  cabecera, la navegación y el pie.
+- **Orden de CAJA** (`caja/venta.php`, `caja.css`, `caja.js`). El renglón va en dos pisos —nombre
+  completo y subtotal arriba, unitario y contador abajo— porque en uno solo el nombre se cortaba.
+  El botón dice «Cobrar $ 44.700», el título lleva la cuenta de unidades y la ficha del catálogo
+  muestra cuántas lleva ya la orden.
+
 ### El aviso solo es flex cuando trae icono
 
 `.aviso` es un bloque normal. El `display: flex` que alinea icono y texto se activa con

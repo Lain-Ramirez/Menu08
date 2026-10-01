@@ -30,10 +30,24 @@ if ($base !== '' && str_starts_with($actual, $base)) {
 
 $actual = '/' . ltrim($actual, '/');
 
+/**
+ * Cada modulo lleva su emoji, de la misma familia que el 🍴 de la marca: la carta
+ * es la lista del menu, la caja el billete y el SVP el cocinero. Son decorativos
+ * —el rotulo de al lado ya nombra el modulo—, asi que van con aria-hidden.
+ */
 $modulos = [
-    ['ruta' => '/panel', 'rotulo' => 'CARTA', 'descripcion' => 'Catalogo y paradas', 'roles' => PanelControlador::ROLES],
-    ['ruta' => '/caja',  'rotulo' => 'CAJA',  'descripcion' => 'Turno y ventas',     'roles' => CajaControlador::ROLES],
-    ['ruta' => '/svp',   'rotulo' => 'SVP',   'descripcion' => 'Tablero de produccion', 'roles' => SvpControlador::ROLES],
+    [
+        'ruta' => '/panel', 'rotulo' => 'CARTA', 'descripcion' => 'Catálogo y paradas',
+        'roles' => PanelControlador::ROLES, 'emoji' => '📋',
+    ],
+    [
+        'ruta' => '/caja', 'rotulo' => 'CAJA', 'descripcion' => 'Turno y ventas',
+        'roles' => CajaControlador::ROLES, 'emoji' => '💵',
+    ],
+    [
+        'ruta' => '/svp', 'rotulo' => 'SVP', 'descripcion' => 'Tablero de producción',
+        'roles' => SvpControlador::ROLES, 'emoji' => '👨‍🍳',
+    ],
 ];
 
 $visibles = array_values(array_filter(
@@ -57,8 +71,11 @@ if ($visibles === []) {
                 <a class="navegacion-enlace<?= $activa ? ' navegacion-activa' : '' ?>"
                    href="<?= Vista::e(Vista::url($m['ruta'])) ?>"
                    <?= $activa ? 'aria-current="page"' : '' ?>>
-                    <span class="navegacion-rotulo"><?= Vista::e($m['rotulo']) ?></span>
-                    <span class="navegacion-descripcion"><?= Vista::e($m['descripcion']) ?></span>
+                    <span class="navegacion-icono" aria-hidden="true"><?= $m['emoji'] ?></span>
+                    <span class="navegacion-textos">
+                        <span class="navegacion-rotulo"><?= Vista::e($m['rotulo']) ?></span>
+                        <span class="navegacion-descripcion"><?= Vista::e($m['descripcion']) ?></span>
+                    </span>
                 </a>
             </li>
         <?php endforeach; ?>

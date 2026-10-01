@@ -63,12 +63,12 @@ $aria = static function (string $c, string $ayuda = '') use ($errores): string {
 <div class="pila pila-5">
 
     <header class="fila fila-entre">
-        <h1>Categorias</h1>
+        <h1>Categorías</h1>
         <a class="boton boton-texto" href="<?= Vista::e(Vista::url('/panel')) ?>">Volver al panel</a>
     </header>
 
     <section class="tarjeta tarjeta-contorno panel-grupo panel-formulario" id="formulario">
-        <h2 class="tarjeta-titulo"><?= $edicion ? 'Editar categoria' : 'Nueva categoria' ?></h2>
+        <h2 class="tarjeta-titulo"><?= $edicion ? 'Editar categoría' : 'Nueva categoría' ?></h2>
 
         <form class="pila pila-4" method="post" action="<?= Vista::e(Vista::url('/panel/categorias')) ?>">
             <?= Csrf::campo() ?>
@@ -107,7 +107,7 @@ $aria = static function (string $c, string $ayuda = '') use ($errores): string {
                 <path d="M12 10v3.5"></path><path d="M12 17h.01"></path>
             </svg>
             <p>
-                <strong>Atencion.</strong> Todavia no hay categorias. La carta publica se vera vacia
+                <strong>Atención.</strong> Todavía no hay categorías. La carta pública se verá vacía
                 hasta que cree la primera.
             </p>
         </div>

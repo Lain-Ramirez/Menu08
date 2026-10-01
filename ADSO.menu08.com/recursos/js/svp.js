@@ -68,6 +68,7 @@
     var vacioCerrado = raiz.querySelector('[data-svp-vacio="cerrado"]');
     var vacioAlDia = raiz.querySelector('[data-svp-vacio="al-dia"]');
     var demoraRotulo = raiz.querySelector('[data-svp-demora-rotulo]');
+    var horaCocina = raiz.querySelector('[data-svp-hora]');
 
     /* Lo ultimo que dijo el servidor. Es lo que se vuelve a pintar cuando una
        orden avanza, sin esperar al sondeo siguiente. */
@@ -316,11 +317,22 @@
 
             nodo.querySelector('[data-svp-reloj]').textContent = cronometro(segundos);
 
+            /* La barra del tiempo: cuanto del umbral de demora lleva gastado. */
+            nodo.style.setProperty('--svp-progreso', String(Math.min(1, segundos / segundosDemora)));
+
             /* El tiempo solo va hacia delante: lo que ya estaba demorado no
                vuelve a estar a tiempo porque el sondeo diga otra cosa. */
             if (segundos >= segundosDemora) {
                 marcarDemora(nodo, true);
             }
+        }
+
+        /* La hora de la cocina, en el reloj del servidor. */
+        if (horaCocina !== null) {
+            var ahora = new Date((new Date()).getTime() - desfase);
+
+            horaCocina.textContent = (ahora.getHours() < 10 ? '0' : '') + ahora.getHours() + ':'
+                + (ahora.getMinutes() < 10 ? '0' : '') + ahora.getMinutes();
         }
 
         latir();
@@ -570,6 +582,48 @@
             botones[i].disabled = false;
         }
     }
+
+    /* --------------------------------------------------- pantalla completa */
+
+    /* El tablero cuelga de una pared: a pantalla completa, la hoja esconde la
+       cabecera, la navegacion y el pie, y queda solo la cocina. El boton sale
+       oculto del servidor y se muestra aqui, y solo si el navegador deja
+       pedirla: en un iPhone no existe y el boton no promete nada. */
+    (function pantallaCompleta() {
+        var boton = raiz.querySelector('[data-svp-pantalla]');
+        var texto = raiz.querySelector('[data-svp-pantalla-texto]');
+        var el = document.documentElement;
+        var pedir = el.requestFullscreen || el.webkitRequestFullscreen;
+
+        if (boton === null || typeof pedir !== 'function') {
+            return;
+        }
+
+        function activa() {
+            return Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+        }
+
+        function reflejar() {
+            boton.setAttribute('aria-pressed', activa() ? 'true' : 'false');
+
+            if (texto !== null) {
+                texto.textContent = activa() ? 'Salir de pantalla completa' : 'Pantalla completa';
+            }
+        }
+
+        boton.hidden = false;
+
+        boton.addEventListener('click', function () {
+            if (activa()) {
+                (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+            } else {
+                pedir.call(el);
+            }
+        });
+
+        document.addEventListener('fullscreenchange', reflejar);
+        document.addEventListener('webkitfullscreenchange', reflejar);
+    }());
 
     /* El primer pintado ya lo hizo el servidor: de el salen el reloj y las
        ordenes con las que arranca el cronometro, para que la pantalla no espere

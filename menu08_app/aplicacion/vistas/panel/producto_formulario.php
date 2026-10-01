@@ -64,7 +64,7 @@ $aria = static function (string $c, string $ayuda = '') use ($errores): string {
 
     <header class="fila fila-entre">
         <h1><?= $id > 0 ? 'Editar producto' : 'Nuevo producto' ?></h1>
-        <a class="boton boton-texto" href="<?= Vista::e(Vista::url('/panel/productos')) ?>">Volver al catalogo</a>
+        <a class="boton boton-texto" href="<?= Vista::e(Vista::url('/panel/productos')) ?>">Volver al catálogo</a>
     </header>
 
     <?php if ($categorias === []) : ?>
@@ -75,7 +75,7 @@ $aria = static function (string $c, string $ayuda = '') use ($errores): string {
                 <path d="M12 10v3.5"></path><path d="M12 17h.01"></path>
             </svg>
             <p>
-                <strong>Atencion.</strong> Antes de crear un producto hace falta al menos una categoria.
+                <strong>Atención.</strong> Antes de crear un producto hace falta al menos una categoria.
                 <a href="<?= Vista::e(Vista::url('/panel/categorias')) ?>">Crear una</a>.
             </p>
         </div>
@@ -86,7 +86,7 @@ $aria = static function (string $c, string $ayuda = '') use ($errores): string {
             <input type="hidden" name="id" value="<?= $id ?>">
 
             <section class="tarjeta tarjeta-contorno panel-grupo">
-                <h2 class="tarjeta-titulo">Que es</h2>
+                <h2 class="tarjeta-titulo">Qué es</h2>
 
                 <div class="rejilla rejilla-2">
                     <div class="campo<?= $clase('nombre') ?>">
@@ -105,7 +105,7 @@ $aria = static function (string $c, string $ayuda = '') use ($errores): string {
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <label class="campo-etiqueta" for="categoria_id">Categoria <abbr class="campo-obligatorio" title="obligatorio">*</abbr></label>
+                        <label class="campo-etiqueta" for="categoria_id">Categoría <abbr class="campo-obligatorio" title="obligatorio">*</abbr></label>
                         <?= $apoyo('categoria_id', 'El bloque de la carta donde aparece.') ?>
                     </div>
                 </div>
@@ -113,8 +113,8 @@ $aria = static function (string $c, string $ayuda = '') use ($errores): string {
                 <div class="campo<?= $clase('descripcion') ?>">
                     <textarea class="campo-control campo-area" id="descripcion" name="descripcion" rows="3"
                               maxlength="400" placeholder=" "<?= $aria('descripcion') ?>><?= Vista::e($producto['descripcion'] ?? '') ?></textarea>
-                    <label class="campo-etiqueta" for="descripcion">Descripcion</label>
-                    <?= $apoyo('descripcion', 'Los ingredientes, en una linea.') ?>
+                    <label class="campo-etiqueta" for="descripcion">Descripción</label>
+                    <?= $apoyo('descripcion', 'Los ingredientes, en una línea.') ?>
                 </div>
             </section>
 
@@ -127,14 +127,14 @@ $aria = static function (string $c, string $ayuda = '') use ($errores): string {
                                inputmode="decimal" required placeholder=" "
                                value="<?= Vista::e($producto['precio'] ?? '') ?>"<?= $aria('precio') ?>>
                         <label class="campo-etiqueta" for="precio">Precio <abbr class="campo-obligatorio" title="obligatorio">*</abbr></label>
-                        <?= $apoyo('precio', 'En pesos, sin puntos ni simbolo.') ?>
+                        <?= $apoyo('precio', 'En pesos, sin puntos ni símbolo.') ?>
                     </div>
 
                     <div class="campo<?= $clase('orden') ?>">
                         <input class="campo-control numerica" type="number" id="orden" name="orden"
                                min="0" max="999" placeholder=" "
                                value="<?= (int) ($producto['orden'] ?? 0) ?>"<?= $aria('orden') ?>>
-                        <label class="campo-etiqueta" for="orden">Orden dentro de la categoria</label>
+                        <label class="campo-etiqueta" for="orden">Orden dentro de la categoría</label>
                         <?= $apoyo('orden', 'Menor va antes.') ?>
                     </div>
                 </div>
@@ -144,7 +144,7 @@ $aria = static function (string $c, string $ayuda = '') use ($errores): string {
                         <?= ($producto === null || (int) ($producto['disponible'] ?? 1) === 1) ? 'checked' : '' ?>>
                     <span>
                         Disponible en la carta
-                        <span class="texto-p texto-apagado">Sin marcar se retira de la carta publica y de CAJA.</span>
+                        <span class="texto-p texto-apagado">Sin marcar se retira de la carta pública y de CAJA.</span>
                     </span>
                 </label>
             </section>
@@ -165,7 +165,7 @@ $aria = static function (string $c, string $ayuda = '') use ($errores): string {
                         <label class="campo-etiqueta campo-etiqueta-fija" for="foto">
                             <?= empty($producto['foto']) ? 'Elegir foto' : 'Cambiar foto' ?>
                         </label>
-                        <?= $apoyo('foto', 'JPG, PNG o WEBP, hasta 2 MB. Vacio: conserva la actual.') ?>
+                        <?= $apoyo('foto', 'JPG, PNG o WEBP, hasta 2 MB. Vacío: conserva la actual.') ?>
                     </div>
 
                     <img class="panel-foto panel-previa" id="foto-previa" width="96" height="96" alt="Vista previa de la foto elegida" hidden>

@@ -31,10 +31,6 @@
         basura: '<path d="M4 7h16"></path><path d="M10 7V5h4v2"></path><path d="m6 7 1 13h10l1-13"></path>'
     };
 
-    /** Punto en el que la pantalla pasa de una columna a dos. El mismo valor
-        esta en caja.css; si se cambia uno, el otro tambien. */
-    var DOS_ZONAS = '(min-width: 1024px)';
-
     var raiz = document.querySelector('[data-venta]');
 
     if (raiz === null) {
@@ -96,13 +92,18 @@
     var busqueda = raiz.querySelector('[data-venta-busqueda]');
     var chips = raiz.querySelectorAll('[data-venta-categoria]');
     var sinResultados = raiz.querySelector('[data-venta-vacio]');
-    var zonas = raiz.querySelector('[data-venta-zonas]');
     var lista = raiz.querySelector('[data-venta-lineas]');
     var ordenVacia = raiz.querySelector('[data-venta-orden-vacia]');
     var salidaUnidades = raiz.querySelector('[data-venta-unidades]');
     var salidaTotal = raiz.querySelector('[data-venta-total]');
     var botonCobrar = raiz.querySelector('[data-venta-cobrar]');
     var botonVaciar = raiz.querySelector('[data-venta-vaciar]');
+    var insignia = raiz.querySelector('[data-venta-insignia]');
+    var columnaOrden = raiz.querySelector('[data-venta-orden]');
+    var flotante = raiz.querySelector('[data-venta-flotante]');
+    var flotanteCuenta = raiz.querySelector('[data-venta-flotante-cuenta]');
+    var flotanteTotal = raiz.querySelector('[data-venta-flotante-total]');
+    var totalCobrar = raiz.querySelector('[data-venta-cobrar-total]');
     var anuncio = raiz.querySelector('[data-venta-anuncio]');
 
     var dialogo = raiz.querySelector('[data-venta-dialogo]');
@@ -244,6 +245,14 @@
         r.numero.textContent = String(r.cantidad);
         r.subtotal.textContent = pesos(r.producto.precio * r.cantidad);
 
+        /* La cifra da un salto al cambiar: es la confirmacion de que el «una
+           mas» entro, sin tener que leer el numero. Quitar y volver a poner la
+           clase no reinicia la animacion por si solo; leer offsetWidth entre
+           medias obliga al navegador a darse por enterado. */
+        r.numero.classList.remove('venta-pulso');
+        void r.numero.offsetWidth;
+        r.numero.classList.add('venta-pulso');
+
         var quita = r.cantidad <= 1;
 
         r.menos.innerHTML = '';
@@ -264,6 +273,16 @@
         for (i = 0; i < fichas.length; i += 1) {
             if (fichas[i].producto.id === id) {
                 fichas[i].campo.value = String(cantidad);
+
+                /* La ficha del catalogo dice cuantas unidades lleva ya la
+                   orden: la hoja pinta la cifra en una insignia a partir de
+                   este atributo. Asi se ve sobre el propio producto, que es
+                   donde esta mirando el cajero al pulsar. */
+                if (cantidad > 0) {
+                    fichas[i].nodo.setAttribute('data-venta-en-orden', String(cantidad));
+                } else {
+                    fichas[i].nodo.removeAttribute('data-venta-en-orden');
+                }
 
                 return;
             }
@@ -312,6 +331,46 @@
         refrescarRenglon(renglones[id]);
         sincronizarCampo(id, 1);
         actualizar();
+        mostrarRenglon(piezas.nodo);
+    }
+
+    /** Lleva a la vista el renglon que acaba de cambiar y lo resalta.
+
+        Con la orden larga la lista se desplaza por dentro, y un producto
+        anadido al final quedaba debajo del borde: el cajero pulsaba y no veia
+        que habia entrado. Ahora la lista baja hasta el renglon, y el renglon se
+        enciende un momento, que es lo que dice «este es el que cambio». */
+    function mostrarRenglon(nodo) {
+        nodo.classList.remove('venta-linea-resalte');
+        void nodo.offsetWidth;
+        nodo.classList.add('venta-linea-resalte');
+
+        if (lista === null || lista.scrollHeight <= lista.clientHeight) {
+            return;
+        }
+
+        var arriba = nodo.offsetTop;
+        var abajo = arriba + nodo.offsetHeight;
+        var destino = null;
+
+        if (arriba < lista.scrollTop) {
+            destino = arriba;
+        } else if (abajo > lista.scrollTop + lista.clientHeight) {
+            destino = abajo - lista.clientHeight;
+        }
+
+        if (destino === null) {
+            return;
+        }
+
+        var quieto = typeof window.matchMedia === 'function'
+            && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (typeof lista.scrollTo === 'function') {
+            lista.scrollTo({ top: destino, behavior: quieto ? 'auto' : 'smooth' });
+        } else {
+            lista.scrollTop = destino;
+        }
     }
 
     function cambiar(id, delta) {
@@ -338,6 +397,7 @@
         refrescarRenglon(r);
         sincronizarCampo(id, nueva);
         actualizar();
+        mostrarRenglon(r.nodo);
     }
 
     function quitar(id) {
@@ -411,6 +471,35 @@
         if (salidaTotal !== null) {
             salidaTotal.textContent = pesos(t.centavos);
         }
+
+        /* La insignia del titulo y el importe del boton repiten lo que ya dice
+           el resumen, pero en los dos sitios a los que va la vista: arriba, al
+           mirar que lleva la orden, y en el boton, al ir a cobrarla. */
+        if (insignia !== null) {
+            insignia.textContent = String(t.unidades);
+            insignia.hidden = vacia;
+        }
+
+        if (totalCobrar !== null) {
+            totalCobrar.textContent = vacia ? '' : pesos(t.centavos);
+        }
+
+        /* Con renglones la columna se pega al desplazar; vacia no: un recuadro
+           vacio que persigue la pagina no dice nada. */
+        if (columnaOrden !== null) {
+            columnaOrden.classList.toggle('venta-orden-llena', !vacia);
+        }
+
+        if (flotanteCuenta !== null) {
+            flotanteCuenta.textContent = String(t.unidades);
+        }
+
+        if (flotanteTotal !== null) {
+            flotanteTotal.textContent = pesos(t.centavos);
+        }
+
+        evaluarFlotante();
+        medirLista();
 
         if (ordenVacia !== null) {
             ordenVacia.hidden = !vacia;
@@ -679,37 +768,90 @@
         }
     }
 
-    /* -------------------------------------------- tope de la orden ========
+    /* ------------------------------------------- el alto de la lista ======
 
-       El catalogo fluye y la columna de la orden va pegada. Para que el boton
-       de cobro entre en la primera pantalla aunque la orden lleve quince
-       renglones, la columna no puede pasar de lo que va desde donde nace hasta
-       el borde de abajo de la ventana. Eso se mide.
+       LA ORDEN CRECE HASTA EL BORDE DE LA VENTANA, Y SOLO ENTONCES DESPLAZA.
+       Con cada producto la columna se alarga; cuando el boton de cobro va a
+       tocar el borde de abajo, la lista deja de crecer y empieza a desplazarse
+       por dentro. Asi el cuadro se amplia mientras cabe y el total y el boton
+       no se van nunca de la pantalla.
 
-       Se mide .venta-zonas y no la propia columna: la columna es sticky y, con
-       la pagina desplazada, su rectangulo devuelve la posicion pegada y no la
-       natural. La reticula no se mueve, asi que su posicion en el documento
-       —rectangulo mas desplazamiento— es la misma siempre. */
+       Se mide en cada desplazamiento porque el sitio libre cambia: con la pagina
+       arriba la columna nace por debajo de la cabecera; al bajar se pega arriba
+       y gana todo ese alto. Lo que hay debajo de la lista —total, boton,
+       rellenos— se mide tambien, no se supone.
 
-    var HOLGURA_INFERIOR = 24;
+       Nunca baja de tres renglones: en una ventana muy baja vale mas que el
+       boton quede un poco por debajo —para eso esta la barra flotante— que una
+       lista de un solo renglon, que es lo que se veia antes. Solo en dos zonas:
+       apilada, la orden mide lo que mide y la pagina se desplaza normal. */
+    var HOLGURA = 16;
+    var MINIMO_LISTA = 210;
 
-    function medirTope() {
-        raiz.style.removeProperty('--venta-tope');
-
-        if (zonas === null || typeof window.matchMedia !== 'function'
-                || !window.matchMedia(DOS_ZONAS).matches) {
+    function medirLista() {
+        if (lista === null || columnaOrden === null) {
             return;
         }
 
-        var rectangulo = zonas.getBoundingClientRect();
-        var desdeArriba = rectangulo.top + (window.pageYOffset || 0);
-        var tope = window.innerHeight - desdeArriba - HOLGURA_INFERIOR;
+        if (typeof window.matchMedia !== 'function' || !window.matchMedia('(min-width: 1024px)').matches) {
+            lista.style.removeProperty('max-height');
 
-        /* Por debajo de esto la columna no cabe ni con la cabecera y el resumen,
-           y limitarla solo la dejaria ilegible: mas vale que crezca. */
-        if (tope > 260) {
-            raiz.style.setProperty('--venta-tope', Math.floor(tope) + 'px');
+            return;
         }
+
+        var cajaLista = lista.getBoundingClientRect();
+        var debajo = columnaOrden.getBoundingClientRect().bottom - cajaLista.bottom;
+        var libre = window.innerHeight - Math.max(cajaLista.top, 0) - debajo - HOLGURA;
+
+        lista.style.maxHeight = Math.max(MINIMO_LISTA, Math.floor(libre)) + 'px';
+    }
+
+    var medidaPendiente = false;
+
+    function pedirMedida() {
+        if (medidaPendiente) {
+            return;
+        }
+
+        medidaPendiente = true;
+
+        window.requestAnimationFrame(function () {
+            medidaPendiente = false;
+            medirLista();
+        });
+    }
+
+    window.addEventListener('scroll', pedirMedida, { passive: true });
+    window.addEventListener('resize', pedirMedida);
+
+    /* ----------------------------------------------- la orden, a mano ======
+
+       En el telefono, y en el portatil cuando se baja hasta el historial, la
+       orden queda fuera de la vista: el cajero toca productos sin ver que
+       entran. Una barra flotante abajo lleva la cuenta y el total, y al tocarla
+       lleva a la orden. Solo aparece con la orden empezada y cuando el boton de
+       cobro no esta a la vista: si se ve, sobra. */
+    var cobroVisible = true;
+
+    function evaluarFlotante() {
+        if (flotante === null) {
+            return;
+        }
+
+        flotante.hidden = secuencia.length === 0 || cobroVisible;
+    }
+
+    if (flotante !== null && botonCobrar !== null && typeof IntersectionObserver === 'function') {
+        new IntersectionObserver(function (entradas) {
+            cobroVisible = entradas[0].isIntersecting;
+            evaluarFlotante();
+        }, { threshold: 0.6 }).observe(botonCobrar);
+
+        flotante.addEventListener('click', function () {
+            if (columnaOrden !== null) {
+                columnaOrden.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
     }
 
     /* ------------------------------------------------------------ arranque */
@@ -825,20 +967,6 @@
         });
     }
 
-    var esperaMedida = null;
-
-    window.addEventListener('resize', function () {
-        if (esperaMedida !== null) {
-            window.clearTimeout(esperaMedida);
-        }
-
-        esperaMedida = window.setTimeout(function () {
-            esperaMedida = null;
-            medirTope();
-        }, 120);
-    });
-
-    medirTope();
     filtrar();
     actualizar();
 }());

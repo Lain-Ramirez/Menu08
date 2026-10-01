@@ -118,6 +118,24 @@
   max-width: 44rem;
   padding: var(--esp-6);
   gap: var(--esp-5);
+  border-color: var(--outline-variant);
+  border-radius: var(--radio-g);
+  background: var(--surface);
+  box-shadow: var(--elev-3);
+  animation: emerge var(--mov-medio) both;
+}
+
+.turno-apertura h1 { margin-block: 0; }
+
+/* El titulo y su corona comparten renglon tambien en el telefono: el texto se
+   encoge —lleva min-width en cero— y la corona no cae debajo. */
+.turno-apertura > .fila { flex-wrap: nowrap; }
+
+@media (max-width: 480px) {
+  .turno-apertura { padding: var(--esp-4); }
+
+  /* Cajero y apertura, uno bajo el otro: a dos columnas la fecha se cortaba. */
+  .turno-meta { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* Corona del titulo: un solo icono, en el contenedor de la marca. */
@@ -127,9 +145,10 @@
   width: 48px;
   height: 48px;
   flex: none;
-  border-radius: var(--radio-completo);
+  border-radius: var(--radio-m);
   background: var(--primary-container);
   color: var(--on-primary-container);
+  box-shadow: 0 0 0 6px var(--tinte);
 }
 
 .turno-corona svg { width: 24px; height: 24px; }
@@ -152,21 +171,30 @@
    coma decimal no existe aqui —la base se cuenta en billetes— y asi las dos
    ultimas cifras no bailan al escribir.
 
-   El anillo de foco lo lleva la caja entera y no el control: el control no tiene
-   borde propio, asi que un anillo pegado a el se veria flotando dentro. */
+   El foco lo lleva la caja entera y no el control: el control no tiene borde
+   propio, asi que una marca pegada a el se veria flotando dentro. */
 .turno-lectura {
   display: flex;
   align-items: baseline;
   gap: var(--esp-2);
   padding: var(--esp-3) var(--esp-4);
-  border: 1px solid transparent;
+  border: 2px solid var(--outline-variant);
   border-radius: var(--radio-m);
-  background: var(--surface-container);
+  background: var(--surface-container-low);
+  transition: border-color var(--transicion), box-shadow var(--transicion), background-color var(--transicion);
 }
 
-.turno-lectura:focus-within { outline: var(--foco); outline-offset: var(--foco-separacion); }
+/* Con foco la caja entera se enciende —borde de la marca y halo—, igual que un
+   .campo: la lectura de la base es el campo mas importante de la pantalla y
+   responde como los demas campos de texto, que tampoco llevan el anillo dorado. */
+.turno-lectura:focus-within {
+  border-color: var(--primary);
+  background: var(--surface);
+  box-shadow: 0 0 0 4px var(--tinte-fuerte);
+}
 
-.turno-lectura-error { border-color: var(--error); }
+.turno-lectura-error,
+.turno-lectura-error:focus-within { border-color: var(--error); }
 
 .turno-lectura-signo { flex: none; color: var(--on-surface-variant); font-size: 24px; line-height: 40px; }
 
@@ -224,11 +252,30 @@
   font-weight: 500;
   font-variant-numeric: tabular-nums;
   cursor: pointer;
-  transition: background-color var(--transicion), box-shadow var(--transicion);
+  user-select: none;
+  box-shadow: var(--elev-1);
+  transition: background-color var(--transicion), border-color var(--transicion),
+              color var(--transicion), box-shadow var(--transicion), transform var(--transicion);
 }
 
-.turno-tecla:hover { background: var(--surface-container-high); box-shadow: var(--elev-1); }
-.turno-tecla:active { box-shadow: none; }
+/* La tecla se comporta como una tecla. Al pasar se enciende su borde; al pulsar
+   se hunde, pierde la sombra y se tine de la marca durante lo que dura el dedo.
+   Se marca de pie y sin mirar el campo: el hundimiento es lo que confirma cada
+   cifra, y por eso va en 60 ms y no en los 150 del resto. */
+.turno-tecla:hover { background: var(--tinte); border-color: var(--anillo); color: var(--primary); }
+
+.turno-tecla:active {
+  background: var(--primary-container);
+  border-color: var(--primary);
+  color: var(--on-primary-container);
+  box-shadow: none;
+  transition-duration: .06s;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .turno-tecla:active { transform: scale(.95); }
+}
+
 .turno-tecla svg { width: 24px; height: 24px; }
 
 /* El cero triple y el borrado no son cifras: se distinguen del bloque numerico
@@ -241,7 +288,16 @@
 .turno-tecla:disabled,
 .turno-sugerencia:disabled { cursor: default; color: color-mix(in srgb, var(--on-surface) 38%, transparent); }
 
-.turno-tecla:disabled:hover { background: var(--surface-container-low); box-shadow: none; }
+.turno-tecla:disabled { box-shadow: none; }
+
+.turno-tecla:disabled:hover,
+.turno-tecla:disabled:active {
+  background: var(--surface-container-low);
+  border-color: var(--outline-variant);
+  color: color-mix(in srgb, var(--on-surface) 38%, transparent);
+  box-shadow: none;
+  transform: none;
+}
 
 /* ============================================== 3. CIERRE: EL CUADRE =======
    Dos zonas, como la pantalla de venta: el resumen a la izquierda y el cierre en
@@ -257,7 +313,20 @@
   .turno-cierre-panel { position: sticky; top: var(--esp-5); }
 }
 
-.turno-cierre-panel { gap: var(--esp-4); padding: var(--esp-5); }
+.turno-cierre-panel {
+  gap: var(--esp-4);
+  padding: var(--esp-5);
+  border-color: var(--outline-variant);
+  border-radius: var(--radio-g);
+  background: var(--surface);
+  box-shadow: var(--elev-2);
+}
+
+/* La tarjeta es --surface: la muesca del rotulo del conteo se pinta igual. */
+.turno-cierre-panel .campo { --campo-fondo: var(--surface); }
+
+.turno-resumen { border-color: var(--outline-variant); border-radius: var(--radio-g); background: var(--surface); }
+.turno-resumen .turno-cifra { color: var(--primary); letter-spacing: -.02em; }
 
 /* Tarjeta del total vendido y sus tres datos. Hueco propio: la tarjeta reparte
    var(--esp-3) y aqui separan tres bloques, no tres renglones. */
@@ -319,8 +388,11 @@
   gap: var(--esp-3);
   padding: var(--esp-3) var(--esp-4);
   border-radius: var(--radio-m);
-  background: var(--surface);
+  background: var(--surface-container-low);
   color: var(--on-surface-variant);
+  /* El cuadre cambia de estado mientras se teclea el conteo: el fundido evita
+     que el bloque parpadee entre sobrante y faltante cifra a cifra. */
+  transition: background-color var(--mov-medio), color var(--mov-medio);
 }
 
 .turno-diferencia-rotulo { display: flex; align-items: center; gap: var(--esp-2); font: var(--tipo-etiqueta-g); }

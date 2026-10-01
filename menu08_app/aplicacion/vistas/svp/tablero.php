@@ -47,6 +47,12 @@ $trazoAlerta  = '<path d="M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0
               . '<path d="M12 10v3.5"/><path d="M12 17h.01"/>';
 $trazoCheck   = '<path d="m5 12.5 4.5 4.5L19 7"/>';
 $trazoPersiana = '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M3 14h18"/>';
+$trazoPantalla = '<path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/>'
+               . '<path d="M16 21h3a2 2 0 0 0 2-2v-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/>';
+
+/** El icono de cada paso: empezar, dar por lista y entregar. */
+$trazoEmpezar  = '<path d="M7 5v14l11-7L7 5Z"/>';
+$trazoEntregar = '<path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>';
 
 /**
  * Los tres estados en curso, en el orden en que viaja una orden.
@@ -64,16 +70,18 @@ $estados = [
         'etiqueta' => 'etiqueta-pendiente',
         'destino'  => 'en_preparacion',
         'accion'   => 'Empezar',
+        'trazo'    => $trazoEmpezar,
         'vacia'    => 'Nada esperando.',
     ],
     'en_preparacion' => [
         'titulo'   => 'En preparación',
-        'nombre'   => 'En preparacion',
+        'nombre'   => 'En preparación',
         'columna'  => 'svp-columna-preparacion',
         'tarjeta'  => 'svp-tarjeta-preparacion',
         'etiqueta' => 'etiqueta-preparacion',
         'destino'  => 'lista',
         'accion'   => 'Marcar lista',
+        'trazo'    => $trazoCheck,
         'vacia'    => 'Nada en la plancha.',
     ],
     'lista' => [
@@ -84,6 +92,7 @@ $estados = [
         'etiqueta' => 'etiqueta-lista',
         'destino'  => 'entregada',
         'accion'   => 'Entregar',
+        'trazo'    => $trazoEntregar,
         'vacia'    => 'Nada esperando en la ventanilla.',
     ],
 ];
@@ -118,7 +127,7 @@ $cronometro = static function (int $segundos): string {
  * @param array<string, mixed>|null $o
  * @param array<string, string>     $e estado al que pertenece la tarjeta
  */
-$tarjeta = static function (?array $o, array $e) use ($icono, $trazoAlerta, $horaDe, $cronometro, $ahora): string {
+$tarjeta = static function (?array $o, array $e) use ($icono, $trazoAlerta, $trazoReloj, $horaDe, $cronometro, $ahora): string {
     $segundos = 0;
 
     if ($o !== null) {
@@ -135,20 +144,25 @@ $tarjeta = static function (?array $o, array $e) use ($icono, $trazoAlerta, $hor
         . ' data-svp-estado="' . Vista::e($o === null ? '' : (string) $o['estado']) . '"'
         . ' data-svp-creado="' . Vista::e($o === null ? '' : (string) $o['creado_en']) . '">'
 
+        // La cabeza lleva los dos datos que se leen de lejos: el numero que se
+        // canta por la ventanilla y cuanto lleva esperando.
         . '<div class="svp-tarjeta-cabeza">'
         . '<span class="svp-numero" data-svp-numero>' . Vista::e($o === null ? '' : (string) $o['numero']) . '</span>'
-        . '<span class="etiqueta ' . Vista::e($e['etiqueta']) . '">' . Vista::e($e['nombre']) . '</span>'
+        . '<span class="svp-crono">' . $icono($trazoReloj, 'svp-crono-icono')
+        . '<span class="svp-reloj numerica" data-svp-reloj>' . Vista::e($cronometro($segundos)) . '</span></span>'
         . '</div>'
 
+        . '<div class="svp-tarjeta-cuerpo">'
+
+        // El estado con su palabra, la hora de llegada y, si toca, la demora.
+        // El realce nunca es solo color: la etiqueta pone la palabra al lado.
         . '<p class="svp-tiempos">'
+        . '<span class="etiqueta ' . Vista::e($e['etiqueta']) . '">' . Vista::e($e['nombre']) . '</span>'
         . '<span>Recibida a las <span class="numerica" data-svp-recibida>'
         . Vista::e($o === null ? '--:--' : $horaDe((string) $o['creado_en'])) . '</span></span>'
-        . '<span class="svp-reloj numerica" data-svp-reloj>' . Vista::e($cronometro($segundos)) . '</span>'
-        . '</p>'
-
-        // El realce nunca es solo color: la etiqueta pone la palabra al lado.
         . '<span class="etiqueta etiqueta-demorada" data-svp-demora' . ($demorada ? '' : ' hidden') . '>'
         . $icono($trazoAlerta, 'etiqueta-icono') . 'Demorada</span>'
+        . '</p>'
 
         . '<ul class="svp-lineas" data-svp-lineas>'
         . implode('', array_map(
@@ -166,10 +180,11 @@ $tarjeta = static function (?array $o, array $e) use ($icono, $trazoAlerta, $hor
         . '</p>'
 
         // Sale deshabilitado y lo habilita svp.js: sin fetch no puede mover nada.
-        . '<button type="button" class="boton boton-relleno svp-avance"'
+        . '<button type="button" class="boton svp-avance"'
         . ' data-svp-avance="' . Vista::e($e['destino']) . '" disabled>'
-        . Vista::e($e['accion']) . '</button>'
+        . $icono($e['trazo'], 'boton-icono') . Vista::e($e['accion']) . '</button>'
 
+        . '</div>'
         . '</li>';
 };
 
@@ -232,10 +247,23 @@ $hayTurno = $turno !== null;
 
         <?php // Un tablero que se pinta solo tiene que decir que sigue vivo: sin
               // esto, una pantalla congelada y una cocina al dia se ven igual. ?>
-        <span class="svp-latido" data-svp-latido>
-            <span class="svp-latido-punto" aria-hidden="true"></span>
-            <span data-svp-latido-texto>Actualizado ahora</span>
-        </span>
+        <div class="svp-barra-controles">
+            <span class="svp-hora" data-svp-hora aria-hidden="true"></span>
+
+            <span class="svp-latido" data-svp-latido>
+                <span class="svp-latido-punto" aria-hidden="true"></span>
+                <span data-svp-latido-texto>Actualizado ahora</span>
+            </span>
+
+            <?php // El tablero vive en una pantalla de pared: a pantalla completa se
+                  // quitan la cabecera y la navegacion y queda solo la cocina. Sale
+                  // oculto y lo muestra svp.js, que es quien puede pedirla. ?>
+            <button type="button" class="boton boton-tonal svp-pantalla" data-svp-pantalla
+                    aria-pressed="false" hidden>
+                <?= $icono($trazoPantalla, 'boton-icono') ?>
+                <span data-svp-pantalla-texto>Pantalla completa</span>
+            </button>
+        </div>
     </div>
 
     <?php // El fallo del sondeo no borra el tablero: se avisa aqui, las ordenes

@@ -1,13 +1,20 @@
 /* carta.css — la carta publica que se abre desde el codigo QR.
    Menu08 · carta, caja y produccion para food trucks.
 
-   Solo la cargan las pantallas publicas, desde plantillas/publica.php. Recoge
-   lo que antes vivia como bloque provisional en componentes.css.
+   Solo la cargan las pantallas publicas, desde plantillas/publica.php.
 
    Telefono primero, y no por moda: el caso de uso es una persona de pie en la
    fila de la ventanilla, con una mano ocupada y a plena luz. De ahi salen las
-   tres decisiones de esta hoja —una columna, area de toque de 48 px y foto
-   cuadrada pequena— y por eso los anchos mayores solo ensanchan, no reordenan.
+   decisiones de esta hoja:
+
+     - EL ORDEN ES EL DE LAS PREGUNTAS. Portada —¿es este el truck?, ¿esta
+       abierto?—, punto —¿donde?— y carta —¿que hay y cuanto vale?—. La semana
+       completa va plegada, porque casi nadie la pregunta.
+     - CADA PRODUCTO ES UNA FICHA. El nombre y el precio se leen de un vistazo y
+       la foto va a la derecha, donde el pulgar la alcanza para ampliarla.
+     - LO PULSABLE MIDE 48 px. Chips, botones de contacto y fotos.
+
+   En pantallas anchas las fichas pasan a dos columnas; el orden no cambia.
 
    Ni un color literal: todo sale de los tokens de md3.css, asi que el modo
    oscuro funciona sin una sola regla propia.
@@ -17,129 +24,312 @@
 /* 1. Marco de la pagina publica -------------------------------------------- */
 
 .contenido-publico {
-  max-width: var(--ancho-carta);
+  /* El ancho se declara: body es una columna flexible y, con margen automatico
+     a los lados, un hijo sin ancho se encoge a lo que mide su contenido. */
+  width: 100%;
+  max-width: 62rem;
   margin-inline: auto;
-  padding: var(--esp-4) var(--esp-4) var(--esp-8);
+  padding: 0 var(--esp-4) var(--esp-8);
 }
 
-/* 2. Cabecera del negocio --------------------------------------------------- */
+/* El atributo hidden tiene que ganar dentro de la carta: carta.js esconde con el
+   fichas y categorias que traen su propio display, y una regla de autor le
+   ganaria a la del navegador en los que no la marcan como !important. */
+.carta [hidden] { display: none; }
 
-.carta-cabecera {
-  text-align: center;
-  margin-bottom: var(--esp-5);
+/* La marca de la plataforma: una linea fina, sin quitarle la pantalla al truck. */
+.carta-marca {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-3);
+  margin: 0;
+  padding-block: var(--esp-2);
+  font: var(--tipo-etiqueta-g);
 }
+
+.carta-marca a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-height: var(--toque);
+  color: var(--on-surface-variant);
+  text-decoration: none;
+}
+
+.carta-marca a:hover { color: var(--primary); }
+
+/* 2. Portada del negocio ----------------------------------------------------
+
+   Un cartel con los dos colores de la marca. El logotipo y el nombre comparten
+   renglon; la descripcion y el contacto van debajo, a todo el ancho. */
+
+.carta-portada {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--esp-4);
+  padding: var(--esp-5);
+  border-radius: var(--radio-xg);
+  background:
+    radial-gradient(36rem 18rem at 100% 0%, color-mix(in srgb, var(--secondary) 22%, transparent), transparent 70%),
+    linear-gradient(135deg, var(--primary-container), var(--secondary-container));
+  color: var(--on-primary-container);
+  animation: entra var(--mov-lento) both;
+}
+
+.carta-portada > * { margin-block: 0; }
 
 .carta-logo {
-  max-height: 6rem;
-  border-radius: var(--radio-m);
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border: 3px solid var(--surface);
+  border-radius: var(--radio-g);
+  background: var(--surface);
+  box-shadow: var(--elev-2);
 }
 
-.carta-descripcion {
-  color: var(--on-surface-variant);
+/* Sin logotipo, la inicial del nombre: mejor que un hueco. */
+.carta-logo-vacio {
+  display: grid;
+  place-items: center;
+  color: var(--primary);
+  font: var(--tipo-titulo-g);
+  text-transform: uppercase;
+}
+
+.carta-portada-texto { display: flex; flex-direction: column; gap: var(--esp-2); min-width: 0; }
+
+.carta-nombre {
+  margin: 0;
+  font-size: clamp(24px, 1rem + 3vw, 36px);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+/* El estado: abierto o cerrado, con la palabra y la hora. Es lo primero que se
+   quiere saber y se lee sin desplazar. */
+.carta-estado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-1) var(--esp-2);
+  margin: 0;
   font: var(--tipo-cuerpo-m);
 }
 
-.carta-contacto {
+.carta-estado-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-height: 28px;
+  padding: 0 var(--esp-3);
+  border-radius: var(--radio-completo);
+  font: var(--tipo-etiqueta-m);
+  letter-spacing: .3px;
+  white-space: nowrap;
+}
+
+.carta-estado-abierto { background: var(--degradado); color: var(--on-primary); }
+
+/* El punto que late: es un dato vivo, de este momento. */
+.carta-estado-abierto::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radio-completo);
+  background: currentColor;
+  --latido-tono: color-mix(in srgb, var(--on-primary) 60%, transparent);
+  animation: latido 2s var(--curva-salida) infinite;
+}
+
+.carta-estado-cerrado { background: var(--surface); color: var(--on-surface); }
+
+.carta-ciudad::before { content: "· "; }
+
+.carta-acerca { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: flex-start; gap: var(--esp-1); }
+
+.carta-descripcion { margin: 0; font: var(--tipo-cuerpo-m); }
+
+/* Tres renglones y el resto tras «Leer mas». La clase la pone carta.js: sin el,
+   la descripcion sale entera. */
+.carta-descripcion-corta {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+.carta-leer-mas {
+  min-height: 32px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--primary);
+  font: var(--tipo-etiqueta-g);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.carta-leer-mas:hover { background: none; color: var(--on-primary-container); }
+
+/* El contacto son acciones, no texto: cada boton hace algo. */
+.carta-acciones {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.carta-acciones .boton { min-height: var(--toque); }
+
+/* Sobre el cartel, el boton de contorno lleva fondo: transparente se perdia. */
+.carta-acciones .boton-contorno { background: color-mix(in srgb, var(--surface) 75%, transparent); border-color: transparent; }
+.carta-acciones .boton-contorno:hover { background: var(--surface); border-color: var(--primary); }
+
+.carta-accion-texto { font: var(--tipo-cuerpo-m); }
+
+@media (max-width: 480px) {
+  .carta-portada { padding: var(--esp-4); border-radius: var(--radio-g); gap: var(--esp-3); }
+  .carta-logo { width: 72px; height: 72px; }
+
+  /* En el telefono los botones se reparten el ancho: blancos grandes. */
+  .carta-acciones > li { flex: 1 1 auto; }
+  .carta-acciones .boton { width: 100%; }
+}
+
+/* 3. Donde estamos ----------------------------------------------------------
+
+   Nunca se queda vacia: sin parada abierta, dice cual es la proxima. TODO CABE
+   EN 320 px: ningun renglon tiene minimo mayor que su hueco, y lo que no cabe
+   salta de linea en vez de empujar la pagina. */
+
+.carta-agenda { margin-top: var(--esp-4); }
+
+.carta-agenda-rotulo {
+  margin: 0 0 var(--esp-2);
   color: var(--on-surface-variant);
-  font: var(--tipo-cuerpo-m);
+  font: var(--tipo-etiqueta-m);
+  letter-spacing: .6px;
+  text-transform: uppercase;
 }
 
-/* 3. Agenda de paradas ------------------------------------------------------
-
-   ES LO PRIMERO QUE SE MIRA. Quien abre esta carta esta en la fila y trae una
-   pregunta antes que el hambre: si el truck esta donde cree. Por eso el bloque
-   encabeza la pagina, por eso el punto va mas grande que el resto del texto y
-   por eso nunca se queda vacio: sin parada abierta, dice cuando vuelve.
-
-   TODO CABE EN 320 px. Es el ancho real del caso de uso —un telefono pequeno,
-   de pie, con una mano—, y a ese ancho el documento no se desplaza de lado:
-   ningun renglon de esta seccion tiene minimo mayor que su hueco, y los que no
-   caben saltan de linea en vez de empujar la pagina. */
-
-.carta-agenda {
-  margin-bottom: var(--esp-5);
-  padding: var(--esp-4);
-  background: var(--surface-container-low);
-  border-radius: var(--radio-m);
-}
-
-/* El destacado: la parada abierta, o la siguiente si no hay ninguna. */
 .carta-ahora {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--esp-1);
-  padding: var(--esp-3);
-  border-radius: var(--radio-p);
-  background: var(--tertiary-container);
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-3);
+  padding: var(--esp-4);
+  border: 1px solid color-mix(in srgb, var(--tertiary) 30%, transparent);
+  border-radius: var(--radio-g);
+  background: var(--degradado-suave);
   color: var(--on-tertiary-container);
 }
 
 /* Cerrado no es un error: es un horario. Va en el contenedor neutro de la
-   paleta y no en el rojo, que aqui significaria que algo se rompio. La palabra
-   la pone la etiqueta, que es lo que de verdad distingue los dos estados. */
+   paleta y no en el rojo, que aqui significaria que algo se rompio. */
 .carta-ahora-cerrado {
-  background: var(--surface-container-high);
+  border-color: var(--outline-variant);
+  background: var(--surface-container-low);
   color: var(--on-surface);
 }
 
+.carta-ahora-icono {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radio-completo);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.carta-ahora-icono svg { width: 22px; height: 22px; }
+
+.carta-ahora-texto { flex: 1 1 12rem; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.carta-ahora-texto > p { margin: 0; }
+
 /* El nombre del punto, que es el dato que se busca. Se deja partir por donde
-   haga falta: hay puntos con nombres largos y a 320 px no hay sitio para
-   negociar. */
-.carta-ahora-punto {
-  margin: var(--esp-1) 0 0;
-  font: var(--tipo-titulo-p);
-  overflow-wrap: anywhere;
+   haga falta: hay puntos con nombres largos. */
+.carta-ahora-punto { font: var(--tipo-titulo-p); overflow-wrap: anywhere; }
+.carta-ahora-referencia { font: var(--tipo-cuerpo-m); overflow-wrap: anywhere; }
+
+.carta-ahora-franja { display: flex; align-items: center; gap: var(--esp-2); font: var(--tipo-cuerpo-m); }
+.carta-ahora-franja svg { flex: none; width: 16px; height: 16px; }
+
+.carta-llegar { flex: none; min-height: var(--toque); }
+
+@media (max-width: 480px) {
+  .carta-llegar { flex: 1 1 100%; }
 }
 
-.carta-ahora-referencia {
-  margin: 0;
-  font: var(--tipo-cuerpo-m);
-  overflow-wrap: anywhere;
+/* La semana, plegada. */
+.carta-semana {
+  margin-top: var(--esp-2);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-g);
+  background: var(--surface);
 }
 
-.carta-ahora-horario { margin: var(--esp-1) 0 0; font: var(--tipo-cuerpo-g); }
-
-/* La franja completa, en pequeno y bajo el titular: dice el dia y las dos horas
-   sin competir con el «hasta las 15:00», que es lo que se lee de un vistazo. */
-.carta-ahora-franja {
-  margin: 0;
-  font: var(--tipo-cuerpo-p);
-  opacity: .85;
-}
-
-.carta-agenda-titulo {
-  margin: var(--esp-4) 0 var(--esp-1);
-  color: var(--on-surface-variant);
+.carta-semana-resumen {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-height: var(--toque);
+  padding: 0 var(--esp-4);
+  border-radius: var(--radio-g);
+  color: var(--on-surface);
   font: var(--tipo-etiqueta-g);
-  letter-spacing: .5px;
-  text-transform: uppercase;
+  cursor: pointer;
+  list-style: none;
+  transition: background-color var(--transicion), color var(--transicion);
 }
 
-.carta-paradas { list-style: none; margin: 0; padding: 0; }
+.carta-semana-resumen::-webkit-details-marker { display: none; }
+.carta-semana-resumen:hover { background: var(--tinte); color: var(--primary); }
+.carta-semana-resumen:focus-visible { outline: var(--foco); outline-offset: calc(var(--foco-separacion) * -1); }
+
+.carta-semana-cuenta {
+  min-width: 24px;
+  padding: 0 var(--esp-2);
+  border-radius: var(--radio-completo);
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-m);
+  line-height: 24px;
+  text-align: center;
+}
+
+.carta-semana-flecha { width: 20px; height: 20px; margin-left: auto; transition: transform var(--mov-medio); }
+.carta-semana[open] .carta-semana-flecha { transform: rotate(180deg); }
+
+.carta-paradas { list-style: none; margin: 0; padding: 0 var(--esp-2) var(--esp-2); }
 
 /* Un renglon por parada: dia, punto y franja. El punto es el unico que crece y
-   el unico que puede saltar de linea; el dia y la franja miden lo que miden. */
+   el unico que puede saltar de linea. */
 .carta-parada {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: var(--esp-2);
-  padding: var(--esp-2) 0;
-  border-bottom: 1px solid var(--outline-variant);
+  padding: var(--esp-2);
+  border-top: 1px solid var(--outline-variant);
 }
 
-.carta-parada:last-child { border-bottom: none; }
+/* Las paradas de hoy, senaladas: con la palabra «Hoy» y con el tinte. */
+.carta-parada-hoy { border-radius: var(--radio-p); background: var(--tinte); }
+.carta-parada-hoy .carta-parada-dia { color: var(--primary); }
 
-/* Tres letras del dia, en una caja de ancho fijo: asi la columna de puntos
-   arranca siempre en la misma linea vertical y la lista se lee de un barrido. */
-.carta-parada-dia {
-  flex: none;
-  min-width: 2.5rem;
-  color: var(--on-surface-variant);
-  font: var(--tipo-etiqueta-g);
-}
-
+/* El dia, en una caja de ancho fijo: asi la columna de puntos arranca siempre
+   en la misma linea vertical y la lista se lee de un barrido. */
+.carta-parada-dia { flex: none; min-width: 2.5rem; color: var(--on-surface-variant); font: var(--tipo-etiqueta-g); }
 .carta-parada-punto { flex: 1 1 8rem; min-width: 0; overflow-wrap: anywhere; }
 
 .carta-parada-horario {
@@ -150,26 +340,66 @@
   white-space: nowrap;
 }
 
-/* 4. Barra de categorias ----------------------------------------------------
+/* 4. Buscador y barra de categorias ----------------------------------------- */
 
-   Se queda pegada arriba al desplazar: en una carta de cinco categorias, volver
-   al principio para cambiar de bloque es justo lo que no se puede pedir a quien
-   esta en la fila.
+.carta-herramientas { margin-top: var(--esp-5); }
 
-   El scroll horizontal es de la barra, nunca del documento: por eso el
-   overflow-x va aqui dentro y no en el cuerpo. */
+.carta-buscador { position: relative; margin-bottom: var(--esp-2); }
 
+.carta-buscador-icono {
+  position: absolute;
+  left: var(--esp-4);
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  color: var(--on-surface-variant);
+  pointer-events: none;
+}
+
+.carta-buscador-campo {
+  width: 100%;
+  height: var(--toque);
+  padding: 0 var(--esp-4) 0 44px;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-completo);
+  background: var(--surface);
+  color: var(--on-surface);
+  font: var(--tipo-cuerpo-g);
+  box-shadow: var(--elev-1);
+  transition: border-color var(--transicion), box-shadow var(--transicion);
+}
+
+.carta-buscador-campo:hover { border-color: var(--outline); }
+
+.carta-buscador-campo:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--tinte-fuerte);
+}
+
+/* La barra se queda pegada arriba al desplazar: en una carta de cinco
+   categorias, volver al principio para cambiar de bloque es justo lo que no se
+   puede pedir a quien esta en la fila.
+
+   El scroll horizontal es de la barra, nunca del documento. */
 .carta-barra {
   position: sticky;
   top: 0;
   z-index: 5;
-  margin: 0 calc(var(--esp-4) * -1) var(--esp-4);
+  margin-inline: calc(var(--esp-4) * -1);
   padding: var(--esp-2) var(--esp-4);
-  background: var(--surface);
+  /* Translucida y con desenfoque: los productos pasan por debajo y se intuyen,
+     asi que la barra se lee como algo que flota sobre la carta. */
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--outline-variant);
   overflow-x: auto;
-  /* La barra se desplaza sola; el gesto no debe arrastrar la pagina detras. */
   overscroll-behavior-x: contain;
+  /* Fina, no escondida: con raton, la barra de desplazamiento es la unica pista
+     de que hay mas categorias a la derecha. */
+  scrollbar-width: thin;
 }
 
 .carta-barra ul {
@@ -177,146 +407,264 @@
   gap: var(--esp-2);
   list-style: none;
   margin: 0;
+  padding: 0;
   width: max-content;
 }
 
 .carta-barra a {
   display: inline-flex;
   align-items: center;
+  gap: var(--esp-2);
   /* 48 px: el minimo de toque del proyecto, por encima de los 44 de WCAG. */
   min-height: var(--toque);
   padding: 0 var(--esp-4);
+  border: 1px solid var(--outline-variant);
   border-radius: var(--radio-completo);
-  background: var(--surface-container);
+  background: var(--surface);
   color: var(--on-surface);
   font: var(--tipo-etiqueta-g);
   text-decoration: none;
   white-space: nowrap;
+  transition: background-color var(--transicion), color var(--transicion),
+              border-color var(--transicion), box-shadow var(--transicion), transform var(--transicion);
 }
 
-.carta-barra a:hover { background: var(--surface-container-high); }
+/* Cuantos productos hay en cada bloque: se sabe antes de saltar. */
+.carta-barra-cuenta {
+  min-width: 22px;
+  padding: 0 6px;
+  border-radius: var(--radio-completo);
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-m);
+  line-height: 22px;
+  text-align: center;
+  transition: background-color var(--transicion), color var(--transicion);
+}
 
-.carta-barra a:focus-visible {
-  outline: var(--foco);
-  outline-offset: calc(var(--foco-separacion) * -1);
+.carta-barra a:hover { background: var(--tinte); color: var(--primary); border-color: var(--primary); }
+.carta-barra a:focus-visible { outline: var(--foco); outline-offset: calc(var(--foco-separacion) * -1); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .carta-barra a:active { transform: scale(.96); }
 }
 
 /* La categoria que se esta leyendo. La marca interfaz.js al desplazar; sin
    JavaScript la barra sigue navegando igual, solo que sin resaltar. */
 .carta-barra a[aria-current="true"] {
-  background: var(--primary);
+  background: var(--degradado);
+  color: var(--on-primary);
+  border-color: var(--primary);
+  box-shadow: var(--elev-realce);
+}
+
+.carta-barra a[aria-current="true"] .carta-barra-cuenta {
+  background: color-mix(in srgb, var(--on-primary) 22%, transparent);
   color: var(--on-primary);
 }
 
-/* 5. Bloques de categoria y productos --------------------------------------- */
+.carta-sin-resultados {
+  margin: var(--esp-6) 0;
+  color: var(--on-surface-variant);
+  text-align: center;
+}
+
+/* 5. Bloques de categoria y fichas de producto ------------------------------ */
 
 .carta-categoria {
   /* La barra pegada arriba taparia el titulo al saltar al ancla. */
-  scroll-margin-top: calc(var(--toque) + var(--esp-4));
+  scroll-margin-top: calc(var(--toque) + var(--esp-5));
 }
 
 .carta-categoria h2 {
-  border-bottom: 2px solid var(--outline-variant);
-  padding-bottom: var(--esp-1);
-}
-
-.carta-lista {
-  list-style: none;
-  margin-bottom: var(--esp-5);
-}
-
-.carta-item {
-  display: flex;
-  gap: var(--esp-3);
-  align-items: flex-start;
-  padding: var(--esp-3) 0;
-  border-bottom: 1px solid var(--outline-variant);
-}
-
-.carta-item:last-child { border-bottom: none; }
-
-.carta-foto {
-  width: 4.5rem;
-  height: 4.5rem;
-  object-fit: cover;
-  border-radius: var(--radio-p);
-  flex: none;
-}
-
-/* Reemplazo del producto sin foto: mismo hueco, para que la lista no baile. */
-.carta-foto-vacia {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: var(--surface-container);
-  color: var(--on-surface-variant);
-}
-
-.carta-foto-vacia svg { width: 40%; height: 40%; }
-
-.carta-texto {
-  flex: 1;
-  /* Sin el minimo en cero, una descripcion larga estira la fila y saca la barra
-     horizontal del documento entero. */
-  min-width: 0;
-}
-
-/* Nombre y precio comparten renglon; la descripcion va debajo a todo el ancho
-   de la columna. Con el precio en su propia columna, a 360 px el nombre se
-   parte en tres renglones y la ficha se lee peor. */
-.carta-fila {
-  display: flex;
   gap: var(--esp-3);
-  align-items: baseline;
+  margin-block: var(--esp-5) var(--esp-3);
+}
+
+.carta-categoria h2::before {
+  content: "";
+  flex: none;
+  width: 4px;
+  height: 1.1em;
+  border-radius: var(--radio-completo);
+  background: linear-gradient(var(--primary), var(--secondary));
+}
+
+/* minmax(0, 1fr): sin el minimo en cero, una descripcion larga estira la
+   columna y saca la barra horizontal del documento entero. */
+.carta-lista {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--esp-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .carta-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--esp-4); }
+}
+
+/* La ficha. El texto a la izquierda, que es lo que se lee, y la foto a la
+   derecha, donde cae el pulgar para ampliarla. El precio va abajo y en el color
+   de la marca: es el dato que se compara de ficha en ficha, y asi queda siempre
+   en el mismo sitio. */
+.carta-item {
+  display: flex;
+  align-items: stretch;
   justify-content: space-between;
+  gap: var(--esp-3);
+  padding: var(--esp-3);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-g);
+  background: var(--surface);
+  box-shadow: var(--elev-1);
+  transition: border-color var(--transicion), box-shadow var(--mov-medio);
 }
 
-.carta-texto h3 {
-  font: var(--tipo-cuerpo-g);
-  font-weight: 500;
+@media (hover: hover) {
+  .carta-item:hover { border-color: var(--anillo); box-shadow: var(--elev-2); }
 }
 
-/* 14 px es el suelo que fija el issue: por debajo no se lee de pie y con sol. */
+.carta-texto { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--esp-1); }
+
+.carta-texto h3 { margin: 0; font-size: 16px; line-height: 22px; font-weight: 600; overflow-wrap: anywhere; }
+
+/* 14 px es el suelo que fija el issue: por debajo no se lee de pie y con sol.
+   Tres renglones como mucho: la ficha no crece sin limite y todas se parecen.
+   La descripcion entera se lee en el visor, al tocar la foto. */
 .carta-texto p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  margin: 0;
   color: var(--on-surface-variant);
   font: var(--tipo-cuerpo-m);
 }
 
-.carta-precio {
-  font-weight: 700;
-  white-space: nowrap;
+/* El pie de la ficha se va al fondo: con descripciones de distinto largo, el
+   precio queda alineado de una ficha a la de al lado. */
+.carta-pie { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-2); margin-top: auto; padding-top: var(--esp-2); }
+
+.carta-precio { color: var(--primary); font-size: 17px; line-height: 24px; font-weight: 700; white-space: nowrap; }
+
+.carta-foto {
+  display: block;
+  flex: none;
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: var(--radio-m);
+  transition: transform var(--mov-lento);
+}
+
+/* La foto es un enlace: se amplia al tocarla. El marco recorta el acercamiento
+   y lleva el anillo de foco. */
+.carta-foto-enlace {
+  position: relative;
+  display: block;
+  flex: none;
+  align-self: flex-start;
+  border-radius: var(--radio-m);
+  overflow: hidden;
+  box-shadow: var(--elev-1);
+}
+
+.carta-foto-enlace:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .carta-foto-enlace:hover .carta-foto { transform: scale(1.08); }
+}
+
+/* Reemplazo del producto sin foto: mismo hueco, para que las fichas no bailen. */
+.carta-foto-vacia {
+  display: grid;
+  place-items: center;
+  align-self: flex-start;
+  background: var(--surface-container);
+  color: var(--outline);
+}
+
+.carta-foto-vacia svg { width: 36%; height: 36%; }
+
+@media (min-width: 768px) {
+  .carta-item { padding: var(--esp-4); }
+  .carta-foto { width: 112px; height: 112px; }
 }
 
 /* 6. Producto agotado -------------------------------------------------------
 
    Se atenua, pero se queda: saber que hoy no hay chunchullo es informacion util
-   antes de llegar a la ventanilla. La atenuacion no decide sola —la tarjeta
-   lleva ademas la etiqueta "No disponible"—, porque md3.css advierte que la
-   banda calida de esta paleta es densa y el color solo no basta. */
+   antes de llegar a la ventanilla. La atenuacion no decide sola —la ficha lleva
+   ademas la etiqueta «No disponible»—. */
 
-.carta-item-agotado .carta-foto,
-.carta-item-agotado .carta-precio {
-  opacity: .45;
-}
+.carta-item-agotado { background: var(--surface-container-low); box-shadow: none; }
+
+.carta-item-agotado .carta-foto { opacity: .5; filter: grayscale(.6); }
 
 .carta-item-agotado .carta-texto h3,
-.carta-item-agotado .carta-texto p {
-  color: color-mix(in srgb, var(--on-surface) 45%, transparent);
+.carta-item-agotado .carta-texto p,
+.carta-item-agotado .carta-precio { color: color-mix(in srgb, var(--on-surface) 50%, transparent); }
+
+/* 7. Cierre y visor de fotos ------------------------------------------------ */
+
+.carta-cierre { margin-top: var(--esp-7); text-align: center; font: var(--tipo-cuerpo-m); }
+
+.carta-cierre a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-height: var(--toque);
+  color: var(--on-surface-variant);
+  text-decoration: none;
 }
 
-.carta-item-agotado .etiqueta { margin-top: var(--esp-2); }
+.carta-cierre a:hover { color: var(--primary); }
 
-/* 7. Pantallas anchas -------------------------------------------------------
-
-   Solo ensanchan. La carta sigue siendo una columna: en tableta o escritorio se
-   lee igual de bien y no hay que mantener una segunda maquetacion. */
-
-@media (min-width: 768px) {
-  .contenido-publico { padding-top: var(--esp-6); }
-
-  .carta-foto,
-  .carta-foto-vacia {
-    width: 6rem;
-    height: 6rem;
-  }
+/* El visor: la foto en grande, con el nombre, el precio y la descripcion
+   entera. <dialog> nativo: encierra el foco y atiende Escape. */
+.carta-visor {
+  width: min(30rem, calc(100vw - var(--esp-5)));
+  max-height: calc(100vh - var(--esp-5));
+  max-height: calc(100dvh - var(--esp-5));
+  padding: 0;
+  border: none;
+  border-radius: var(--radio-xg);
+  background: var(--surface);
+  color: var(--on-surface);
+  box-shadow: var(--elev-3);
+  overflow: auto;
 }
+
+.carta-visor[open] { animation: emerge var(--mov-medio) both; }
+
+.carta-visor::backdrop {
+  background: var(--velo);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  animation: aparece .2s var(--curva) both;
+}
+
+.carta-visor-cerrar { position: absolute; top: var(--esp-2); right: var(--esp-2); z-index: 1; margin: 0; }
+
+.carta-visor-cerrar .boton-simbolo {
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  box-shadow: var(--elev-1);
+}
+
+.carta-visor-cerrar .boton-simbolo:hover { background: var(--surface); }
+
+.carta-visor-foto { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 0; background: var(--surface-container); }
+
+.carta-visor-texto { display: flex; flex-direction: column; gap: var(--esp-2); padding: var(--esp-4) var(--esp-5) var(--esp-5); }
+
+.carta-visor-fila { display: flex; align-items: baseline; justify-content: space-between; gap: var(--esp-3); }
+
+.carta-visor-nombre { margin: 0; font: var(--tipo-titulo-p); overflow-wrap: anywhere; }
+
+.carta-visor-descripcion { margin: 0; color: var(--on-surface-variant); }
+.carta-visor-descripcion:empty { display: none; }

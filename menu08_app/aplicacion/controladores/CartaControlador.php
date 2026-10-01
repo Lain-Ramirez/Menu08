@@ -66,7 +66,11 @@ final class CartaControlador extends Controlador
                 'dias'         => Ubicacion::DIAS,
             ],
             sprintf('%s · carta', $truck['nombre']),
-            ['carta.css']
+            ['carta.css'],
+            200,
+            // El buscador, el visor de fotos y el «leer mas». La carta funciona
+            // entera sin el: son mejoras encima de anclas y enlaces de verdad.
+            ['carta.js']
         );
     }
 }

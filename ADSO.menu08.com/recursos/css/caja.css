@@ -26,11 +26,9 @@
         quepan, y el total y el boton siguen a la vista a cualquier alto de
         ventana porque la columna viaja con la pagina.
 
-   Se usa la segunda. La orden se limita ademas a --venta-tope, que caja.js
-   calcula como la distancia entre donde nace la columna y el borde de abajo de
-   la ventana: asi, ya de entrada y sin desplazar nada, el boton de cobro cae
-   dentro de la primera pantalla aunque la orden lleve quince renglones. Lo que
-   se desplaza entonces es la lista de renglones, por dentro.
+   Se usa la segunda. La columna crece con cada producto hasta que el boton de
+   cobro toca el borde de la ventana; a partir de ahi la lista de renglones se
+   desplaza por dentro. El tope de la lista lo mide caja.js al desplazar.
 
    Issue #18 · Fase 4 - Frontend */
 
@@ -74,6 +72,10 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--esp-3);
+  padding: var(--esp-3) var(--esp-4);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-m);
+  background: var(--surface-container-low);
 }
 
 .venta-turno-datos {
@@ -130,15 +132,22 @@
   font: var(--tipo-etiqueta-g);
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color var(--transicion), color var(--transicion);
+  transition: background-color var(--transicion), color var(--transicion),
+              border-color var(--transicion), box-shadow var(--transicion), transform var(--transicion);
 }
 
-.venta-chip:hover { background: var(--surface-container-high); }
+.venta-chip:hover { background: var(--tinte); color: var(--primary); border-color: var(--primary); }
 
-.venta-chip[aria-pressed="true"] {
-  background: var(--primary);
+@media (prefers-reduced-motion: no-preference) {
+  .venta-chip:active { transform: scale(.96); transition-duration: .06s; }
+}
+
+.venta-chip[aria-pressed="true"],
+.venta-chip[aria-pressed="true"]:hover {
+  background: var(--degradado);
   color: var(--on-primary);
   border-color: var(--primary);
+  box-shadow: var(--elev-realce);
 }
 
 .venta-chip-marca { display: none; width: 16px; height: 16px; flex: none; }
@@ -174,23 +183,39 @@
   gap: var(--esp-2);
   width: 100%;
   padding: var(--esp-2);
-  border: 1px solid transparent;
+  border: 1px solid var(--outline-variant);
   border-radius: var(--radio-m);
-  background: var(--surface-container-low);
+  background: var(--surface);
   color: var(--on-surface);
   box-shadow: var(--elev-1);
   text-align: left;
   font: inherit;
   cursor: pointer;
-  transition: box-shadow var(--transicion), background-color var(--transicion);
+  transition: box-shadow var(--mov-medio), border-color var(--transicion), transform var(--mov-medio);
 }
 
+/* La ficha responde en dos tiempos, y los dos importan en la ventanilla.
+
+   Al pasar el puntero se levanta y se enciende: dice cual se va a pulsar. Al
+   pulsar se hunde de golpe, en 60 ms: es la confirmacion de que el toque entro,
+   antes incluso de que el renglon aparezca en la orden. En una tableta —donde
+   no hay puntero que pasar— el hundimiento es la unica de las dos, y por eso
+   no va dentro de la guarda de hover. */
 .venta-ficha-boton:hover {
-  background: var(--surface-container);
-  box-shadow: var(--elev-2);
+  border-color: var(--anillo);
+  box-shadow: var(--elev-realce);
 }
 
-.venta-ficha-boton:active { box-shadow: var(--elev-1); }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .venta-ficha-boton:hover { transform: translateY(-2px); }
+  .venta-ficha-boton:hover .venta-ficha-marco .venta-ficha-foto { transform: scale(1.06); }
+}
+
+.venta-ficha-boton:active { box-shadow: var(--elev-1); border-color: var(--primary); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .venta-ficha-boton:active { transform: scale(.97); transition-duration: .06s; }
+}
 
 .venta-ficha-boton:focus-visible {
   outline: var(--foco);
@@ -205,7 +230,14 @@
   box-shadow: none;
 }
 
-.venta-ficha-boton:disabled:hover { background: var(--surface-container-low); }
+.venta-ficha-boton:disabled:hover,
+.venta-ficha-boton:disabled:active {
+  border-color: var(--outline-variant);
+  box-shadow: none;
+  transform: none;
+}
+
+.venta-ficha-boton:disabled:hover .venta-ficha-foto { transform: none; }
 
 /* 3:2 y no 4:3: la foto sigue reconociendose y la ficha baja unos 30 px, que
    es una fila mas de catalogo en una ventana de portatil. */
@@ -215,6 +247,26 @@
   object-fit: cover;
   border-radius: var(--radio-p);
   background: var(--surface-container);
+}
+
+/* El marco de la foto. Recorta el acercamiento: la foto crece dentro de su
+   hueco en vez de salirse por encima del nombre. El marco lleva la proporcion y
+   el radio, y la foto de dentro solo lo rellena. */
+.venta-ficha-marco {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--radio-p);
+  background: var(--surface-container);
+}
+
+.venta-ficha-marco .venta-ficha-foto {
+  display: block;
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: 0;
+  transition: transform var(--mov-lento);
 }
 
 /* Reemplazo del producto sin foto: mismo hueco, para que la reticula no baile.
@@ -235,11 +287,14 @@
 }
 
 .venta-ficha-precio {
+  color: var(--primary);
   font-size: 16px;
   line-height: 24px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
+
+.venta-ficha-boton:disabled .venta-ficha-precio { color: inherit; }
 
 .venta-vacio {
   margin: 0;
@@ -256,54 +311,96 @@
   gap: var(--esp-3);
   min-height: 0;
   padding: var(--esp-4);
-  border-radius: var(--radio-m);
-  background: var(--surface-container-low);
-  box-shadow: var(--elev-1);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-g);
+  background: var(--surface);
+  box-shadow: var(--elev-2);
 }
 
-/* Pegada al desplazar, y solo en dos zonas.
+/* LA ORDEN CRECE CON LO QUE LLEVA. La columna no tiene alto propio: mide lo
+   que miden sus renglones, y con cada producto que entra se alarga. Solo la
+   LISTA tiene tope, y es lo que deja libre la ventana una vez descontados la
+   cabecera de la orden, el total y el boton de cobro —lo mide caja.js al
+   desplazar—: mientras cabe no hay barra de desplazamiento ninguna, y cuando
+   ya no cabe la barra aparece en la lista y no en la pagina.
 
-   align-self:start es lo que la deja a su tamaño: sin eso la reticula la estira
-   hasta la altura del catalogo y, con la orden vacia, queda un recuadro enorme
-   con dos lineas de texto perdidas en el medio.
+   Antes el tope era de la columna entera y salia de medir la ventana: en una
+   pantalla baja dejaba sitio para un solo renglon, y la orden de seis productos
+   se veia como un renglon con una barra de desplazamiento al lado.
 
-   --venta-tope lo mide caja.js: es lo que va desde donde nace la columna hasta
-   el borde inferior de la ventana. Asi el boton de cobro entra en la primera
-   pantalla aunque la orden sea larga, y lo que se desplaza es la lista de
-   renglones. El valor de respaldo cubre el marco tipico por si no hay
-   JavaScript, aunque entonces la pantalla tampoco arma ordenes. */
+   align-self:start la deja a su tamaño: sin eso la reticula la estira hasta la
+   altura del catalogo. Se pega al desplazar solo con la orden empezada
+   —.venta-orden-llena, que pone caja.js—: vacia, un recuadro que persigue la
+   pagina estorba. Si el boton de cobro llega a quedar fuera de la vista, la
+   barra flotante de abajo lo tiene a mano. */
 @media (min-width: 1024px) {
-  .venta-orden {
+  .venta-orden { align-self: start; }
+
+  .venta-orden-llena {
     position: sticky;
     top: var(--esp-5);
-    align-self: start;
-    min-height: 18rem;
-    max-height: var(--venta-tope, calc(100vh - 15rem));
-    max-height: var(--venta-tope, calc(100dvh - 15rem));
   }
 }
 
 .venta-orden-cabeza {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--esp-2);
   flex: none;
+  padding-bottom: var(--esp-3);
+  border-bottom: 1px solid var(--outline-variant);
 }
 
 .venta-orden-titulo {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
   margin: 0;
   font: var(--tipo-titulo-p);
 }
 
+/* Cuantas unidades lleva la orden, junto al titulo. */
+.venta-orden-insignia {
+  min-width: 28px;
+  padding: 0 var(--esp-2);
+  border-radius: var(--radio-completo);
+  background: var(--degradado);
+  color: var(--on-primary);
+  font: var(--tipo-etiqueta-g);
+  line-height: 28px;
+  text-align: center;
+}
+
+.venta-orden-insignia[hidden] { display: none; }
+
+.venta-vaciar { color: var(--error); }
+.venta-vaciar:hover { color: var(--error); }
+
 .venta-lineas {
+  /* El tope de la lista lo mide caja.js en cada desplazamiento: la lista crece
+     hasta que el boton de cobro toca el borde de la ventana, y solo entonces se
+     desplaza por dentro. Este valor es el respaldo sin JavaScript, aunque
+     entonces la pantalla tampoco arma ordenes. */
+  max-height: clamp(13rem, calc(100vh - 21rem), 40rem);
+  /* Relativa: caja.js mide la posicion de cada renglon dentro de la lista para
+     llevar a la vista el que acaba de cambiar. */
+  position: relative;
   list-style: none;
   margin: 0;
   padding: 0;
+  /* Sombras de desplazamiento: cuando hay renglones por encima o por debajo
+     del borde, una sombra suave lo dice. Las dos capas «local» tapan la sombra
+     cuando se llega al extremo, y las dos «scroll» se quedan quietas en el
+     borde. Sin una linea de JavaScript. */
+  background:
+    linear-gradient(var(--surface) 30%, transparent) top / 100% 24px no-repeat local,
+    linear-gradient(transparent, var(--surface) 70%) bottom / 100% 24px no-repeat local,
+    radial-gradient(farthest-side at 50% 0, var(--sombra), transparent) top / 100% 10px no-repeat scroll,
+    radial-gradient(farthest-side at 50% 100%, var(--sombra), transparent) bottom / 100% 10px no-repeat scroll;
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
-  min-height: 0;
+  flex: none;
   overflow-y: auto;
   overscroll-behavior-y: contain;
 }
@@ -313,82 +410,205 @@
    en la mitad de abajo. */
 .venta-lineas:empty { display: none; }
 
+/* EL RENGLON VA EN DOS PISOS. Arriba, el nombre completo y el subtotal; abajo,
+   el unitario y el contador. En un solo piso —nombre, contador y subtotal en
+   fila— a una columna de 380 px le quedaban cien para el nombre, y
+   «Hamburguesa a la parrilla» salia como «Hamburguesa a l…»: el cajero no
+   podia comprobar que habia marcado lo que le pidieron.
+
+   caja.js emite el nombre y el unitario dentro de .venta-linea-texto; con
+   display: contents esa envoltura desaparece de la caja y los dos pasan a ser
+   celdas de la reticula, sin tocar el guion.
+
+   El renglon entra deslizando. caja.js lo crea una sola vez por producto y
+   despues solo le cambia la cifra, asi que la animacion corre cuando el
+   producto entra en la orden y no en cada «una mas». */
 .venta-linea {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "nombre   subtotal"
+    "unitario cantidad";
   align-items: center;
-  gap: var(--esp-1);
-  padding: var(--esp-1) 0;
+  gap: 2px var(--esp-3);
+  padding: var(--esp-2) 0;
   border-top: 1px solid var(--outline-variant);
+  animation: entra var(--mov-medio) both;
 }
 
 .venta-linea:first-child { border-top: none; }
 
-.venta-linea-texto { flex: 1; min-width: 0; }
+/* El renglon que acaba de entrar o de cambiar se enciende un momento: el tinte
+   de la marca y se apaga. Lo pone y lo reinicia caja.js. */
+.venta-linea-resalte { animation: venta-resalte 1.2s var(--curva-salida); }
+
+@keyframes venta-resalte {
+  0%, 30% { background: var(--tinte-fuerte); box-shadow: -8px 0 0 var(--tinte-fuerte), 8px 0 0 var(--tinte-fuerte); }
+  100%    { background: transparent; box-shadow: -8px 0 0 transparent, 8px 0 0 transparent; }
+}
+
+.venta-linea-texto { display: contents; }
 
 .venta-linea-nombre {
-  display: block;
+  grid-area: nombre;
   font: var(--tipo-etiqueta-g);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 15px;
+  line-height: 20px;
+  overflow-wrap: anywhere;
 }
 
 .venta-linea-unitario {
+  grid-area: unitario;
   color: var(--on-surface-variant);
   font: var(--tipo-cuerpo-p);
   font-variant-numeric: tabular-nums;
 }
 
+/* El contador, en una sola pieza: menos, cifra y mas dentro de la misma
+   pastilla. Se lee como un control y no como tres cosas sueltas. */
 .venta-linea-cantidad {
+  grid-area: cantidad;
   display: flex;
   align-items: center;
   gap: 2px;
-  flex: none;
+  padding: 2px;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-completo);
+  background: var(--surface-container-low);
 }
 
-/* 40 px y no 48: en una columna de 380 px, tres areas de 48 mas el subtotal
-   dejan el nombre en poco mas de cien pixeles y se corta casi siempre. El
-   trazo sigue siendo de 20 px y los tres botones estan separados, que es lo
-   que evita el error de pulsacion. */
+/* 40 px y no 48: caben los tres en la columna sin robarle sitio al nombre, el
+   trazo sigue siendo de 20 px y estan separados, que es lo que evita el error
+   de pulsacion. */
 .venta-linea-cantidad .boton-simbolo {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
+  background: var(--surface);
+  box-shadow: var(--elev-1);
 }
 
-.venta-linea-cantidad .boton-simbolo svg { width: 20px; height: 20px; }
+.venta-linea-cantidad .boton-simbolo:hover { background: var(--primary); color: var(--on-primary); }
+
+.venta-linea-cantidad .boton-simbolo svg { width: 18px; height: 18px; }
 
 .venta-linea-numero {
-  min-width: 26px;
+  min-width: 32px;
   text-align: center;
   font: var(--tipo-etiqueta-g);
-  font-size: 16px;
+  font-size: 17px;
   line-height: 24px;
   font-variant-numeric: tabular-nums;
+}
+
+/* El salto de la cifra al cambiar. La clase la pone y la reinicia caja.js. */
+@media (prefers-reduced-motion: no-preference) {
+  .venta-pulso { animation: venta-pulso .25s var(--curva-salida); }
+}
+
+@keyframes venta-pulso {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); color: var(--primary); }
+  100% { transform: scale(1); }
 }
 
 .venta-linea-subtotal {
-  flex: none;
-  width: 74px;
+  grid-area: subtotal;
+  align-self: start;
   text-align: right;
   font-size: 16px;
-  line-height: 24px;
-  font-weight: 500;
+  line-height: 20px;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
+/* Orden vacia: un icono, una frase que dice que pasa y otra que dice que
+   hacer. Un hueco en blanco con dos lineas grises parecia un fallo de carga. */
 .venta-orden-vacia {
-  flex: 1;
-  display: grid;
-  place-items: center;
-  margin: 0;
-  padding: var(--esp-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-1);
+  padding: var(--esp-4) var(--esp-3);
   color: var(--on-surface-variant);
   font: var(--tipo-cuerpo-m);
   text-align: center;
 }
 
+.venta-orden-vacia > p { margin: 0; }
+
+.venta-orden-vacia-icono {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: var(--esp-2);
+  border-radius: var(--radio-completo);
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+}
+
+.venta-orden-vacia-icono svg { width: 30px; height: 30px; }
+
+.venta-orden-vacia-titulo { color: var(--on-surface); font: var(--tipo-etiqueta-g); font-size: 16px; line-height: 24px; }
+
 /* Igual que en la ficha: el display de arriba pisa el del atributo hidden. */
 .venta-orden-vacia[hidden] { display: none; }
+
+/* La orden a mano: una barra flotante abajo con la cuenta y el total. La
+   muestra caja.js con la orden empezada y el boton de cobro fuera de la vista;
+   al tocarla, lleva a la orden. */
+.venta-flotante {
+  position: fixed;
+  left: 50%;
+  bottom: var(--esp-4);
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  width: min(26rem, calc(100vw - var(--esp-6)));
+  min-height: 56px;
+  padding: 0 var(--esp-3) 0 var(--esp-2);
+  border: none;
+  border-radius: var(--radio-completo);
+  background: var(--degradado);
+  color: var(--on-primary);
+  font: var(--tipo-etiqueta-g);
+  font-size: 16px;
+  box-shadow: var(--elev-3);
+  cursor: pointer;
+  transform: translateX(-50%);
+  animation: venta-flotante-entra var(--mov-medio) both;
+}
+
+.venta-flotante[hidden] { display: none; }
+.venta-flotante:hover { background: var(--degradado); box-shadow: var(--elev-realce), var(--elev-3); }
+.venta-flotante:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+.venta-flotante-cuenta {
+  display: grid;
+  place-items: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 var(--esp-2);
+  border-radius: var(--radio-completo);
+  background: var(--on-primary);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.venta-flotante-rotulo { flex: 1; text-align: left; }
+.venta-flotante-total { font-weight: 700; font-size: 18px; }
+
+@keyframes venta-flotante-entra {
+  from { opacity: 0; transform: translate(-50%, var(--esp-4)); }
+  to   { opacity: 1; transform: translateX(-50%); }
+}
+
+@media print {
+  .venta-flotante { display: none !important; }
+}
 
 /* ------------------------------------------------------------- el resumen */
 
@@ -402,20 +622,13 @@
   background: var(--surface-container);
 }
 
-/* Pegado abajo solo cuando la pantalla se apila: en un telefono la lista de
-   renglones puede ser mas larga que la ventana y el total tiene que seguir a la
-   vista. En dos zonas ya lo resuelve la columna pegada, y ahi sticky sobra.
+.venta-resumen-total { color: var(--primary); letter-spacing: -.02em; }
 
-   El corte va en 1023.98 y no en 1023 por lo mismo que el del marco en
-   componentes.css: el ancho puede ser fraccionario con el zoom del navegador,
-   y entre 1023 y 1024 no aplicaria ninguna de las dos consultas. */
-@media (max-width: 1023.98px) {
-  .venta-resumen {
-    position: sticky;
-    bottom: 0;
-    z-index: 1;
-  }
-}
+/* En el telefono el resumen ya no se pega abajo dentro de la columna: esa
+   tarea la hace la barra flotante de la orden, que ademas se ve aunque la
+   columna este fuera de la pantalla. Las dos juntas se montaban una encima de
+   la otra. */
+
 
 .venta-resumen-fila {
   display: flex;
@@ -427,8 +640,8 @@
 .venta-resumen-rotulo { font: var(--tipo-titulo-p); }
 
 .venta-resumen-total {
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 28px;
+  line-height: 36px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
@@ -438,10 +651,49 @@
 .venta-cobrar {
   flex: none;
   width: 100%;
-  min-height: 56px;
-  font-size: 16px;
+  min-height: 60px;
+  font-size: 17px;
   line-height: 24px;
 }
+
+.venta-cobrar .boton-icono { width: 22px; height: 22px; }
+
+/* El importe dentro del boton, separado del verbo por un filete: «Cobrar» dice
+   que hace y la cifra dice cuanto. Vacio no ocupa sitio. */
+.venta-cobrar-total {
+  margin-left: var(--esp-1);
+  padding-left: var(--esp-3);
+  border-left: 1px solid color-mix(in srgb, currentColor 40%, transparent);
+  font-weight: 700;
+}
+
+.venta-cobrar-total:empty { display: none; }
+
+/* La ficha del catalogo dice cuantas unidades lleva ya la orden. El atributo lo
+   pone caja.js; la insignia es de la hoja, asi que sin el guion no aparece. */
+.venta-ficha { position: relative; }
+
+.venta-ficha[data-venta-en-orden]::after {
+  content: attr(data-venta-en-orden);
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 28px;
+  padding: 0 var(--esp-2);
+  border: 2px solid var(--surface);
+  border-radius: var(--radio-completo);
+  background: var(--degradado);
+  color: var(--on-primary);
+  font: var(--tipo-etiqueta-g);
+  line-height: 24px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  box-shadow: var(--elev-1);
+  pointer-events: none;
+  animation: emerge var(--mov-medio) both;
+}
+
+.venta-ficha[data-venta-en-orden] .venta-ficha-boton { border-color: var(--primary); }
 
 /* ==================================================== 5. DIALOGO DE COBRO ==
    Se usa <dialog> nativo en vez del velo que dibuja interfaz.js: aquel se
@@ -457,13 +709,23 @@
   padding: 0;
   border: none;
   border-radius: var(--radio-xg);
-  background: var(--surface-container-high);
+  background: var(--surface);
   color: var(--on-surface);
   box-shadow: var(--elev-3);
   overflow: hidden;
 }
 
-.venta-dialogo::backdrop { background: var(--velo); }
+/* Misma entrada que el dialogo de confirmacion de interfaz.js: el velo aparece
+   y la caja emerge. Solo con [open]: cerrado, <dialog> es display:none y no hay
+   nada que animar. */
+.venta-dialogo[open] { animation: emerge var(--mov-medio) both; }
+
+.venta-dialogo::backdrop {
+  background: var(--velo);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  animation: aparece .2s var(--curva) both;
+}
 
 .venta-dialogo-cuerpo {
   display: flex;
@@ -486,10 +748,12 @@
   gap: var(--esp-3);
   padding: var(--esp-3) var(--esp-4);
   border-radius: var(--radio-m);
-  background: var(--surface);
+  background: var(--surface-container-low);
 }
 
 .venta-dialogo-total-valor {
+  color: var(--primary);
+  letter-spacing: -.02em;
   font-size: 32px;
   line-height: 40px;
   font-weight: 700;
@@ -536,16 +800,23 @@
   font: var(--tipo-etiqueta-m);
   text-align: center;
   cursor: pointer;
-  transition: background-color var(--transicion), color var(--transicion);
+  transition: background-color var(--transicion), color var(--transicion), border-color var(--transicion);
 }
+
+.venta-medio svg { transition: transform var(--mov-medio); }
 
 .venta-medio:first-of-type { border-radius: var(--radio-completo) 0 0 var(--radio-completo); }
 .venta-medio:last-of-type { border-radius: 0 var(--radio-completo) var(--radio-completo) 0; }
 .venta-medio + .venta-medio { border-left: none; }
 
-.venta-medio:hover { background: var(--surface-container); }
+.venta-medio:hover { background: var(--tinte); color: var(--primary); }
 
-.venta-medio:has(input:checked) {
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .venta-medio:hover svg:not(.venta-medio-marca) { transform: scale(1.12); }
+}
+
+.venta-medio:has(input:checked),
+.venta-medio:has(input:checked):hover {
   background: var(--secondary-container);
   color: var(--on-secondary-container);
 }
@@ -606,7 +877,7 @@
   gap: var(--esp-3);
   padding: var(--esp-3) var(--esp-4);
   border-radius: var(--radio-m);
-  background: var(--tertiary-container);
+  background: var(--degradado-suave);
   color: var(--on-tertiary-container);
 }
 
@@ -621,8 +892,10 @@
 
 /* Sin valor suficiente el cambio no es cero: es que todavia no se puede
    calcular. El bloque se apaga entero para que no se lea como un importe. */
+.venta-cambio { transition: background-color var(--mov-medio), color var(--mov-medio); }
+
 .venta-cambio-sin {
-  background: var(--surface);
+  background: var(--surface-container-low);
   color: var(--on-surface-variant);
 }
 

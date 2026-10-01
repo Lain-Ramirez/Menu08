@@ -48,7 +48,7 @@ if (Sesion::autenticado()) {
     echo Vista::renderizar('plantillas/navegacion');
 }
 ?>
-    <main class="contenido pila pila-5">
+    <main class="contenido pila pila-5" id="contenido" tabindex="-1">
         <?php $mensajes = Sesion::sacarMensajes(); ?>
 
         <?php if ($mensajes !== []) : ?>
@@ -61,10 +61,20 @@ if (Sesion::autenticado()) {
                         ? $mensaje['tipo']
                         : 'aviso';
                     ?>
-                    <div class="aviso aviso-<?= Vista::e($tipo) ?>"
-                         role="<?= $tipo === 'error' ? 'alert' : 'status' ?>">
+                    <div class="aviso aviso-<?= Vista::e($tipo) ?> aviso-cerrable"
+                         role="<?= $tipo === 'error' ? 'alert' : 'status' ?>" data-aviso-sesion="<?= Vista::e($tipo) ?>">
                         <?= $iconoAviso($tipo) ?>
                         <p><?= Vista::e($mensaje['texto']) ?></p>
+
+                        <?php // Se puede quitar de en medio una vez leido. Sale oculto y
+                              // lo muestra interfaz.js, que es quien puede retirarlo. ?>
+                        <button type="button" class="boton-simbolo aviso-cerrar" data-aviso-cerrar
+                                aria-label="Cerrar el aviso" hidden>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M6 6l12 12"></path><path d="M18 6 6 18"></path>
+                            </svg>
+                        </button>
                     </div>
                 <?php endforeach; ?>
             </div>

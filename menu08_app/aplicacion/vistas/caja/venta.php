@@ -47,6 +47,8 @@ $icono = static fn (string $trazos, string $clase = ''): string => sprintf(
 
 $trazoReloj  = '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>';
 $trazoCheck  = '<path d="m5 12.5 4.5 4.5L19 7"/>';
+$trazoBasura = '<path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/>';
+$trazoBolsa  = '<path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>';
 $trazoCarro  = '<path d="M3 5h2l2.2 10.2a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.55L20.5 9H6"/>'
              . '<circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/>';
 $trazoImagen = '<path d="M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5"/>'
@@ -66,6 +68,17 @@ $medios = [
 if (!array_key_exists($medioPago, $medios)) {
     $medioPago = 'efectivo';
 }
+
+/**
+ * Estados de una orden en el listado del turno: la clase de la etiqueta y la
+ * palabra. Son los de Orden::TRANSICIONES, con las mismas etiquetas del SVP.
+ */
+$estadosOrden = [
+    'pendiente'      => ['etiqueta-pendiente', 'Pendiente'],
+    'en_preparacion' => ['etiqueta-preparacion', 'En preparación'],
+    'lista'          => ['etiqueta-lista', 'Lista'],
+    'entregada'      => ['etiqueta-entregada', 'Entregada'],
+];
 
 /** Categorias presentes en el catalogo, en el orden en que las trae el modelo. */
 $categorias = [];
@@ -118,7 +131,7 @@ $abierto = $turno !== null;
                 <span class="venta-turno-cifras">
                     <?= Vista::e($turno['cajero']) ?> ·
                     <strong><?= (int) ($resumen['ordenes'] ?? 0) ?></strong>
-                    <?= ((int) ($resumen['ordenes'] ?? 0)) === 1 ? 'orden' : 'ordenes' ?> ·
+                    <?= ((int) ($resumen['ordenes'] ?? 0)) === 1 ? 'orden' : 'órdenes' ?> ·
                     <strong><?= Vista::e($peso($resumen['total'] ?? 0)) ?></strong> vendido
                 </span>
             <?php else : ?>
@@ -192,9 +205,14 @@ $abierto = $turno !== null;
                                     data-precio="<?= $centavos ?>"
                                     data-nombre="<?= Vista::e($p['nombre']) ?>">
                                 <?php if (!empty($p['foto'])) : ?>
-                                    <img class="venta-ficha-foto"
-                                         src="<?= Vista::e(Vista::url('/subidas/' . $p['foto'])) ?>"
-                                         alt="" loading="lazy">
+                                    <?php // El marco recorta el acercamiento de la foto
+                                          // al pasar el puntero: crece dentro de su
+                                          // hueco, no por encima del nombre. ?>
+                                    <span class="venta-ficha-marco">
+                                        <img class="venta-ficha-foto"
+                                             src="<?= Vista::e(Vista::url('/subidas/' . $p['foto'])) ?>"
+                                             alt="" loading="lazy">
+                                    </span>
                                 <?php else : ?>
                                     <?php // Mismo hueco que la foto, para que la
                                           // reticula no baile. ?>
@@ -224,35 +242,54 @@ $abierto = $turno !== null;
         </section>
 
         <?php // -------------------------------------- orden en construccion ?>
-        <aside class="venta-orden" aria-labelledby="venta-orden-titulo">
+        <aside class="venta-orden" aria-labelledby="venta-orden-titulo" data-venta-orden>
             <div class="venta-orden-cabeza">
-                <h2 class="venta-orden-titulo" id="venta-orden-titulo">Orden</h2>
+                <h2 class="venta-orden-titulo" id="venta-orden-titulo">
+                    Orden
+                    <?php // Cuantas unidades lleva, al lado del titulo: se ve sin bajar
+                          // la vista al resumen. Lo escribe caja.js y sale oculta
+                          // mientras la orden esta vacia. ?>
+                    <span class="venta-orden-insignia numerica" data-venta-insignia aria-hidden="true" hidden>0</span>
+                </h2>
 
-                <button type="button" class="boton boton-texto" data-venta-vaciar disabled>Vaciar</button>
+                <button type="button" class="boton boton-texto venta-vaciar" data-venta-vaciar disabled>
+                    <?= $icono($trazoBasura, 'boton-icono') ?>Vaciar
+                </button>
             </div>
 
             <ul class="venta-lineas" data-venta-lineas></ul>
 
-            <p class="venta-orden-vacia" data-venta-orden-vacia>
-                Toque un producto del catálogo para empezar la orden.
-            </p>
+            <div class="venta-orden-vacia" data-venta-orden-vacia>
+                <span class="venta-orden-vacia-icono" aria-hidden="true"><?= $icono($trazoBolsa) ?></span>
+                <p class="venta-orden-vacia-titulo">La orden está vacía</p>
+                <p>Toque un producto del catálogo para empezar la orden.</p>
+            </div>
 
+            <?php // Los articulos ya los cuenta la insignia del titulo: el resumen
+                  // se queda con el total, y la lista gana un renglon a la vista. ?>
             <div class="venta-resumen">
-                <div class="venta-resumen-fila texto-m texto-apagado">
-                    <span>Artículos</span>
-                    <span class="cifra" data-venta-unidades>0</span>
-                </div>
-
                 <div class="venta-resumen-fila">
                     <span class="venta-resumen-rotulo">Total</span>
                     <span class="venta-resumen-total" data-venta-total><?= Vista::e($peso(0)) ?></span>
                 </div>
             </div>
 
+            <?php // El boton lleva el importe: «Cobrar $ 44.700» dice lo que va a
+                  // pasar al pulsarlo, y el cajero lo lee sin buscar el total. ?>
             <button type="button" class="boton boton-relleno venta-cobrar" data-venta-cobrar disabled>
                 <?= $icono($trazoCarro, 'boton-icono') ?>Cobrar
+                <span class="venta-cobrar-total numerica" data-venta-cobrar-total></span>
             </button>
         </aside>
+
+        <?php // La orden a mano cuando no se ve: en el telefono queda debajo del
+              // catalogo. La muestra caja.js con la orden empezada y el boton de
+              // cobro fuera de la vista; al tocarla, lleva a la orden. ?>
+        <button type="button" class="venta-flotante" data-venta-flotante hidden>
+            <span class="venta-flotante-cuenta numerica" data-venta-flotante-cuenta>0</span>
+            <span class="venta-flotante-rotulo">Ver la orden</span>
+            <span class="venta-flotante-total numerica" data-venta-flotante-total></span>
+        </button>
     </div>
 
     <?php // ------------------------------------------------ dialogo de cobro
@@ -371,15 +408,30 @@ $abierto = $turno !== null;
                                 <td data-etiqueta="Número"><?= Vista::e($o['numero']) ?></td>
                                 <td data-etiqueta="Total" class="cifra"><?= Vista::e($peso($o['total'])) ?></td>
                                 <td data-etiqueta="Medio"><?= Vista::e(ucfirst((string) $o['medio_pago'])) ?></td>
-                                <td data-etiqueta="Estado"><?= Vista::e($o['estado']) ?></td>
+                                <td data-etiqueta="Estado">
+                                    <?php // El mismo codigo de color y la misma palabra que el
+                                          // tablero del SVP. Un estado que no este en la
+                                          // tabla se imprime tal cual llega. ?>
+                                    <?php $e = $estadosOrden[(string) $o['estado']] ?? null; ?>
+                                    <?php if ($e === null) : ?>
+                                        <?= Vista::e($o['estado']) ?>
+                                    <?php else : ?>
+                                        <span class="etiqueta <?= Vista::e($e[0]) ?>"><?= Vista::e($e[1]) ?></span>
+                                    <?php endif; ?>
+                                </td>
                                 <td data-etiqueta="Hora" class="numerica">
                                     <?= Vista::e(substr((string) $o['creado_en'], 11, 5)) ?>
                                 </td>
-                                <td class="tabla-acciones">
-                                    <a class="boton boton-texto"
-                                       href="<?= Vista::e(Vista::url('/caja/comprobante/' . $o['id'])) ?>">
-                                        Comprobante
-                                    </a>
+                                <td class="columna-minima">
+                                    <?php // Las acciones van en su envoltura y no en la
+                                          // celda: display:flex sobre un <td> le quita el
+                                          // papel de celda y descuadra la fila. ?>
+                                    <div class="tabla-acciones">
+                                        <a class="boton boton-texto"
+                                           href="<?= Vista::e(Vista::url('/caja/comprobante/' . $o['id'])) ?>">
+                                            Comprobante
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

@@ -17,14 +17,25 @@ use Menu08\Nucleo\Vista;
  * @var string|null                $inicio   ruta del modulo del usuario en sesion
  */
 $hm = static fn (mixed $h): string => substr((string) $h, 0, 5);
+
+/** Cuantos estan abiertos ahora: es el filtro que mas se usa con hambre. */
+$abiertos = count(array_filter($trucks, static fn (array $t): bool => $t['vigente'] !== null));
 ?>
 <div class="pila pila-7">
 
     <header class="portada-encabezado">
-        <h1 class="portada-titulo">Que hay para comer hoy</h1>
+        <p class="portada-sobretitulo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"></path>
+                <circle cx="12" cy="10" r="2.5"></circle>
+            </svg>
+            Food trucks de la ciudad
+        </p>
+        <h1 class="portada-titulo">¿Qué hay para comer hoy?</h1>
         <p class="portada-entrada">
-            Menu08 reune las cartas de los food trucks de la ciudad. Abra una para ver que venden,
-            a que precio y donde estan parados en este momento.
+            Menu08 reúne las cartas de los food trucks de la ciudad. Abra una para ver qué venden,
+            a qué precio y dónde están parados en este momento.
         </p>
     </header>
 
@@ -42,8 +53,33 @@ $hm = static fn (mixed $h): string => substr((string) $h, 0, 5);
         </div>
     <?php endif; ?>
 
-    <section class="pila pila-4" aria-labelledby="titulo-trucks">
+    <section class="pila pila-4" aria-labelledby="titulo-trucks" data-filtro>
         <h2 id="titulo-trucks" class="solo-lectores">Food trucks</h2>
+
+        <?php // Buscar y quedarse con los abiertos. Filtra las fichas ya pintadas,
+              // sin consulta; sale oculto y lo muestra interfaz.js, asi que sin
+              // JavaScript la lista se ve entera. ?>
+        <?php if (count($trucks) > 1) : ?>
+            <div class="filtro" data-filtro-controles hidden>
+                <div class="buscador">
+                    <svg class="buscador-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path>
+                    </svg>
+                    <input class="buscador-campo" type="search" placeholder="Buscar un food truck"
+                           aria-label="Buscar un food truck" autocomplete="off" data-filtro-texto>
+                </div>
+
+                <div class="filtro-chips" role="group" aria-label="Filtrar por estado">
+                    <button type="button" class="chip" data-filtro-marca="" aria-pressed="true">
+                        Todos <span class="chip-cuenta numerica"><?= count($trucks) ?></span>
+                    </button>
+                    <button type="button" class="chip" data-filtro-marca="abierto" aria-pressed="false">
+                        Abiertos ahora <span class="chip-cuenta numerica"><?= (int) $abiertos ?></span>
+                    </button>
+                </div>
+            </div>
+        <?php endif; ?>
 
         <?php if ($trucks === []) : ?>
             <div class="aviso aviso-aviso" role="status">
@@ -53,20 +89,22 @@ $hm = static fn (mixed $h): string => substr((string) $h, 0, 5);
                     <path d="M12 10v3.5"></path><path d="M12 17h.01"></path>
                 </svg>
                 <p>
-                    <strong>Atencion.</strong> Todavia no hay ningun food truck publicado.
+                    <strong>Atención.</strong> Todavía no hay ningún food truck publicado.
                     Vuelva en un momento.
                 </p>
             </div>
         <?php else : ?>
             <ul class="portada-lista">
                 <?php foreach ($trucks as $t) : ?>
-                    <li>
+                    <li data-filtro-item
+                        data-filtro-marcas="<?= $t['vigente'] !== null ? 'abierto' : 'cerrado' ?>"
+                        data-filtro-busca="<?= Vista::e(trim(($t['nombre'] ?? '') . ' ' . ($t['ciudad'] ?? '') . ' ' . ($t['descripcion'] ?? '') . ' ' . ($t['vigente']['nombre'] ?? ''))) ?>">
                         <?php // El enlace envuelve la tarjeta entera: en el telefono, el blanco
                               // pulsable es toda la ficha y no solo el nombre. ?>
                         <a class="tarjeta tarjeta-elevada portada-truck"
                            href="<?= Vista::e(Vista::url('/carta/' . $t['slug'])) ?>">
                             <?php if (!empty($t['logo'])) : ?>
-                                <img class="portada-logo" width="64" height="64" decoding="async"
+                                <img class="portada-logo" width="72" height="72" decoding="async"
                                      src="<?= Vista::e(Vista::url('/subidas/' . $t['logo'])) ?>"
                                      alt="Logotipo de <?= Vista::e($t['nombre']) ?>">
                             <?php else : ?>
@@ -119,6 +157,10 @@ $hm = static fn (mixed $h): string => substr((string) $h, 0, 5);
                     </li>
                 <?php endforeach; ?>
             </ul>
+
+            <p class="filtro-vacio" data-filtro-vacio role="status" hidden>
+                Ningún food truck coincide. Pruebe con otro nombre o vea todos.
+            </p>
         <?php endif; ?>
     </section>
 
@@ -129,7 +171,7 @@ $hm = static fn (mixed $h): string => substr((string) $h, 0, 5);
             <div class="portada-personal-texto">
                 <h2 class="portada-personal-titulo">Trabaja en un food truck</h2>
                 <p class="texto-apagado texto-m">
-                    Entre para administrar su carta, atender la caja o ver el tablero de produccion.
+                    Entre para administrar su carta, atender la caja o ver el tablero de producción.
                 </p>
             </div>
             <a class="boton boton-contorno" href="<?= Vista::e(Vista::url('/ingresar')) ?>">Ingresar</a>

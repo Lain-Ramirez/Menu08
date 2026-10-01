@@ -35,9 +35,16 @@
 .comprobante-mesa {
   display: grid;
   place-items: center;
-  padding: var(--esp-5);
-  border-radius: var(--radio-m);
-  background: var(--surface-container);
+  padding: var(--esp-6) var(--esp-5);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-g);
+  /* La mesa: una trama fina de puntos bajo el papel, para que la cinta se lea
+     como un objeto apoyado encima y no como un recuadro mas de la pagina. Es
+     un degradado, no una imagen, y no sale en el papel: en la impresion la mesa
+     pierde el fondo. */
+  background:
+    radial-gradient(var(--outline-variant) 1px, transparent 1.5px) 0 0 / 16px 16px,
+    var(--surface-container);
 }
 
 .comprobante-medida {
@@ -57,7 +64,10 @@
 .comprobante-hoja {
   border: 1px solid var(--outline-variant);
   border-radius: var(--radio-xp);
-  box-shadow: var(--elev-1);
+  /* Sin animacion de entrada, y a proposito: comprobante.js abre el dialogo de
+     impresion en cuanto carga la pagina, y una cinta a medio aparecer saldria
+     en blanco por el rollo. */
+  box-shadow: var(--elev-3);
   overflow: hidden;
 }
 
@@ -239,7 +249,7 @@
      ventana que centrar ni borde del que alejarse. */
   .contenido { max-width: none; padding: 0; gap: 0; }
 
-  .comprobante-mesa { display: block; padding: 0; border-radius: 0; background: none; }
+  .comprobante-mesa { display: block; padding: 0; border: none; border-radius: 0; background: none; }
   .comprobante-medida { display: none; }
   .comprobante-hoja { border: none; border-radius: 0; box-shadow: none; overflow: visible; }
 

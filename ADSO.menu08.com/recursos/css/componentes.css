@@ -41,8 +41,12 @@
   font: var(--tipo-etiqueta-g);
   letter-spacing: .1px;
   text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
-  transition: box-shadow var(--transicion), background-color var(--transicion);
+  user-select: none;
+  transition: box-shadow var(--transicion), background-color var(--transicion),
+              border-color var(--transicion), color var(--transicion),
+              transform var(--transicion);
 }
 
 .boton::after {
@@ -57,23 +61,81 @@
 }
 
 .boton:hover::after { opacity: .08; }
-.boton:active::after { opacity: .12; }
+.boton:active::after { opacity: .14; }
 .boton:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
 
-.boton-icono { width: 18px; height: 18px; flex: none; }
+/* Un enlace con aspecto de boton no se comporta como enlace de texto al pasar:
+   ni subrayado ni el tono oscuro de a:hover, de base.css. El color lo fija
+   cada variante en su propio :hover, mas abajo. */
+a.boton:hover { text-decoration: none; }
+
+.boton-icono { width: 18px; height: 18px; flex: none; transition: transform var(--transicion); }
 
 /* Variantes */
-.boton-relleno { background: var(--primary); color: var(--on-primary); }
-.boton-relleno:hover { box-shadow: var(--elev-2); }
+.boton-relleno { background: var(--primary); color: var(--on-primary); box-shadow: var(--elev-1); }
+.boton-relleno:hover { color: var(--on-primary); box-shadow: var(--elev-realce); }
 
 .boton-tonal { background: var(--secondary-container); color: var(--on-secondary-container); }
+.boton-tonal:hover { color: var(--on-secondary-container); box-shadow: var(--elev-1); }
 
 .boton-contorno { background: transparent; color: var(--primary); border: 1px solid var(--outline); }
+.boton-contorno:hover { color: var(--primary); border-color: var(--primary); background: var(--tinte); }
 
 .boton-texto { background: transparent; color: var(--primary); padding: 0 var(--esp-3); }
+.boton-texto:hover { color: var(--primary); }
 
-.boton-peligro { background: var(--error); color: var(--on-error); }
-.boton-peligro:hover { box-shadow: var(--elev-2); }
+.boton-peligro { background: var(--error); color: var(--on-error); box-shadow: var(--elev-1); }
+
+.boton-peligro:hover {
+  color: var(--on-error);
+  box-shadow: 0 4px 8px var(--sombra-tenue),
+              0 14px 28px -10px color-mix(in srgb, var(--error) 50%, transparent);
+}
+
+/* La respuesta fisica. Al pasar el puntero el boton se levanta un pixel; al
+   pulsar se hunde. Son dos senales distintas y las dos hacen falta: la primera
+   dice «esto se puede pulsar» y la segunda «lo has pulsado».
+
+   Dos guardas. (hover: hover) deja fuera a las pantallas tactiles, donde :hover
+   se queda pegado despues del toque y el boton apareceria levantado hasta tocar
+   otra cosa. Y prefers-reduced-motion deja fuera a quien pidio menos
+   movimiento: para esa persona el boton sigue respondiendo con color y sombra,
+   que no se mueven.
+
+   :where() deja la especificidad en cero para los :not(): asi estas reglas no
+   le ganan a las de deshabilitado que vienen debajo. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .boton:where(:not(:disabled):not([aria-disabled="true"])):hover { transform: translateY(-1px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .boton:where(:not(:disabled):not([aria-disabled="true"])):active {
+    transform: scale(.98);
+    transition-duration: .06s;
+  }
+}
+
+.boton-relleno:active, .boton-peligro:active { box-shadow: var(--elev-1); }
+
+/* Ocupado: el envio ya salio y se espera la respuesta. Lo pone interfaz.js al
+   enviar un formulario. El icono cede su sitio a un anillo que gira, y el boton
+   deja de atender al puntero para que un segundo clic no mande un segundo
+   envio. No se deshabilita: un boton deshabilitado no viaja con el formulario,
+   y hay formularios que dependen de cual se pulso. */
+.boton-ocupado { pointer-events: none; cursor: progress; }
+
+.boton-ocupado::before {
+  content: "";
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--radio-completo);
+  animation: giro .7s linear infinite;
+}
+
+.boton-ocupado .boton-icono { display: none; }
 
 /* A lo ancho: en el telefono el blanco util es toda la fila. */
 .boton-bloque { width: 100%; }
@@ -92,6 +154,17 @@
 .boton:disabled::after,
 .boton[aria-disabled="true"]::after { display: none; }
 
+/* Las variantes pintan fondo y borde en su :hover, que pesa lo mismo que la
+   regla de arriba y va antes en la hoja. Se repite aqui para que un boton
+   apagado no se encienda al pasar el puntero. */
+.boton:disabled:hover,
+.boton[aria-disabled="true"]:hover {
+  background: color-mix(in srgb, var(--on-surface) 12%, transparent);
+  color: color-mix(in srgb, var(--on-surface) 38%, transparent);
+  border-color: transparent;
+  box-shadow: none;
+}
+
 /* Boton de solo icono. El trazo mide 24 px pero el blanco pulsable llega al
    minimo de toque. */
 .boton-simbolo {
@@ -105,10 +178,19 @@
   background: transparent;
   color: var(--on-surface);
   cursor: pointer;
+  transition: background-color var(--transicion), color var(--transicion), transform var(--transicion);
 }
 
-.boton-simbolo:hover { background: var(--surface-container-high); }
+/* El trazo mide 24 px y el blanco pulsable 48. Sin medida propia, el SVG se
+   estiraba hasta llenar el boton: las tres rayas del menu salian de 48 px. */
+.boton-simbolo svg { width: 24px; height: 24px; }
+
+.boton-simbolo:hover { background: var(--tinte-fuerte); color: var(--primary); }
 .boton-simbolo:focus-visible { outline: var(--foco); outline-offset: calc(var(--foco-separacion) * -1); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .boton-simbolo:active { transform: scale(.9); transition-duration: .06s; }
+}
 
 /* ================================================== 2. CAMPO DE FORMULARIO ==
    Campo con contorno de MD3: 56 px de alto, radio de 4 px y rotulo que sube a
@@ -138,10 +220,14 @@
   background: transparent;
   color: var(--on-surface);
   border: 1px solid var(--outline);
-  border-radius: var(--radio-xp);
+  border-radius: var(--radio-p);
   font: var(--tipo-cuerpo-g);
-  transition: border-color var(--transicion);
+  transition: border-color var(--transicion), box-shadow var(--transicion);
 }
+
+/* Al pasar el puntero el contorno se oscurece: dice «aqui se escribe» antes de
+   hacer clic, y no toca el grosor, asi que el campo no se mueve. */
+.campo-control:hover:not(:focus):not(:disabled) { border-color: var(--on-surface); }
 
 .campo-area { height: auto; min-height: 96px; resize: vertical; }
 
@@ -166,10 +252,14 @@
   font: var(--tipo-cuerpo-p);
 }
 
+/* Con foco, ademas del borde de 2 px, un halo del color de la marca. El borde
+   solo es una linea fina de leer de pie y con prisa; el halo se ve de reojo y
+   dice en que campo se esta sin tener que buscarlo. */
 .campo-control:focus {
   outline: none;
   border: 2px solid var(--primary);
   padding: 15px;
+  box-shadow: 0 0 0 4px var(--tinte-fuerte);
 }
 
 /* El rotulo sube cuando hay foco, cuando hay valor, o cuando la vista lo
@@ -190,8 +280,13 @@
 .campo-foco .campo-control { border: 2px solid var(--primary); padding: 15px; }
 
 /* Error */
-.campo-error .campo-control { border-color: var(--error); }
-.campo-error .campo-control:focus { border-color: var(--error); }
+.campo-error .campo-control,
+.campo-error .campo-control:hover:not(:focus):not(:disabled) { border-color: var(--error); }
+
+.campo-error .campo-control:focus {
+  border-color: var(--error);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--error) 14%, transparent);
+}
 .campo-error .campo-etiqueta,
 .campo-error .campo-apoyo { color: var(--error); }
 
@@ -233,6 +328,12 @@
   border-radius: var(--radio-m);
 }
 
+/* Dentro de la tarjeta el hueco lo reparte su gap, asi que el margen de flujo
+   de titulos y parrafos sobra: es la misma regla que base.css aplica a .pila,
+   .fila y .rejilla. Sin ella, un <h2> como titulo de tarjeta arrastra sus 24 px
+   de arriba y el titulo queda hundido respecto al borde. */
+.tarjeta > * { margin-block: 0; }
+
 .tarjeta-elevada { background: var(--surface-container-low); box-shadow: var(--elev-1); }
 .tarjeta-rellena { background: var(--surface-container-high); }
 .tarjeta-contorno { background: var(--surface); border-color: var(--outline-variant); }
@@ -248,11 +349,30 @@
   color: inherit;
   text-decoration: none;
   cursor: pointer;
-  transition: box-shadow var(--transicion), background-color var(--transicion);
+  transition: box-shadow var(--mov-medio), background-color var(--transicion),
+              border-color var(--transicion), transform var(--mov-medio);
 }
 
-.tarjeta-enlace:hover { background: var(--surface-container); color: inherit; }
+/* La tarjeta pulsable se enciende: borde de la marca, sombra tenida y un
+   pequeno despegue. Es la misma respuesta en todas las que llevan a otro sitio
+   —el atajo del panel, la cifra, el truck de la portada—, para que «esto es un
+   enlace» no haya que aprenderlo pantalla por pantalla. */
+.tarjeta-enlace:hover {
+  background: var(--surface-container-low);
+  color: inherit;
+  border-color: var(--anillo);
+  box-shadow: var(--elev-realce);
+}
+
 .tarjeta-enlace:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .tarjeta-enlace:hover { transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tarjeta-enlace:active { transform: scale(.99); transition-duration: .06s; }
+}
 
 /* Error: el borde y el titulo pasan a rojo. Un turno que no cuadra al cerrar,
    una parada con horas que se solapan. */
@@ -284,6 +404,8 @@
   overflow-x: auto;
   border: 1px solid var(--outline-variant);
   border-radius: var(--radio-m);
+  background: var(--surface);
+  box-shadow: var(--elev-1);
 }
 
 .tabla {
@@ -298,7 +420,8 @@
   background: var(--surface-container);
   color: var(--on-surface-variant);
   font: var(--tipo-etiqueta-m);
-  letter-spacing: .5px;
+  letter-spacing: .6px;
+  text-transform: uppercase;
   text-align: left;
   white-space: nowrap;
   border-bottom: none;
@@ -309,9 +432,31 @@
   color: var(--on-surface);
   border-bottom: none;
   border-top: 1px solid var(--outline-variant);
+  transition: background-color var(--transicion);
 }
 
-.tabla tbody tr:hover td { background: var(--surface-container-low); }
+/* La fila bajo el puntero lleva el tinte de la marca y un filete a la
+   izquierda. En una tabla de seis columnas, el filete es lo que deja seguir la
+   fila con el ojo hasta los botones del final sin saltarse a la de al lado. */
+.tabla tbody tr:hover td { background: var(--tinte); }
+
+@media (min-width: 480.02px) {
+  .tabla tbody tr:hover td:first-child { box-shadow: inset 3px 0 0 var(--primary); }
+}
+
+/* El pie de la tabla —el total del turno— pesa como un total: mas tinta y una
+   linea mas gruesa encima. Sin esto caia en la regla de tabla sin clase de
+   base.css y quedaba con otro relleno que las celdas que suma. */
+.tabla tfoot th,
+.tabla tfoot td {
+  padding: var(--esp-3) var(--esp-4);
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+  font-weight: 700;
+  text-align: left;
+  border-bottom: none;
+  border-top: 2px solid var(--outline-variant);
+}
 
 .tabla th.cifra, .tabla td.cifra { text-align: right; font-variant-numeric: tabular-nums; }
 
@@ -400,8 +545,13 @@
    verdad que alinear. */
 .aviso {
   padding: var(--esp-3) var(--esp-4);
+  border: 1px solid transparent;
   border-radius: var(--radio-m);
   font: var(--tipo-cuerpo-m);
+  /* Entra deslizando. Un aviso que aparece de golpe tras recargar se confunde
+     con parte de la pagina; el movimiento es lo que dice «esto es nuevo». Vale
+     tambien para los que svp.js y turnos.js muestran quitando hidden. */
+  animation: entra var(--mov-medio) both;
 }
 
 .aviso:has(> .aviso-icono) {
@@ -414,9 +564,29 @@
 
 .aviso-icono { flex: none; width: 20px; height: 20px; margin-top: 1px; }
 
-.aviso-exito { background: var(--tertiary-container); color: var(--on-tertiary-container); }
-.aviso-aviso { background: var(--warning-container); color: var(--on-warning-container); }
-.aviso-error { background: var(--error-container); color: var(--on-error-container); }
+/* El filete fino del tono fuerte recorta el aviso contra el fondo crema, donde
+   los tres contenedores calidos de esta paleta se funden con la pagina. */
+.aviso-exito {
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+  border-color: color-mix(in srgb, var(--tertiary) 30%, transparent);
+}
+
+.aviso-aviso {
+  background: var(--warning-container);
+  color: var(--on-warning-container);
+  border-color: color-mix(in srgb, var(--warning) 30%, transparent);
+}
+
+.aviso-error {
+  background: var(--error-container);
+  color: var(--on-error-container);
+  border-color: color-mix(in srgb, var(--error) 30%, transparent);
+}
+
+/* Un enlace dentro de un aviso hereda el tono del aviso: el rojo de enlace
+   sobre el contenedor naranja o verde no llega al contraste. */
+.aviso a:not(.boton) { color: inherit; font-weight: 600; }
 
 /* ================================================= 6. ETIQUETA DE ESTADO ==
    El ciclo de Orden::TRANSICIONES, que solo avanza, mas la demora que marca el
@@ -427,10 +597,10 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 32px;
+  min-height: 28px;
   padding: 0 var(--esp-3);
   border: 1px solid transparent;
-  border-radius: var(--radio-p);
+  border-radius: var(--radio-completo);
   font: var(--tipo-etiqueta-m);
   letter-spacing: .3px;
   white-space: nowrap;
@@ -449,10 +619,101 @@
    pantalla porque la emiten dos, /caja y /caja/turno, y cada una carga la suya. */
 .etiqueta-turno { background: var(--tertiary-container); color: var(--on-tertiary-container); }
 
-.etiqueta-preparacion { background: var(--warning-container); color: var(--on-warning-container); }
+/* En preparacion va en el dorado de la marca, igual que su carril en el SVP y
+   su columna en la pantalla de turnos. El naranja de aviso queda para lo que
+   de verdad avisa: un sobrante, una carta vacia. */
+.etiqueta-preparacion { background: var(--secondary-container); color: var(--on-secondary-container); }
 .etiqueta-lista { background: var(--tertiary-container); color: var(--on-tertiary-container); }
 .etiqueta-entregada { background: transparent; color: var(--on-surface-variant); border-color: var(--outline); }
 .etiqueta-demorada { background: var(--error-container); color: var(--on-error-container); }
+
+/* Etiqueta que cuenta un resultado: el cuadre de un turno ya cerrado. Mismos
+   tres canales que el resto —fondo, icono y palabra—. */
+.etiqueta-cuadra   { background: var(--tertiary-container); color: var(--on-tertiary-container); }
+.etiqueta-sobrante { background: var(--warning-container);  color: var(--on-warning-container); }
+.etiqueta-faltante { background: var(--error-container);    color: var(--on-error-container); }
+
+/* ============================================ 6b. ESTADO VACIO Y DE ERROR ==
+   La pantalla que no tiene nada que listar, o que no pudo cargar lo que se
+   pidio. Centrada, con un icono grande, una frase que dice que pasa y un boton
+   que dice que hacer: un hueco en blanco tambien es lo que se ve cuando algo se
+   rompe, y hay que poder distinguirlos. */
+
+.estado-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-3);
+  width: 100%;
+  max-width: 34rem;
+  margin: auto;
+  padding: var(--esp-7) var(--esp-5);
+  text-align: center;
+  animation: entra var(--mov-lento) both;
+}
+
+.estado-vacio > * { margin-block: 0; }
+
+.estado-vacio-icono {
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  margin-bottom: var(--esp-2);
+  border-radius: var(--radio-completo);
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  box-shadow: 0 0 0 10px var(--tinte);
+}
+
+.estado-vacio-icono svg { width: 40px; height: 40px; }
+
+.estado-vacio-codigo {
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-m);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.estado-vacio-titulo { font: var(--tipo-titulo-m); letter-spacing: -.01em; }
+.estado-vacio-texto { color: var(--on-surface-variant); }
+.estado-vacio-acciones { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--esp-2); margin-top: var(--esp-3); }
+
+/* ====================================== 6c. ENCABEZADO Y FICHA DE DATOS =====
+   Dos piezas que repiten las pantallas de consulta: el titulo con su enlace de
+   vuelta, y la lista de pares rotulo-valor. */
+
+/* Migas: de donde se viene, en pequeno y encima del titulo. */
+.migas { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-2); margin-block: 0; font: var(--tipo-cuerpo-m); color: var(--on-surface-variant); }
+.migas a { text-decoration: none; }
+.migas a:hover { text-decoration: underline; }
+.migas svg { width: 14px; height: 14px; flex: none; }
+
+/* Pares rotulo-valor en columnas que caben solas: cuatro en escritorio, dos en
+   el telefono, sin un punto de quiebre propio. */
+.datos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: var(--esp-4);
+  margin: 0;
+}
+
+.datos > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+
+.datos dt {
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-m);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.datos dd { margin: 0; font-size: 18px; line-height: 24px; font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+
+.datos .datos-destacado { font-size: 28px; line-height: 36px; font-weight: 700; letter-spacing: -.02em; }
+
+/* Enlace que ocupa la celda entera de una tabla: el numero del turno. */
+.tabla-enlace { font-weight: 700; text-decoration: none; }
+.tabla-enlace:hover { text-decoration: underline; }
 
 /* ====================================== 7. LO QUE DIBUJA interfaz.js =======
    No son piezas del catalogo que una vista escriba a mano: las crea el
@@ -481,23 +742,29 @@
   max-width: 24rem;
   min-height: var(--toque);
   padding: 14px var(--esp-4);
-  border-radius: var(--radio-xp);
+  border-radius: var(--radio-m);
   background: var(--inverse-surface);
   color: var(--inverse-on-surface);
   box-shadow: var(--elev-3);
   font: var(--tipo-cuerpo-m);
   pointer-events: auto;
-  animation: aviso-entra .18s ease-out;
+  animation: entra var(--mov-medio) both;
 }
 
 .aviso-temporal-icono { flex: none; width: 20px; height: 20px; }
 
-@keyframes aviso-entra {
-  from { opacity: 0; transform: translateY(var(--esp-2)); }
-  to { opacity: 1; transform: none; }
+/* La salida. interfaz.js pone esta clase y retira el nodo cuando la animacion
+   termina: un aviso que desaparece de golpe hace saltar a los que tiene
+   debajo, y el ojo se va al salto en vez de a lo que estaba haciendo. */
+.aviso-temporal-sale { animation: aviso-sale .2s var(--curva) both; }
+
+@keyframes aviso-sale {
+  to { opacity: 0; transform: translateY(var(--esp-2)) scale(.98); }
 }
 
-/* Dialogo de confirmacion. El velo cubre la ventana y centra la caja. */
+/* Dialogo de confirmacion. El velo cubre la ventana y centra la caja. El
+   desenfoque de lo de detras no es adorno: separa la pregunta de la pagina, que
+   sigue ahi pero deja de competir por la lectura. */
 .dialogo-velo {
   position: fixed;
   inset: 0;
@@ -506,6 +773,9 @@
   place-items: center;
   padding: var(--esp-5);
   background: var(--velo);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  animation: aparece .2s var(--curva) both;
 }
 
 .dialogo {
@@ -513,15 +783,20 @@
   flex-direction: column;
   gap: var(--esp-4);
   width: 100%;
-  max-width: 340px;
+  max-width: 360px;
   padding: var(--esp-5);
   border-radius: var(--radio-xg);
-  background: var(--surface-container-high);
+  background: var(--surface);
   color: var(--on-surface);
   box-shadow: var(--elev-3);
+  animation: emerge var(--mov-medio) both;
 }
 
-.dialogo-titulo { font: var(--tipo-titulo-m); }
+/* El hueco lo reparte el gap de la caja: el titulo es un <h2> y el texto un
+   <p>, y sus margenes de flujo dejaban el titulo hundido y el texto descolgado. */
+.dialogo > * { margin-block: 0; }
+
+.dialogo-titulo { font: var(--tipo-titulo-m); letter-spacing: -.01em; }
 .dialogo-texto { color: var(--on-surface-variant); font: var(--tipo-cuerpo-m); }
 .dialogo-acciones { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--esp-2); }
 
@@ -546,17 +821,29 @@
   font: var(--tipo-etiqueta-g);
 }
 
-.menu-desplegable a:hover { background: var(--surface-container); }
+.menu-desplegable a { transition: background-color var(--transicion), color var(--transicion); }
+.menu-desplegable a:hover { background: var(--tinte); color: var(--primary); }
 
 /* ================================= 8. MARCO DEL PANEL Y ACCESO (issue #15) ==
    Cabecera, navegacion, pie y pantalla de acceso. Se escriben una vez y las
    comparten todas las vistas internas de CARTA, CAJA y el SVP. */
 
 /* --- Cabecera --- */
+/* Fondo limpio y una franja de la marca arriba: el rojo y el dorado de la
+   paleta aparecen una vez, finos, y a partir de ahi el marco se calla para que
+   mande el contenido. */
 .cabecera {
-  background: var(--surface-container);
+  position: relative;
+  background: var(--surface);
   color: var(--on-surface);
   border-bottom: 1px solid var(--outline-variant);
+}
+
+.cabecera::before {
+  content: "";
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
 }
 
 .cabecera-interior {
@@ -570,9 +857,10 @@
 
 .cabecera-marca {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-3);
   min-height: var(--toque);
-  justify-content: center;
+  min-width: 0;
   color: inherit;
   text-decoration: none;
 }
@@ -580,53 +868,150 @@
 .cabecera-marca:hover { color: inherit; }
 .cabecera-marca:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
 
-.cabecera-nombre { font: var(--tipo-titulo-p); }
+/* El sello: el emoji de la marca —🍴— sobre una ficha clara. Es el unico emoji
+   de la aplicacion, y a proposito: es el logotipo, no un icono. Los iconos
+   siguen siendo SVG de trazo, que se recolorean con el tema. La ficha es clara
+   y no roja porque el emoji trae su propio color —gris plata en casi todos los
+   sistemas— y sobre el rojo de la marca se apagaba. Es lo unico de la cabecera
+   que se mueve, y solo cuando el puntero pasa por la marca. */
+.cabecera-sello {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
+  border-radius: var(--radio-m);
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  box-shadow: var(--elev-1);
+  font-size: 22px;
+  line-height: 1;
+  transition: transform var(--mov-medio), box-shadow var(--mov-medio);
+}
+
+.cabecera-marca:hover .cabecera-sello { box-shadow: var(--elev-realce); }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .cabecera-marca:hover .cabecera-sello { transform: scale(1.06) rotate(-4deg); }
+}
+
+.cabecera-textos { display: flex; flex-direction: column; min-width: 0; }
+
+.cabecera-nombre { font: var(--tipo-titulo-p); letter-spacing: -.01em; }
 
 /* El lema es lo primero que sobra cuando falta ancho. */
 .cabecera-lema { color: var(--on-surface-variant); font-size: 12px; line-height: 16px; }
 
-.cabecera-sesion { display: flex; align-items: center; gap: var(--esp-2); }
+.cabecera-sesion { display: flex; align-items: center; gap: var(--esp-2); min-width: 0; }
 .cabecera-nombre-usuario { font: var(--tipo-etiqueta-g); }
 
-.cabecera-usuario { display: flex; align-items: center; gap: var(--esp-2); }
+.cabecera-usuario { display: flex; align-items: center; gap: var(--esp-2); min-width: 0; }
 
-/* --- Navegacion --- */
-.navegacion { background: var(--surface-container-low); border-bottom: 1px solid var(--outline-variant); }
+/* La inicial de quien entro. Da cara a la sesion, y en el telefono, donde el
+   nombre no cabe, es lo que queda de el. */
+.cabecera-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radio-completo);
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+  font: var(--tipo-etiqueta-g);
+  text-transform: uppercase;
+}
+
+/* --- Navegacion ---
+   Pestanas, no botones: el modulo abierto se marca con un filete abajo que
+   crece desde el centro, y pasar el puntero por otro lo anticipa con el mismo
+   filete y el tinte de la marca. */
+.navegacion {
+  position: relative;
+  background: var(--surface);
+  border-bottom: 1px solid var(--outline-variant);
+  box-shadow: var(--elev-1);
+}
 
 .navegacion-lista {
   display: flex;
-  gap: var(--esp-2);
+  gap: var(--esp-1);
   list-style: none;
+  margin-block: 0;
   margin-inline: auto;
-  padding: var(--esp-2) var(--esp-4);
+  padding: 0 var(--esp-4);
 }
 
 .navegacion-enlace {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: var(--toque);
-  padding: var(--esp-1) var(--esp-4);
-  border-radius: var(--radio-p);
+  align-items: center;
+  gap: var(--esp-3);
+  min-height: 56px;
+  padding: var(--esp-2) var(--esp-4) var(--esp-2) var(--esp-3);
+  border-radius: var(--radio-p) var(--radio-p) 0 0;
   color: var(--on-surface-variant);
   text-decoration: none;
   transition: background-color var(--transicion), color var(--transicion);
 }
 
-.navegacion-enlace:hover { background: var(--surface-container-high); color: var(--on-surface); }
+.navegacion-enlace::after {
+  content: "";
+  position: absolute;
+  left: var(--esp-3);
+  right: var(--esp-3);
+  bottom: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--primary);
+  transform: scaleX(0);
+  transition: transform var(--mov-medio);
+}
+
+.navegacion-enlace:hover { background: var(--tinte); color: var(--primary); }
+.navegacion-enlace:hover::after { transform: scaleX(1); }
 .navegacion-enlace:focus-visible { outline: var(--foco); outline-offset: calc(var(--foco-separacion) * -1); }
+
+/* El emoji del modulo, en su ficha. Al pasar —y en el modulo abierto— la ficha
+   se enciende con el contenedor de la marca y el filete rojo alrededor: el
+   emoji trae su propio color, asi que lo que cambia es la ficha, no el trazo. */
+.navegacion-icono {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radio-p);
+  background: var(--surface-container);
+  font-size: 20px;
+  line-height: 1;
+  transition: background-color var(--transicion), box-shadow var(--transicion), transform var(--mov-medio);
+}
+
+.navegacion-enlace:hover .navegacion-icono { background: var(--surface); box-shadow: 0 0 0 2px var(--anillo); }
+
+.navegacion-activa .navegacion-icono,
+.navegacion-activa:hover .navegacion-icono { background: var(--surface); box-shadow: 0 0 0 2px var(--primary); }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .navegacion-enlace:hover .navegacion-icono { transform: scale(1.08) rotate(-4deg); }
+}
+
+.navegacion-textos { display: flex; flex-direction: column; min-width: 0; }
 
 .navegacion-rotulo { font: var(--tipo-etiqueta-g); letter-spacing: .5px; }
 .navegacion-descripcion { font-size: 11px; line-height: 14px; }
 
 /* La seccion abierta. No se distingue solo por color: ademas del fondo lleva
-   el texto a --on-primary-container y un filete inferior, para que se lea
-   tambien en escala de grises. */
+   el texto a --on-primary-container, el filete inferior y la ficha del icono
+   llena, para que se lea tambien en escala de grises. */
 .navegacion-activa {
   background: var(--primary-container);
   color: var(--on-primary-container);
-  box-shadow: inset 0 -3px 0 0 var(--primary);
 }
+
+.navegacion-activa::after { transform: scaleX(1); }
 
 .navegacion-activa:hover { background: var(--primary-container); color: var(--on-primary-container); }
 
@@ -647,9 +1032,56 @@
 
 @media (max-width: 767.98px) {
   .cabecera-lema { display: none; }
-  .navegacion-lista { flex-direction: column; gap: var(--esp-1); }
-  .navegacion-enlace { padding: var(--esp-2) var(--esp-4); }
+
+  /* El nombre cede su sitio a la inicial: en 360 px no caben la marca, el
+     nombre, el rol, la salida y el boton del menu. Se esconde de la vista, no
+     del lector de pantalla. */
+  .cabecera-nombre-usuario {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .navegacion-lista { flex-direction: column; gap: var(--esp-1); padding: var(--esp-2) var(--esp-4); }
+  .navegacion-enlace { border-radius: var(--radio-p); }
+
+  /* Apilada, la pestana deja de tener «abajo»: el filete pasa al costado. */
+  .navegacion-enlace::after {
+    left: 0; right: auto; top: var(--esp-2); bottom: var(--esp-2);
+    width: 3px; height: auto;
+    border-radius: 0 3px 3px 0;
+    transform: scaleY(0);
+  }
+
+  .navegacion-enlace:hover::after,
+  .navegacion-activa::after { transform: scaleY(1); }
+
+  /* El panel se despliega deslizando al quitarle hidden. */
+  .navegacion { animation: entra var(--mov-medio) both; }
   .navegacion[hidden] { display: none; }
+}
+
+/* Por debajo de 480 px la salida se queda en su icono y el rol sale de la
+   vista: la marca, la inicial, la salida y el boton del menu son lo que cabe
+   en 320 px sin empujar la cabecera fuera de la ventana. Los dos textos siguen
+   ahi para el lector de pantalla. */
+@media (max-width: 480px) {
+  .cabecera-interior { gap: var(--esp-2); }
+  .cabecera-sesion { gap: var(--esp-1); }
+
+  .cabecera-salir-texto,
+  .cabecera-rol {
+    position: absolute;
+    width: 1px; height: 1px;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 
 /* --- Contenido y pie --- */
@@ -662,30 +1094,80 @@
   width: 100%;
   max-width: var(--ancho-marco);
   margin-inline: auto;
-  padding: var(--esp-5) var(--esp-4);
+  padding: var(--esp-5) var(--esp-4) var(--esp-7);
 }
 
 .contenido.pila { display: flex; }
 
 .pie {
   border-top: 1px solid var(--outline-variant);
+  background: var(--surface-container-low);
   color: var(--on-surface-variant);
   font: var(--tipo-cuerpo-p);
 }
 
-.pie > div { padding: var(--esp-5) var(--esp-4); margin-inline: auto; }
+.pie > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-2) var(--esp-4);
+  padding: var(--esp-4);
+  margin-inline: auto;
+}
 
-/* --- Pantalla de acceso --- */
-.acceso { display: flex; justify-content: center; padding-block: var(--esp-6); }
+.pie-marca { color: var(--on-surface); font-weight: 600; text-decoration: none; }
+.pie-marca:hover { color: var(--primary); }
+
+/* --- Pantalla de acceso ---
+   Centrada en la ventana, tambien a lo alto: main crece hasta el pie y el
+   margen automatico reparte el sobrante por arriba y por abajo. */
+.acceso { display: flex; justify-content: center; margin-block: auto; padding-block: var(--esp-5); }
 
 .acceso-tarjeta {
   width: 100%;
-  max-width: 24rem;
+  max-width: 26rem;
   gap: var(--esp-5);
   padding: var(--esp-6);
+  border-color: var(--outline-variant);
+  border-radius: var(--radio-g);
+  background: var(--surface);
+  box-shadow: var(--elev-3);
+  animation: emerge var(--mov-medio) both;
 }
 
-.acceso-titulo { font: var(--tipo-titulo-m); }
+/* La tarjeta es --surface y no el contenedor bajo: la muesca del rotulo se
+   pinta del mismo color. */
+.acceso-tarjeta .campo { --campo-fondo: var(--surface); }
+
+.acceso-encabezado { display: flex; flex-direction: column; align-items: center; gap: var(--esp-2); text-align: center; }
+.acceso-encabezado > * { margin-block: 0; }
+
+.acceso-sello { width: 64px; height: 64px; border-radius: var(--radio-g); margin-bottom: var(--esp-2); font-size: 34px; }
+
+.acceso-titulo { font: var(--tipo-titulo-m); letter-spacing: -.01em; }
+
+.acceso-entrar { min-height: var(--toque); font-size: 16px; }
+
+.acceso-pie { margin-block: 0; text-align: center; }
+
+@media (max-width: 480px) {
+  .acceso-tarjeta { padding: var(--esp-5); }
+}
+
+/* Boton dentro de un campo: ver u ocultar la contrasena. Se pega al borde
+   derecho y el control le deja sitio, para que el texto no pase por debajo.
+   Sale con hidden y lo muestra interfaz.js: sin JavaScript no puede hacer nada
+   y entonces no aparece. */
+.campo-con-accion .campo-control { padding-right: 56px; }
+.campo-con-accion .campo-control:focus { padding-right: 55px; }
+
+.campo-accion { position: absolute; top: 4px; right: 4px; color: var(--on-surface-variant); }
+.campo-accion[hidden] { display: none; }
+.campo-accion svg { width: 22px; height: 22px; }
+
+.campo-accion[aria-pressed="false"] .campo-accion-oculta,
+.campo-accion[aria-pressed="true"] .campo-accion-muestra { display: none; }
 
 /* ============================== 9. PANEL DE CARTA (issue #16) ==============
    Lo especifico de las tres pantallas de administracion. Todo lo demas —boton,
@@ -699,7 +1181,7 @@
    el espacio se reparte entre columnas y ninguna se estira sola. */
 .panel-formulario { max-width: 56rem; }
 
-.panel-grupo { gap: var(--esp-5); padding: var(--esp-5); }
+.panel-grupo { gap: var(--esp-5); padding: var(--esp-5); box-shadow: var(--elev-1); }
 .panel-grupo .tarjeta-titulo { font: var(--tipo-titulo-p); }
 
 /* Sobre una tarjeta el campo hereda el fondo del contenedor, para que la muesca
@@ -730,6 +1212,24 @@
   font: var(--tipo-cuerpo-p);
 }
 
+/* El boton «Elegir archivo» del navegador, vestido como un boton tonal del
+   catalogo. El control sigue siendo el nativo —con su teclado, su arrastrar y
+   soltar y su texto traducido—: solo cambia la ropa. */
+.campo-archivo::file-selector-button {
+  min-height: 32px;
+  margin-right: var(--esp-3);
+  padding: 0 var(--esp-4);
+  border: none;
+  border-radius: var(--radio-completo);
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+  font: var(--tipo-etiqueta-g);
+  cursor: pointer;
+  transition: box-shadow var(--transicion), background-color var(--transicion);
+}
+
+.campo-archivo:hover::file-selector-button { box-shadow: var(--elev-1); }
+
 /* Nombre y orden en una linea: el orden es un numero corto y no merece media
    pantalla. Por debajo de 768 px se apilan. */
 .panel-formulario-linea { display: grid; gap: var(--esp-4); grid-template-columns: repeat(1, minmax(0, 1fr)); }
@@ -749,10 +1249,16 @@
 .panel-filtro-lista .etiqueta {
   text-decoration: none;
   min-height: 36px;
-  transition: background-color var(--transicion), color var(--transicion);
+  padding-inline: var(--esp-4);
+  transition: background-color var(--transicion), color var(--transicion),
+              border-color var(--transicion), transform var(--transicion);
 }
 
-.panel-filtro-lista .etiqueta:hover { background: var(--surface-container-high); color: var(--on-surface); }
+.panel-filtro-lista .etiqueta:hover { background: var(--tinte); color: var(--primary); border-color: var(--primary); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .panel-filtro-lista .etiqueta:active { transform: scale(.96); }
+}
 .panel-filtro-lista .etiqueta:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
 
 /* Sin elegir. Colores propios del filtro, no los de una etiqueta de estado:
@@ -794,6 +1300,13 @@
   object-fit: cover;
   border-radius: var(--radio-p);
   background: var(--surface-container);
+  transition: transform var(--mov-medio), box-shadow var(--mov-medio);
+}
+
+/* La foto de la fila bajo el puntero se acerca: en un catalogo de veinte
+   productos parecidos, es lo que confirma cual se esta a punto de editar. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .tabla tbody tr:hover img.panel-miniatura { transform: scale(1.12); box-shadow: var(--elev-2); }
 }
 
 .panel-miniatura-vacia {
@@ -831,9 +1344,46 @@
   cursor: pointer;
 }
 
-.panel-casilla input { width: 20px; height: 20px; margin-top: 2px; flex: none; accent-color: var(--primary); }
+.panel-casilla input { width: 20px; height: 20px; margin-top: 2px; flex: none; accent-color: var(--primary); cursor: pointer; }
 .panel-casilla span { display: flex; flex-direction: column; gap: 2px; }
-.panel-casilla:hover { color: var(--on-surface); }
+
+/* Toda la fila es pulsable, asi que toda la fila responde al puntero. El
+   margen negativo deja que el tinte sobresalga sin mover el texto de sitio. */
+.panel-casilla {
+  margin-inline: calc(var(--esp-3) * -1);
+  padding-inline: var(--esp-3);
+  border-radius: var(--radio-p);
+  transition: background-color var(--transicion);
+}
+
+.panel-casilla:hover { background: var(--tinte); color: var(--on-surface); }
+
+/* El texto de apoyo no hereda el peso del rotulo: en negrita compite con el. */
+.panel-casilla .texto-apagado { font-weight: 400; }
+
+/* --- Codigo QR ---
+   El codigo a un lado y lo que se hace con el al otro; por debajo de 768 px se
+   apilan y el codigo se centra. */
+.panel-qr { flex-direction: row; flex-wrap: wrap; align-items: flex-start; max-width: 56rem; }
+
+.panel-qr-marco {
+  flex: none;
+  margin-inline: auto;
+  padding: var(--esp-4);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-g);
+  /* El unico color literal de la hoja, y a proposito: el PNG del codigo es
+     negro sobre blanco y su marco tiene que ser blanco tambien en el tema
+     oscuro, donde --surface es casi negro y el codigo dejaria de leerse. */
+  background: #fff;
+  box-shadow: var(--elev-2);
+  line-height: 0;
+}
+
+.panel-qr-marco img { display: block; width: 280px; max-width: 100%; height: auto; border-radius: 0; }
+
+.panel-qr-datos { flex: 1 1 18rem; min-width: 0; }
+.panel-qr-datos .tarjeta-texto { overflow-wrap: anywhere; }
 
 /* --- Portada del panel ---
 
@@ -846,6 +1396,17 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--esp-4);
+  padding: var(--esp-5);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-g);
+  background: linear-gradient(135deg, var(--surface-container-low), var(--surface));
+  box-shadow: var(--elev-1);
+}
+
+.panel-inicio-cabecera .panel-logo { box-shadow: var(--elev-2); }
+
+@media (max-width: 480px) {
+  .panel-inicio-cabecera { padding: var(--esp-4); }
 }
 
 .panel-inicio-datos { flex: 1 1 14rem; min-width: 0; display: flex; flex-direction: column; gap: var(--esp-1); }
@@ -879,16 +1440,37 @@
   padding: var(--esp-4);
   border: 1px solid var(--outline-variant);
   border-radius: var(--radio-m);
-  background: var(--surface-container-low);
+  background: var(--surface);
+  box-shadow: var(--elev-1);
   color: inherit;
   text-decoration: none;
-  transition: background-color var(--transicion);
+  transition: background-color var(--transicion), border-color var(--transicion),
+              box-shadow var(--mov-medio), transform var(--mov-medio);
 }
 
-.panel-cifra:hover { background: var(--surface-container); color: inherit; }
+/* Misma respuesta que .tarjeta-enlace: la cifra es un enlace y se enciende
+   como los demas. La cifra ademas toma el color de la marca. */
+.panel-cifra:hover { color: inherit; border-color: var(--anillo); box-shadow: var(--elev-realce); }
 .panel-cifra:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
 
-.panel-cifra-valor { font-size: 32px; line-height: 40px; font-weight: 700; font-variant-numeric: tabular-nums; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .panel-cifra:hover { transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .panel-cifra:active { transform: scale(.98); transition-duration: .06s; }
+}
+
+.panel-cifra-valor {
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  transition: color var(--transicion);
+}
+
+.panel-cifra:hover .panel-cifra-valor { color: var(--primary); }
 
 .panel-cifra-rotulo { color: var(--on-surface-variant); font: var(--tipo-cuerpo-m); }
 
@@ -900,6 +1482,11 @@
 
 .panel-cifra-aviso .panel-cifra-valor { color: var(--warning); }
 
+/* El aviso no se pierde al pasar el puntero: la cifra se enciende como las
+   demas, pero conserva su filete y su tono. */
+.panel-cifra-aviso:hover { border-color: var(--warning); }
+.panel-cifra-aviso:hover .panel-cifra-valor { color: var(--warning); }
+
 /* Atajos a las pantallas de CARTA. La navegacion de arriba lleva a los tres
    modulos; estos llevan a lo de dentro, que es lo que se administra aqui. */
 .panel-atajo { flex-direction: row; align-items: center; gap: var(--esp-3); }
@@ -910,18 +1497,39 @@
   width: 40px;
   height: 40px;
   flex: none;
-  border-radius: var(--radio-completo);
+  border-radius: var(--radio-m);
   background: var(--secondary-container);
   color: var(--on-secondary-container);
+  transition: background-color var(--mov-medio), color var(--mov-medio), transform var(--mov-medio);
 }
 
-.panel-atajo-icono svg { width: 20px; height: 20px; }
+.panel-atajo-icono svg { width: 22px; height: 22px; }
+
+.panel-atajo { padding: var(--esp-4) var(--esp-5); box-shadow: var(--elev-1); }
+
+.panel-atajo .tarjeta-titulo { font-size: 18px; line-height: 24px; }
 
 .panel-atajo-texto { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 
 /* La flecha no es decoracion: dice que la tarjeta entera es pulsable. Se apaga
    para no competir con el titulo. */
-.panel-atajo-ir { flex: none; width: 20px; height: 20px; color: var(--on-surface-variant); }
+.panel-atajo-ir {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--on-surface-variant);
+  transition: transform var(--mov-medio), color var(--transicion);
+}
+
+/* Al pasar por el atajo, la ficha del icono se invierte —del dorado suave al
+   rojo lleno— y la flecha avanza: las dos dicen «por aqui se entra». */
+.panel-atajo:hover .panel-atajo-icono { background: var(--primary); color: var(--on-primary); }
+.panel-atajo:hover .panel-atajo-ir { color: var(--primary); }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .panel-atajo:hover .panel-atajo-icono { transform: scale(1.06); }
+  .panel-atajo:hover .panel-atajo-ir { transform: translateX(4px); }
+}
 
 /* --- Agenda de paradas (issue #37) ---
 
@@ -937,13 +1545,37 @@
   display: flex;
   flex-direction: column;
   gap: var(--esp-2);
-  padding: var(--esp-4);
-  border-radius: var(--radio-m);
-  background: var(--secondary-container);
+  padding: var(--esp-5);
+  /* El dorado de la marca, rebajado con el fondo de la pagina: entero, un
+     bloque de este tamano se comia la pantalla. La mezcla se guarda en una
+     variable porque la muesca del rotulo del campo tiene que pintarse igual. */
+  --vigente-fondo: color-mix(in srgb, var(--secondary-container) 45%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--secondary) 30%, transparent);
+  border-radius: var(--radio-g);
+  background: var(--vigente-fondo);
   color: var(--on-secondary-container);
+  box-shadow: var(--elev-1);
 }
 
 .panel-vigente > * { margin-block: 0; }
+
+/* Dentro del bloque dorado los botones de contorno y los enlaces toman el tono
+   del bloque: el rojo de la marca sobre dorado se lee mal. */
+.panel-vigente .boton-contorno,
+.panel-vigente .boton-texto { color: var(--on-secondary-container); border-color: currentColor; }
+
+.panel-vigente .boton-contorno:hover {
+  background: color-mix(in srgb, var(--on-secondary-container) 10%, transparent);
+  border-color: currentColor;
+}
+
+/* Y la muesca del rotulo del campo se pinta del fondo del bloque, no del
+   contenedor crema que declara .campo-sobre-contenedor. */
+.panel-vigente .campo { --campo-fondo: var(--vigente-fondo); }
+
+@media (max-width: 480px) {
+  .panel-vigente { padding: var(--esp-4); }
+}
 
 .panel-vigente-titulo { font: var(--tipo-titulo-p); }
 
@@ -973,6 +1605,11 @@
 .panel-momento .campo { flex: 1 1 14rem; min-width: 0; }
 
 .panel-paradas { display: grid; gap: var(--esp-5); align-items: start; }
+
+/* El formulario va sobre --surface, como los demas del panel: .panel-grupo pinta
+   la muesca del rotulo de ese color, y sobre el contenedor crema de la tarjeta
+   elevada cada rotulo quedaba con un recuadro mas claro detras. */
+.panel-paradas-formulario { border-color: var(--outline-variant); border-radius: var(--radio-g); background: var(--surface); box-shadow: var(--elev-2); }
 
 @media (min-width: 1024px) {
   .panel-paradas { grid-template-columns: minmax(0, 1fr) 22rem; }
@@ -1011,8 +1648,13 @@
   padding: var(--esp-3) var(--esp-4);
   border: 1px solid var(--outline-variant);
   border-radius: var(--radio-m);
-  background: var(--surface-container-low);
+  background: var(--surface);
+  transition: border-color var(--transicion), box-shadow var(--mov-medio);
 }
+
+/* La parada bajo el puntero se recorta del resto: en una semana con seis
+   paradas, deja claro a cual pertenecen los botones que se van a pulsar. */
+.panel-parada:hover { border-color: var(--anillo); box-shadow: var(--elev-2); }
 
 .panel-parada > * { margin-block: 0; }
 
@@ -1033,7 +1675,7 @@
 /* Parada dada de baja: se atenua, pero no se esconde ni se distingue solo por
    el tono —lleva su etiqueta con la palabra—, porque sigue siendo editable y
    reactivable. */
-.panel-parada-inactiva { background: var(--surface); }
+.panel-parada-inactiva { background: var(--surface-container-low); border-style: dashed; }
 
 .panel-parada-inactiva .panel-parada-punto,
 .panel-parada-inactiva .panel-parada-referencia,
@@ -1047,11 +1689,59 @@
    Lo primero que ve quien escribe la direccion. Casi siempre es un cliente con
    hambre, asi que manda la lista de cartas. */
 
-.portada-encabezado { display: flex; flex-direction: column; gap: var(--esp-3); max-width: 46rem; }
+/* El encabezado es un cartel: el contenedor rojo claro de la marca fundiendose
+   en el dorado, con dos brasas de luz al fondo. Todo sale de los tokens, asi
+   que en oscuro el cartel se oscurece con el resto sin una regla mas. Las
+   brasas son degradados, no imagenes: no hay nada que descargar. */
+.portada-encabezado {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding: var(--esp-7) var(--esp-6);
+  border-radius: var(--radio-xg);
+  background:
+    radial-gradient(40rem 20rem at 100% 0%, color-mix(in srgb, var(--secondary) 22%, transparent), transparent 70%),
+    radial-gradient(28rem 18rem at 0% 100%, color-mix(in srgb, var(--primary) 16%, transparent), transparent 70%),
+    linear-gradient(135deg, var(--primary-container), var(--secondary-container));
+  color: var(--on-primary-container);
+  overflow: hidden;
+  animation: entra var(--mov-lento) both;
+}
 
-.portada-titulo { font: var(--tipo-titulo-g); margin-block: 0; }
+.portada-encabezado > * { max-width: 44rem; }
 
-.portada-entrada { font-size: 18px; line-height: 28px; color: var(--on-surface-variant); }
+.portada-sobretitulo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  align-self: flex-start;
+  margin-block: 0;
+  padding: var(--esp-1) var(--esp-3);
+  border-radius: var(--radio-completo);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  color: var(--on-surface);
+  font: var(--tipo-etiqueta-m);
+  letter-spacing: .6px;
+  text-transform: uppercase;
+}
+
+.portada-sobretitulo svg { width: 16px; height: 16px; color: var(--primary); }
+
+.portada-titulo {
+  font: var(--tipo-titulo-g);
+  font-size: clamp(30px, 1.2rem + 3.4vw, 48px);
+  line-height: 1.1;
+  letter-spacing: -.03em;
+  margin-block: 0;
+}
+
+.portada-entrada { margin-block: 0; font-size: 18px; line-height: 28px; color: var(--on-surface-variant); }
+
+@media (max-width: 767.98px) {
+  .portada-encabezado { padding: var(--esp-6) var(--esp-5); border-radius: var(--radio-g); }
+  .portada-entrada { font-size: 16px; line-height: 24px; }
+}
 
 /* Barra de "ya entraste": informa y ofrece el atajo, sin tapar las cartas. */
 .portada-sesion { align-items: center; gap: var(--esp-4); flex-wrap: wrap; }
@@ -1076,22 +1766,46 @@
   align-items: center;
   gap: var(--esp-4);
   min-height: var(--toque);
+  height: 100%;
   padding: var(--esp-4);
+  border-color: var(--outline-variant);
+  border-radius: var(--radio-g);
+  background: var(--surface);
   color: inherit;
   text-decoration: none;
-  transition: box-shadow var(--transicion), background-color var(--transicion);
+  transition: box-shadow var(--mov-medio), border-color var(--transicion), transform var(--mov-medio);
 }
 
-.portada-truck:hover { background: var(--surface-container); color: inherit; box-shadow: var(--elev-2); }
+/* La ficha del truck se levanta, se enciende su borde y la sombra toma el rojo
+   de la marca. Es la pieza mas importante de la portada, y por eso la que mas
+   se mueve: cuatro pixeles, no los tres de una tarjeta del panel. */
+.portada-truck:hover { color: inherit; border-color: var(--anillo); box-shadow: var(--elev-realce); }
 .portada-truck:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .portada-truck:hover { transform: translateY(-4px); }
+  .portada-truck:hover .portada-logo { transform: scale(1.06); }
+  .portada-truck:hover .portada-truck-ir svg { transform: translateX(3px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .portada-truck:active { transform: scale(.99); transition-duration: .06s; }
+}
+
+.portada-lista > li { animation: entra var(--mov-lento) both; }
+.portada-lista > li:nth-child(2) { animation-delay: .06s; }
+.portada-lista > li:nth-child(3) { animation-delay: .12s; }
+.portada-lista > li:nth-child(n + 4) { animation-delay: .18s; }
 
 .portada-logo {
   flex: none;
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   object-fit: cover;
   border-radius: var(--radio-m);
   background: var(--surface-container);
+  box-shadow: var(--elev-1);
+  transition: transform var(--mov-lento);
 }
 
 /* Sin logotipo, la inicial del nombre. Mejor que un hueco gris: da algo
@@ -1117,12 +1831,46 @@
   white-space: nowrap;
 }
 
-.portada-parada { align-self: flex-start; margin-top: var(--esp-1); white-space: normal; height: auto; padding-block: var(--esp-1); }
+/* Puede ocupar dos renglones —«Ahora en … · hasta las …»—, y una pastilla de
+   dos renglones con radio completo queda como un ovalo: aqui el radio es el de
+   una tarjeta. */
+.portada-parada {
+  align-self: flex-start;
+  margin-top: var(--esp-1);
+  white-space: normal;
+  height: auto;
+  padding-block: var(--esp-1);
+  border-radius: var(--radio-m);
+}
+
 .portada-truck-ciudad { font: var(--tipo-cuerpo-p); color: var(--on-surface-variant); }
 
-/* La flecha dice "esto lleva a otro sitio" sin gastar una palabra. */
-.portada-truck-ir { flex: none; color: var(--primary); display: grid; place-items: center; }
-.portada-truck-ir svg { width: 24px; height: 24px; }
+/* La flecha dice "esto lleva a otro sitio" sin gastar una palabra. Va en su
+   ficha, y al pasar la ficha se invierte: del tinte al rojo lleno. */
+.portada-truck-ir {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radio-completo);
+  background: var(--tinte);
+  color: var(--primary);
+  transition: background-color var(--mov-medio), color var(--mov-medio);
+}
+
+.portada-truck-ir svg { width: 20px; height: 20px; transition: transform var(--mov-medio); }
+
+.portada-truck:hover .portada-truck-ir { background: var(--primary); color: var(--on-primary); }
+
+/* En el telefono el logotipo y la flecha ceden ancho al nombre: con las
+   medidas de escritorio, «Festín Rodante» se partia en dos renglones. */
+@media (max-width: 480px) {
+  .portada-truck { gap: var(--esp-3); padding: var(--esp-3); }
+  .portada-logo { width: 56px; height: 56px; }
+  .portada-truck-ir { width: 32px; height: 32px; }
+  .portada-truck-ir svg { width: 16px; height: 16px; }
+}
 
 /* El acceso del personal: presente, pero sin competir con las cartas. */
 .portada-personal {
@@ -1132,18 +1880,277 @@
   justify-content: space-between;
   gap: var(--esp-4);
   padding: var(--esp-5);
-  border-top: 1px solid var(--outline-variant);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-g);
+  background: var(--surface-container-low);
 }
+
+.portada-personal-texto > p { margin-block: 0; }
 
 .portada-personal-texto { display: flex; flex-direction: column; gap: var(--esp-1); }
 .portada-personal-titulo { font: var(--tipo-titulo-p); margin-block: 0; }
+
+/* ============================ 10b. PIEZAS DE APLICACION: TEMA, FILTRO, ETC. ==
+   Lo que no es de ninguna pantalla en concreto y hace que el conjunto se
+   comporte como una aplicacion: el salto al contenido, el cambio de tema, la
+   barra de progreso entre paginas y el filtro de listas. */
+
+/* Salto al contenido. Invisible hasta que recibe el foco: es lo primero que
+   encuentra el tabulador, y evita recorrer cabecera y navegacion en cada
+   pagina a quien navega con teclado. */
+.salto {
+  position: absolute;
+  left: var(--esp-4);
+  top: var(--esp-2);
+  z-index: 40;
+  padding: var(--esp-3) var(--esp-4);
+  border-radius: var(--radio-p);
+  background: var(--inverse-surface);
+  color: var(--inverse-on-surface);
+  font: var(--tipo-etiqueta-g);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.salto:focus { transform: none; color: var(--inverse-on-surface); }
+
+/* El contenido recibe el foco al saltar, pero no es un control: sin anillo. */
+main:focus { outline: none; }
+
+/* Cambio de tema. Un solo boton con los dos iconos; la hoja ensena el del tema
+   al que se va —la luna en claro, el sol en oscuro—, que es lo que hace el
+   boton, no lo que hay. */
+.boton-tema[hidden] { display: none; }
+.boton-tema .boton-tema-sol,
+html.o .boton-tema .boton-tema-luna { display: none; }
+html.o .boton-tema .boton-tema-sol { display: block; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .boton-tema svg { transition: transform var(--mov-medio); }
+  .boton-tema:hover svg { transform: rotate(20deg); }
+}
+
+/* El acceso del personal, en la cabecera de las pantallas sin sesion. */
+.cabecera-ingresar { min-height: 40px; padding: 0 var(--esp-4); }
+
+/* En el telefono los botones de icono de la cabecera bajan a 40 px y la
+   inicial sale de la vista: marca, tema, salida y menu son lo que cabe en
+   320 px. El blanco sigue por encima de los 24 px que pide WCAG 2.2, y los
+   tres estan separados. */
+@media (max-width: 480px) {
+  .cabecera .boton-simbolo { width: 40px; height: 40px; }
+  .cabecera .cabecera-salir { padding: 0 var(--esp-2); }
+  .cabecera-avatar { display: none; }
+  .cabecera-ingresar { padding: 0 var(--esp-3); }
+}
+
+/* Barra de progreso entre paginas. La crea interfaz.js al pulsar un enlace o
+   enviar un formulario; avanza sola hasta cerca del final y la pagina nueva la
+   sustituye. Nunca llega al 100 %: no sabe cuando acaba la carga, y una barra
+   llena sobre una pagina que sigue cargando miente. */
+.progreso {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  transform-origin: left;
+  transform: scaleX(.9);
+  animation: progreso 8s cubic-bezier(.1, .7, .2, 1) both;
+  pointer-events: none;
+}
+
+@keyframes progreso {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(.9); }
+}
+
+/* Chip de filtro. Un boton que se queda pulsado: el elegido lleva el rojo de la
+   marca y su estado en aria-pressed, que es lo que lee el lector de pantalla. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-height: 40px;
+  padding: 0 var(--esp-4);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-completo);
+  background: var(--surface);
+  color: var(--on-surface);
+  font: var(--tipo-etiqueta-g);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transicion), color var(--transicion),
+              border-color var(--transicion), box-shadow var(--transicion), transform var(--transicion);
+}
+
+.chip:hover { background: var(--tinte); color: var(--primary); border-color: var(--primary); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .chip:active { transform: scale(.96); transition-duration: .06s; }
+}
+
+.chip[aria-pressed="true"],
+.chip[aria-pressed="true"]:hover {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+  box-shadow: var(--elev-realce);
+}
+
+.chip-cuenta {
+  min-width: 22px;
+  padding: 0 6px;
+  border-radius: var(--radio-completo);
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+  font: var(--tipo-etiqueta-m);
+  line-height: 22px;
+  text-align: center;
+}
+
+.chip[aria-pressed="true"] .chip-cuenta {
+  background: color-mix(in srgb, var(--on-primary) 22%, transparent);
+  color: var(--on-primary);
+}
+
+/* Buscador de una lista: una pastilla con la lupa dentro. */
+.buscador { position: relative; flex: 1 1 16rem; min-width: 0; max-width: 28rem; }
+
+.buscador-icono {
+  position: absolute;
+  left: var(--esp-4);
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  color: var(--on-surface-variant);
+  pointer-events: none;
+}
+
+.buscador-campo {
+  width: 100%;
+  height: var(--toque);
+  padding: 0 var(--esp-4) 0 44px;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radio-completo);
+  background: var(--surface);
+  color: var(--on-surface);
+  font: var(--tipo-cuerpo-g);
+  transition: border-color var(--transicion), box-shadow var(--transicion);
+}
+
+.buscador-campo:hover { border-color: var(--outline); }
+
+.buscador-campo:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--tinte-fuerte);
+}
+
+/* Los controles de un filtro: el buscador y sus chips, en un renglon que salta
+   cuando no cabe. */
+.filtro { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-3); }
+.filtro[hidden] { display: none; }
+.filtro-chips { display: flex; flex-wrap: wrap; gap: var(--esp-2); }
+
+.filtro-vacio { margin: var(--esp-5) 0; color: var(--on-surface-variant); text-align: center; }
+
+/* Lo que el filtro esconde, escondido de verdad: la fila de una tabla apilable
+   y la ficha de una lista traen su propio display, que le ganaria al atributo. */
+[data-filtro-item][hidden] { display: none !important; }
+
+/* Aviso que se puede cerrar: el boton se pega al borde derecho y no empuja el
+   texto de su linea. */
+.aviso-cerrable { align-items: center; }
+.aviso-cerrable > p { flex: 1; min-width: 0; }
+
+.aviso-cerrar {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  margin: -4px -8px -4px 0;
+  color: inherit;
+}
+
+.aviso-cerrar[hidden] { display: none; }
+.aviso-cerrar svg { width: 18px; height: 18px; }
+.aviso-cerrar:hover { background: color-mix(in srgb, currentColor 12%, transparent); color: inherit; }
+
+/* ===================================== 10c. LA FAMILIA NARANJA DE LA MARCA ==
+   Menu08 se lee en rojo, naranja y dorado. Lo que se pulsa o se elige lleva el
+   degradado del rojo al naranja; lo que dice «listo», «abierto» o «hecho», el
+   degradado suave del naranja claro al dorado; y las fichas de icono se reparten
+   los tonos de la familia —dorado, mandarina, salmon y ambar— para que una
+   rejilla de atajos no sea cuatro veces el mismo cuadro.
+
+   Va al final de las piezas para mandar sobre sus fondos planos sin subir la
+   especificidad de nadie. */
+
+.boton-relleno { background: var(--degradado); }
+
+.chip[aria-pressed="true"],
+.chip[aria-pressed="true"]:hover { background: var(--degradado); border-color: transparent; }
+
+.etiqueta-lista,
+.etiqueta-turno,
+.etiqueta-cuadra { background: var(--degradado-suave); color: var(--on-tertiary-container); }
+
+.aviso-exito {
+  background: var(--degradado-suave);
+  color: var(--on-tertiary-container);
+  border-color: color-mix(in srgb, var(--tertiary) 30%, transparent);
+}
+
+.panel-filtro-opcion[aria-current="page"],
+.panel-filtro-opcion[aria-current="page"]:hover { background: var(--degradado); color: var(--on-primary); }
+
+.portada-truck:hover .portada-truck-ir { background: var(--degradado); }
+
+/* Las fichas de icono, cada una en su naranja. */
+.panel-atajo-icono { transition: background-color var(--mov-medio), color var(--mov-medio), transform var(--mov-medio), box-shadow var(--mov-medio); }
+.rejilla > :nth-child(4n + 1) .panel-atajo-icono { background: var(--secondary-container); color: var(--on-secondary-container); }
+.rejilla > :nth-child(4n + 2) .panel-atajo-icono { background: var(--tertiary-container); color: var(--on-tertiary-container); }
+.rejilla > :nth-child(4n + 3) .panel-atajo-icono { background: var(--primary-container); color: var(--on-primary-container); }
+.rejilla > :nth-child(4n + 4) .panel-atajo-icono { background: var(--warning-container); color: var(--on-warning-container); }
+.rejilla > .panel-atajo:hover .panel-atajo-icono { background: var(--degradado); color: var(--on-primary); box-shadow: var(--elev-realce); }
+
+.navegacion-lista > li:nth-child(3n + 1) .navegacion-icono { background: var(--secondary-container); }
+.navegacion-lista > li:nth-child(3n + 2) .navegacion-icono { background: var(--tertiary-container); }
+.navegacion-lista > li:nth-child(3n + 3) .navegacion-icono { background: var(--primary-container); }
+
+/* Las cifras del panel, con un filete del degradado arriba: cuatro tarjetas
+   iguales se distinguen de un vistazo de las de abajo. */
+.panel-cifra { position: relative; overflow: hidden; }
+
+.panel-cifra::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--degradado);
+}
+
+.panel-cifra-aviso::before { background: var(--warning); }
+
+.portada-logo-vacio { background: var(--degradado-suave); color: var(--on-tertiary-container); }
+
+/* Barras de desplazamiento finas y de la paleta: la nativa, gris y con
+   flechas, rompia el panel de la orden y las listas que se desplazan. */
+* { scrollbar-width: thin; scrollbar-color: var(--outline-variant) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { border-radius: 8px; background: var(--outline-variant); }
+*::-webkit-scrollbar-thumb:hover { background: var(--outline); }
 
 /* ============================================== 11. SOLO PARA EL MUESTRARIO ==
    Un catalogo tiene que enseñar a la vez estados que en uso son excluyentes.
    Estas tres clases los fuerzan; ninguna vista de la aplicacion las usa. */
 
 .muestra-encima::after { opacity: .08; }
-.boton-relleno.muestra-encima, .boton-peligro.muestra-encima { box-shadow: var(--elev-2); }
+.boton-relleno.muestra-encima, .boton-peligro.muestra-encima { box-shadow: var(--elev-realce); transform: translateY(-1px); }
 .muestra-foco { outline: var(--foco); outline-offset: var(--foco-separacion); }
 
 .muestrario-seccion { scroll-margin-top: var(--esp-5); }
@@ -1193,13 +2200,23 @@
    dentro de .campo cogeria este ancho en vez del suyo. */
 label:not(.campo-etiqueta) { font-weight: 600; }
 
-input:not(.campo-control),
-button:not(.boton):not(.boton-simbolo),
-select:not(.campo-control),
-textarea:not(.campo-control) {
+/* DENTRO DE :where(), Y NO ES COSMETICA. Un :not(.clase) suma la especificidad
+   de la clase que niega: button:not(.boton):not(.boton-simbolo) pesa (0,2,1), mas
+   que cualquier clase sola. Asi esta linea base, pensada para el control SIN
+   maquetar, le ganaba a los que ya tienen su propia pieza —.venta-chip,
+   .venta-ficha-boton, .turno-tecla, .turno-lectura-valor— y les imponia su
+   borde, su radio de 4 px y su fondo gris: el chip elegido de CAJA no llegaba a
+   pintarse de rojo y la base del turno salia con un recuadro dentro de otro.
+
+   :where() deja el peso en cero. La regla sigue vistiendo al control pelado, que
+   no tiene otra, y cede ante cualquier clase que diga algo distinto. */
+:where(input:not(.campo-control)),
+:where(button:not(.boton):not(.boton-simbolo)),
+:where(select:not(.campo-control)),
+:where(textarea:not(.campo-control)) {
   padding: var(--esp-2) var(--esp-3);
   border: 1px solid var(--outline);
-  border-radius: var(--radio-xp);
+  border-radius: var(--radio-p);
   background: var(--surface);
   color: var(--on-surface);
 }
@@ -1212,5 +2229,5 @@ input[type="password"]:not(.campo-control) { width: min(22rem, 100%); }
 
 input[type="number"]:not(.campo-control) { width: 5rem; }
 
-button:not(.boton):not(.boton-simbolo) { cursor: pointer; background: var(--surface-container-high); }
-button:not(.boton):not(.boton-simbolo):hover { background: var(--surface-container); }
+:where(button:not(.boton):not(.boton-simbolo)) { cursor: pointer; background: var(--surface-container-high); }
+:where(button:not(.boton):not(.boton-simbolo):hover) { background: var(--surface-container); }

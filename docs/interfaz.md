@@ -161,10 +161,11 @@ no separe naranja de rojo —o mire el tablero del SVP desde tres metros— sigu
 leyendo. Los iconos son SVG de trazo, nunca emoji: un emoji no se recolorea con el tema y cada
 sistema lo dibuja distinto.
 
-**Una sola excepción: el logotipo.** La marca de Menu08 es el emoji 🍴 y aparece como tal en el
-sello de la cabecera, en la pantalla de acceso, en la carta pública y en el icono de la pestaña
-(un SVG en línea con el emoji dentro, sin archivo que subir). Es el logotipo, no un icono: los
-iconos de la interfaz siguen siendo SVG de trazo. El sello va sobre `--primary-container` y no
+**Dos excepciones: la marca y los módulos.** El logotipo de Menu08 es el emoji 🍴 y aparece como
+tal en el sello de la cabecera, en la pantalla de acceso, en la carta pública y en el icono de la
+pestaña (un SVG en línea con el emoji dentro, sin archivo que subir). Los tres módulos de la
+navegación llevan también el suyo, de la misma familia: 📖 CARTA, 💵 CAJA y 👨‍🍳 SVP. Fuera de ahí
+los iconos de la interfaz siguen siendo SVG de trazo. El sello va sobre `--primary-container` y no
 sobre el rojo lleno, porque el emoji trae su propio color —gris plata en casi todos los sistemas—
 y sobre el rojo se apagaba.
 
@@ -181,7 +182,13 @@ preguntas de quien la usa.**
   `carta.js` añade el buscador, el visor de fotos y el «leer más» de la descripción; los tres salen
   del servidor ocultos o sin recortar, así que sin JavaScript la carta se lee entera: las
   categorías son anclas y la foto es un enlace a la imagen.
-- **Tablero del SVP** (`svp/tablero.php`, `svp.css`). La tarjeta tiene dos zonas: la cabeza, teñida
+- **Colores de la marca en los estados.** Pendiente va en el rojo tomate de la marca, en
+  preparación en el dorado y lista en el verde de la paleta Brasa, igual en el SVP, en la pantalla
+  pública de turnos y en las etiquetas de estado. El naranja de aviso (`--warning`) queda solo para
+  lo que de verdad avisa: un sobrante, una carta vacía, un aviso.
+- **Tablero del SVP** (`svp/tablero.php`, `svp.css`). Cada tarjeta lleva una barra de tiempo en el
+  borde de la cabeza, que se llena a medida que la orden se acerca al umbral de demora, y la barra
+  del tablero muestra la hora de la cocina. La tarjeta tiene dos zonas: la cabeza, teñida
   del color del estado, con el número y el cronómetro, y el cuerpo, sobre fondo limpio, con los
   renglones a 18 px. El botón de avance lleva el color del estado **siguiente**. La demora invierte
   el cronómetro y pone la palabra; no se mueve nada. Botón de pantalla completa, que esconde la
@@ -189,7 +196,11 @@ preguntas de quien la usa.**
 - **Orden de CAJA** (`caja/venta.php`, `caja.css`, `caja.js`). El renglón va en dos pisos —nombre
   completo y subtotal arriba, unitario y contador abajo— porque en uno solo el nombre se cortaba.
   El botón dice «Cobrar $ 44.700», el título lleva la cuenta de unidades y la ficha del catálogo
-  muestra cuántas lleva ya la orden.
+  muestra cuántas lleva ya la orden. La columna crece con cada producto y, al desplazar, hasta
+  ocupar la ventana (`--venta-tope` se mide al desplazar, no solo al cargar); el renglón que entra
+  o cambia se trae a la vista y se resalta; vacía no se pega. Cuando el botón de cobro queda fuera
+  de la vista —en el teléfono, siempre que se toca el catálogo— una barra flotante lleva la cuenta
+  y el total y, al tocarla, lleva a la orden.
 
 ### El aviso solo es flex cuando trae icono
 

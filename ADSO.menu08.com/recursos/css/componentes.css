@@ -619,7 +619,10 @@ a.boton:hover { text-decoration: none; }
    pantalla porque la emiten dos, /caja y /caja/turno, y cada una carga la suya. */
 .etiqueta-turno { background: var(--tertiary-container); color: var(--on-tertiary-container); }
 
-.etiqueta-preparacion { background: var(--warning-container); color: var(--on-warning-container); }
+/* En preparacion va en el dorado de la marca, igual que su carril en el SVP y
+   su columna en la pantalla de turnos. El naranja de aviso queda para lo que
+   de verdad avisa: un sobrante, una carta vacia. */
+.etiqueta-preparacion { background: var(--secondary-container); color: var(--on-secondary-container); }
 .etiqueta-lista { background: var(--tertiary-container); color: var(--on-tertiary-container); }
 .etiqueta-entregada { background: transparent; color: var(--on-surface-variant); border-color: var(--outline); }
 .etiqueta-demorada { background: var(--error-container); color: var(--on-error-container); }
@@ -970,8 +973,9 @@ a.boton:hover { text-decoration: none; }
 .navegacion-enlace:hover::after { transform: scaleX(1); }
 .navegacion-enlace:focus-visible { outline: var(--foco); outline-offset: calc(var(--foco-separacion) * -1); }
 
-/* El icono del modulo, en su ficha. Al pasar —y en el modulo abierto— la ficha
-   se invierte: del tinte suave al rojo lleno con el trazo claro. */
+/* El emoji del modulo, en su ficha. Al pasar —y en el modulo abierto— la ficha
+   se enciende con el contenedor de la marca y el filete rojo alrededor: el
+   emoji trae su propio color, asi que lo que cambia es la ficha, no el trazo. */
 .navegacion-icono {
   display: grid;
   place-items: center;
@@ -980,17 +984,18 @@ a.boton:hover { text-decoration: none; }
   height: 36px;
   border-radius: var(--radio-p);
   background: var(--surface-container);
-  color: var(--on-surface-variant);
-  transition: background-color var(--transicion), color var(--transicion), transform var(--mov-medio);
+  font-size: 20px;
+  line-height: 1;
+  transition: background-color var(--transicion), box-shadow var(--transicion), transform var(--mov-medio);
 }
 
-.navegacion-icono svg { width: 20px; height: 20px; }
+.navegacion-enlace:hover .navegacion-icono { background: var(--surface); box-shadow: 0 0 0 2px var(--anillo); }
 
-.navegacion-enlace:hover .navegacion-icono,
-.navegacion-activa .navegacion-icono { background: var(--primary); color: var(--on-primary); }
+.navegacion-activa .navegacion-icono,
+.navegacion-activa:hover .navegacion-icono { background: var(--surface); box-shadow: 0 0 0 2px var(--primary); }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .navegacion-enlace:hover .navegacion-icono { transform: scale(1.06); }
+  .navegacion-enlace:hover .navegacion-icono { transform: scale(1.08) rotate(-4deg); }
 }
 
 .navegacion-textos { display: flex; flex-direction: column; min-width: 0; }

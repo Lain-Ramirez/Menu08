@@ -104,6 +104,10 @@
     var botonCobrar = raiz.querySelector('[data-venta-cobrar]');
     var botonVaciar = raiz.querySelector('[data-venta-vaciar]');
     var insignia = raiz.querySelector('[data-venta-insignia]');
+    var columnaOrden = raiz.querySelector('[data-venta-orden]');
+    var flotante = raiz.querySelector('[data-venta-flotante]');
+    var flotanteCuenta = raiz.querySelector('[data-venta-flotante-cuenta]');
+    var flotanteTotal = raiz.querySelector('[data-venta-flotante-total]');
     var totalCobrar = raiz.querySelector('[data-venta-cobrar-total]');
     var anuncio = raiz.querySelector('[data-venta-anuncio]');
 
@@ -332,6 +336,46 @@
         refrescarRenglon(renglones[id]);
         sincronizarCampo(id, 1);
         actualizar();
+        mostrarRenglon(piezas.nodo);
+    }
+
+    /** Lleva a la vista el renglon que acaba de cambiar y lo resalta.
+
+        Con la orden larga la lista se desplaza por dentro, y un producto
+        anadido al final quedaba debajo del borde: el cajero pulsaba y no veia
+        que habia entrado. Ahora la lista baja hasta el renglon, y el renglon se
+        enciende un momento, que es lo que dice «este es el que cambio». */
+    function mostrarRenglon(nodo) {
+        nodo.classList.remove('venta-linea-resalte');
+        void nodo.offsetWidth;
+        nodo.classList.add('venta-linea-resalte');
+
+        if (lista === null || lista.scrollHeight <= lista.clientHeight) {
+            return;
+        }
+
+        var arriba = nodo.offsetTop;
+        var abajo = arriba + nodo.offsetHeight;
+        var destino = null;
+
+        if (arriba < lista.scrollTop) {
+            destino = arriba;
+        } else if (abajo > lista.scrollTop + lista.clientHeight) {
+            destino = abajo - lista.clientHeight;
+        }
+
+        if (destino === null) {
+            return;
+        }
+
+        var quieto = typeof window.matchMedia === 'function'
+            && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (typeof lista.scrollTo === 'function') {
+            lista.scrollTo({ top: destino, behavior: quieto ? 'auto' : 'smooth' });
+        } else {
+            lista.scrollTop = destino;
+        }
     }
 
     function cambiar(id, delta) {
@@ -358,6 +402,7 @@
         refrescarRenglon(r);
         sincronizarCampo(id, nueva);
         actualizar();
+        mostrarRenglon(r.nodo);
     }
 
     function quitar(id) {
@@ -443,6 +488,23 @@
         if (totalCobrar !== null) {
             totalCobrar.textContent = vacia ? '' : pesos(t.centavos);
         }
+
+        /* Con renglones la columna se pega al desplazar; vacia no: un recuadro
+           vacio que persigue la pagina no dice nada. */
+        if (columnaOrden !== null) {
+            columnaOrden.classList.toggle('venta-orden-llena', !vacia);
+        }
+
+        if (flotanteCuenta !== null) {
+            flotanteCuenta.textContent = String(t.unidades);
+        }
+
+        if (flotanteTotal !== null) {
+            flotanteTotal.textContent = pesos(t.centavos);
+        }
+
+        evaluarFlotante();
+        medirTope();
 
         if (ordenVacia !== null) {
             ordenVacia.hidden = !vacia;
@@ -724,24 +786,82 @@
        —rectangulo mas desplazamiento— es la misma siempre. */
 
     var HOLGURA_INFERIOR = 24;
+    var HOLGURA_SUPERIOR = 24;
 
+    /* EL TOPE SE MIDE AL DESPLAZAR, NO SOLO AL CARGAR. Medido una vez, con la
+       pagina arriba, el tope era la distancia desde donde nace la columna —por
+       debajo de la cabecera y la barra del turno— hasta el borde inferior: unos
+       cuatrocientos pixeles. Al bajar, la columna se pegaba arriba pero seguia
+       con ese alto, y la orden no crecia aunque tuviera toda la ventana libre:
+       los renglones nuevos se apilaban detras del borde.
+
+       Ahora el tope es lo que hay entre donde esta la columna AHORA y el borde
+       de abajo, asi que crece mientras se desplaza hasta ocupar la ventana
+       entera. Es un tope y no un alto: con pocos renglones la columna mide lo
+       que mide su contenido. */
     function medirTope() {
-        raiz.style.removeProperty('--venta-tope');
-
         if (zonas === null || typeof window.matchMedia !== 'function'
                 || !window.matchMedia(DOS_ZONAS).matches) {
+            raiz.style.removeProperty('--venta-tope');
+
             return;
         }
 
-        var rectangulo = zonas.getBoundingClientRect();
-        var desdeArriba = rectangulo.top + (window.pageYOffset || 0);
-        var tope = window.innerHeight - desdeArriba - HOLGURA_INFERIOR;
+        var arriba = Math.max(zonas.getBoundingClientRect().top, HOLGURA_SUPERIOR);
+        var tope = window.innerHeight - arriba - HOLGURA_INFERIOR;
 
         /* Por debajo de esto la columna no cabe ni con la cabecera y el resumen,
            y limitarla solo la dejaria ilegible: mas vale que crezca. */
         if (tope > 260) {
             raiz.style.setProperty('--venta-tope', Math.floor(tope) + 'px');
+        } else {
+            raiz.style.removeProperty('--venta-tope');
         }
+    }
+
+    var medidaPendiente = false;
+
+    window.addEventListener('scroll', function () {
+        if (medidaPendiente) {
+            return;
+        }
+
+        medidaPendiente = true;
+
+        window.requestAnimationFrame(function () {
+            medidaPendiente = false;
+            medirTope();
+        });
+    }, { passive: true });
+
+    /* ----------------------------------------------- la orden, a mano ======
+
+       En el telefono, y en el portatil cuando se baja hasta el historial, la
+       orden queda fuera de la vista: el cajero toca productos sin ver que
+       entran. Una barra flotante abajo lleva la cuenta y el total, y al tocarla
+       lleva a la orden. Solo aparece con la orden empezada y cuando el boton de
+       cobro no esta a la vista: si se ve, sobra. */
+    var cobroVisible = true;
+
+    function evaluarFlotante() {
+        if (flotante === null) {
+            return;
+        }
+
+        flotante.hidden = secuencia.length === 0 || cobroVisible;
+    }
+
+    if (flotante !== null && botonCobrar !== null && typeof IntersectionObserver === 'function') {
+        new IntersectionObserver(function (entradas) {
+            cobroVisible = entradas[0].isIntersecting;
+            evaluarFlotante();
+        }, { threshold: 0.6 }).observe(botonCobrar);
+
+        flotante.addEventListener('click', function () {
+            if (columnaOrden !== null) {
+                columnaOrden.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
     }
 
     /* ------------------------------------------------------------ arranque */

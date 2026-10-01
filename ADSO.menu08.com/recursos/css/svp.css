@@ -74,6 +74,19 @@
 
 .svp-barra-controles { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-3); }
 
+/* La hora de la cocina, grande, como en cualquier pantalla de produccion: es la
+   referencia contra la que se leen los cronometros. La escribe svp.js. */
+.svp-hora {
+  color: var(--on-surface);
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.svp-hora:empty { display: none; }
+
 /* El latido del sondeo. Se apaga cuando una peticion falla, y entonces manda
    el aviso de error que hay debajo. */
 .svp-latido {
@@ -148,8 +161,9 @@ html:fullscreen .contenido { max-width: none; padding: var(--esp-4); }
   gap: var(--esp-2);
   padding: var(--esp-2) var(--esp-3) var(--esp-2) var(--esp-4);
   border-radius: var(--radio-m);
-  background: var(--svp-contenedor, var(--surface-container-high));
-  color: var(--svp-sobre, var(--on-surface));
+  background: var(--svp-fuerte, var(--surface-container-high));
+  color: var(--svp-sobre-fuerte, var(--on-surface));
+  box-shadow: var(--elev-1);
 }
 
 .svp-columna-titulo { display: flex; align-items: center; gap: var(--esp-2); margin: 0; font: var(--tipo-titulo-p); }
@@ -161,7 +175,8 @@ html:fullscreen .contenido { max-width: none; padding: var(--esp-4); }
   width: 12px;
   height: 12px;
   border-radius: var(--radio-completo);
-  background: var(--svp-fuerte, var(--outline));
+  background: currentColor;
+  opacity: .85;
 }
 
 /* Cuantas ordenes hay en el carril. A distancia es lo primero que se mira:
@@ -170,8 +185,8 @@ html:fullscreen .contenido { max-width: none; padding: var(--esp-4); }
   min-width: 36px;
   padding: 0 var(--esp-2);
   border-radius: var(--radio-completo);
-  background: var(--svp-fuerte, var(--outline));
-  color: var(--svp-sobre-fuerte, var(--surface));
+  background: var(--svp-sobre-fuerte, var(--surface));
+  color: var(--svp-fuerte, var(--on-surface));
   font-size: 18px;
   line-height: 32px;
   font-weight: 700;
@@ -179,27 +194,33 @@ html:fullscreen .contenido { max-width: none; padding: var(--esp-4); }
   text-align: center;
 }
 
-/* EL SEMAFORO. Rojo lo que espera, ambar lo que esta en la plancha, verde lo
-   que ya se puede entregar. Cada estado declara sus cuatro tonos —el contenedor
-   y su texto, el fuerte y su texto— y el color del paso siguiente, que es el
-   del boton. Todo son tokens de la paleta, que ya vienen en pareja con su
-   color de texto: el contraste se mantiene en claro y en oscuro. */
+/* LOS COLORES SON LOS DE LA MARCA. Rojo tomate lo que espera, dorado lo que
+   esta en la plancha y verde lo que ya se puede entregar: el rojo y el dorado
+   son la dupla de Menu08, y el verde es el tercer color de la misma paleta
+   Brasa, el que en toda la aplicacion dice «listo» o «abierto». Antes la plancha
+   iba en el naranja de aviso, un marron que no era de la marca y que en el
+   tablero se leia como un error.
+
+   Cada estado declara sus tonos —el contenedor y su texto, el fuerte y su
+   texto— y el del paso siguiente, que es el del boton. Todo son tokens de la
+   paleta, que ya vienen en pareja con su color de texto: el contraste se
+   mantiene en claro y en oscuro. */
 .svp-columna-pendiente,
 .svp-tarjeta-pendiente {
-  --svp-contenedor: var(--error-container);
-  --svp-sobre: var(--on-error-container);
-  --svp-fuerte: var(--error);
-  --svp-sobre-fuerte: var(--on-error);
-  --svp-destino: var(--warning);
-  --svp-sobre-destino: var(--on-warning);
+  --svp-contenedor: var(--primary-container);
+  --svp-sobre: var(--on-primary-container);
+  --svp-fuerte: var(--primary);
+  --svp-sobre-fuerte: var(--on-primary);
+  --svp-destino: var(--secondary);
+  --svp-sobre-destino: var(--on-secondary);
 }
 
 .svp-columna-preparacion,
 .svp-tarjeta-preparacion {
-  --svp-contenedor: var(--warning-container);
-  --svp-sobre: var(--on-warning-container);
-  --svp-fuerte: var(--warning);
-  --svp-sobre-fuerte: var(--on-warning);
+  --svp-contenedor: var(--secondary-container);
+  --svp-sobre: var(--on-secondary-container);
+  --svp-fuerte: var(--secondary);
+  --svp-sobre-fuerte: var(--on-secondary);
   --svp-destino: var(--tertiary);
   --svp-sobre-destino: var(--on-tertiary);
 }
@@ -210,8 +231,8 @@ html:fullscreen .contenido { max-width: none; padding: var(--esp-4); }
   --svp-sobre: var(--on-tertiary-container);
   --svp-fuerte: var(--tertiary);
   --svp-sobre-fuerte: var(--on-tertiary);
-  --svp-destino: var(--inverse-surface);
-  --svp-sobre-destino: var(--inverse-on-surface);
+  --svp-destino: var(--primary);
+  --svp-sobre-destino: var(--on-primary);
 }
 
 .svp-lista { display: flex; flex-direction: column; gap: var(--esp-3); list-style: none; margin: 0; padding: 0; }
@@ -249,14 +270,33 @@ html:fullscreen .contenido { max-width: none; padding: var(--esp-4); }
 
 /* La cabeza: el numero y el cronometro, sobre el color del estado. */
 .svp-tarjeta-cabeza {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--esp-1) var(--esp-3);
-  padding: var(--esp-3) var(--esp-4);
+  padding: var(--esp-3) var(--esp-4) calc(var(--esp-3) + 4px);
   background: var(--svp-contenedor, var(--surface-container-high));
   color: var(--svp-sobre, var(--on-surface));
+}
+
+/* LA BARRA DEL TIEMPO. Como en una pantalla de cocina profesional: el borde
+   inferior de la cabeza se llena a medida que la orden se acerca al umbral de
+   demora, y llena dice «ya». Se lee de reojo y de lejos, sin leer el
+   cronometro. La proporcion la escribe svp.js cada segundo en --svp-progreso;
+   sin el guion la barra no aparece. */
+.svp-tarjeta-cabeza::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--svp-fuerte, var(--outline));
+  transform-origin: left;
+  transform: scaleX(var(--svp-progreso, 0));
+  transition: transform 1s linear;
 }
 
 /* 40 px: el criterio pide 32 como minimo y este es el dato que se canta por la
@@ -418,6 +458,10 @@ html:fullscreen .contenido { max-width: none; padding: var(--esp-4); }
 }
 
 .svp-tarjeta-demorada .svp-reloj { font-weight: 700; }
+
+/* Demorada, la barra del tiempo se queda llena y en el tono del error: es la
+   unica senal roja que se permite fuera del carril rojo, y va en cuatro pixeles. */
+.svp-tarjeta-demorada .svp-tarjeta-cabeza::after { background: var(--error); }
 
 /* La etiqueta del catalogo se pinta sobre --error-container, que meteria rojo
    en los carriles ambar y verde. Dentro del tablero toma el tono fuerte de su

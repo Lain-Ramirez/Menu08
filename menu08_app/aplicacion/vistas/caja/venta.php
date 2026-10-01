@@ -242,7 +242,7 @@ $abierto = $turno !== null;
         </section>
 
         <?php // -------------------------------------- orden en construccion ?>
-        <aside class="venta-orden" aria-labelledby="venta-orden-titulo">
+        <aside class="venta-orden" aria-labelledby="venta-orden-titulo" data-venta-orden>
             <div class="venta-orden-cabeza">
                 <h2 class="venta-orden-titulo" id="venta-orden-titulo">
                     Orden
@@ -265,12 +265,9 @@ $abierto = $turno !== null;
                 <p>Toque un producto del catálogo para empezar la orden.</p>
             </div>
 
+            <?php // Los articulos ya los cuenta la insignia del titulo: el resumen
+                  // se queda con el total, y la lista gana un renglon a la vista. ?>
             <div class="venta-resumen">
-                <div class="venta-resumen-fila texto-m texto-apagado">
-                    <span>Artículos</span>
-                    <span class="cifra" data-venta-unidades>0</span>
-                </div>
-
                 <div class="venta-resumen-fila">
                     <span class="venta-resumen-rotulo">Total</span>
                     <span class="venta-resumen-total" data-venta-total><?= Vista::e($peso(0)) ?></span>
@@ -284,6 +281,15 @@ $abierto = $turno !== null;
                 <span class="venta-cobrar-total numerica" data-venta-cobrar-total></span>
             </button>
         </aside>
+
+        <?php // La orden a mano cuando no se ve: en el telefono queda debajo del
+              // catalogo. La muestra caja.js con la orden empezada y el boton de
+              // cobro fuera de la vista; al tocarla, lleva a la orden. ?>
+        <button type="button" class="venta-flotante" data-venta-flotante hidden>
+            <span class="venta-flotante-cuenta numerica" data-venta-flotante-cuenta>0</span>
+            <span class="venta-flotante-rotulo">Ver la orden</span>
+            <span class="venta-flotante-total numerica" data-venta-flotante-total></span>
+        </button>
     </div>
 
     <?php // ------------------------------------------------ dialogo de cobro

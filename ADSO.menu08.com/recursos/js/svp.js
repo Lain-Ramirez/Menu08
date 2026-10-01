@@ -68,6 +68,7 @@
     var vacioCerrado = raiz.querySelector('[data-svp-vacio="cerrado"]');
     var vacioAlDia = raiz.querySelector('[data-svp-vacio="al-dia"]');
     var demoraRotulo = raiz.querySelector('[data-svp-demora-rotulo]');
+    var horaCocina = raiz.querySelector('[data-svp-hora]');
 
     /* Lo ultimo que dijo el servidor. Es lo que se vuelve a pintar cuando una
        orden avanza, sin esperar al sondeo siguiente. */
@@ -316,11 +317,22 @@
 
             nodo.querySelector('[data-svp-reloj]').textContent = cronometro(segundos);
 
+            /* La barra del tiempo: cuanto del umbral de demora lleva gastado. */
+            nodo.style.setProperty('--svp-progreso', String(Math.min(1, segundos / segundosDemora)));
+
             /* El tiempo solo va hacia delante: lo que ya estaba demorado no
                vuelve a estar a tiempo porque el sondeo diga otra cosa. */
             if (segundos >= segundosDemora) {
                 marcarDemora(nodo, true);
             }
+        }
+
+        /* La hora de la cocina, en el reloj del servidor. */
+        if (horaCocina !== null) {
+            var ahora = new Date((new Date()).getTime() - desfase);
+
+            horaCocina.textContent = (ahora.getHours() < 10 ? '0' : '') + ahora.getHours() + ':'
+                + (ahora.getMinutes() < 10 ? '0' : '') + ahora.getMinutes();
         }
 
         latir();

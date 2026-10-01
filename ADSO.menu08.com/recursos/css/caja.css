@@ -325,19 +325,24 @@
    hasta la altura del catalogo y, con la orden vacia, queda un recuadro enorme
    con dos lineas de texto perdidas en el medio.
 
-   --venta-tope lo mide caja.js: es lo que va desde donde nace la columna hasta
-   el borde inferior de la ventana. Asi el boton de cobro entra en la primera
-   pantalla aunque la orden sea larga, y lo que se desplaza es la lista de
-   renglones. El valor de respaldo cubre el marco tipico por si no hay
-   JavaScript, aunque entonces la pantalla tampoco arma ordenes. */
+   --venta-tope lo mide caja.js AL DESPLAZAR: es lo que va desde donde esta la
+   columna en ese momento hasta el borde inferior de la ventana. Con la pagina
+   arriba deja el boton de cobro en la primera pantalla; al bajar crece hasta
+   ocupar la ventana entera. Es un tope, no un alto: con pocos renglones la
+   columna mide lo que su contenido, y va creciendo con cada producto.
+
+   Solo se pega con la orden empezada —.venta-orden-llena, que pone caja.js—:
+   vacia, un recuadro que persigue la pagina no dice nada y estorba. */
 @media (min-width: 1024px) {
   .venta-orden {
+    align-self: start;
+    max-height: var(--venta-tope, calc(100vh - 3rem));
+    max-height: var(--venta-tope, calc(100dvh - 3rem));
+  }
+
+  .venta-orden-llena {
     position: sticky;
     top: var(--esp-5);
-    align-self: start;
-    min-height: 18rem;
-    max-height: var(--venta-tope, calc(100vh - 15rem));
-    max-height: var(--venta-tope, calc(100dvh - 15rem));
   }
 }
 
@@ -377,9 +382,21 @@
 .venta-vaciar:hover { color: var(--error); }
 
 .venta-lineas {
+  /* Relativa: caja.js mide la posicion de cada renglon dentro de la lista para
+     llevar a la vista el que acaba de cambiar. */
+  position: relative;
   list-style: none;
   margin: 0;
   padding: 0;
+  /* Sombras de desplazamiento: cuando hay renglones por encima o por debajo
+     del borde, una sombra suave lo dice. Las dos capas «local» tapan la sombra
+     cuando se llega al extremo, y las dos «scroll» se quedan quietas en el
+     borde. Sin una linea de JavaScript. */
+  background:
+    linear-gradient(var(--surface) 30%, transparent) top / 100% 24px no-repeat local,
+    linear-gradient(transparent, var(--surface) 70%) bottom / 100% 24px no-repeat local,
+    radial-gradient(farthest-side at 50% 0, var(--sombra), transparent) top / 100% 10px no-repeat scroll,
+    radial-gradient(farthest-side at 50% 100%, var(--sombra), transparent) bottom / 100% 10px no-repeat scroll;
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
@@ -413,13 +430,22 @@
     "nombre   subtotal"
     "unitario cantidad";
   align-items: center;
-  gap: var(--esp-1) var(--esp-3);
-  padding: var(--esp-3) 0;
+  gap: 2px var(--esp-3);
+  padding: var(--esp-2) 0;
   border-top: 1px solid var(--outline-variant);
   animation: entra var(--mov-medio) both;
 }
 
 .venta-linea:first-child { border-top: none; }
+
+/* El renglon que acaba de entrar o de cambiar se enciende un momento: el tinte
+   de la marca y se apaga. Lo pone y lo reinicia caja.js. */
+.venta-linea-resalte { animation: venta-resalte 1.2s var(--curva-salida); }
+
+@keyframes venta-resalte {
+  0%, 30% { background: var(--tinte-fuerte); box-shadow: -8px 0 0 var(--tinte-fuerte), 8px 0 0 var(--tinte-fuerte); }
+  100%    { background: transparent; box-shadow: -8px 0 0 transparent, 8px 0 0 transparent; }
+}
 
 .venta-linea-texto { display: contents; }
 
@@ -455,15 +481,15 @@
    trazo sigue siendo de 20 px y estan separados, que es lo que evita el error
    de pulsacion. */
 .venta-linea-cantidad .boton-simbolo {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   background: var(--surface);
   box-shadow: var(--elev-1);
 }
 
 .venta-linea-cantidad .boton-simbolo:hover { background: var(--primary); color: var(--on-primary); }
 
-.venta-linea-cantidad .boton-simbolo svg { width: 20px; height: 20px; }
+.venta-linea-cantidad .boton-simbolo svg { width: 18px; height: 18px; }
 
 .venta-linea-numero {
   min-width: 32px;
@@ -499,13 +525,12 @@
 /* Orden vacia: un icono, una frase que dice que pasa y otra que dice que
    hacer. Un hueco en blanco con dos lineas grises parecia un fallo de carga. */
 .venta-orden-vacia {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: var(--esp-1);
-  padding: var(--esp-5) var(--esp-4);
+  padding: var(--esp-4) var(--esp-3);
   color: var(--on-surface-variant);
   font: var(--tipo-cuerpo-m);
   text-align: center;
@@ -516,8 +541,8 @@
 .venta-orden-vacia-icono {
   display: grid;
   place-items: center;
-  width: 64px;
-  height: 64px;
+  width: 52px;
+  height: 52px;
   margin-bottom: var(--esp-2);
   border-radius: var(--radio-completo);
   background: var(--surface-container);
@@ -530,6 +555,60 @@
 
 /* Igual que en la ficha: el display de arriba pisa el del atributo hidden. */
 .venta-orden-vacia[hidden] { display: none; }
+
+/* La orden a mano: una barra flotante abajo con la cuenta y el total. La
+   muestra caja.js con la orden empezada y el boton de cobro fuera de la vista;
+   al tocarla, lleva a la orden. */
+.venta-flotante {
+  position: fixed;
+  left: 50%;
+  bottom: var(--esp-4);
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  width: min(26rem, calc(100vw - var(--esp-6)));
+  min-height: 56px;
+  padding: 0 var(--esp-3) 0 var(--esp-2);
+  border: none;
+  border-radius: var(--radio-completo);
+  background: var(--primary);
+  color: var(--on-primary);
+  font: var(--tipo-etiqueta-g);
+  font-size: 16px;
+  box-shadow: var(--elev-3);
+  cursor: pointer;
+  transform: translateX(-50%);
+  animation: venta-flotante-entra var(--mov-medio) both;
+}
+
+.venta-flotante[hidden] { display: none; }
+.venta-flotante:hover { background: var(--primary); box-shadow: var(--elev-realce), var(--elev-3); }
+.venta-flotante:focus-visible { outline: var(--foco); outline-offset: var(--foco-separacion); }
+
+.venta-flotante-cuenta {
+  display: grid;
+  place-items: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 var(--esp-2);
+  border-radius: var(--radio-completo);
+  background: var(--on-primary);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.venta-flotante-rotulo { flex: 1; text-align: left; }
+.venta-flotante-total { font-weight: 700; font-size: 18px; }
+
+@keyframes venta-flotante-entra {
+  from { opacity: 0; transform: translate(-50%, var(--esp-4)); }
+  to   { opacity: 1; transform: translateX(-50%); }
+}
+
+@media print {
+  .venta-flotante { display: none !important; }
+}
 
 /* ------------------------------------------------------------- el resumen */
 
@@ -545,20 +624,11 @@
 
 .venta-resumen-total { color: var(--primary); letter-spacing: -.02em; }
 
-/* Pegado abajo solo cuando la pantalla se apila: en un telefono la lista de
-   renglones puede ser mas larga que la ventana y el total tiene que seguir a la
-   vista. En dos zonas ya lo resuelve la columna pegada, y ahi sticky sobra.
+/* En el telefono el resumen ya no se pega abajo dentro de la columna: esa
+   tarea la hace la barra flotante de la orden, que ademas se ve aunque la
+   columna este fuera de la pantalla. Las dos juntas se montaban una encima de
+   la otra. */
 
-   El corte va en 1023.98 y no en 1023 por lo mismo que el del marco en
-   componentes.css: el ancho puede ser fraccionario con el zoom del navegador,
-   y entre 1023 y 1024 no aplicaria ninguna de las dos consultas. */
-@media (max-width: 1023.98px) {
-  .venta-resumen {
-    position: sticky;
-    bottom: 0;
-    z-index: 1;
-  }
-}
 
 .venta-resumen-fila {
   display: flex;

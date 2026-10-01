@@ -232,7 +232,7 @@
 }
 
 .turnos-columna-preparacion {
-  border-top: 8px solid var(--warning);
+  border-top: 8px solid var(--secondary);
 }
 
 .turnos-columna-lista {
@@ -260,7 +260,7 @@
 }
 
 .turnos-columna-preparacion .turnos-columna-icono svg {
-  stroke: var(--warning);
+  stroke: var(--secondary);
 }
 
 .turnos-columna-lista .turnos-columna-icono svg {
@@ -289,9 +289,9 @@
 }
 
 .turnos-columna-preparacion .turnos-columna-cuenta {
-  background: var(--warning-container);
-  color: var(--on-warning-container);
-  border: 2px solid var(--warning);
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+  border: 2px solid var(--secondary);
 }
 
 .turnos-columna-lista .turnos-columna-cuenta {
@@ -348,9 +348,9 @@
    inserta: el numero nuevo se ve llegar, sin el destello de la que pasa a
    lista, que es la que de verdad pide que alguien se acerque. */
 .turno-tarjeta-preparacion {
-  background: var(--warning-container);
-  color: var(--on-warning-container);
-  border: 3px solid var(--warning);
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+  border: 3px solid var(--secondary);
   animation: entra var(--mov-lento) both;
 }
 

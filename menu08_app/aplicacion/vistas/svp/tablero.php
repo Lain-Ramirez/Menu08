@@ -248,6 +248,8 @@ $hayTurno = $turno !== null;
         <?php // Un tablero que se pinta solo tiene que decir que sigue vivo: sin
               // esto, una pantalla congelada y una cocina al dia se ven igual. ?>
         <div class="svp-barra-controles">
+            <span class="svp-hora" data-svp-hora aria-hidden="true"></span>
+
             <span class="svp-latido" data-svp-latido>
                 <span class="svp-latido-punto" aria-hidden="true"></span>
                 <span data-svp-latido-texto>Actualizado ahora</span>

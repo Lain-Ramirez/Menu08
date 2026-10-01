@@ -800,7 +800,7 @@ var Interfaz = (function () {
 
             campo.type = visible ? 'text' : 'password';
             boton.setAttribute('aria-pressed', visible ? 'true' : 'false');
-            boton.setAttribute('aria-label', visible ? 'Ocultar la contrasena' : 'Mostrar la contrasena');
+            boton.setAttribute('aria-label', visible ? 'Ocultar la contraseña' : 'Mostrar la contraseña');
 
             /* El foco vuelve al campo: quien pulso el ojo estaba escribiendo. */
             campo.focus();

@@ -87,24 +87,24 @@ $aria = static function (string $c, string $ayuda = '') use ($errores): string {
 
                 <div class="campo<?= $clase('slug') ?>">
                     <input class="campo-control" type="text" id="slug" name="slug" maxlength="80"
-                           placeholder=" " value="<?= Vista::e($truck['slug'] ?? '') ?>"<?= $aria('slug', 'Minusculas y guiones. Vacio: se genera del nombre.') ?>>
+                           placeholder=" " value="<?= Vista::e($truck['slug'] ?? '') ?>"<?= $aria('slug', 'Minúsculas y guiones. Vacío: se genera del nombre.') ?>>
                     <label class="campo-etiqueta" for="slug">Enlace de la carta</label>
-                    <?= $apoyo('slug', 'Minusculas y guiones. Vacio: se genera del nombre.') ?>
+                    <?= $apoyo('slug', 'Minúsculas y guiones. Vacío: se genera del nombre.') ?>
                 </div>
             </div>
 
             <div class="campo<?= $clase('descripcion') ?>">
                 <textarea class="campo-control campo-area" id="descripcion" name="descripcion" rows="3"
-                          maxlength="500" placeholder=" "<?= $aria('descripcion', 'Una linea sobre la comida. Sale en la carta.') ?>><?= Vista::e($truck['descripcion'] ?? '') ?></textarea>
-                <label class="campo-etiqueta" for="descripcion">Descripcion</label>
-                <?= $apoyo('descripcion', 'Una linea sobre la comida. Sale en la carta.') ?>
+                          maxlength="500" placeholder=" "<?= $aria('descripcion', 'Una línea sobre la comida. Sale en la carta.') ?>><?= Vista::e($truck['descripcion'] ?? '') ?></textarea>
+                <label class="campo-etiqueta" for="descripcion">Descripción</label>
+                <?= $apoyo('descripcion', 'Una línea sobre la comida. Sale en la carta.') ?>
             </div>
         </section>
 
         <section class="tarjeta tarjeta-contorno panel-grupo">
             <h2 class="tarjeta-titulo">Contacto</h2>
             <p class="tarjeta-texto">
-                Sale en la carta publica. La direccion no va aqui: los puntos donde para el truck se
+                Sale en la carta pública. La dirección no va aquí: los puntos donde para el truck se
                 programan en <a href="<?= Vista::e(Vista::url('/panel/ubicaciones')) ?>">la agenda de paradas</a>.
             </p>
 
@@ -119,7 +119,7 @@ $aria = static function (string $c, string $ayuda = '') use ($errores): string {
                 <div class="campo<?= $clase('telefono') ?>">
                     <input class="campo-control" type="tel" id="telefono" name="telefono" maxlength="40"
                            placeholder=" " value="<?= Vista::e($truck['telefono'] ?? '') ?>"<?= $aria('telefono') ?>>
-                    <label class="campo-etiqueta" for="telefono">Telefono</label>
+                    <label class="campo-etiqueta" for="telefono">Teléfono</label>
                     <?= $apoyo('telefono') ?>
                 </div>
 
@@ -151,9 +151,9 @@ $aria = static function (string $c, string $ayuda = '') use ($errores): string {
                 <div class="campo<?= $clase('logo') ?>">
                     <input class="campo-control campo-archivo" type="file" id="logo" name="logo"
                            accept="image/jpeg,image/png,image/webp"
-                           data-vista-previa="logo-previa"<?= $aria('logo', 'JPG, PNG o WEBP, hasta 2 MB. Vacio: conserva el actual.') ?>>
+                           data-vista-previa="logo-previa"<?= $aria('logo', 'JPG, PNG o WEBP, hasta 2 MB. Vacío: conserva el actual.') ?>>
                     <label class="campo-etiqueta campo-etiqueta-fija" for="logo">Cambiar logotipo</label>
-                    <?= $apoyo('logo', 'JPG, PNG o WEBP, hasta 2 MB. Vacio: conserva el actual.') ?>
+                    <?= $apoyo('logo', 'JPG, PNG o WEBP, hasta 2 MB. Vacío: conserva el actual.') ?>
                 </div>
 
                 <img class="panel-logo panel-previa" id="logo-previa" width="96" height="96" alt="Vista previa del logotipo elegido" hidden>

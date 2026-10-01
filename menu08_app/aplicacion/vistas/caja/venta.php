@@ -131,7 +131,7 @@ $abierto = $turno !== null;
                 <span class="venta-turno-cifras">
                     <?= Vista::e($turno['cajero']) ?> ·
                     <strong><?= (int) ($resumen['ordenes'] ?? 0) ?></strong>
-                    <?= ((int) ($resumen['ordenes'] ?? 0)) === 1 ? 'orden' : 'ordenes' ?> ·
+                    <?= ((int) ($resumen['ordenes'] ?? 0)) === 1 ? 'orden' : 'órdenes' ?> ·
                     <strong><?= Vista::e($peso($resumen['total'] ?? 0)) ?></strong> vendido
                 </span>
             <?php else : ?>

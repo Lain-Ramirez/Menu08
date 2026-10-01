@@ -75,7 +75,7 @@ $estados = [
     ],
     'en_preparacion' => [
         'titulo'   => 'En preparación',
-        'nombre'   => 'En preparacion',
+        'nombre'   => 'En preparación',
         'columna'  => 'svp-columna-preparacion',
         'tarjeta'  => 'svp-tarjeta-preparacion',
         'etiqueta' => 'etiqueta-preparacion',

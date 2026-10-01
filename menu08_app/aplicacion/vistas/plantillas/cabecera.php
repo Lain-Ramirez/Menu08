@@ -86,7 +86,7 @@ $enAcceso   = str_ends_with($rutaPedida, '/ingresar');
 
                 <span class="cabecera-textos">
                     <span class="cabecera-nombre">Menu08</span>
-                    <span class="cabecera-lema">carta, caja y produccion para food trucks</span>
+                    <span class="cabecera-lema">carta, caja y producción para food trucks</span>
                 </span>
             </a>
 

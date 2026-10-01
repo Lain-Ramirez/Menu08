@@ -19,7 +19,7 @@ use Menu08\Nucleo\Vista;
 <div class="pila pila-5">
 
     <header class="fila fila-entre">
-        <h1>Codigo QR de la carta</h1>
+        <h1>Código QR de la carta</h1>
         <a class="boton boton-texto" href="<?= Vista::e(Vista::url('/panel')) ?>">Volver al panel</a>
     </header>
 

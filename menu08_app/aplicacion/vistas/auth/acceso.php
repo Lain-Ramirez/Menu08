@@ -55,14 +55,14 @@ $error = $error ?? null;
             <div class="campo campo-sobre-contenedor campo-con-accion">
                 <input class="campo-control" type="password" id="contrasena" name="contrasena"
                        placeholder=" " required autocomplete="current-password">
-                <label class="campo-etiqueta" for="contrasena">Contrasena</label>
+                <label class="campo-etiqueta" for="contrasena">Contraseña</label>
 
                 <?php // Ver lo que se escribio antes de enviar: en el telefono, con el
                       // teclado tapando media pantalla, es la diferencia entre entrar a
                       // la primera y fallar tres veces. Sale oculto y lo muestra
                       // interfaz.js: sin JavaScript no puede hacer nada. ?>
                 <button type="button" class="boton-simbolo campo-accion" data-ver-clave="contrasena"
-                        aria-label="Mostrar la contrasena" aria-pressed="false" hidden>
+                        aria-label="Mostrar la contraseña" aria-pressed="false" hidden>
                     <svg class="campo-accion-muestra" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"></path>

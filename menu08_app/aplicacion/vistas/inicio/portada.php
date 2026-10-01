@@ -34,8 +34,8 @@ $abiertos = count(array_filter($trucks, static fn (array $t): bool => $t['vigent
         </p>
         <h1 class="portada-titulo">¿Qué hay para comer hoy?</h1>
         <p class="portada-entrada">
-            Menu08 reune las cartas de los food trucks de la ciudad. Abra una para ver que venden,
-            a que precio y donde estan parados en este momento.
+            Menu08 reúne las cartas de los food trucks de la ciudad. Abra una para ver qué venden,
+            a qué precio y dónde están parados en este momento.
         </p>
     </header>
 
@@ -89,7 +89,7 @@ $abiertos = count(array_filter($trucks, static fn (array $t): bool => $t['vigent
                     <path d="M12 10v3.5"></path><path d="M12 17h.01"></path>
                 </svg>
                 <p>
-                    <strong>Atencion.</strong> Todavia no hay ningun food truck publicado.
+                    <strong>Atención.</strong> Todavía no hay ningún food truck publicado.
                     Vuelva en un momento.
                 </p>
             </div>
@@ -171,7 +171,7 @@ $abiertos = count(array_filter($trucks, static fn (array $t): bool => $t['vigent
             <div class="portada-personal-texto">
                 <h2 class="portada-personal-titulo">Trabaja en un food truck</h2>
                 <p class="texto-apagado texto-m">
-                    Entre para administrar su carta, atender la caja o ver el tablero de produccion.
+                    Entre para administrar su carta, atender la caja o ver el tablero de producción.
                 </p>
             </div>
             <a class="boton boton-contorno" href="<?= Vista::e(Vista::url('/ingresar')) ?>">Ingresar</a>

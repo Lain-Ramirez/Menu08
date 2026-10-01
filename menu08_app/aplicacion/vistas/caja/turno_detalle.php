@@ -113,7 +113,7 @@ $cuadre = $d > 0
                     <dd><?= Vista::e($peso((float) $turno['base_inicial'] + (float) $turno['total_ventas'])) ?></dd>
                 </div>
                 <div>
-                    <dt>Conteo fisico</dt>
+                    <dt>Conteo físico</dt>
                     <dd><?= Vista::e($peso($turno['total_declarado'])) ?></dd>
                 </div>
             </dl>

@@ -31,10 +31,6 @@
         basura: '<path d="M4 7h16"></path><path d="M10 7V5h4v2"></path><path d="m6 7 1 13h10l1-13"></path>'
     };
 
-    /** Punto en el que la pantalla pasa de una columna a dos. El mismo valor
-        esta en caja.css; si se cambia uno, el otro tambien. */
-    var DOS_ZONAS = '(min-width: 1024px)';
-
     var raiz = document.querySelector('[data-venta]');
 
     if (raiz === null) {
@@ -96,7 +92,6 @@
     var busqueda = raiz.querySelector('[data-venta-busqueda]');
     var chips = raiz.querySelectorAll('[data-venta-categoria]');
     var sinResultados = raiz.querySelector('[data-venta-vacio]');
-    var zonas = raiz.querySelector('[data-venta-zonas]');
     var lista = raiz.querySelector('[data-venta-lineas]');
     var ordenVacia = raiz.querySelector('[data-venta-orden-vacia]');
     var salidaUnidades = raiz.querySelector('[data-venta-unidades]');
@@ -504,7 +499,7 @@
         }
 
         evaluarFlotante();
-        medirTope();
+        medirLista();
 
         if (ordenVacia !== null) {
             ordenVacia.hidden = !vacia;
@@ -773,55 +768,47 @@
         }
     }
 
-    /* -------------------------------------------- tope de la orden ========
+    /* ------------------------------------------- el alto de la lista ======
 
-       El catalogo fluye y la columna de la orden va pegada. Para que el boton
-       de cobro entre en la primera pantalla aunque la orden lleve quince
-       renglones, la columna no puede pasar de lo que va desde donde nace hasta
-       el borde de abajo de la ventana. Eso se mide.
+       LA ORDEN CRECE HASTA EL BORDE DE LA VENTANA, Y SOLO ENTONCES DESPLAZA.
+       Con cada producto la columna se alarga; cuando el boton de cobro va a
+       tocar el borde de abajo, la lista deja de crecer y empieza a desplazarse
+       por dentro. Asi el cuadro se amplia mientras cabe y el total y el boton
+       no se van nunca de la pantalla.
 
-       Se mide .venta-zonas y no la propia columna: la columna es sticky y, con
-       la pagina desplazada, su rectangulo devuelve la posicion pegada y no la
-       natural. La reticula no se mueve, asi que su posicion en el documento
-       —rectangulo mas desplazamiento— es la misma siempre. */
+       Se mide en cada desplazamiento porque el sitio libre cambia: con la pagina
+       arriba la columna nace por debajo de la cabecera; al bajar se pega arriba
+       y gana todo ese alto. Lo que hay debajo de la lista —total, boton,
+       rellenos— se mide tambien, no se supone.
 
-    var HOLGURA_INFERIOR = 24;
-    var HOLGURA_SUPERIOR = 24;
+       Nunca baja de tres renglones: en una ventana muy baja vale mas que el
+       boton quede un poco por debajo —para eso esta la barra flotante— que una
+       lista de un solo renglon, que es lo que se veia antes. Solo en dos zonas:
+       apilada, la orden mide lo que mide y la pagina se desplaza normal. */
+    var HOLGURA = 16;
+    var MINIMO_LISTA = 210;
 
-    /* EL TOPE SE MIDE AL DESPLAZAR, NO SOLO AL CARGAR. Medido una vez, con la
-       pagina arriba, el tope era la distancia desde donde nace la columna —por
-       debajo de la cabecera y la barra del turno— hasta el borde inferior: unos
-       cuatrocientos pixeles. Al bajar, la columna se pegaba arriba pero seguia
-       con ese alto, y la orden no crecia aunque tuviera toda la ventana libre:
-       los renglones nuevos se apilaban detras del borde.
+    function medirLista() {
+        if (lista === null || columnaOrden === null) {
+            return;
+        }
 
-       Ahora el tope es lo que hay entre donde esta la columna AHORA y el borde
-       de abajo, asi que crece mientras se desplaza hasta ocupar la ventana
-       entera. Es un tope y no un alto: con pocos renglones la columna mide lo
-       que mide su contenido. */
-    function medirTope() {
-        if (zonas === null || typeof window.matchMedia !== 'function'
-                || !window.matchMedia(DOS_ZONAS).matches) {
-            raiz.style.removeProperty('--venta-tope');
+        if (typeof window.matchMedia !== 'function' || !window.matchMedia('(min-width: 1024px)').matches) {
+            lista.style.removeProperty('max-height');
 
             return;
         }
 
-        var arriba = Math.max(zonas.getBoundingClientRect().top, HOLGURA_SUPERIOR);
-        var tope = window.innerHeight - arriba - HOLGURA_INFERIOR;
+        var cajaLista = lista.getBoundingClientRect();
+        var debajo = columnaOrden.getBoundingClientRect().bottom - cajaLista.bottom;
+        var libre = window.innerHeight - Math.max(cajaLista.top, 0) - debajo - HOLGURA;
 
-        /* Por debajo de esto la columna no cabe ni con la cabecera y el resumen,
-           y limitarla solo la dejaria ilegible: mas vale que crezca. */
-        if (tope > 260) {
-            raiz.style.setProperty('--venta-tope', Math.floor(tope) + 'px');
-        } else {
-            raiz.style.removeProperty('--venta-tope');
-        }
+        lista.style.maxHeight = Math.max(MINIMO_LISTA, Math.floor(libre)) + 'px';
     }
 
     var medidaPendiente = false;
 
-    window.addEventListener('scroll', function () {
+    function pedirMedida() {
         if (medidaPendiente) {
             return;
         }
@@ -830,9 +817,12 @@
 
         window.requestAnimationFrame(function () {
             medidaPendiente = false;
-            medirTope();
+            medirLista();
         });
-    }, { passive: true });
+    }
+
+    window.addEventListener('scroll', pedirMedida, { passive: true });
+    window.addEventListener('resize', pedirMedida);
 
     /* ----------------------------------------------- la orden, a mano ======
 
@@ -977,20 +967,6 @@
         });
     }
 
-    var esperaMedida = null;
-
-    window.addEventListener('resize', function () {
-        if (esperaMedida !== null) {
-            window.clearTimeout(esperaMedida);
-        }
-
-        esperaMedida = window.setTimeout(function () {
-            esperaMedida = null;
-            medirTope();
-        }, 120);
-    });
-
-    medirTope();
     filtrar();
     actualizar();
 }());

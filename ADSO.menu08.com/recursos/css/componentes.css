@@ -2079,6 +2079,72 @@ html.o .boton-tema .boton-tema-sol { display: block; }
 .aviso-cerrar svg { width: 18px; height: 18px; }
 .aviso-cerrar:hover { background: color-mix(in srgb, currentColor 12%, transparent); color: inherit; }
 
+/* ===================================== 10c. LA FAMILIA NARANJA DE LA MARCA ==
+   Menu08 se lee en rojo, naranja y dorado. Lo que se pulsa o se elige lleva el
+   degradado del rojo al naranja; lo que dice «listo», «abierto» o «hecho», el
+   degradado suave del naranja claro al dorado; y las fichas de icono se reparten
+   los tonos de la familia —dorado, mandarina, salmon y ambar— para que una
+   rejilla de atajos no sea cuatro veces el mismo cuadro.
+
+   Va al final de las piezas para mandar sobre sus fondos planos sin subir la
+   especificidad de nadie. */
+
+.boton-relleno { background: var(--degradado); }
+
+.chip[aria-pressed="true"],
+.chip[aria-pressed="true"]:hover { background: var(--degradado); border-color: transparent; }
+
+.etiqueta-lista,
+.etiqueta-turno,
+.etiqueta-cuadra { background: var(--degradado-suave); color: var(--on-tertiary-container); }
+
+.aviso-exito {
+  background: var(--degradado-suave);
+  color: var(--on-tertiary-container);
+  border-color: color-mix(in srgb, var(--tertiary) 30%, transparent);
+}
+
+.panel-filtro-opcion[aria-current="page"],
+.panel-filtro-opcion[aria-current="page"]:hover { background: var(--degradado); color: var(--on-primary); }
+
+.portada-truck:hover .portada-truck-ir { background: var(--degradado); }
+
+/* Las fichas de icono, cada una en su naranja. */
+.panel-atajo-icono { transition: background-color var(--mov-medio), color var(--mov-medio), transform var(--mov-medio), box-shadow var(--mov-medio); }
+.rejilla > :nth-child(4n + 1) .panel-atajo-icono { background: var(--secondary-container); color: var(--on-secondary-container); }
+.rejilla > :nth-child(4n + 2) .panel-atajo-icono { background: var(--tertiary-container); color: var(--on-tertiary-container); }
+.rejilla > :nth-child(4n + 3) .panel-atajo-icono { background: var(--primary-container); color: var(--on-primary-container); }
+.rejilla > :nth-child(4n + 4) .panel-atajo-icono { background: var(--warning-container); color: var(--on-warning-container); }
+.rejilla > .panel-atajo:hover .panel-atajo-icono { background: var(--degradado); color: var(--on-primary); box-shadow: var(--elev-realce); }
+
+.navegacion-lista > li:nth-child(3n + 1) .navegacion-icono { background: var(--secondary-container); }
+.navegacion-lista > li:nth-child(3n + 2) .navegacion-icono { background: var(--tertiary-container); }
+.navegacion-lista > li:nth-child(3n + 3) .navegacion-icono { background: var(--primary-container); }
+
+/* Las cifras del panel, con un filete del degradado arriba: cuatro tarjetas
+   iguales se distinguen de un vistazo de las de abajo. */
+.panel-cifra { position: relative; overflow: hidden; }
+
+.panel-cifra::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--degradado);
+}
+
+.panel-cifra-aviso::before { background: var(--warning); }
+
+.portada-logo-vacio { background: var(--degradado-suave); color: var(--on-tertiary-container); }
+
+/* Barras de desplazamiento finas y de la paleta: la nativa, gris y con
+   flechas, rompia el panel de la orden y las listas que se desplazan. */
+* { scrollbar-width: thin; scrollbar-color: var(--outline-variant) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { border-radius: 8px; background: var(--outline-variant); }
+*::-webkit-scrollbar-thumb:hover { background: var(--outline); }
+
 /* ============================================== 11. SOLO PARA EL MUESTRARIO ==
    Un catalogo tiene que enseñar a la vez estados que en uso son excluyentes.
    Estas tres clases los fuerzan; ninguna vista de la aplicacion las usa. */

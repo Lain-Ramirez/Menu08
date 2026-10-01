@@ -53,7 +53,7 @@ $trazoAtras  = '<path d="M19 12H5"/><path d="m11 6-6 6 6 6"/>';
     <?php if ($turnos === []) : ?>
         <section class="estado-vacio">
             <span class="estado-vacio-icono" aria-hidden="true"><?= $icono($trazoReloj) ?></span>
-            <h2 class="estado-vacio-titulo">Todavia no se ha abierto ningun turno</h2>
+            <h2 class="estado-vacio-titulo">Todavía no se ha abierto ningún turno</h2>
             <p class="estado-vacio-texto">
                 Cuando se abra y se cierre el primero, aquí queda su resumen: órdenes, ventas y cuadre.
             </p>
@@ -71,7 +71,7 @@ $trazoAtras  = '<path d="M19 12H5"/><path d="m11 6-6 6 6 6"/>';
                         <th scope="col">Cajero</th>
                         <th scope="col">Abierto</th>
                         <th scope="col">Cerrado</th>
-                        <th scope="col" class="cifra">Ordenes</th>
+                        <th scope="col" class="cifra">Órdenes</th>
                         <th scope="col" class="cifra">Vendido</th>
                         <th scope="col" class="cifra">Diferencia</th>
                         <th scope="col" class="columna-minima">Estado</th>
@@ -92,7 +92,7 @@ $trazoAtras  = '<path d="M19 12H5"/><path d="m11 6-6 6 6 6"/>';
                         <td data-etiqueta="Cajero"><?= Vista::e($t['cajero']) ?></td>
                         <td data-etiqueta="Abierto" class="numerica"><?= Vista::e($cuando($t['abierto_en'])) ?></td>
                         <td data-etiqueta="Cerrado" class="numerica"><?= Vista::e($cuando($t['cerrado_en'] ?? null)) ?></td>
-                        <td data-etiqueta="Ordenes" class="cifra"><?= (int) $t['ordenes'] ?></td>
+                        <td data-etiqueta="Órdenes" class="cifra"><?= (int) $t['ordenes'] ?></td>
                         <td data-etiqueta="Vendido" class="cifra"><?= Vista::e($peso($t['total_ventas'])) ?></td>
                         <td data-etiqueta="Diferencia" class="cifra"><?= Vista::e($peso($t['diferencia'])) ?></td>
                         <td data-etiqueta="Estado" class="columna-minima">

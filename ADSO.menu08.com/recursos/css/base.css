@@ -56,6 +56,13 @@
   /* Tinte de "el puntero esta encima": un velo de la marca, no un gris. Lo
      comparten la navegacion, las filas de tabla y las tarjetas pulsables, para
      que pasar por encima se lea igual en toda la aplicacion. */
+  /* Los degradados de la marca: del rojo tomate al naranja mandarina para lo
+     que se pulsa y se elige, y del naranja claro al dorado claro para lo que
+     dice «listo», «abierto» o «hecho». Son la firma visual de Menu08: un solo
+     color plano en cada boton se leia como una plantilla. */
+  --degradado: linear-gradient(135deg, var(--primary), var(--tertiary));
+  --degradado-suave: linear-gradient(135deg, var(--tertiary-container), var(--secondary-container));
+
   --tinte: color-mix(in srgb, var(--primary) 6%, transparent);
   --tinte-fuerte: color-mix(in srgb, var(--primary) 12%, transparent);
   --anillo: color-mix(in srgb, var(--primary) 35%, transparent);

@@ -36,7 +36,7 @@ $peso = static fn (mixed $n): string => '$ ' . number_format((float) $n, 0, ',',
 
     <?php if ($categorias !== []) : ?>
         <nav class="panel-filtro" aria-label="Filtrar por categoria">
-            <span class="muestrario-rotulo" id="filtro-rotulo">Categoria</span>
+            <span class="muestrario-rotulo" id="filtro-rotulo">Categoría</span>
 
             <ul class="fila fila-2 panel-filtro-lista" aria-labelledby="filtro-rotulo">
                 <li>
@@ -66,11 +66,11 @@ $peso = static fn (mixed $n): string => '$ ' . number_format((float) $n, 0, ',',
             </svg>
             <p>
                 <?php if ($filtro !== null) : ?>
-                    <strong>Atencion.</strong> Esa categoria no tiene productos todavia.
+                    <strong>Atención.</strong> Esa categoría no tiene productos todavía.
                     <a href="<?= Vista::e(Vista::url('/panel/productos')) ?>">Ver todas</a>.
                 <?php else : ?>
-                    <strong>Atencion.</strong> Todavia no hay productos. La carta publica y CAJA se
-                    veran vacias hasta que cree el primero.
+                    <strong>Atención.</strong> Todavía no hay productos. La carta pública y CAJA se
+                    verán vacías hasta que cree el primero.
                 <?php endif; ?>
             </p>
         </div>
@@ -85,8 +85,8 @@ $peso = static fn (mixed $n): string => '$ ' . number_format((float) $n, 0, ',',
                      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path>
                 </svg>
-                <input class="buscador-campo" type="search" placeholder="Buscar en el catalogo"
-                       aria-label="Buscar en el catalogo" autocomplete="off" data-filtro-texto>
+                <input class="buscador-campo" type="search" placeholder="Buscar en el catálogo"
+                       aria-label="Buscar en el catálogo" autocomplete="off" data-filtro-texto>
             </div>
 
             <div class="filtro-chips" role="group" aria-label="Filtrar por disponibilidad">
@@ -107,7 +107,7 @@ $peso = static fn (mixed $n): string => '$ ' . number_format((float) $n, 0, ',',
                     <tr>
                         <th scope="col" class="columna-minima"><span class="solo-lectores">Foto</span></th>
                         <th scope="col">Producto</th>
-                        <th scope="col">Categoria</th>
+                        <th scope="col">Categoría</th>
                         <th scope="col" class="cifra columna-minima">Precio</th>
                         <th scope="col" class="columna-minima">Disponibilidad</th>
                         <th scope="col" class="columna-minima"><span class="solo-lectores">Acciones</span></th>

@@ -44,7 +44,7 @@ $trazosMedio = [
             <dd><?= Vista::e($peso((float) $turno['base_inicial'] + (float) $resumen['total'])) ?></dd>
         </div>
         <div>
-            <dt>Ordenes</dt>
+            <dt>Órdenes</dt>
             <dd><?= (int) $resumen['ordenes'] ?></dd>
         </div>
         <div>
@@ -58,14 +58,14 @@ $trazosMedio = [
     <h2 id="medios-titulo">Por medio de pago</h2>
 
     <?php if ($resumen['medios'] === []) : ?>
-        <p class="texto-apagado">El turno todavia no tiene ordenes.</p>
+        <p class="texto-apagado">El turno todavía no tiene órdenes.</p>
     <?php else : ?>
         <div class="tabla-envoltura">
             <table class="tabla">
                 <thead>
                     <tr>
                         <th scope="col">Medio</th>
-                        <th scope="col" class="cifra">Ordenes</th>
+                        <th scope="col" class="cifra">Órdenes</th>
                         <th scope="col" class="cifra">Total</th>
                     </tr>
                 </thead>

@@ -164,7 +164,7 @@ sistema lo dibuja distinto.
 **Dos excepciones: la marca y los módulos.** El logotipo de Menu08 es el emoji 🍴 y aparece como
 tal en el sello de la cabecera, en la pantalla de acceso, en la carta pública y en el icono de la
 pestaña (un SVG en línea con el emoji dentro, sin archivo que subir). Los tres módulos de la
-navegación llevan también el suyo, de la misma familia: 📖 CARTA, 💵 CAJA y 👨‍🍳 SVP. Fuera de ahí
+navegación llevan también el suyo, de la misma familia: 📋 CARTA, 💵 CAJA y 👨‍🍳 SVP. Fuera de ahí
 los iconos de la interfaz siguen siendo SVG de trazo. El sello va sobre `--primary-container` y no
 sobre el rojo lleno, porque el emoji trae su propio color —gris plata en casi todos los sistemas—
 y sobre el rojo se apagaba.
@@ -182,8 +182,15 @@ preguntas de quien la usa.**
   `carta.js` añade el buscador, el visor de fotos y el «leer más» de la descripción; los tres salen
   del servidor ocultos o sin recortar, así que sin JavaScript la carta se lee entera: las
   categorías son anclas y la foto es un enlace a la imagen.
+- **La familia naranja.** El tercer color de la paleta (`--tertiary` en `md3.css`) dejó de ser
+  verde y es un naranja mandarina, en claro y en oscuro, con los contrastes comprobados (6,5:1
+  sobre blanco). Encima, `base.css` declara dos degradados: `--degradado`, del rojo al naranja,
+  para lo que se pulsa o se elige —botones rellenos, chips elegidos, la barra flotante de la
+  orden—, y `--degradado-suave`, del naranja claro al dorado claro, para lo que dice «listo»,
+  «abierto» o «hecho». Las fichas de icono del panel y de la navegación se reparten los tonos de
+  la familia: dorado, mandarina, salmón y ámbar.
 - **Colores de la marca en los estados.** Pendiente va en el rojo tomate de la marca, en
-  preparación en el dorado y lista en el verde de la paleta Brasa, igual en el SVP, en la pantalla
+  preparación en el dorado y lista en el naranja de la paleta Brasa, igual en el SVP, en la pantalla
   pública de turnos y en las etiquetas de estado. El naranja de aviso (`--warning`) queda solo para
   lo que de verdad avisa: un sobrante, una carta vacía, un aviso.
 - **Tablero del SVP** (`svp/tablero.php`, `svp.css`). Cada tarjeta lleva una barra de tiempo en el
@@ -200,7 +207,9 @@ preguntas de quien la usa.**
   ocupar la ventana (`--venta-tope` se mide al desplazar, no solo al cargar); el renglón que entra
   o cambia se trae a la vista y se resalta; vacía no se pega. Cuando el botón de cobro queda fuera
   de la vista —en el teléfono, siempre que se toca el catálogo— una barra flotante lleva la cuenta
-  y el total y, al tocarla, lleva a la orden.
+  y el total y, al tocarla, lleva a la orden. El alto de la lista lo mide `caja.js` al desplazar:
+  la columna crece con cada producto hasta que el botón de cobro toca el borde de la ventana, y
+  solo entonces la lista se desplaza por dentro, nunca por debajo de tres renglones.
 
 ### El aviso solo es flex cuando trae icono
 

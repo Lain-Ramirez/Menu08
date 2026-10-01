@@ -12,7 +12,7 @@ use Menu08\Nucleo\Vista;
         <div class="contenedor-ancho">
             <span>
                 <a class="pie-marca" href="<?= Vista::e(Vista::url('/')) ?>"><span aria-hidden="true">🍴</span> Menu08</a>
-                · carta, caja y produccion para food trucks
+                · carta, caja y producción para food trucks
             </span>
             <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>
         </div>

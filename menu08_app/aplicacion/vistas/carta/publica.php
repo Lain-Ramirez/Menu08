@@ -343,7 +343,7 @@ foreach ($porCategoria as $grupo) {
 
             <?php // Barra de categorias. Son anclas de verdad: sin JavaScript el
                   // salto al bloque funciona igual, porque cada seccion lleva su id. ?>
-            <nav class="carta-barra" aria-label="Categorias de la carta" data-carta-barra>
+            <nav class="carta-barra" aria-label="Categorías de la carta" data-carta-barra>
                 <ul>
                     <?php foreach ($porCategoria as $id => $grupo) : ?>
                         <li>

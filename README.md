@@ -383,7 +383,9 @@ Los usuarios de demostración y sus contraseñas están en
 [`docs/basedatos.md`](docs/basedatos.md). **Cambiarlas antes de publicar el sitio.**
 
 El plan de pruebas, las plantillas de caso y de defecto y el procedimiento para levantar el
-ambiente están en [`docs/pruebas/`](docs/pruebas/plan-de-pruebas.md).
+ambiente están en [`docs/pruebas/`](docs/pruebas/plan-de-pruebas.md). La lista de verificación
+funcional en producción de los tres módulos está en
+[`docs/verificacion-produccion.md`](docs/verificacion-produccion.md).
 
 Los contratos de los servicios JSON están en [`docs/api-svp.md`](docs/api-svp.md), el que sondea el
 tablero, y en [`docs/api-movil.md`](docs/api-movil.md), los dos que consume la aplicación móvil del

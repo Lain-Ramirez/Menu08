@@ -208,33 +208,27 @@ Se contrastaron las pantallas del prototipo funcional desplegado en `adso.menu08
 
 Las capturas de pantalla tomadas durante la ejecución real en producción están archivadas en el repositorio y se muestran a continuación:
 
-1. **Carta pública en producción (con nuevo producto y foto):**  
-   [`docs/pruebas/evidencias/produccion/CP-PROD-CARTA-carta-publica.png`](pruebas/evidencias/produccion/CP-PROD-CARTA-carta-publica.png)
+1. [Carta pública en producción (con nuevo producto y foto)](pruebas/evidencias/produccion/CP-PROD-CARTA-carta-publica.png)
 
    ![Carta pública en producción (con nuevo producto y foto)](pruebas/evidencias/produccion/CP-PROD-CARTA-carta-publica.png)
 
-2. **Catálogo de productos en panel administrativo:**  
-   [`docs/pruebas/evidencias/produccion/CP-PROD-CARTA-productos-catalogo.png`](pruebas/evidencias/produccion/CP-PROD-CARTA-productos-catalogo.png)
+2. [Catálogo de productos en panel administrativo](pruebas/evidencias/produccion/CP-PROD-CARTA-productos-catalogo.png)
 
    ![Catálogo de productos en panel administrativo](pruebas/evidencias/produccion/CP-PROD-CARTA-productos-catalogo.png)
 
-3. **Código QR publicado y verificado:**  
-   [`docs/pruebas/evidencias/produccion/CP-PROD-CARTA-codigo-qr.png`](pruebas/evidencias/produccion/CP-PROD-CARTA-codigo-qr.png)
+3. [Código QR publicado y verificado](pruebas/evidencias/produccion/CP-PROD-CARTA-codigo-qr.png)
 
    ![Código QR publicado y verificado](pruebas/evidencias/produccion/CP-PROD-CARTA-codigo-qr.png)
 
-4. **Comprobante de venta en CAJA (Orden `T9-001`):**  
-   [`docs/pruebas/evidencias/produccion/CP-PROD-CAJA-comprobante-orden-53.png`](pruebas/evidencias/produccion/CP-PROD-CAJA-comprobante-orden-53.png)
+4. [Comprobante de venta en CAJA (Orden `T9-001`)](pruebas/evidencias/produccion/CP-PROD-CAJA-comprobante-orden-53.png)
 
    ![Comprobante de venta en CAJA (Orden T9-001)](pruebas/evidencias/produccion/CP-PROD-CAJA-comprobante-orden-53.png)
 
-5. **Cierre de turno y cuadre de caja (Turno #9):**  
-   [`docs/pruebas/evidencias/produccion/CP-PROD-CAJA-cierre-cuadre-turno-9.png`](pruebas/evidencias/produccion/CP-PROD-CAJA-cierre-cuadre-turno-9.png)
+5. [Cierre de turno y cuadre de caja (Turno #9)](pruebas/evidencias/produccion/CP-PROD-CAJA-cierre-cuadre-turno-9.png)
 
    ![Cierre de turno y cuadre de caja (Turno #9)](pruebas/evidencias/produccion/CP-PROD-CAJA-cierre-cuadre-turno-9.png)
 
-6. **Tablero SVP con orden demorada:**  
-   [`docs/pruebas/evidencias/produccion/CP-PROD-SVP-tablero-demorada.png`](pruebas/evidencias/produccion/CP-PROD-SVP-tablero-demorada.png)
+6. [Tablero SVP con orden demorada](pruebas/evidencias/produccion/CP-PROD-SVP-tablero-demorada.png)
 
    ![Tablero SVP con orden demorada](pruebas/evidencias/produccion/CP-PROD-SVP-tablero-demorada.png)
 

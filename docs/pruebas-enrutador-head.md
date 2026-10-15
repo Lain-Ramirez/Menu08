@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![HEAD responde como GET y sin cuerpo. Evidencia del enrutador en HTML, JSON, redirecciones y errores. Menu08.com · Food Trucks.](../assets/brand/pruebas-enrutador-head-menu08-com-header.png)](#el-cuerpo-va-vacío-medido-byte-a-byte)
+<!-- /Menu08.com:header -->
+
 # Pruebas del método HEAD en el enrutador
 
 Ejecutadas contra **https://adso.menu08.com** el 4 de septiembre de 2026, con `curl` y con
@@ -157,3 +161,7 @@ Del mismo archivo sale también la equivalencia entre los dos métodos, registra
   significa construir el PNG para descartarlo.
 - **Otros clientes.** Se probó con `curl` y con peticiones crudas por `openssl`. No se ha puesto un
   monitor de disponibilidad real apuntando al sitio, que es el caso de uso que motivó el arreglo.
+
+<!-- Menu08.com:footer -->
+[![El método conserva el código y las cabeceras. El cuerpo vacío se midió en crudo, incluso en servicios JSON y respuestas de error. Menu08.com · Food Trucks.](../assets/brand/pruebas-enrutador-head-menu08-com-footer.png)](#cómo-se-arregló)
+<!-- /Menu08.com:footer -->

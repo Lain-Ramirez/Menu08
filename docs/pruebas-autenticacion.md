@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Ingreso, roles y token: evidencia del acceso. Pruebas publicadas de sesión, rechazos y protección de datos en CAJA. Menu08.com · Food Trucks.](../assets/brand/pruebas-autenticacion-menu08-com-header.png)](#ingreso)
+<!-- /Menu08.com:header -->
+
 # Pruebas de autenticación, roles y CSRF
 
 Ejecutadas contra **https://adso.menu08.com** (LiteSpeed, PHP 8.3.33, MySQL 8.0.46), no en local.
@@ -75,3 +79,7 @@ Consulta directa a la tabla `usuarios`: las cuatro cuentas devuelven cadenas que
 No hay límite de intentos de ingreso. Un atacante puede probar contraseñas sin freno más allá de
 lo que imponga el propio servidor. Para el prototipo se acepta; en un despliegue real haría falta
 un contador de intentos por cuenta y por dirección de origen.
+
+<!-- Menu08.com:footer -->
+[![Cada rechazo conserva la base sin cambios. La evidencia distingue sesión ausente, rol equivocado y token inválido. Menu08.com · Food Trucks.](../assets/brand/pruebas-autenticacion-menu08-com-footer.png)](#lo-que-no-cubre-esta-prueba)
+<!-- /Menu08.com:footer -->

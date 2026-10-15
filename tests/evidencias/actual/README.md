@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · AA3 corregido: registros de la reejecución. 101 casos conservados: 97 aprobados, ninguno fallido y cuatro pendientes de seguimiento. Comparar con el ciclo inicial](../../../assets/brand/tests-evidencias-actual-menu08-com-header.png)](../inicial/README.md)
+<!-- /Menu08.com:header -->
+
 # Resultados del ciclo corregido AA3
 
 Commit probado: `0e7f3bc144777b1768cd9571f5f1058205fb6fe7`.
@@ -111,3 +115,8 @@ Las correcciones de los cuatro casos iniciales están verificadas localmente. HT
 | CP-AUTO-E2E-01 | Flujo completo por interfaz en dos navegadores | Aprobada | [JSON](CP-AUTO-E2E-01.json) | [PNG](CP-AUTO-E2E-01-informe.png) |
 
 Las capturas que incluyen chromium o firefox son originales de la aplicación. Los informes HTML pueden descargarse con sus imágenes para abrirse localmente. Las capturas de informe representan los registros y están identificadas así.
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · Las correcciones locales ya tienen registro. Los cuatro pendientes conservan su estado: hosting, impresión, lectura y decisión de cierre. Revisar la guía de automatización](../../../assets/brand/tests-evidencias-actual-menu08-com-footer.png)](../../README.md)
+<!-- /Menu08.com:footer -->

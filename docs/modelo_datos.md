@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Nueve tablas, columna por columna. Diccionario MySQL y relaciones que sostienen catálogo, turnos y órdenes. Menu08.com · Food Trucks.](../assets/brand/modelo-datos-menu08-com-header.png)](#diccionario-de-datos)
+<!-- /Menu08.com:header -->
+
 # Modelo de datos
 
 Las **nueve tablas** del prototipo en MySQL 8, motor InnoDB y cotejamiento
@@ -351,3 +355,7 @@ bloques `CREATE TABLE` de `esquema.sql` y vuelca las mismas columnas de esta pá
 que revisar a mano tras un cambio de esquema son tres cosas, que ninguna herramienta puede deducir:
 el **diagrama** de arriba, la sección de **diferencias detectadas**, y las tablas de conteo de la
 verificación.
+
+<!-- Menu08.com:footer -->
+[![El esquema SQL manda sobre el diccionario. Si cambia una tabla, regenera sus campos y revisa el diagrama y los conteos. Menu08.com · Food Trucks.](../assets/brand/modelo-datos-menu08-com-footer.png)](#cómo-se-rehace-este-documento)
+<!-- /Menu08.com:footer -->

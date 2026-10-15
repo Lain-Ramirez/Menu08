@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · Ejecutar y conservar las pruebas de AA3. Preparación local, grupos de automatización y registros del ciclo inicial y corregido. Preparar el entorno local](../assets/brand/tests-automatizacion-menu08-com-header.png)](#preparación-local)
+<!-- /Menu08.com:header -->
+
 # Pruebas de Menu08
 
 Esta carpeta concentra la automatización y la evidencia de GA9 AA3 EV01. Las pruebas unitarias puras permanecen en `menu08_app/pruebas/`; la colección principal y la muestra del video están en `postman/`.
@@ -95,3 +99,8 @@ La carpeta documental de la actividad contiene únicamente los Excel y el guion.
 - HTTPS conserva ruta y consulta. El destino del front controller sale de la configuración, no de `Host` ni de cabeceras reenviadas. Las instalaciones locales HTTP continúan funcionando.
 
 La redirección del hosting solo puede darse por comprobada después de desplegar el PR. La lectura a tres metros, el PDF de Firefox gráfico y la decisión sobre cerrar con órdenes pendientes también conservan su seguimiento.
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · Cada registro conserva fecha, commit y resultado. La validación local se documenta junto al seguimiento físico y de despliegue pendiente. Consultar las evidencias actuales](../assets/brand/tests-automatizacion-menu08-com-footer.png)](evidencias/actual/README.md)
+<!-- /Menu08.com:footer -->

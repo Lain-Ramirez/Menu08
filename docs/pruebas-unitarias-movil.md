@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · Coordenadas y horarios sin red ni base. 49 comprobaciones unitarias de las reglas que usan los servicios móviles. Ver cómo se ejecutan](../assets/brand/pruebas-unitarias-movil-menu08-com-header.png)](#cómo-se-ejecutan)
+<!-- /Menu08.com:header -->
+
 # Pruebas unitarias de la validación de los servicios móviles
 
 Ejecutadas el 9 de septiembre de 2026 sobre PHP 8.5.4 en la máquina de desarrollo.
@@ -142,3 +146,8 @@ sesión o de una petición HTTP, así que su sitio son las pruebas de integraci�
 
 Este issue **no añade ninguna ruta**, así que [`POSTMAN.md`](../POSTMAN.md) y la colección no
 cambian.
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · Las reglas puras se prueban al clonar. Coordenadas, horas y medianoche quedan cubiertas; sesión, SQL y GPS requieren integración. Consultar el alcance unitario](../assets/brand/pruebas-unitarias-movil-menu08-com-footer.png)](#lo-que-estas-pruebas-no-cubren)
+<!-- /Menu08.com:footer -->

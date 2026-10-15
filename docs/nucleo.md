@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Pon en marcha el núcleo y agrega rutas. Guía de trabajo del MVC: configuración, parámetros y manejo de errores. Menu08.com · Food Trucks.](../assets/brand/nucleo-menu08-com-header.png)](#puesta-en-marcha)
+<!-- /Menu08.com:header -->
+
 # Núcleo de la aplicación
 
 PHP 8.3 con MVC construido a mano. Sin Composer, sin marcos de trabajo, sin dependencias externas.
@@ -101,3 +105,7 @@ panel real ocupe la ruta raíz.
 Sesiones, inicio de sesión, control de acceso por rol y token contra falsificación de
 peticiones llegan con el issue #7. `Controlador` no tiene aún ninguna comprobación de
 permisos: cualquier ruta que se registre hoy es pública.
+
+<!-- Menu08.com:footer -->
+[![Cada ruta tiene un patrón y una firma. El nombre del parámetro debe coincidir con el argumento del controlador. Menu08.com · Food Trucks.](../assets/brand/nucleo-menu08-com-footer.png)](arquitectura.md)
+<!-- /Menu08.com:footer -->

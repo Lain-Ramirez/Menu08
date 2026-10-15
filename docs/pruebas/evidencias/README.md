@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · Evidencias que se puedan emparejar. Carpetas por módulo, identificadores de caso y capturas completas del entorno. Ver cómo se nombran](../../../assets/brand/pruebas-evidencias-menu08-com-header.png)](#cómo-se-nombran)
+<!-- /Menu08.com:header -->
+
 # Evidencias
 
 Una carpeta por módulo, con el mismo reparto que los grupos de casos del
@@ -38,3 +42,8 @@ la [sección 6 del plan](../plan-de-pruebas.md#6-restauración-del-ambiente-entr
 
 Las evidencias **no se rehacen** al restaurar el banco: son la foto de un ciclo concreto y se
 quedan como estaban. Lo que cambia entre ciclos es el resultado obtenido del caso, no su historial.
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · La evidencia conserva la historia del ciclo. Restaurar el banco cambia los datos de prueba; las capturas anteriores se mantienen. Revisar la restauración del ambiente](../../../assets/brand/pruebas-evidencias-menu08-com-footer.png)](../plan-de-pruebas.md#6-restauración-del-ambiente-entre-ciclos)
+<!-- /Menu08.com:footer -->

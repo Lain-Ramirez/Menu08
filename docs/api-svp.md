@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![SVP: órdenes, estados y turnos en JSON. Contratos del tablero de producción y de la pantalla pública de la ventanilla. Menu08.com · Food Trucks.](../assets/brand/api-svp-menu08-com-header.png)](#consulta-de-órdenes-en-curso)
+<!-- /Menu08.com:header -->
+
 # Contrato del servicio del Sistema de Visualización de Producción
 
 Tres operaciones: el tablero de producción **consulta** las órdenes en curso por sondeo periódico y **avanza**
@@ -316,3 +320,7 @@ muchas veces por minuto.
 La primera consulta arranca en `turnos_caja` y baja a `ordenes` con un `LEFT JOIN`, no al revés.
 Es lo que permite informar el turno cuando está abierto y vacío: si arrancara en `ordenes`, sin
 filas no habría de dónde sacar el identificador del turno.
+
+<!-- Menu08.com:footer -->
+[![La orden avanza; la ventanilla protege los datos. Producción consulta el detalle. El servicio público solo muestra número y estado. Menu08.com · Food Trucks.](../assets/brand/api-svp-menu08-com-footer.png)](#cambio-de-estado)
+<!-- /Menu08.com:footer -->

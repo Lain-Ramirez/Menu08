@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · CAJA: del turno abierto al arqueo final. Dieciséis casos documentan ventas, medios de pago, comprobantes, cuadre e historial. Ver casos de turno](../../../assets/brand/pruebas-casos-caja-menu08-com-header.png)](#turno)
+<!-- /Menu08.com:header -->
+
 # Casos de prueba · CAJA
 
 Dieciséis casos `CP-CAJA-xx` sobre el flujo completo del módulo: apertura de turno, venta con los
@@ -289,3 +293,8 @@ No se abrió ningún defecto.
 ---
 
 **Issue #23 · Diseñar y ejecutar las pruebas funcionales del módulo CAJA**
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · El cierre se contrasta con ventas y base. Los casos conservan consultas SQL, tres medios de pago y un faltante registrado al cerrar. Revisar el cierre de turno](../../../assets/brand/pruebas-casos-caja-menu08-com-footer.png)](#cierre-de-turno)
+<!-- /Menu08.com:footer -->

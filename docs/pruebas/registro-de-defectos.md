@@ -9,6 +9,10 @@ numeración corrida, sin reutilizar.
 
 ---
 
+## Reejecución AA3
+
+DEF-01 tiene una corrección en la rama `Lain`: la carta excluye productos con `disponible=0`. Sus registros previos se conservan como historia; las reejecuciones y el seguimiento de despliegue están en [`ciclo-AA3.md`](ciclo-AA3.md) y en `tests/evidencias/actual/`. La discusión de diseño escrita más abajo describe el estado anterior a esta corrección.
+
 ## Historial por ciclo de prueba
 
 | Ciclo / Módulo | Issue | Casos ejecutados | Casos pasan | Casos fallan | Defectos registrados | Estado |

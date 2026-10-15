@@ -1,0 +1,240 @@
+{
+  "caso": {
+    "id": "CP-SVP-18",
+    "modulo": "SVP · sondeo",
+    "requisito": "Issue #12 · Exponer el servicio JSON de consulta de órdenes en curso para el SVP\nIssue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nIssue #38 · Construir la pantalla pública de turnos para la ventanilla\nFuncionalidad: SVP · sondeo\nCaso: CP-SVP-18",
+    "nombre": "Pérdida de red, recuperación y sesión caducada",
+    "objetivo": "Verificar que el tablero conserva la última información y comunica el motivo de interrupción del sondeo.",
+    "tipo": "Funcional · recuperación de conexión",
+    "precondiciones": "Tablero privado abierto con órdenes visibles y sesión producción; herramientas del navegador para desconectar la red de esa ventana; conservar otra sesión para cambios externos.",
+    "datos": "Sondeo privado cada 5000 ms; modo sin conexión del navegador; respuestas 401/403 por pérdida de sesión.",
+    "pasos": "1. Desconectar la red de la ventana del tablero y observar un ciclo de sondeo.\n2. Restablecer la conexión y observar el siguiente resultado válido.\n3. Invalidar la sesión de esa ventana o cerrarla desde otra pestaña y observar la siguiente consulta.\n4. Repetir la pérdida y recuperación de red con /turnos/truck-de-pruebas sin sesión, observando el aviso de reconexión y sus números anteriores.",
+    "esperado": "Ante fallo de red, las tarjetas anteriores permanecen y aparece el aviso de conexión. Al recuperarse, el aviso se oculta y los datos se reconcilian. Una respuesta 401/403 muestra que la sesión caducó y solicita reingresar; no interpreta la negativa como una lista vacía.\nLa pantalla pública conserva sus últimos números y señala la reconexión; los actualiza al recuperarse. Su ciclo es de 4000 ms.",
+    "herramienta": "Chrome y Firefox; herramientas de red del navegador",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Media",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S270 · Issue #12 · Exponer el servicio JSON de consulta de órdenes en curso para el SVP\nS271 · Issue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nS273 · Issue #38 · Construir la pantalla pública de turnos para la ventanilla\nS125 · ADSO.menu08.com/recursos/js/svp.js · líneas 403–411\nS126 · ADSO.menu08.com/recursos/js/svp.js · líneas 413–421\nS257 · ADSO.menu08.com/recursos/js/turnos.js · líneas 184–192"
+  },
+  "resultados": {
+    "caso": "CP-SVP-18",
+    "nombre": "Pérdida de red, recuperación y sesión caducada",
+    "modulo": "SVP · sondeo",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Tarjetas conservadas",
+        "esperado": 2,
+        "obtenido": 2,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aviso interno",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aviso público",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Recupera interno",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Recupera público",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aviso sesión caducada",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Tarjetas conservadas",
+        "esperado": 2,
+        "obtenido": 2,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aviso interno",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aviso público",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Recupera interno",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Recupera público",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aviso sesión caducada",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "capturas": [
+      "evidencias/actual/CP-SVP-18-chromium-red-interrumpida.png",
+      "evidencias/actual/CP-SVP-18-chromium-publico-sin-red.png",
+      "evidencias/actual/CP-SVP-18-chromium-red-recuperada.png",
+      "evidencias/actual/CP-SVP-18-chromium-sesion-caducada.png",
+      "evidencias/actual/CP-SVP-18-firefox-red-interrumpida.png",
+      "evidencias/actual/CP-SVP-18-firefox-publico-sin-red.png",
+      "evidencias/actual/CP-SVP-18-firefox-red-recuperada.png",
+      "evidencias/actual/CP-SVP-18-firefox-sesion-caducada.png"
+    ],
+    "ejecuciones": [
+      "EX-093",
+      "EX-106"
+    ],
+    "fecha": "2026-10-15T12:40:08.431548+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-SVP-18",
+      "nombre": "Pérdida de red, recuperación y sesión caducada",
+      "fecha": "2026-10-15T12:39:22.091017+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Tarjetas conservadas",
+          "esperado": 2,
+          "obtenido": 2,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aviso interno",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aviso público",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Recupera interno",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Recupera público",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aviso sesión caducada",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / chromium",
+      "navegador": "chromium",
+      "capturas": [
+        "evidencias/actual/CP-SVP-18-chromium-red-interrumpida.png",
+        "evidencias/actual/CP-SVP-18-chromium-publico-sin-red.png",
+        "evidencias/actual/CP-SVP-18-chromium-red-recuperada.png",
+        "evidencias/actual/CP-SVP-18-chromium-sesion-caducada.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-093"
+    },
+    {
+      "caso": "CP-SVP-18",
+      "nombre": "Pérdida de red, recuperación y sesión caducada",
+      "fecha": "2026-10-15T12:40:08.431548+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Tarjetas conservadas",
+          "esperado": 2,
+          "obtenido": 2,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aviso interno",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aviso público",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Recupera interno",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Recupera público",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aviso sesión caducada",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / firefox",
+      "navegador": "firefox",
+      "capturas": [
+        "evidencias/actual/CP-SVP-18-firefox-red-interrumpida.png",
+        "evidencias/actual/CP-SVP-18-firefox-publico-sin-red.png",
+        "evidencias/actual/CP-SVP-18-firefox-red-recuperada.png",
+        "evidencias/actual/CP-SVP-18-firefox-sesion-caducada.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-106"
+    }
+  ]
+}

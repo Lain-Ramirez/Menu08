@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Menu08 — prototipo SENA",
-    "description": "Todas las rutas del prototipo Menu08, listas para ejecutar contra https://adso.menu08.com.\n\nANTES DE EMPEZAR:\n1. Esta coleccion trae \"followRedirects\" desactivado, porque casi todo POST responde 302 y siguiendo la redireccion no se ve el codigo que interesa comprobar.\n2. Postman guarda la cookie de sesion solo: basta con ingresar una vez.\n3. Todo POST necesita el campo _token, que se captura haciendo antes el GET de la pagina que trae el formulario. Los GET de esta coleccion ya lo capturan solos.\n4. El cuerpo va SIEMPRE como x-www-form-urlencoded. Nunca JSON: la aplicacion lee $_POST.\n\nORDEN SUGERIDO: la carpeta \"1 - Recorrido completo\" esta pensada para el Collection Runner y recorre una venta de principio a fin. Las demas carpetas son la referencia ruta por ruta.",
+    "description": "Todas las rutas del prototipo Menu08, listas para ejecutar contra https://adso.menu08.com.\n\nANTES DE EMPEZAR:\n1. Esta coleccion trae \"followRedirects\" desactivado, porque casi todo POST responde 302 y siguiendo la redireccion no se ve el codigo que interesa comprobar.\n2. Postman guarda la cookie de sesion solo: basta con ingresar una vez.\n3. Todo POST necesita el campo _token, que se captura haciendo antes el GET de la pagina que trae el formulario. Los GET de esta coleccion ya lo capturan solos.\n4. El cuerpo va SIEMPRE como x-www-form-urlencoded. Nunca JSON: la aplicacion lee $_POST.\n\nORDEN SUGERIDO: la carpeta \"1 - Recorrido completo\" esta pensada para el Collection Runner y recorre una venta de principio a fin. Las demas carpetas son la referencia ruta por ruta.\nEl recorrido completo descubre los IDs desde el catálogo y cierra sesión antes de cambiar de rol. Los recursos se validan por origen.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -62,6 +62,16 @@
     },
     {
       "key": "ubicacionId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "papasId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "hamburguesaId",
       "value": "",
       "type": "string"
     }
@@ -297,7 +307,15 @@
                   "// Guarda el _token del formulario para el siguiente POST.",
                   "const m = pm.response.text().match(/name=\"_token\" value=\"([a-f0-9]+)\"/);",
                   "if (m) { pm.collectionVariables.set('token', m[1]); }",
-                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });"
+                  "pm.test('Se capturo el token', function () { pm.expect(m, 'no hay _token en la pagina').to.not.be.null; });",
+                  "const html = pm.response.text();",
+                  "for (const pair of [['papasId','Papas de prueba'],['hamburguesaId','Hamburguesa de prueba']]) {",
+                  " const tags = html.match(/<button[\\s\\S]*?<\\/button>/g) || [];",
+                  " const tag = tags.find(t => t.includes('data-nombre=\"'+pair[1]+'\"'));",
+                  " const m = tag && tag.match(/data-venta-agregar=\"(\\d+)\"/);",
+                  " pm.test('ID dinámico '+pair[0],()=>pm.expect(m).not.to.be.null);",
+                  " if (m) pm.collectionVariables.set(pair[0],m[1]);",
+                  "}"
                 ]
               }
             }
@@ -328,12 +346,12 @@
               "mode": "urlencoded",
               "urlencoded": [
                 {
-                  "key": "cantidad[7]",
+                  "key": "cantidad[{{papasId}}]",
                   "value": "2",
                   "type": "text"
                 },
                 {
-                  "key": "cantidad[10]",
+                  "key": "cantidad[{{hamburguesaId}}]",
                   "value": "1",
                   "type": "text"
                 },
@@ -396,6 +414,24 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('Responde 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cerrar sesión antes de cambiar de rol",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/salir"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Cierre de sesión 302',()=>pm.response.to.have.status(302));"
                 ]
               }
             }
@@ -745,6 +781,24 @@
                   "const d = pm.response.json();",
                   "const id = Number(pm.collectionVariables.get('ordenId'));",
                   "pm.test('La orden entregada ya no esta', function () { pm.expect(d.ordenes.map(o => o.id)).to.not.include(id); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cerrar sesión antes de cambiar de rol",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/salir"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Cierre de sesión 302',()=>pm.response.to.have.status(302));"
                 ]
               }
             }
@@ -1273,9 +1327,15 @@
                   "    pm.expect(cuerpo).to.include('/recursos/css/base.css');",
                   "    pm.expect(cuerpo).to.include('/recursos/css/componentes.css');",
                   "});",
-                  "pm.test('No enlaza ningun recurso remoto', function () {",
-                  "    var cuerpo = pm.response.text();",
-                  "    pm.expect(cuerpo).to.not.match(/(src|href)=\"https?:\\/\\//);",
+                  "pm.test('No enlaza recursos de otro origen', function () {",
+                  "  const origen = pm.variables.get('baseUrl').match(/^https?:\\/\\/[^/]+/i)[0].toLowerCase();",
+                  "  const recursos = Array.from(pm.response.text().matchAll(/<(?:script|link|img)\\b[^>]*?\\s(?:src|href)=\"([^\"]+)\"/gi), m => m[1]);",
+                  "  const externos = recursos.filter(ref => {",
+                  "    if (/^https?:\\/\\//i.test(ref)) return ref.split('/').slice(0, 3).join('/').toLowerCase() !== origen;",
+                  "    if (ref.startsWith('//')) return ref.split('/')[2].toLowerCase() !== origen.split('/')[2];",
+                  "    return false;",
+                  "  });",
+                  "  pm.expect(externos, 'recursos de un origen externo').to.eql([]);",
                   "});"
                 ]
               }

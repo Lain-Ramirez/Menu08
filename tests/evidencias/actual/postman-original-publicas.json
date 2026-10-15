@@ -1,0 +1,395 @@
+{
+  "archivo": "postman/Menu08.postman_collection.json",
+  "carpeta": "2 - Publicas (sin sesion)",
+  "fecha": "2026-10-15T12:40:37.225158+00:00",
+  "exit_code": 0,
+  "stats": {
+    "iterations": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "items": {
+      "total": 11,
+      "pending": 0,
+      "failed": 0
+    },
+    "scripts": {
+      "total": 11,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequests": {
+      "total": 11,
+      "pending": 0,
+      "failed": 0
+    },
+    "requests": {
+      "total": 11,
+      "pending": 0,
+      "failed": 0
+    },
+    "tests": {
+      "total": 11,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 19,
+      "pending": 0,
+      "failed": 0
+    },
+    "testScripts": {
+      "total": 11,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequestScripts": {
+      "total": 0,
+      "pending": 0,
+      "failed": 0
+    }
+  },
+  "fallos": [],
+  "ejecuciones": [
+    {
+      "nombre": "GET /",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          ""
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 41,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Enlaza las cartas por slug",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /comprobacion/{slug}",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "comprobacion",
+          "truck-de-pruebas"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 8,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /carta/{slug}",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "carta",
+          "truck-de-pruebas"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 11,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Oculta lo desactivado",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /carta/no-existe (404)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "carta",
+          "no-existe"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 404,
+      "ms": 7,
+      "assertions": [
+        {
+          "assertion": "Responde 404",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /turnos/{slug}",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "turnos",
+          "truck-de-pruebas"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 9,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Muestra columnas de turnos",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /turnos/{slug}/ordenes",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "turnos",
+          "truck-de-pruebas",
+          "ordenes"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 8,
+      "assertions": [
+        {
+          "assertion": "Responde 200 JSON",
+          "skipped": false
+        },
+        {
+          "assertion": "Estructura publica de turnos",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /turnos/no-existe (404)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "turnos",
+          "no-existe"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 404,
+      "ms": 8,
+      "assertions": [
+        {
+          "assertion": "Responde 404",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /turnos/no-existe/ordenes (404)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "turnos",
+          "no-existe",
+          "ordenes"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 404,
+      "ms": 7,
+      "assertions": [
+        {
+          "assertion": "Responde 404 JSON",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "HEAD / (mismo codigo que GET, sin cuerpo)",
+      "metodo": "HEAD",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          ""
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 10,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Sin cuerpo",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "HEAD /carta/no-existe (404, sin cuerpo)",
+      "metodo": "HEAD",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "carta",
+          "no-existe"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 404,
+      "ms": 7,
+      "assertions": [
+        {
+          "assertion": "Responde 404",
+          "skipped": false
+        },
+        {
+          "assertion": "Sin cuerpo",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /componentes",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "componentes"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 3,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Carga las tres hojas locales",
+          "skipped": false
+        },
+        {
+          "assertion": "No enlaza recursos de otro origen",
+          "skipped": false
+        }
+      ]
+    }
+  ]
+}

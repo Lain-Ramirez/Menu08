@@ -6,11 +6,13 @@ recibir en cada uno.
 
 **Servidor:** `https://adso.menu08.com`
 
+Para la reejecución local y el ciclo corregido, seguir [`tests/README.md`](tests/README.md). La carpeta 1 contiene 22 peticiones, descubre los IDs de productos desde el catálogo y cierra sesión antes de cambiar de rol. Las URL absolutas del mismo origen se admiten como recursos locales. Los IDs de las tablas de ejemplo de esta guía son históricos: consultar el banco restaurado o las variables capturadas por la colección.
+
 ---
 
 ## Atajo: importa la colección y ya está
 
-En `postman/Menu08.postman_collection.json` está **todo hecho**: las 40 rutas, las credenciales,
+En `postman/Menu08.postman_collection.json` está **todo hecho**: las rutas del prototipo, las credenciales,
 los cuerpos de ejemplo y las comprobaciones automáticas.
 
 1. Abre Postman.

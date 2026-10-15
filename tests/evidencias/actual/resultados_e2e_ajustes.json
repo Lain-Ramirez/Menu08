@@ -1,0 +1,248 @@
+[
+  {
+    "caso": "CP-SVP-19",
+    "nombre": "Resoluciones del plan y temas claro y oscuro",
+    "fecha": "2026-10-15T12:38:13.941478+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "/svp 360 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 360 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 360 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 360 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 768 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 768 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 768 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 768 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 1280 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 1280 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 1280 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 1280 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Número mínimo 32px",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Botón mínimo 56px (redondeo a 0.01px)",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Altura mínima CSS",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "Número: 40 px; botón: 56 px. Geometría redondeada a 0.01px para la precisión de getBoundingClientRect; min-height CSS también se comprueba."
+    ],
+    "pendientes": [
+      "Lectura de números públicos a 3 metros en monitor físico de 24 pulgadas pendiente; emular ancho no la sustituye."
+    ],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-SVP-19-chromium-svp-360-claro.png",
+      "evidencias/actual/CP-SVP-19-chromium-turnos-360-claro.png",
+      "evidencias/actual/CP-SVP-19-chromium-svp-360-oscuro.png",
+      "evidencias/actual/CP-SVP-19-chromium-turnos-360-oscuro.png",
+      "evidencias/actual/CP-SVP-19-chromium-svp-768-claro.png",
+      "evidencias/actual/CP-SVP-19-chromium-turnos-768-claro.png",
+      "evidencias/actual/CP-SVP-19-chromium-svp-768-oscuro.png",
+      "evidencias/actual/CP-SVP-19-chromium-turnos-768-oscuro.png",
+      "evidencias/actual/CP-SVP-19-chromium-svp-1280-claro.png",
+      "evidencias/actual/CP-SVP-19-chromium-turnos-1280-claro.png",
+      "evidencias/actual/CP-SVP-19-chromium-svp-1280-oscuro.png",
+      "evidencias/actual/CP-SVP-19-chromium-turnos-1280-oscuro.png"
+    ],
+    "estado": "Pendiente de seguimiento"
+  },
+  {
+    "caso": "CP-SVP-19",
+    "nombre": "Resoluciones del plan y temas claro y oscuro",
+    "fecha": "2026-10-15T12:38:22.354370+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "/svp 360 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 360 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 360 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 360 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 768 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 768 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 768 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 768 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 1280 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 1280 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 1280 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 1280 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Número mínimo 32px",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Botón mínimo 56px (redondeo a 0.01px)",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Altura mínima CSS",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "Número: 40 px; botón: 56 px. Geometría redondeada a 0.01px para la precisión de getBoundingClientRect; min-height CSS también se comprueba."
+    ],
+    "pendientes": [
+      "Lectura de números públicos a 3 metros en monitor físico de 24 pulgadas pendiente; emular ancho no la sustituye."
+    ],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-SVP-19-firefox-svp-360-claro.png",
+      "evidencias/actual/CP-SVP-19-firefox-turnos-360-claro.png",
+      "evidencias/actual/CP-SVP-19-firefox-svp-360-oscuro.png",
+      "evidencias/actual/CP-SVP-19-firefox-turnos-360-oscuro.png",
+      "evidencias/actual/CP-SVP-19-firefox-svp-768-claro.png",
+      "evidencias/actual/CP-SVP-19-firefox-turnos-768-claro.png",
+      "evidencias/actual/CP-SVP-19-firefox-svp-768-oscuro.png",
+      "evidencias/actual/CP-SVP-19-firefox-turnos-768-oscuro.png",
+      "evidencias/actual/CP-SVP-19-firefox-svp-1280-claro.png",
+      "evidencias/actual/CP-SVP-19-firefox-turnos-1280-claro.png",
+      "evidencias/actual/CP-SVP-19-firefox-svp-1280-oscuro.png",
+      "evidencias/actual/CP-SVP-19-firefox-turnos-1280-oscuro.png"
+    ],
+    "estado": "Pendiente de seguimiento"
+  }
+]

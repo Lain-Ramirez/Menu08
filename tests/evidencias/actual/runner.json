@@ -1,0 +1,17 @@
+{
+  "comando": "python tests/ejecutar.py",
+  "codigo_salida_observado": 0,
+  "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+  "fecha_registro_utc": "2026-10-15T12:42:16.905848+00:00",
+  "grupos": [
+    "http",
+    "servicios",
+    "e2e",
+    "postman",
+    "https",
+    "flujo",
+    "qr",
+    "publicacion"
+  ],
+  "alcance": "Ejecución completa con salida 0. Los seguimientos físicos y de despliegue permanecen pendientes."
+}

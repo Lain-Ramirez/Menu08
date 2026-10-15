@@ -1,0 +1,258 @@
+[
+  {
+    "caso": "CP-SEG-15",
+    "nombre": "HTTPS, recursos y bitácora del recorrido en el hosting",
+    "fecha": "2026-10-15T12:40:41.939518+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "publica GET HTTP",
+        "esperado": 301,
+        "obtenido": 301,
+        "cumple": true
+      },
+      {
+        "comprobacion": "publica destino conserva ruta y consulta",
+        "esperado": "https://adso.menu08.com/publica/recursos/css/md3.css?nombre=a%20b&x=1",
+        "obtenido": "https://adso.menu08.com/publica/recursos/css/md3.css?nombre=a%20b&x=1",
+        "cumple": true
+      },
+      {
+        "comprobacion": "publica HEAD HTTP",
+        "esperado": 301,
+        "obtenido": 301,
+        "cumple": true
+      },
+      {
+        "comprobacion": "publica destino conserva ruta y consulta",
+        "esperado": "https://adso.menu08.com/publica/recursos/css/md3.css?nombre=a%20b&x=1",
+        "obtenido": "https://adso.menu08.com/publica/recursos/css/md3.css?nombre=a%20b&x=1",
+        "cumple": true
+      },
+      {
+        "comprobacion": "HEAD vacío",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      },
+      {
+        "comprobacion": "publica HTTPS sin bucle",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "publica HTTP local conservado",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "aplicacion GET HTTP",
+        "esperado": 301,
+        "obtenido": 301,
+        "cumple": true
+      },
+      {
+        "comprobacion": "aplicacion destino conserva ruta y consulta",
+        "esperado": "https://adso.menu08.com/aplicacion/recursos/css/md3.css?nombre=a%20b&x=1",
+        "obtenido": "https://adso.menu08.com/aplicacion/recursos/css/md3.css?nombre=a%20b&x=1",
+        "cumple": true
+      },
+      {
+        "comprobacion": "aplicacion HEAD HTTP",
+        "esperado": 301,
+        "obtenido": 301,
+        "cumple": true
+      },
+      {
+        "comprobacion": "aplicacion destino conserva ruta y consulta",
+        "esperado": "https://adso.menu08.com/aplicacion/recursos/css/md3.css?nombre=a%20b&x=1",
+        "obtenido": "https://adso.menu08.com/aplicacion/recursos/css/md3.css?nombre=a%20b&x=1",
+        "cumple": true
+      },
+      {
+        "comprobacion": "HEAD vacío",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      },
+      {
+        "comprobacion": "aplicacion HTTPS sin bucle",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "aplicacion HTTP local conservado",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Front controller /carta/truck-de-pruebas?busqueda=a%20b&x=1",
+        "esperado": 301,
+        "obtenido": 301,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Destino canónico",
+        "esperado": "https://adso.menu08.com/carta/truck-de-pruebas?busqueda=a%20b&x=1",
+        "obtenido": "https://adso.menu08.com/carta/truck-de-pruebas?busqueda=a%20b&x=1",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin sesión antes de redirigir",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Front controller /ingresar",
+        "esperado": 301,
+        "obtenido": 301,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Destino canónico",
+        "esperado": "https://adso.menu08.com/ingresar",
+        "obtenido": "https://adso.menu08.com/ingresar",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin sesión antes de redirigir",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Front controller /panel",
+        "esperado": 301,
+        "obtenido": 301,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Destino canónico",
+        "esperado": "https://adso.menu08.com/panel",
+        "obtenido": "https://adso.menu08.com/panel",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin sesión antes de redirigir",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "No usa Host ni X-Forwarded-Proto",
+        "esperado": "https://adso.menu08.com/panel",
+        "obtenido": "https://adso.menu08.com/panel",
+        "cumple": true
+      }
+    ],
+    "http": [
+      {
+        "metodo": "GET",
+        "url": "http://127.0.0.1:8090/publica/recursos/css/md3.css?nombre=a%20b&x=1",
+        "estado": 301,
+        "location": "https://adso.menu08.com/publica/recursos/css/md3.css?nombre=a%20b&x=1",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 321
+      },
+      {
+        "metodo": "HEAD",
+        "url": "http://127.0.0.1:8090/publica/recursos/css/md3.css?nombre=a%20b&x=1",
+        "estado": 301,
+        "location": "https://adso.menu08.com/publica/recursos/css/md3.css?nombre=a%20b&x=1",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 0
+      },
+      {
+        "metodo": "GET",
+        "url": "https://localhost:8443/publica/recursos/css/md3.css",
+        "estado": 200,
+        "location": null,
+        "content_type": "text/css",
+        "bytes": 2587
+      },
+      {
+        "metodo": "GET",
+        "url": "http://127.0.0.1:8090/publica/recursos/css/md3.css",
+        "estado": 200,
+        "location": null,
+        "content_type": "text/css",
+        "bytes": 2587
+      },
+      {
+        "metodo": "GET",
+        "url": "http://127.0.0.1:8090/aplicacion/recursos/css/md3.css?nombre=a%20b&x=1",
+        "estado": 301,
+        "location": "https://adso.menu08.com/aplicacion/recursos/css/md3.css?nombre=a%20b&x=1",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 324
+      },
+      {
+        "metodo": "HEAD",
+        "url": "http://127.0.0.1:8090/aplicacion/recursos/css/md3.css?nombre=a%20b&x=1",
+        "estado": 301,
+        "location": "https://adso.menu08.com/aplicacion/recursos/css/md3.css?nombre=a%20b&x=1",
+        "content_type": "text/html; charset=iso-8859-1",
+        "bytes": 0
+      },
+      {
+        "metodo": "GET",
+        "url": "https://localhost:8443/aplicacion/recursos/css/md3.css",
+        "estado": 200,
+        "location": null,
+        "content_type": "text/css",
+        "bytes": 2587
+      },
+      {
+        "metodo": "GET",
+        "url": "http://127.0.0.1:8090/aplicacion/recursos/css/md3.css",
+        "estado": 200,
+        "location": null,
+        "content_type": "text/css",
+        "bytes": 2587
+      },
+      {
+        "metodo": "GET",
+        "url": "http://127.0.0.1:48679/carta/truck-de-pruebas?busqueda=a%20b&x=1",
+        "estado": 301,
+        "location": "https://adso.menu08.com/carta/truck-de-pruebas?busqueda=a%20b&x=1",
+        "content_type": "text/html; charset=UTF-8",
+        "bytes": 0
+      },
+      {
+        "metodo": "GET",
+        "url": "http://127.0.0.1:48679/ingresar",
+        "estado": 301,
+        "location": "https://adso.menu08.com/ingresar",
+        "content_type": "text/html; charset=UTF-8",
+        "bytes": 0
+      },
+      {
+        "metodo": "GET",
+        "url": "http://127.0.0.1:48679/panel",
+        "estado": 301,
+        "location": "https://adso.menu08.com/panel",
+        "content_type": "text/html; charset=UTF-8",
+        "bytes": 0
+      },
+      {
+        "metodo": "GET",
+        "url": "http://127.0.0.1:48679/panel",
+        "estado": 301,
+        "location": "https://adso.menu08.com/panel",
+        "content_type": "text/html; charset=UTF-8",
+        "bytes": 0
+      }
+    ],
+    "notas": [
+      "Las dos reglas .htaccess se ejecutaron con Apache real; TLS se verificó contra el certificado local de prueba. El front controller real redirige antes de abrir sesión. Configuración local restaurada en finally."
+    ],
+    "pendientes": [],
+    "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+    "estado": "Aprobada"
+  }
+]

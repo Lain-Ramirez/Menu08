@@ -1,0 +1,132 @@
+{
+  "caso": {
+    "id": "CP-CAJA-05",
+    "modulo": "CAJA",
+    "requisito": "Issue #11 · Persistir la orden de CAJA con sus ítems, totales y medio de pago\nIssue #18 · Maquetar la pantalla de venta de CAJA con catálogo, orden en construcción y cobro\nIssue #19 · Maquetar las pantallas de apertura y cierre de turno y el comprobante imprimible de CAJA\nFuncionalidad: CAJA\nCaso: CP-CAJA-05",
+    "nombre": "Filtrado por categoría en el catálogo",
+    "objetivo": "Verificar que los filtros de categoría corresponden al catálogo activo del truck.",
+    "tipo": "Funcional · integración",
+    "precondiciones": "Turno abierto. Panel de venta activo\nUsar IDs consultados por slug/nombre; conservar las dependencias indicadas. Todo POST requiere token vigente, salvo el ingreso móvil.",
+    "datos": "Navegación por chips de categoría",
+    "pasos": "1. Abrir /caja.\n2. Observar los chips de categoría del encabezado y alternar entre ellos.\n3. Buscar Papas de prueba por nombre y combinar la búsqueda con el chip Entradas.\n4. Comprobar que el filtro opera sobre las fichas cargadas sin una petición al servidor por cada tecla.",
+    "esperado": "Los chips de las categorías activas del truck están visibles y permiten filtrar el catálogo. La categoría desactivada no aparece\nLa búsqueda por nombre y el chip muestran solo fichas coincidentes de los productos ya renderizados, sin consulta nueva por tecla.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Media",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S268 · Issue #11 · Persistir la orden de CAJA con sus ítems, totales y medio de pago\nS269 · Issue #18 · Maquetar la pantalla de venta de CAJA con catálogo, orden en construcción y cobro\nS267 · Issue #19 · Maquetar las pantallas de apertura y cierre de turno y el comprobante imprimible de CAJA\nS035 · docs/pruebas/casos/caja.md · líneas 97–105\nS007 · menu08_app/aplicacion/controladores/CajaControlador.php · líneas 37–45\nS031 · menu08_app/configuracion/rutas.php · líneas 86–94"
+  },
+  "resultados": {
+    "caso": "CP-CAJA-05",
+    "nombre": "Filtrado por categoría en el catálogo",
+    "modulo": "CAJA",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Filtro entradas",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Búsqueda local",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Filtro entradas",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Búsqueda local",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "capturas": [
+      "evidencias/actual/CP-CAJA-05-chromium-filtro.png",
+      "evidencias/actual/CP-CAJA-05-firefox-filtro.png"
+    ],
+    "ejecuciones": [
+      "EX-089",
+      "EX-102"
+    ],
+    "fecha": "2026-10-15T12:39:54.367925+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CAJA-05",
+      "nombre": "Filtrado por categoría en el catálogo",
+      "fecha": "2026-10-15T12:39:09.272085+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Filtro entradas",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Búsqueda local",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / chromium",
+      "navegador": "chromium",
+      "capturas": [
+        "evidencias/actual/CP-CAJA-05-chromium-filtro.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-089"
+    },
+    {
+      "caso": "CP-CAJA-05",
+      "nombre": "Filtrado por categoría en el catálogo",
+      "fecha": "2026-10-15T12:39:54.367925+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Filtro entradas",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Búsqueda local",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / firefox",
+      "navegador": "firefox",
+      "capturas": [
+        "evidencias/actual/CP-CAJA-05-firefox-filtro.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-102"
+    }
+  ]
+}

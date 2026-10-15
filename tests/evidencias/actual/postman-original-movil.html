@@ -1,0 +1,76 @@
+<html lang="es"><meta charset="utf-8"><style>body{margin:0;background:#fff8f4;color:#221a15;font:16px Arial,sans-serif}main{padding:32px;max-width:1200px;margin:auto}header{background:#aa2502;color:white;padding:24px 32px}h1{font-size:25px;margin:8px 0}h2{font-size:19px}small{font-size:13px}table{border-collapse:collapse;width:100%;margin:16px 0}td,th{padding:10px;text-align:left;border:1px solid #d7c2b7;vertical-align:top;overflow-wrap:anywhere}th{background:#725304;color:white}tr:nth-child(even){background:#f5ebe4}.fail{background:#ffdad6!important}.badge{display:inline-block;padding:8px 14px;border:1px solid #725304;background:#f5df93;color:#251a00;border-radius:8px;font-weight:bold}.meta{background:#f5ebe4;padding:16px;line-height:1.6}a{color:#aa2502}pre{white-space:pre-wrap;background:#251b16;color:#f0dfd7;padding:18px}img{max-width:100%;border:1px solid #d7c2b7}li{margin:8px 0}.pending{background:#ffdcc2;padding:14px}</style><header><h1>Menu08 · postman-original-movil</h1><p>Salida real de herramienta · representación del archivo TXT</p></header><main><pre>newman
+
+Menu08 — prototipo SENA
+
+❏ 8 - Modulo movil (ejecutar en orden)
+↳ 1 - GET /salir (llegar sin sesion)
+  GET http://127.0.0.1:8088/salir [302 Found, 403B, 36ms]
+  ✓  Responde 302
+
+↳ 2 - POST /movil/ubicacion sin sesion -&gt; 401
+  POST http://127.0.0.1:8088/movil/ubicacion [401 Unauthorized, 377B, 7ms]
+  ✓  Responde 401
+  ✓  Responde JSON, nunca HTML
+  ✓  Es no_autenticado
+
+↳ 3 - POST /movil/ingresar (food_truck) -&gt; 200
+  POST http://127.0.0.1:8088/movil/ingresar [200 OK, 612B, 80ms]
+  ✓  Responde 200
+  ✓  Responde JSON, nunca HTML
+  ✓  Trae usuario y token_csrf
+  ✓  No devuelve la contrasena
+  ✓  El rol es food_truck
+
+↳ 4 - POST /movil/ubicacion sin _token -&gt; 403
+  POST http://127.0.0.1:8088/movil/ubicacion [403 Forbidden, 390B, 5ms]
+  ✓  Responde 403
+  ✓  Responde JSON, nunca HTML
+  ✓  Es token_invalido
+
+↳ 5 - POST /movil/ubicacion coordenada invalida -&gt; 422
+  POST http://127.0.0.1:8088/movil/ubicacion [422 Unknown Status Code, 379B, 5ms]
+  ✓  Responde 422
+  ✓  Responde JSON, nunca HTML
+  ✓  Es coordenadas_invalidas
+
+↳ 6 - POST /movil/ubicacion correcto -&gt; 200 o 201
+  POST http://127.0.0.1:8088/movil/ubicacion [201 Created, 534B, 14ms]
+  ✓  Responde 200 o 201
+  ✓  Responde JSON, nunca HTML
+  ✓  Trae parada y creada
+  ✓  El codigo concuerda con creada
+  ✓  Guardo las coordenadas enviadas
+
+↳ 7 - POST /movil/ingresar (cajero) -&gt; 200
+  POST http://127.0.0.1:8088/movil/ingresar [200 OK, 598B, 79ms]
+  ✓  Responde 200
+  ✓  El rol es cajero
+
+↳ 8 - POST /movil/ubicacion con rol cajero -&gt; 403
+  POST http://127.0.0.1:8088/movil/ubicacion [403 Forbidden, 378B, 5ms]
+  ✓  Responde 403
+  ✓  Responde JSON, nunca HTML
+  ✓  Es rol_no_autorizado
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │                8 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │                8 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │                0 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │               25 │                0 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 425ms                                     │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 1.1kB (approx)                           │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 28ms [min: 5ms, max: 80ms, s.d.: 30ms] │
+└───────────────────────────────────────────────────────────────┘
+(node:32771) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+</pre></main></html>

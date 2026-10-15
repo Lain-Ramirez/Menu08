@@ -1,0 +1,1457 @@
+{
+  "archivo": "soporte/Menu08/postman/Menu08.postman_collection.json",
+  "carpeta": "2 - Publicas (sin sesion)",
+  "fecha": "2026-10-15T11:08:03.127541+00:00",
+  "exit_code": 1,
+  "stats": {
+    "iterations": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "items": {
+      "total": 11,
+      "pending": 0,
+      "failed": 0
+    },
+    "scripts": {
+      "total": 11,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequests": {
+      "total": 11,
+      "pending": 0,
+      "failed": 0
+    },
+    "requests": {
+      "total": 11,
+      "pending": 0,
+      "failed": 0
+    },
+    "tests": {
+      "total": 11,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 19,
+      "pending": 0,
+      "failed": 2
+    },
+    "testScripts": {
+      "total": 11,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequestScripts": {
+      "total": 0,
+      "pending": 0,
+      "failed": 0
+    }
+  },
+  "fallos": [
+    {
+      "error": {
+        "name": "AssertionError",
+        "index": 1,
+        "test": "Oculta lo desactivado",
+        "message": "expected '<!doctype html>\\n<html lang=\"es\">\\n<h…' to not include 'Entrada agotada'",
+        "stack": "AssertionError: expected '<!doctype html>\\n<html lang=\"es\">\\n<h…' to not include 'Entrada agotada'\n   at Object.eval sandbox-script.js:2:3)",
+        "checksum": "497a07b7cc4d67bb3725c5f6f71f4414",
+        "id": "5a42606d-628c-4544-bb6f-6eed54eaddfe",
+        "timestamp": 1792062482735,
+        "stacktrace": [
+          {
+            "fileName": "sandbox-script.js",
+            "lineNumber": 2,
+            "functionName": "Object.eval",
+            "typeName": "Object",
+            "methodName": "eval",
+            "columnNumber": 3,
+            "native": false
+          }
+        ]
+      },
+      "at": "assertion:1 in test-script",
+      "source": {
+        "id": "8045cdf1-6d4f-4725-9dc5-f2be474aa45c",
+        "name": "GET /carta/{slug}",
+        "request": {
+          "description": {
+            "content": "La carta que abre el cliente al leer el QR de la ventanilla. Comprueba que NO aparezcan la categoria desactivada ni el producto agotado.",
+            "type": "text/plain"
+          },
+          "url": {
+            "path": [
+              "carta",
+              "{{slug}}"
+            ],
+            "host": [
+              "{{baseUrl}}"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "method": "GET"
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "id": "69118817-9ec8-4f12-abf1-96c13547482e",
+              "type": "text/javascript",
+              "exec": [
+                "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                "pm.test('Oculta lo desactivado', function () {",
+                "  pm.expect(pm.response.text()).to.not.include('Categoria desactivada');",
+                "  pm.expect(pm.response.text()).to.not.include('Entrada agotada');",
+                "});"
+              ],
+              "_lastExecutionId": "519af2d6-0ece-4ad5-8b85-2be3144c3659"
+            }
+          }
+        ]
+      },
+      "parent": {
+        "id": "c7f5fb31-8259-4626-85e9-d2d4bc6ee3b2",
+        "name": "2 - Publicas (sin sesion)",
+        "description": {
+          "content": "Lo que ve cualquiera sin ingresar.",
+          "type": "text/plain"
+        },
+        "item": [
+          {
+            "id": "c6c1a9d4-9142-4a3a-a50c-4d40ce77e74b",
+            "name": "GET /",
+            "request": {
+              "description": {
+                "content": "Portada publica: las cartas de los food trucks activos, cada una enlazada a /carta/{slug}, con la parada vigente de cada truck.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  ""
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "97f607fa-7724-49ff-8a9a-8d0ef6c37bf0",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                    "pm.test('Enlaza las cartas por slug', function () {",
+                    "    pm.expect(pm.response.text()).to.include('/carta/');",
+                    "});"
+                  ],
+                  "_lastExecutionId": "1e9e17d3-7218-47a9-a1a7-7ebf0cb391db"
+                }
+              }
+            ]
+          },
+          {
+            "id": "7398f2c2-fd97-4c89-9672-a773aab66abd",
+            "name": "GET /comprobacion/{slug}",
+            "request": {
+              "description": {
+                "content": "Comprobacion de una ruta con parametro. Con un slug inexistente responde 404.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "comprobacion",
+                  "{{slug}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "c6f1d5bd-a37c-48cd-ac73-e5696a88982c",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200', function () { pm.response.to.have.status(200); });"
+                  ],
+                  "_lastExecutionId": "4ac407b6-b294-4aea-b14f-cd46a7c52b99"
+                }
+              }
+            ]
+          },
+          {
+            "id": "8045cdf1-6d4f-4725-9dc5-f2be474aa45c",
+            "name": "GET /carta/{slug}",
+            "request": {
+              "description": {
+                "content": "La carta que abre el cliente al leer el QR de la ventanilla. Comprueba que NO aparezcan la categoria desactivada ni el producto agotado.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "carta",
+                  "{{slug}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "69118817-9ec8-4f12-abf1-96c13547482e",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                    "pm.test('Oculta lo desactivado', function () {",
+                    "  pm.expect(pm.response.text()).to.not.include('Categoria desactivada');",
+                    "  pm.expect(pm.response.text()).to.not.include('Entrada agotada');",
+                    "});"
+                  ],
+                  "_lastExecutionId": "519af2d6-0ece-4ad5-8b85-2be3144c3659"
+                }
+              }
+            ]
+          },
+          {
+            "id": "f87c4d3b-b52f-4d49-a7d6-98b8a894530a",
+            "name": "GET /carta/no-existe (404)",
+            "request": {
+              "description": {
+                "content": "Un slug que no existe da 404 con la vista de error propia del sitio.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "carta",
+                  "no-existe"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "89822441-20b1-4a3e-99ab-188022e4450a",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 404', function () { pm.response.to.have.status(404); });"
+                  ],
+                  "_lastExecutionId": "165e1cd2-eab9-4555-8f50-0c8ca81af89a"
+                }
+              }
+            ]
+          },
+          {
+            "id": "48b9b409-9148-4c84-92f9-b11167ab9c7f",
+            "name": "GET /turnos/{slug}",
+            "request": {
+              "description": {
+                "content": "Pantalla publica de turnos para la ventanilla. Muestra las columnas En preparacion y Listos sin sesion.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "turnos",
+                  "{{slug}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "dd8a114a-48e7-449c-a589-b7000e46db0c",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                    "pm.test('Muestra columnas de turnos', function () {",
+                    "  pm.expect(pm.response.text()).to.include('En preparación');",
+                    "  pm.expect(pm.response.text()).to.include('Listos');",
+                    "});"
+                  ],
+                  "_lastExecutionId": "5af1e8f4-cfd6-4af7-8f42-e28245ba03ac"
+                }
+              }
+            ]
+          },
+          {
+            "id": "d0355ed3-907c-4479-bd72-3bd4c0fe9b90",
+            "name": "GET /turnos/{slug}/ordenes",
+            "request": {
+              "description": {
+                "content": "Servicio JSON publico de turnos para el sondeo de la pantalla de ventanilla. Solo devuelve numero y estado, sin items ni notas.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "turnos",
+                  "{{slug}}",
+                  "ordenes"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "2239e5ce-befc-44be-adc5-065fa7811bb1",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200 JSON', function () {",
+                    "  pm.response.to.have.status(200);",
+                    "  pm.response.to.be.json;",
+                    "});",
+                    "pm.test('Estructura publica de turnos', function () {",
+                    "  var res = pm.response.json();",
+                    "  pm.expect(res).to.have.property('turno');",
+                    "  pm.expect(res).to.have.property('ordenes');",
+                    "  if (res.ordenes && res.ordenes.length > 0) {",
+                    "    var o = res.ordenes[0];",
+                    "    pm.expect(o).to.have.property('numero');",
+                    "    pm.expect(o).to.have.property('estado');",
+                    "    pm.expect(o).to.not.have.property('items');",
+                    "    pm.expect(o).to.not.have.property('nota');",
+                    "  }",
+                    "});"
+                  ],
+                  "_lastExecutionId": "fc717870-5c5a-4f37-9ad1-4cf2337846d5"
+                }
+              }
+            ]
+          },
+          {
+            "id": "1a150b3d-ee96-4bff-a179-e18695957b5a",
+            "name": "GET /turnos/no-existe (404)",
+            "request": {
+              "description": {
+                "content": "Un slug que no existe da 404 con la vista de error propia del sitio.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "turnos",
+                  "no-existe"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "8e97515c-b4c7-47a7-8415-34a71bc2e355",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 404', function () { pm.response.to.have.status(404); });"
+                  ],
+                  "_lastExecutionId": "0efe822f-f7f2-49b0-aa77-3ffcf6f67bd0"
+                }
+              }
+            ]
+          },
+          {
+            "id": "e9675e50-d4d6-4850-bfd4-7e2274c365b4",
+            "name": "GET /turnos/no-existe/ordenes (404)",
+            "request": {
+              "description": {
+                "content": "Un slug que no existe da 404 en JSON para no romper el sondeo.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "turnos",
+                  "no-existe",
+                  "ordenes"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "71aea79b-7792-444f-b8ba-fad89fde41de",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 404 JSON', function () {",
+                    "  pm.response.to.have.status(404);",
+                    "  pm.response.to.be.json;",
+                    "});"
+                  ],
+                  "_lastExecutionId": "97cb6353-f885-47ea-9a9b-b62c18c1da61"
+                }
+              }
+            ]
+          },
+          {
+            "id": "525b7120-638c-49f1-aa3c-6b842ace142d",
+            "name": "HEAD / (mismo codigo que GET, sin cuerpo)",
+            "request": {
+              "description": {
+                "content": "HEAD es GET sin cuerpo: el enrutador lo resuelve con la tabla de GET. Antes respondia 404 en todas las rutas.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  ""
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "HEAD"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "599e89d2-bf2b-4d18-8dc0-d1831dd9a034",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                    "pm.test('Sin cuerpo', function () { pm.expect(pm.response.text() || '').to.eql(''); });"
+                  ],
+                  "_lastExecutionId": "3e91f3bb-3a6a-4572-aff1-51aff7347223"
+                }
+              }
+            ]
+          },
+          {
+            "id": "f8a5657a-6dba-4076-8d16-6dacb49d5125",
+            "name": "HEAD /carta/no-existe (404, sin cuerpo)",
+            "request": {
+              "description": {
+                "content": "Una ruta que no existe sigue respondiendo 404 tambien por HEAD, y tampoco lleva cuerpo.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "carta",
+                  "no-existe"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "HEAD"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "74891139-03a3-4c78-b921-844d93938380",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 404', function () { pm.response.to.have.status(404); });",
+                    "pm.test('Sin cuerpo', function () { pm.expect(pm.response.text() || '').to.eql(''); });"
+                  ],
+                  "_lastExecutionId": "9d66b8dd-21b9-4d34-83fc-b2f1794963dd"
+                }
+              }
+            ]
+          },
+          {
+            "id": "b775b280-8572-4c3c-a627-4f9d4a9543f2",
+            "name": "GET /componentes",
+            "request": {
+              "description": {
+                "content": "Muestrario del catalogo de componentes. Publico: no consulta la base ni muestra datos del negocio. Sirve para revisar los componentes en los tres anchos de referencia sin entrar primero.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "componentes"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "a42ebc67-c809-49a6-84f4-df217d41e866",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                    "pm.test('Carga las tres hojas locales', function () {",
+                    "    var cuerpo = pm.response.text();",
+                    "    pm.expect(cuerpo).to.include('/recursos/css/md3.css');",
+                    "    pm.expect(cuerpo).to.include('/recursos/css/base.css');",
+                    "    pm.expect(cuerpo).to.include('/recursos/css/componentes.css');",
+                    "});",
+                    "pm.test('No enlaza ningun recurso remoto', function () {",
+                    "    var cuerpo = pm.response.text();",
+                    "    pm.expect(cuerpo).to.not.match(/(src|href)=\"https?:\\/\\//);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "aed83099-c4fa-47d8-89de-9948a958b97d"
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      "cursor": {
+        "ref": "7afb627f-8008-4be6-b7b6-7f5bce8e974d",
+        "length": 11,
+        "cycles": 1,
+        "position": 2,
+        "iteration": 0,
+        "httpRequestId": "d32956f3-4606-4acc-9cbb-fbee1ab5dfe3",
+        "scriptId": "69118817-9ec8-4f12-abf1-96c13547482e",
+        "execution": "519af2d6-0ece-4ad5-8b85-2be3144c3659"
+      }
+    },
+    {
+      "error": {
+        "name": "AssertionError",
+        "index": 2,
+        "test": "No enlaza ningun recurso remoto",
+        "message": "expected '<!doctype html>\\n<html lang=\"es\">\\n<h…' not to match /(src|href)=\"https?:\\/\\//",
+        "stack": "AssertionError: expected '<!doctype html>\\n<html lang=\"es\">\\n<h…' not to match /(src|href)=\"https?:\\/\\//\n   at Object.eval sandbox-script.js:3:11)",
+        "checksum": "8d0e2e5d0d4457b7dba66da36b3d97bf",
+        "id": "cc6570f7-23ba-4124-9e3b-e22001500f95",
+        "timestamp": 1792062483005,
+        "stacktrace": [
+          {
+            "fileName": "sandbox-script.js",
+            "lineNumber": 3,
+            "functionName": "Object.eval",
+            "typeName": "Object",
+            "methodName": "eval",
+            "columnNumber": 11,
+            "native": false
+          }
+        ]
+      },
+      "at": "assertion:2 in test-script",
+      "source": {
+        "id": "b775b280-8572-4c3c-a627-4f9d4a9543f2",
+        "name": "GET /componentes",
+        "request": {
+          "description": {
+            "content": "Muestrario del catalogo de componentes. Publico: no consulta la base ni muestra datos del negocio. Sirve para revisar los componentes en los tres anchos de referencia sin entrar primero.",
+            "type": "text/plain"
+          },
+          "url": {
+            "path": [
+              "componentes"
+            ],
+            "host": [
+              "{{baseUrl}}"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "method": "GET"
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "id": "a42ebc67-c809-49a6-84f4-df217d41e866",
+              "type": "text/javascript",
+              "exec": [
+                "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                "pm.test('Carga las tres hojas locales', function () {",
+                "    var cuerpo = pm.response.text();",
+                "    pm.expect(cuerpo).to.include('/recursos/css/md3.css');",
+                "    pm.expect(cuerpo).to.include('/recursos/css/base.css');",
+                "    pm.expect(cuerpo).to.include('/recursos/css/componentes.css');",
+                "});",
+                "pm.test('No enlaza ningun recurso remoto', function () {",
+                "    var cuerpo = pm.response.text();",
+                "    pm.expect(cuerpo).to.not.match(/(src|href)=\"https?:\\/\\//);",
+                "});"
+              ],
+              "_lastExecutionId": "aed83099-c4fa-47d8-89de-9948a958b97d"
+            }
+          }
+        ]
+      },
+      "parent": {
+        "id": "c7f5fb31-8259-4626-85e9-d2d4bc6ee3b2",
+        "name": "2 - Publicas (sin sesion)",
+        "description": {
+          "content": "Lo que ve cualquiera sin ingresar.",
+          "type": "text/plain"
+        },
+        "item": [
+          {
+            "id": "c6c1a9d4-9142-4a3a-a50c-4d40ce77e74b",
+            "name": "GET /",
+            "request": {
+              "description": {
+                "content": "Portada publica: las cartas de los food trucks activos, cada una enlazada a /carta/{slug}, con la parada vigente de cada truck.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  ""
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "97f607fa-7724-49ff-8a9a-8d0ef6c37bf0",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                    "pm.test('Enlaza las cartas por slug', function () {",
+                    "    pm.expect(pm.response.text()).to.include('/carta/');",
+                    "});"
+                  ],
+                  "_lastExecutionId": "1e9e17d3-7218-47a9-a1a7-7ebf0cb391db"
+                }
+              }
+            ]
+          },
+          {
+            "id": "7398f2c2-fd97-4c89-9672-a773aab66abd",
+            "name": "GET /comprobacion/{slug}",
+            "request": {
+              "description": {
+                "content": "Comprobacion de una ruta con parametro. Con un slug inexistente responde 404.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "comprobacion",
+                  "{{slug}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "c6f1d5bd-a37c-48cd-ac73-e5696a88982c",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200', function () { pm.response.to.have.status(200); });"
+                  ],
+                  "_lastExecutionId": "4ac407b6-b294-4aea-b14f-cd46a7c52b99"
+                }
+              }
+            ]
+          },
+          {
+            "id": "8045cdf1-6d4f-4725-9dc5-f2be474aa45c",
+            "name": "GET /carta/{slug}",
+            "request": {
+              "description": {
+                "content": "La carta que abre el cliente al leer el QR de la ventanilla. Comprueba que NO aparezcan la categoria desactivada ni el producto agotado.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "carta",
+                  "{{slug}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "69118817-9ec8-4f12-abf1-96c13547482e",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                    "pm.test('Oculta lo desactivado', function () {",
+                    "  pm.expect(pm.response.text()).to.not.include('Categoria desactivada');",
+                    "  pm.expect(pm.response.text()).to.not.include('Entrada agotada');",
+                    "});"
+                  ],
+                  "_lastExecutionId": "519af2d6-0ece-4ad5-8b85-2be3144c3659"
+                }
+              }
+            ]
+          },
+          {
+            "id": "f87c4d3b-b52f-4d49-a7d6-98b8a894530a",
+            "name": "GET /carta/no-existe (404)",
+            "request": {
+              "description": {
+                "content": "Un slug que no existe da 404 con la vista de error propia del sitio.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "carta",
+                  "no-existe"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "89822441-20b1-4a3e-99ab-188022e4450a",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 404', function () { pm.response.to.have.status(404); });"
+                  ],
+                  "_lastExecutionId": "165e1cd2-eab9-4555-8f50-0c8ca81af89a"
+                }
+              }
+            ]
+          },
+          {
+            "id": "48b9b409-9148-4c84-92f9-b11167ab9c7f",
+            "name": "GET /turnos/{slug}",
+            "request": {
+              "description": {
+                "content": "Pantalla publica de turnos para la ventanilla. Muestra las columnas En preparacion y Listos sin sesion.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "turnos",
+                  "{{slug}}"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "dd8a114a-48e7-449c-a589-b7000e46db0c",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                    "pm.test('Muestra columnas de turnos', function () {",
+                    "  pm.expect(pm.response.text()).to.include('En preparación');",
+                    "  pm.expect(pm.response.text()).to.include('Listos');",
+                    "});"
+                  ],
+                  "_lastExecutionId": "5af1e8f4-cfd6-4af7-8f42-e28245ba03ac"
+                }
+              }
+            ]
+          },
+          {
+            "id": "d0355ed3-907c-4479-bd72-3bd4c0fe9b90",
+            "name": "GET /turnos/{slug}/ordenes",
+            "request": {
+              "description": {
+                "content": "Servicio JSON publico de turnos para el sondeo de la pantalla de ventanilla. Solo devuelve numero y estado, sin items ni notas.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "turnos",
+                  "{{slug}}",
+                  "ordenes"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "2239e5ce-befc-44be-adc5-065fa7811bb1",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200 JSON', function () {",
+                    "  pm.response.to.have.status(200);",
+                    "  pm.response.to.be.json;",
+                    "});",
+                    "pm.test('Estructura publica de turnos', function () {",
+                    "  var res = pm.response.json();",
+                    "  pm.expect(res).to.have.property('turno');",
+                    "  pm.expect(res).to.have.property('ordenes');",
+                    "  if (res.ordenes && res.ordenes.length > 0) {",
+                    "    var o = res.ordenes[0];",
+                    "    pm.expect(o).to.have.property('numero');",
+                    "    pm.expect(o).to.have.property('estado');",
+                    "    pm.expect(o).to.not.have.property('items');",
+                    "    pm.expect(o).to.not.have.property('nota');",
+                    "  }",
+                    "});"
+                  ],
+                  "_lastExecutionId": "fc717870-5c5a-4f37-9ad1-4cf2337846d5"
+                }
+              }
+            ]
+          },
+          {
+            "id": "1a150b3d-ee96-4bff-a179-e18695957b5a",
+            "name": "GET /turnos/no-existe (404)",
+            "request": {
+              "description": {
+                "content": "Un slug que no existe da 404 con la vista de error propia del sitio.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "turnos",
+                  "no-existe"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "8e97515c-b4c7-47a7-8415-34a71bc2e355",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 404', function () { pm.response.to.have.status(404); });"
+                  ],
+                  "_lastExecutionId": "0efe822f-f7f2-49b0-aa77-3ffcf6f67bd0"
+                }
+              }
+            ]
+          },
+          {
+            "id": "e9675e50-d4d6-4850-bfd4-7e2274c365b4",
+            "name": "GET /turnos/no-existe/ordenes (404)",
+            "request": {
+              "description": {
+                "content": "Un slug que no existe da 404 en JSON para no romper el sondeo.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "turnos",
+                  "no-existe",
+                  "ordenes"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "71aea79b-7792-444f-b8ba-fad89fde41de",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 404 JSON', function () {",
+                    "  pm.response.to.have.status(404);",
+                    "  pm.response.to.be.json;",
+                    "});"
+                  ],
+                  "_lastExecutionId": "97cb6353-f885-47ea-9a9b-b62c18c1da61"
+                }
+              }
+            ]
+          },
+          {
+            "id": "525b7120-638c-49f1-aa3c-6b842ace142d",
+            "name": "HEAD / (mismo codigo que GET, sin cuerpo)",
+            "request": {
+              "description": {
+                "content": "HEAD es GET sin cuerpo: el enrutador lo resuelve con la tabla de GET. Antes respondia 404 en todas las rutas.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  ""
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "HEAD"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "599e89d2-bf2b-4d18-8dc0-d1831dd9a034",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                    "pm.test('Sin cuerpo', function () { pm.expect(pm.response.text() || '').to.eql(''); });"
+                  ],
+                  "_lastExecutionId": "3e91f3bb-3a6a-4572-aff1-51aff7347223"
+                }
+              }
+            ]
+          },
+          {
+            "id": "f8a5657a-6dba-4076-8d16-6dacb49d5125",
+            "name": "HEAD /carta/no-existe (404, sin cuerpo)",
+            "request": {
+              "description": {
+                "content": "Una ruta que no existe sigue respondiendo 404 tambien por HEAD, y tampoco lleva cuerpo.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "carta",
+                  "no-existe"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "HEAD"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "74891139-03a3-4c78-b921-844d93938380",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 404', function () { pm.response.to.have.status(404); });",
+                    "pm.test('Sin cuerpo', function () { pm.expect(pm.response.text() || '').to.eql(''); });"
+                  ],
+                  "_lastExecutionId": "9d66b8dd-21b9-4d34-83fc-b2f1794963dd"
+                }
+              }
+            ]
+          },
+          {
+            "id": "b775b280-8572-4c3c-a627-4f9d4a9543f2",
+            "name": "GET /componentes",
+            "request": {
+              "description": {
+                "content": "Muestrario del catalogo de componentes. Publico: no consulta la base ni muestra datos del negocio. Sirve para revisar los componentes en los tres anchos de referencia sin entrar primero.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "componentes"
+                ],
+                "host": [
+                  "{{baseUrl}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "a42ebc67-c809-49a6-84f4-df217d41e866",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Responde 200', function () { pm.response.to.have.status(200); });",
+                    "pm.test('Carga las tres hojas locales', function () {",
+                    "    var cuerpo = pm.response.text();",
+                    "    pm.expect(cuerpo).to.include('/recursos/css/md3.css');",
+                    "    pm.expect(cuerpo).to.include('/recursos/css/base.css');",
+                    "    pm.expect(cuerpo).to.include('/recursos/css/componentes.css');",
+                    "});",
+                    "pm.test('No enlaza ningun recurso remoto', function () {",
+                    "    var cuerpo = pm.response.text();",
+                    "    pm.expect(cuerpo).to.not.match(/(src|href)=\"https?:\\/\\//);",
+                    "});"
+                  ],
+                  "_lastExecutionId": "aed83099-c4fa-47d8-89de-9948a958b97d"
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      "cursor": {
+        "ref": "c8e38ccb-985e-45c6-a181-920b3fac07e1",
+        "length": 11,
+        "cycles": 1,
+        "position": 10,
+        "iteration": 0,
+        "httpRequestId": "76436fda-cc0d-4466-b5e0-454e0e1e2301",
+        "scriptId": "a42ebc67-c809-49a6-84f4-df217d41e866",
+        "execution": "aed83099-c4fa-47d8-89de-9948a958b97d"
+      }
+    }
+  ],
+  "ejecuciones": [
+    {
+      "nombre": "GET /",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          ""
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 41,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Enlaza las cartas por slug",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /comprobacion/{slug}",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "comprobacion",
+          "truck-de-pruebas"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 26,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /carta/{slug}",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "carta",
+          "truck-de-pruebas"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 12,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Oculta lo desactivado",
+          "skipped": false,
+          "error": {
+            "name": "AssertionError",
+            "index": 1,
+            "test": "Oculta lo desactivado",
+            "message": "expected '<!doctype html>\\n<html lang=\"es\">\\n<h…' to not include 'Entrada agotada'",
+            "stack": "AssertionError: expected '<!doctype html>\\n<html lang=\"es\">\\n<h…' to not include 'Entrada agotada'\n   at Object.eval sandbox-script.js:2:3)"
+          }
+        }
+      ]
+    },
+    {
+      "nombre": "GET /carta/no-existe (404)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "carta",
+          "no-existe"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 404,
+      "ms": 7,
+      "assertions": [
+        {
+          "assertion": "Responde 404",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /turnos/{slug}",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "turnos",
+          "truck-de-pruebas"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 9,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Muestra columnas de turnos",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /turnos/{slug}/ordenes",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "turnos",
+          "truck-de-pruebas",
+          "ordenes"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 7,
+      "assertions": [
+        {
+          "assertion": "Responde 200 JSON",
+          "skipped": false
+        },
+        {
+          "assertion": "Estructura publica de turnos",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /turnos/no-existe (404)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "turnos",
+          "no-existe"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 404,
+      "ms": 7,
+      "assertions": [
+        {
+          "assertion": "Responde 404",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /turnos/no-existe/ordenes (404)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "turnos",
+          "no-existe",
+          "ordenes"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 404,
+      "ms": 7,
+      "assertions": [
+        {
+          "assertion": "Responde 404 JSON",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "HEAD / (mismo codigo que GET, sin cuerpo)",
+      "metodo": "HEAD",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          ""
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 11,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Sin cuerpo",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "HEAD /carta/no-existe (404, sin cuerpo)",
+      "metodo": "HEAD",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "carta",
+          "no-existe"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 404,
+      "ms": 7,
+      "assertions": [
+        {
+          "assertion": "Responde 404",
+          "skipped": false
+        },
+        {
+          "assertion": "Sin cuerpo",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "GET /componentes",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "componentes"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 56,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Carga las tres hojas locales",
+          "skipped": false
+        },
+        {
+          "assertion": "No enlaza ningun recurso remoto",
+          "skipped": false,
+          "error": {
+            "name": "AssertionError",
+            "index": 2,
+            "test": "No enlaza ningun recurso remoto",
+            "message": "expected '<!doctype html>\\n<html lang=\"es\">\\n<h…' not to match /(src|href)=\"https?:\\/\\//",
+            "stack": "AssertionError: expected '<!doctype html>\\n<html lang=\"es\">\\n<h…' not to match /(src|href)=\"https?:\\/\\//\n   at Object.eval sandbox-script.js:3:11)"
+          }
+        }
+      ]
+    }
+  ]
+}

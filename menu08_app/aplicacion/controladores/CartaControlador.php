@@ -26,8 +26,8 @@ final class CartaControlador extends Controlador
             throw new RutaNoEncontrada(sprintf('No hay un food truck activo con el slug "%s".', $slug));
         }
 
-        // catalogoCarta y no catalogoPublico: la carta si muestra lo agotado,
-        // atenuado y con su etiqueta. El de CAJA lo deja fuera.
+        // La carta publica excluye productos agotados; siguen administrables
+        // desde el panel y conservan sus datos historicos en las ordenes.
         $catalogo = Producto::catalogoCarta((int) $truck['id']);
 
         // Se agrupa por categoria conservando el orden que trae la consulta.

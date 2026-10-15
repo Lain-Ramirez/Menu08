@@ -1,0 +1,109 @@
+{
+  "caso": {
+    "id": "CP-SVP-09",
+    "modulo": "SVP",
+    "requisito": "Issue #13 · Exponer el servicio JSON de cambio de estado e integrar CAJA con el SVP\nIssue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nFuncionalidad: SVP\nCaso: CP-SVP-09",
+    "nombre": "Dos órdenes en estados distintos coexisten en el tablero",
+    "objetivo": "Comprobar la coexistencia de estados y el orden real de la consulta del modelo.",
+    "tipo": "Integración CAJA → SVP · servicio e interfaz",
+    "precondiciones": "T{turno_id}-002 en estado en_preparacion. T{turno_id}-003 en estado pendiente\nUsar IDs consultados por slug/nombre; conservar las dependencias indicadas. Todo POST requiere token vigente, salvo el ingreso móvil.",
+    "datos": "GET /svp/ordenes",
+    "pasos": "1. Llamar a GET /svp/ordenes con la sesión de producción.\n2. Verificar que las dos órdenes aparecen en la respuesta con sus estados correctos.\n3. Confirmar en el tablero que cada tarjeta está en su columna correspondiente.",
+    "esperado": "HTTP 200; total=2; la primera orden restante está en en_preparacion y la otra en pendiente. Cada tarjeta ocupa su columna. El arreglo se ordena por estados_orden.orden y creado_en: pendiente (orden=1) precede a en_preparacion (orden=2), de acuerdo con Orden::enCurso y datos_iniciales.sql.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S272 · Issue #13 · Exponer el servicio JSON de cambio de estado e integrar CAJA con el SVP\nS271 · Issue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nS063 · docs/pruebas/casos/svp.md · líneas 165–173\nS053 · menu08_app/aplicacion/controladores/SvpControlador.php · líneas 54–62\nS064 · menu08_app/aplicacion/modelos/Orden.php · líneas 308–316\nS065 · menu08_app/basedatos/datos_iniciales.sql · líneas 23–31"
+  },
+  "resultados": {
+    "caso": "CP-SVP-09",
+    "nombre": "Dos órdenes en estados distintos coexisten en el tablero",
+    "modulo": "SVP",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Total",
+        "esperado": 2,
+        "obtenido": 2,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Orden por estado",
+        "esperado": [
+          "pendiente",
+          "en_preparacion"
+        ],
+        "obtenido": [
+          "pendiente",
+          "en_preparacion"
+        ],
+        "cumple": true
+      },
+      {
+        "comprobacion": "Nota conservada",
+        "esperado": "Extra sal",
+        "obtenido": "Extra sal",
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-058"
+    ],
+    "fecha": "2026-10-15T12:38:56.006985+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-SVP-09",
+      "nombre": "Dos órdenes en estados distintos coexisten en el tablero",
+      "fecha": "2026-10-15T12:38:56.006985+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Total",
+          "esperado": 2,
+          "obtenido": 2,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Orden por estado",
+          "esperado": [
+            "pendiente",
+            "en_preparacion"
+          ],
+          "obtenido": [
+            "pendiente",
+            "en_preparacion"
+          ],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Nota conservada",
+          "esperado": "Extra sal",
+          "obtenido": "Extra sal",
+          "cumple": true
+        }
+      ],
+      "http": [
+        {
+          "metodo": "GET",
+          "ruta": "/svp/ordenes",
+          "estado": 200,
+          "ms": 5.88,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"turno\":12,\"ahora\":\"2026-10-15 07:38:56\",\"minutos_demora\":10,\"total\":2,\"ordenes\":[{\"id\":29,\"numero\":\"T12-003\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-15 07:38:55\",\"minutos\":0,\"demorada\":false,\"nota\":null,\"items\":[{\"nombre\":\"Vaso de agua\",\"cantidad\":1}]},{\"id\":28,\"numero\":\"T12-002\",\"estado\":\"en_preparacion\",\"estado_nombre\":\"En preparacion\",\"creado_en\":\"2026-10-15 07:38:55\",\"minutos\":0,\"demorada\":false,\"nota\":\"Extra sal\",\"items\":[{\"nombre\":\"Brownie de prueba\",\"cantidad\":1}]}]}"
+        }
+      ],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_servicios.json",
+      "ejecucion": "EX-058"
+    }
+  ]
+}

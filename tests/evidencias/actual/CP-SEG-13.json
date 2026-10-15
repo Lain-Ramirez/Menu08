@@ -1,0 +1,376 @@
+{
+  "caso": {
+    "id": "CP-SEG-13",
+    "modulo": "Seguridad y enrutamiento",
+    "requisito": "Issue #7 · Implementar autenticación por sesión, control de acceso por rol y protección CSRF\nIssue #25 · Ejecutar las pruebas de seguridad y consolidar el reporte de pruebas ejecutadas\nFuncionalidad: Seguridad y enrutamiento\nCaso: CP-SEG-13",
+    "nombre": "HEAD conserva el estado de GET y entrega cuerpo vacío",
+    "objetivo": "Verificar el contrato del enrutador para consultas de cabeceras, incluidos errores JSON.",
+    "tipo": "Servicio · método HTTP y regresión",
+    "precondiciones": "Banco preparado; pruebas sin sesión y con sesión donde aplique; cliente de HTTP crudo para medir cuerpo, además de curl -I.",
+    "datos": "GET y HEAD de /, /ingresar, /carta/truck-de-pruebas, /carta/no-existe, /panel/categorias y /svp/ordenes. HEAD de /caja/vender, ruta solo POST.",
+    "pasos": "1. Comparar el código y Content-Type de GET y HEAD de cada ruta con las mismas cookies.\n2. Usar una petición HTTP cruda según el documento para comprobar cero bytes de cuerpo.\n3. Solicitar HEAD /caja/vender y comparar el conteo del banco antes y después.",
+    "esperado": "HEAD usa el estado y Content-Type de GET con cuerpo de 0 bytes: incluye 302 privado sin sesión, 401 JSON y 404. HEAD sobre la ruta solo POST responde 404. Ninguna petición HEAD escribe datos.",
+    "herramienta": "curl; petición HTTP cruda con openssl según el procedimiento documentado",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S258 · Issue #7 · Implementar autenticación por sesión, control de acceso por rol y protección CSRF\nS274 · Issue #25 · Ejecutar las pruebas de seguridad y consolidar el reporte de pruebas ejecutadas\nS159 · docs/pruebas-enrutador-head.md · líneas 25–33\nS160 · menu08_app/aplicacion/nucleo/Enrutador.php · líneas 50–58"
+  },
+  "resultados": {
+    "caso": "CP-SEG-13",
+    "nombre": "HEAD conserva el estado de GET y entrega cuerpo vacío",
+    "modulo": "Seguridad y enrutamiento",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Estado /",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Tipo /",
+        "esperado": "text/html; charset=utf-8",
+        "obtenido": "text/html; charset=utf-8",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cuerpo /",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Estado /carta/truck-de-pruebas",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Tipo /carta/truck-de-pruebas",
+        "esperado": "text/html; charset=utf-8",
+        "obtenido": "text/html; charset=utf-8",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cuerpo /carta/truck-de-pruebas",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Estado /carta/no-existe",
+        "esperado": 404,
+        "obtenido": 404,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Tipo /carta/no-existe",
+        "esperado": "text/html; charset=utf-8",
+        "obtenido": "text/html; charset=utf-8",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cuerpo /carta/no-existe",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Estado /panel",
+        "esperado": 302,
+        "obtenido": 302,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Tipo /panel",
+        "esperado": "text/html; charset=UTF-8",
+        "obtenido": "text/html; charset=UTF-8",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cuerpo /panel",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Estado /svp/ordenes",
+        "esperado": 401,
+        "obtenido": 401,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Tipo /svp/ordenes",
+        "esperado": "application/json; charset=utf-8",
+        "obtenido": "application/json; charset=utf-8",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cuerpo /svp/ordenes",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Estado /caja/vender",
+        "esperado": 404,
+        "obtenido": 404,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Tipo /caja/vender",
+        "esperado": "text/html; charset=utf-8",
+        "obtenido": "text/html; charset=utf-8",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cuerpo /caja/vender",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-080"
+    ],
+    "fecha": "2026-10-15T12:39:01.746914+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-SEG-13",
+      "nombre": "HEAD conserva el estado de GET y entrega cuerpo vacío",
+      "fecha": "2026-10-15T12:39:01.746914+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Estado /",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo /",
+          "esperado": "text/html; charset=utf-8",
+          "obtenido": "text/html; charset=utf-8",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cuerpo /",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado /carta/truck-de-pruebas",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo /carta/truck-de-pruebas",
+          "esperado": "text/html; charset=utf-8",
+          "obtenido": "text/html; charset=utf-8",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cuerpo /carta/truck-de-pruebas",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado /carta/no-existe",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo /carta/no-existe",
+          "esperado": "text/html; charset=utf-8",
+          "obtenido": "text/html; charset=utf-8",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cuerpo /carta/no-existe",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado /panel",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo /panel",
+          "esperado": "text/html; charset=UTF-8",
+          "obtenido": "text/html; charset=UTF-8",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cuerpo /panel",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado /svp/ordenes",
+          "esperado": 401,
+          "obtenido": 401,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo /svp/ordenes",
+          "esperado": "application/json; charset=utf-8",
+          "obtenido": "application/json; charset=utf-8",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cuerpo /svp/ordenes",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado /caja/vender",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo /caja/vender",
+          "esperado": "text/html; charset=utf-8",
+          "obtenido": "text/html; charset=utf-8",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cuerpo /caja/vender",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        }
+      ],
+      "http": [
+        {
+          "metodo": "GET",
+          "ruta": "/",
+          "estado": 200,
+          "ms": 7.34,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <title>Cartas de food trucks · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                                    <a class=\"boton boton-contorno cabecera-ingresar\" href=\"http://127.0.0.1:8088/ingresar\">Ingresar</a>\n                            </div>\n        </div>\n    </header>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n        \n        <div class=\"pila pila-7\">\n\n    <header class=\"portada-encabezado\">\n        <p class=\"portada-sobretitulo\">\n            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                 stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                <path d=\"M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z\"></path>\n                <circle cx=\"12\" cy=\"10\" r=\"2.5\"></circle>\n            </svg>\n            Food trucks de la ciudad\n        </p>\n        <h1 class=\"portada-titulo\">¿Qué hay para comer hoy?</h1>\n        <p class=\"portada-entrada\">\n            Menu08 reúne las cartas de los food trucks de la ciudad. Abra una para ver qué venden,\n            a qué precio y dónde están parados en este momento.\n        </p>\n    </header>\n\n    \n    <section class=\"pila pila-4\" aria-labelledby=\"titulo-trucks\" data-filtro>\n        <h2 id=\"titulo-trucks\" class=\"solo-lectores\">Food trucks</h2>\n\n                            <div class=\"filtro\" data-filtro-controles hidden>\n                <div class=\"buscador\">\n                    <svg class=\"buscador-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"11\" cy=\"11\" r=\"7\"></circle><path d=\"m20 20-4-4\"></path>\n                    </svg>\n                    <input class=\"buscador-campo\" type=\"search\" placeholder=\"Buscar un food truck\"\n                           aria-label=\"Buscar un food truck\" autocomplete=\"off\" data-filtro-texto>\n                </div>\n\n                <div class=\"filtro-chips\" role=\"group\" aria-label=\"Filtrar por estado\">\n                    <button type=\"button\" class=\"chip\" data-filtro-marca=\"\" aria-pressed=\"true\">\n                        Todos <span class=\"chip-cuenta numerica\">2</span>\n                    </button>\n                    <button type=\"button\" class=\"chip\" data-filtro-marca=\"abierto\" aria-pressed=\"false\">\n                        Abiertos ahora <span class=\"chip-cuenta numerica\">1</span>\n                    </button>\n                </div>\n            </div>\n        \n                    <ul class=\"portada-lista\">\n                                    <li data-filtro-item\n                        data-filtro-marcas=\"cerrado\"\n                        data-filtro-busca=\"Festin Rodante\">\n                                                <a class=\"tarjeta tarjeta-elevada portada-truck\"\n                           href=\"http://127.0.0.1:8088/carta/festin-rodante\">\n                                                            <span class=\"portada-logo portada-logo-vacio\" aria-hidden=\"true\">\n                                    F                                </span>\n                            \n                            <span class=\"portada-truck-texto\">\n                                <span class=\"portada-truck-nombre\">Festin Rodante</span>\n\n                                \n                                                                                                    <span class=\"etiqueta etiqueta-entregada portada-parada\">\n                                        <svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                                             stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                                            <circle cx=\"12\" cy=\"12\" r=\"9\"></circle><path d=\"M12 7v5l3.5 2\"></path>\n                                        </svg>\n                                        Cerrado ahora · vea su agenda\n                                    </span>\n                                \n                                                            </span>\n\n                            <span class=\"portada-truck-ir\" aria-hidden=\"true\">\n                                <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                                     stroke-linecap=\"round\" stroke-linejoin=\"round\">\n                                    <path d=\"M5 12h14\"></path><path d=\"m13 6 6 6-6 6\"></path>\n                                </svg>\n                            </span>\n                        </a>\n                    </li>\n                                    <li data-filtro-item\n                        data-filtro-marcas=\"abierto\"\n                        data-filtro-busca=\"Truck de Pruebas Bogota Food truck de banco de pruebas. Existe para ejercitar la aplicacion desde fuera sin tocar los datos de Festin Rodante. Punto reportado 2026-10-15 07:39\">\n                                                <a class=\"tarjeta tarjeta-elevada portada-truck\"\n                           href=\"http://127.0.0.1:8088/carta/truck-de-pruebas\">\n                                                            <span class=\"portada-logo portada-logo-vacio\" aria-hidden=\"true\">\n                                    T                                </span>\n                            \n                            <span class=\"portada-truck-texto\">\n                                <span class=\"portada-truck-nombre\">Truck de Pruebas</span>\n\n                                                                    <span class=\"portada-truck-descripcion\">Food truck de banco de pruebas. Existe para ejercitar la aplicacion desde fuera sin tocar los datos de Festin Rodante.</span>\n                                \n                                                                                                    <span class=\"etiqueta etiqueta-lista portada-parada\">\n                                        <svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                                             stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                                            <path d=\"M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z\"></path>\n                                            <circle cx=\"12\" cy=\"10\" r=\"2.5\"></circle>\n                                        </svg>\n                                        Ahora en Punto reportado 2026-10-15 07:39                                        · hasta las 07:39                                    </span>\n                                \n                                                                    <span class=\"portada-truck-ciudad\">Bogota</span>\n                                                            </span>\n\n                            <span class=\"portada-truck-ir\" aria-hidden=\"true\">\n                                <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                                     stroke-linecap=\"round\" stroke-linejoin=\"round\">\n                                    <path d=\"M5 12h14\"></path><path d=\"m13 6 6 6-6 6\"></path>\n                                </svg>\n                            </span>\n                        </a>\n                    </li>\n                            </ul>\n\n            <p class=\"filtro-vacio\" data-filtro-vacio role=\"status\" hidden>\n                Ningún food truck coincide. Pruebe con otro nombre o vea todos.\n            </p>\n            </section>\n\n                    <section class=\"portada-personal\">\n            <div class=\"portada-personal-texto\">\n                <h2 class=\"portada-personal-titulo\">Trabaja en un food truck</h2>\n                <p class=\"texto-apagado texto-m\">\n                    Entre para administrar su carta, atender la caja o ver el tablero de producción.\n                </p>\n            </div>\n            <a class=\"boton boton-contorno\" href=\"http://127.0.0.1:8088/ingresar\">Ingresar</a>\n        </section>\n    </div>\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+        },
+        {
+          "metodo": "HEAD",
+          "ruta": "/",
+          "estado": 200,
+          "ms": 6.05,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": ""
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/carta/truck-de-pruebas",
+          "estado": 200,
+          "ms": 7.41,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <title>Truck de Pruebas · carta</title>\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/carta.css\">\n    \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n        <script src=\"http://127.0.0.1:8088/recursos/js/carta.js\" defer></script>\n    </head>\n<body class=\"publico\">\n    <main class=\"contenido-publico\" id=\"contenido\">\n        <article class=\"carta\" data-carta>\n\n        <div class=\"carta-marca\">\n        <a href=\"http://127.0.0.1:8088/\">\n            <span aria-hidden=\"true\">🍴</span> Menu08\n        </a>\n\n                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n            <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                 stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n            </svg>\n            <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                 stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n            </svg>\n        </button>\n    </div>\n\n        <header class=\"carta-portada\">\n                    <span class=\"carta-logo carta-logo-vacio\" aria-hidden=\"true\">\n                T            </span>\n        \n        <div class=\"carta-portada-texto\">\n            <h1 class=\"carta-nombre\">Truck de Pruebas</h1>\n\n                        <p class=\"carta-estado\">\n                                    <span class=\"carta-estado-chip carta-estado-abierto\">Abierto ahora</span>\n                    <span class=\"numerica\">hasta las 07:39</span>\n                \n                                    <span class=\"carta-ciudad\">Bogota</span>\n                            </p>\n        </div>\n\n                                <div class=\"carta-acerca\">\n                <p class=\"carta-descripcion\" id=\"carta-descripcion\" data-carta-descripcion>Food truck de banco de pruebas. Existe para ejercitar la aplicacion desde fuera sin tocar los datos de Festin Rodante.</p>\n                <button type=\"button\" class=\"carta-leer-mas\" data-carta-leer-mas\n                        aria-expanded=\"false\" aria-controls=\"carta-descripcion\" hidden>Leer más</button>\n            </div>\n        \n                    <ul class=\"carta-acciones\" aria-label=\"Contacto\">\n                                    <li>\n                        <a class=\"boton boton-relleno\" href=\"https://wa.me/573000000000\"\n                           target=\"_blank\" rel=\"noopener noreferrer\">\n                            <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 11.5a8.5 8.5 0 0 1-12.7 7.4L3 20l1.2-4.8A8.5 8.5 0 1 1 21 11.5Z\"/></svg>WhatsApp\n                        </a>\n                    </li>\n                \n                                    <li>\n                        <a class=\"boton boton-contorno\" href=\"tel:6017000000\">\n                            <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z\"/></svg>Llamar\n                        </a>\n                    </li>\n                \n                                    <li>\n                        <a class=\"boton boton-contorno\" href=\"https://www.instagram.com/truckdepruebas/\"\n                           target=\"_blank\" rel=\"noopener noreferrer\">\n                            <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M17.5 6.5h.01\"/></svg>Instagram\n                        </a>\n                    </li>\n                            </ul>\n            </header>\n\n                <section class=\"carta-agenda\" aria-labelledby=\"carta-donde\">\n            <h2 id=\"carta-donde\" class=\"carta-agenda-rotulo\">\n                Estamos en            </h2>\n\n            <div class=\"carta-ahora\">\n                <span class=\"carta-ahora-icono\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z\"/><circle cx=\"12\" cy=\"10\" r=\"2.5\"/></svg></span>\n\n                <div class=\"carta-ahora-texto\">\n                    <p class=\"carta-ahora-punto\">Punto reportado 2026-10-15 07:39</p>\n\n                                            <p class=\"carta-ahora-referencia\">Registrado desde la aplicacion movil</p>\n                    \n                                        <p class=\"carta-ahora-franja numerica\">\n                        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg>                        <span>\n                            Jueves                            de 07:39                            a 07:39                                                            · cierra al día siguiente\n                                                    </span>\n                    </p>\n                </div>\n\n                                    <a class=\"boton boton-tonal carta-llegar\" href=\"https://www.google.com/maps/search/?api=1&amp;query=4.6600000%2C-74.0600000\"\n                       target=\"_blank\" rel=\"noopener noreferrer\">\n                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 11 21 3l-8 18-2-8-8-2Z\"/></svg>Cómo llegar\n                    </a>\n                            </div>\n\n                                            <details class=\"carta-semana\">\n                    <summary class=\"carta-semana-resumen\">\n                        <span>Ver toda la semana</span>\n                        <span class=\"carta-semana-cuenta numerica\">3</span>\n                        <svg class=\"carta-semana-flecha\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\"/></svg>                    </summary>\n\n                    <ul class=\"carta-paradas\">\n                                                                                <li class=\"carta-parada\">\n                                <span class=\"carta-parada-dia\">\n                                    Mié                                </span>\n                                <span class=\"carta-parada-punto\">Parque de Pruebas</span>\n                                <span class=\"carta-parada-horario numerica\">\n                                    11:00–15:00                                </span>\n                            </li>\n                                                                                <li class=\"carta-parada\">\n                                <span class=\"carta-parada-dia\">\n                                    Vie                                </span>\n                                <span class=\"carta-parada-punto\">Plaza de Pruebas</span>\n                                <span class=\"carta-parada-horario numerica\">\n                                    12:00–20:00                                </span>\n                            </li>\n                                                                                <li class=\"carta-parada\">\n                                <span class=\"carta-parada-dia\">\n                                    Sáb                                </span>\n                                <span class=\"carta-parada-punto\">Zona Rosa de Pruebas</span>\n                                <span class=\"carta-parada-horario numerica\">\n                                    18:00–01:00                                </span>\n                            </li>\n                                            </ul>\n                </details>\n                    </section>\n    \n                    <div class=\"carta-herramientas\">\n            <div class=\"carta-buscador\" data-carta-buscador hidden>\n                <svg class=\"carta-buscador-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-4-4\"/></svg>                <input class=\"carta-buscador-campo\" type=\"search\" id=\"carta-busqueda\"\n                       placeholder=\"Buscar en la carta\" autocomplete=\"off\"\n                       aria-label=\"Buscar en la carta (10 productos)\"\n                       data-carta-busqueda>\n            </div>\n\n                        <nav class=\"carta-barra\" aria-label=\"Categorías de la carta\" data-carta-barra>\n                <ul>\n                                            <li>\n                            <a href=\"#categoria-87\">\n                                Entradas                                <span class=\"carta-barra-cuenta numerica\">2</span>\n                            </a>\n                        </li>\n                                            <li>\n                            <a href=\"#categoria-88\">\n                                Fuertes                                <span class=\"carta-barra-cuenta numerica\">3</span>\n                            </a>\n                        </li>\n                                            <li>\n                            <a href=\"#categoria-89\">\n                                Bebidas                                <span class=\"carta-barra-cuenta numerica\">3</span>\n                            </a>\n                        </li>\n                                            <li>\n                            <a href=\"#categoria-90\">\n                                Postres                                <span class=\"carta-barra-cuenta numerica\">2</span>\n                            </a>\n                        </li>\n                                    </ul>\n            </nav>\n        </div>\n\n        <p class=\"carta-sin-resultados\" data-carta-sin-resultados role=\"status\" hidden>\n            Nada en la carta coincide con la búsqueda.\n        </p>\n\n                    <section class=\"carta-categoria\" id=\"categoria-87\" data-carta-categoria>\n                <h2>Entradas</h2>\n\n                <ul class=\"carta-lista\">\n                                                                    <li class=\"carta-item\" data-carta-producto\n                            data-nombre=\"Papas de prueba\"\n                            data-descripcion=\"Porcion pequena\"\n                            data-precio=\"$ 6.500\">\n                            <div class=\"carta-texto\">\n                                <h3>Papas de prueba</h3>\n\n                                                                    <p>Porcion pequena</p>\n                                \n                                <div class=\"carta-pie\">\n                                    <span class=\"carta-precio numerica\">$ 6.500</span>\n\n                                                                                                        </div>\n                            </div>\n\n                                                            <span class=\"carta-foto carta-foto-vacia\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5\"/><path d=\"M4 17l4.5-4.5a2 2 0 0 1 2.8 0L16 17\"/><path d=\"M14 15l1.5-1.5a2 2 0 0 1 2.8 0L20 15\"/><circle cx=\"9\" cy=\"9\" r=\"1.2\"/></svg></span>                                                    </li>\n                                                                    <li class=\"carta-item\" data-carta-producto\n                            data-nombre=\"Empanada de prueba\"\n                            data-descripcion=\"Unidad\"\n                            data-precio=\"$ 3.200\">\n                            <div class=\"carta-texto\">\n                                <h3>Empanada de prueba</h3>\n\n                                                                    <p>Unidad</p>\n                                \n                                <div class=\"carta-pie\">\n                                    <span class=\"carta-precio numerica\">$ 3.200</span>\n\n                                                                                                        </div>\n                            </div>\n\n                                                            <span class=\"carta-foto carta-foto-vacia\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5\"/><path d=\"M4 17l4.5-4.5a2 2 0 0 1 2.8 0L16 17\"/><path d=\"M14 15l1.5-1.5a2 2 0 0 1 2.8 0L20 15\"/><circle cx=\"9\" cy=\"9\" r=\"1.2\"/></svg></span>                                                    </li>\n                                    </ul>\n            </section>\n                    <section class=\"carta-categoria\" id=\"categoria-88\" data-carta-categoria>\n                <h2>Fuertes</h2>\n\n                <ul class=\"carta-lista\">\n                                                                    <li class=\"carta-item\" data-carta-producto\n                            data-nombre=\"Hamburguesa de prueba\"\n                            data-descripcion=\"La grande\"\n                            data-precio=\"$ 24.900\">\n                            <div class=\"carta-texto\">\n                                <h3>Hamburguesa de prueba</h3>\n\n                                                                    <p>La grande</p>\n                                \n                                <div class=\"carta-pie\">\n                                    <span class=\"carta-precio numerica\">$ 24.900</span>\n\n                                                                                                        </div>\n                            </div>\n\n                                                            <span class=\"carta-foto carta-foto-vacia\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5\"/><path d=\"M4 17l4.5-4.5a2 2 0 0 1 2.8 0L16 17\"/><path d=\"M14 15l1.5-1.5a2 2 0 0 1 2.8 0L20 15\"/><circle cx=\"9\" cy=\"9\" r=\"1.2\"/></svg></span>                                                    </li>\n                                                                    <li class=\"carta-item\" data-carta-producto\n                            data-nombre=\"Perro de prueba\"\n                            data-descripcion=\"Con todo\"\n                            data-precio=\"$ 18.751\">\n                            <div class=\"carta-texto\">\n                                <h3>Perro de prueba</h3>\n\n                                                                    <p>Con todo</p>\n                                \n                                <div class=\"carta-pie\">\n                                    <span class=\"carta-precio numerica\">$ 18.751</span>\n\n                                                                                                        </div>\n                            </div>\n\n                                                            <span class=\"carta-foto carta-foto-vacia\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5\"/><path d=\"M4 17l4.5-4.5a2 2 0 0 1 2.8 0L16 17\"/><path d=\"M14 15l1.5-1.5a2 2 0 0 1 2.8 0L20 15\"/><circle cx=\"9\" cy=\"9\" r=\"1.2\"/></svg></span>                                                    </li>\n                                                                    <li class=\"carta-item\" data-carta-producto\n                            data-nombre=\"Salchipapa de prueba\"\n                            data-descripcion=\"Para compartir\"\n                            data-precio=\"$ 21.000\">\n                            <div class=\"carta-texto\">\n                                <h3>Salchipapa de prueba</h3>\n\n                                                                    <p>Para compartir</p>\n                                \n                                <div class=\"carta-pie\">\n                                    <span class=\"carta-precio numerica\">$ 21.000</span>\n\n                                                                                                        </div>\n                            </div>\n\n                                                            <span class=\"carta-foto carta-foto-vacia\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5\"/><path d=\"M4 17l4.5-4.5a2 2 0 0 1 2.8 0L16 17\"/><path d=\"M14 15l1.5-1.5a2 2 0 0 1 2.8 0L20 15\"/><circle cx=\"9\" cy=\"9\" r=\"1.2\"/></svg></span>                                                    </li>\n                                    </ul>\n            </section>\n                    <section class=\"carta-categoria\" id=\"categoria-89\" data-carta-categoria>\n                <h2>Bebidas</h2>\n\n                <ul class=\"carta-lista\">\n                                                                    <li class=\"carta-item\" data-carta-producto\n                            data-nombre=\"Gaseosa de prueba\"\n                            data-descripcion=\"Lata de 330 ml\"\n                            data-precio=\"$ 4.500\">\n                            <div class=\"carta-texto\">\n                                <h3>Gaseosa de prueba</h3>\n\n                                                                    <p>Lata de 330 ml</p>\n                                \n                                <div class=\"carta-pie\">\n                                    <span class=\"carta-precio numerica\">$ 4.500</span>\n\n                                                                                                        </div>\n                            </div>\n\n                                                            <span class=\"carta-foto carta-foto-vacia\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5\"/><path d=\"M4 17l4.5-4.5a2 2 0 0 1 2.8 0L16 17\"/><path d=\"M14 15l1.5-1.5a2 2 0 0 1 2.8 0L20 15\"/><circle cx=\"9\" cy=\"9\" r=\"1.2\"/></svg></span>                                                    </li>\n                                                                    <li class=\"carta-item\" data-carta-producto\n                            data-nombre=\"Limonada de prueba\"\n                            data-descripcion=\"Vaso de 500 ml\"\n                            data-precio=\"$ 7.000\">\n                            <div class=\"carta-texto\">\n                                <h3>Limonada de prueba</h3>\n\n                                                                    <p>Vaso de 500 ml</p>\n                                \n                                <div class=\"carta-pie\">\n                                    <span class=\"carta-precio numerica\">$ 7.000</span>\n\n                                                                                                        </div>\n                            </div>\n\n                                                            <span class=\"carta-foto carta-foto-vacia\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5\"/><path d=\"M4 17l4.5-4.5a2 2 0 0 1 2.8 0L16 17\"/><path d=\"M14 15l1.5-1.5a2 2 0 0 1 2.8 0L20 15\"/><circle cx=\"9\" cy=\"9\" r=\"1.2\"/></svg></span>                                                    </li>\n                                                                    <li class=\"carta-item\" data-carta-producto\n                            data-nombre=\"Vaso de agua\"\n                            data-descripcion=\"Cortesia, para probar precio cero\"\n                            data-precio=\"$ 0\">\n                            <div class=\"carta-texto\">\n                                <h3>Vaso de agua</h3>\n\n                                                                    <p>Cortesia, para probar precio cero</p>\n                                \n                                <div class=\"carta-pie\">\n                                    <span class=\"carta-precio numerica\">$ 0</span>\n\n                                                                                                        </div>\n                            </div>\n\n                                                            <span class=\"carta-foto carta-foto-vacia\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5\"/><path d=\"M4 17l4.5-4.5a2 2 0 0 1 2.8 0L16 17\"/><path d=\"M14 15l1.5-1.5a2 2 0 0 1 2.8 0L20 15\"/><circle cx=\"9\" cy=\"9\" r=\"1.2\"/></svg></span>                                                    </li>\n                                    </ul>\n            </section>\n                    <section class=\"carta-categoria\" id=\"categoria-90\" data-carta-categoria>\n                <h2>Postres</h2>\n\n                <ul class=\"carta-lista\">\n                                                                    <li class=\"carta-item\" data-carta-producto\n                            data-nombre=\"Brownie de prueba\"\n                            data-descripcion=\"Con helado\"\n                            data-precio=\"$ 9.900\">\n                            <div class=\"carta-texto\">\n                                <h3>Brownie de prueba</h3>\n\n                                                                    <p>Con helado</p>\n                                \n                                <div class=\"carta-pie\">\n                                    <span class=\"carta-precio numerica\">$ 9.900</span>\n\n                                                                                                        </div>\n                            </div>\n\n                                                            <span class=\"carta-foto carta-foto-vacia\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5\"/><path d=\"M4 17l4.5-4.5a2 2 0 0 1 2.8 0L16 17\"/><path d=\"M14 15l1.5-1.5a2 2 0 0 1 2.8 0L20 15\"/><circle cx=\"9\" cy=\"9\" r=\"1.2\"/></svg></span>                                                    </li>\n                                                                    <li class=\"carta-item\" data-carta-producto\n                            data-nombre=\"Producto con un nombre deliberadamente largo para probar el corte en pantalla\"\n                            data-descripcion=\"Comprueba el maquetado\"\n                            data-precio=\"$ 12.346\">\n                            <div class=\"carta-texto\">\n                                <h3>Producto con un nombre deliberadamente largo para probar el corte en pantalla</h3>\n\n                                                                    <p>Comprueba el maquetado</p>\n                                \n                                <div class=\"carta-pie\">\n                                    <span class=\"carta-precio numerica\">$ 12.346</span>\n\n                                                                                                        </div>\n                            </div>\n\n                                                            <span class=\"carta-foto carta-foto-vacia\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5\"/><path d=\"M4 17l4.5-4.5a2 2 0 0 1 2.8 0L16 17\"/><path d=\"M14 15l1.5-1.5a2 2 0 0 1 2.8 0L20 15\"/><circle cx=\"9\" cy=\"9\" r=\"1.2\"/></svg></span>                                                    </li>\n                                    </ul>\n            </section>\n            \n    <footer class=\"carta-cierre\">\n        <a href=\"http://127.0.0.1:8088/\">\n            <span aria-hidden=\"true\">🍴</span> Ver más food trucks en Menu08\n        </a>\n    </footer>\n\n        <dialog class=\"carta-visor\" data-carta-visor aria-labelledby=\"carta-visor-nombre\">\n        <form method=\"dialog\" class=\"carta-visor-cerrar\">\n            <button type=\"submit\" class=\"boton-simbolo\" aria-label=\"Cerrar\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 6l12 12\"/><path d=\"M18 6 6 18\"/></svg></button>\n        </form>\n\n        <img class=\"carta-visor-foto\" alt=\"\" data-carta-visor-foto>\n\n        <div class=\"carta-visor-texto\">\n            <div class=\"carta-visor-fila\">\n                <h2 class=\"carta-visor-nombre\" id=\"carta-visor-nombre\" data-carta-visor-nombre></h2>\n                <span class=\"carta-precio numerica\" data-carta-visor-precio></span>\n            </div>\n            <p class=\"carta-visor-descripcion\" data-carta-visor-descripcion></p>\n        </div>\n    </dialog>\n</article>\n    </main>\n</body>\n</html>\n"
+        },
+        {
+          "metodo": "HEAD",
+          "ruta": "/carta/truck-de-pruebas",
+          "estado": 200,
+          "ms": 6.75,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": ""
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/carta/no-existe",
+          "estado": 404,
+          "ms": 4.65,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <title>Error 404 · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                                    <a class=\"boton boton-contorno cabecera-ingresar\" href=\"http://127.0.0.1:8088/ingresar\">Ingresar</a>\n                            </div>\n        </div>\n    </header>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n        \n        <section class=\"estado-vacio\" aria-labelledby=\"error-titulo\">\n    <span class=\"estado-vacio-icono\" aria-hidden=\"true\">\n        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n             stroke-linecap=\"round\" stroke-linejoin=\"round\">\n                            <circle cx=\"11\" cy=\"11\" r=\"7\"></circle><path d=\"m20 20-4-4\"></path><path d=\"M8.5 11h5\"></path>\n                    </svg>\n    </span>\n\n    <p class=\"estado-vacio-codigo\">Error 404</p>\n\n    <h1 class=\"estado-vacio-titulo\" id=\"error-titulo\">Página no encontrada</h1>\n\n    <p class=\"estado-vacio-texto\">No encontramos la pagina que busca.</p>\n\n    <p class=\"estado-vacio-acciones\">\n        <a class=\"boton boton-relleno\" href=\"http://127.0.0.1:8088/\">Volver al inicio</a>\n    </p>\n</section>\n\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+        },
+        {
+          "metodo": "HEAD",
+          "ruta": "/carta/no-existe",
+          "estado": 404,
+          "ms": 4.23,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": ""
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/panel",
+          "estado": 302,
+          "ms": 2.36,
+          "content_type": "text/html; charset=UTF-8",
+          "location": "http://127.0.0.1:8088/ingresar",
+          "cuerpo": ""
+        },
+        {
+          "metodo": "HEAD",
+          "ruta": "/panel",
+          "estado": 302,
+          "ms": 2.22,
+          "content_type": "text/html; charset=UTF-8",
+          "location": "http://127.0.0.1:8088/ingresar",
+          "cuerpo": ""
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/svp/ordenes",
+          "estado": 401,
+          "ms": 1.88,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"error\":\"no_autenticado\",\"mensaje\":\"Debe iniciar sesion para consultar este servicio.\"}"
+        },
+        {
+          "metodo": "HEAD",
+          "ruta": "/svp/ordenes",
+          "estado": 401,
+          "ms": 1.76,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": ""
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/caja/vender",
+          "estado": 404,
+          "ms": 2.12,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <title>Error 404 · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                                    <a class=\"boton boton-contorno cabecera-ingresar\" href=\"http://127.0.0.1:8088/ingresar\">Ingresar</a>\n                            </div>\n        </div>\n    </header>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n                    <div class=\"pila pila-3 sin-impresion\">\n                                                        <div class=\"aviso aviso-aviso aviso-cerrable\"\n                         role=\"status\" data-aviso-sesion=\"aviso\">\n                        <svg class=\"aviso-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>                        <p>Debe ingresar para ver esa pagina.</p>\n\n                                                <button type=\"button\" class=\"boton-simbolo aviso-cerrar\" data-aviso-cerrar\n                                aria-label=\"Cerrar el aviso\" hidden>\n                            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                                 stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                                <path d=\"M6 6l12 12\"></path><path d=\"M18 6 6 18\"></path>\n                            </svg>\n                        </button>\n                    </div>\n                                                        <div class=\"aviso aviso-aviso aviso-cerrable\"\n                         role=\"status\" data-aviso-sesion=\"aviso\">\n                        <svg class=\"aviso-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>                        <p>Debe ingresar para ver esa pagina.</p>\n\n                                                <button type=\"button\" class=\"boton-simbolo aviso-cerrar\" data-aviso-cerrar\n                                aria-label=\"Cerrar el aviso\" hidden>\n                            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                                 stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                                <path d=\"M6 6l12 12\"></path><path d=\"M18 6 6 18\"></path>\n                            </svg>\n                        </button>\n                    </div>\n                            </div>\n        \n        <section class=\"estado-vacio\" aria-labelledby=\"error-titulo\">\n    <span class=\"estado-vacio-icono\" aria-hidden=\"true\">\n        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n             stroke-linecap=\"round\" stroke-linejoin=\"round\">\n                            <circle cx=\"11\" cy=\"11\" r=\"7\"></circle><path d=\"m20 20-4-4\"></path><path d=\"M8.5 11h5\"></path>\n                    </svg>\n    </span>\n\n    <p class=\"estado-vacio-codigo\">Error 404</p>\n\n    <h1 class=\"estado-vacio-titulo\" id=\"error-titulo\">Página no encontrada</h1>\n\n    <p class=\"estado-vacio-texto\">No encontramos la pagina que busca.</p>\n\n    <p class=\"estado-vacio-acciones\">\n        <a class=\"boton boton-relleno\" href=\"http://127.0.0.1:8088/\">Volver al inicio</a>\n    </p>\n</section>\n\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+        },
+        {
+          "metodo": "HEAD",
+          "ruta": "/caja/vender",
+          "estado": 404,
+          "ms": 1.91,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": ""
+        }
+      ],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_servicios.json",
+      "ejecucion": "EX-080"
+    }
+  ]
+}

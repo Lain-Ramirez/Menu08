@@ -1,0 +1,114 @@
+[
+  {
+    "caso": "CP-AUTO-PM-01",
+    "nombre": "Recorrido original de Postman",
+    "fecha": "2026-10-15T11:07:58.351812+00:00",
+    "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+    "checks": [
+      {
+        "comprobacion": "Código Newman",
+        "esperado": 0,
+        "obtenido": 1,
+        "cumple": false
+      },
+      {
+        "comprobacion": "Aserciones fallidas",
+        "esperado": 0,
+        "obtenido": 15,
+        "cumple": false
+      }
+    ],
+    "http": [],
+    "notas": [
+      "{\"requests\": {\"total\": 20, \"pending\": 0, \"failed\": 0}, \"assertions\": {\"total\": 36, \"pending\": 0, \"failed\": 15}}",
+      "Reporte: evidencias/postman-original-recorrido.json"
+    ],
+    "pendientes": [],
+    "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+    "estado": "Fallida"
+  },
+  {
+    "caso": "CP-AUTO-PM-03",
+    "nombre": "Carpeta pública original de Postman",
+    "fecha": "2026-10-15T11:08:01.573687+00:00",
+    "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+    "checks": [
+      {
+        "comprobacion": "Código Newman",
+        "esperado": 0,
+        "obtenido": 1,
+        "cumple": false
+      },
+      {
+        "comprobacion": "Aserciones fallidas",
+        "esperado": 0,
+        "obtenido": 2,
+        "cumple": false
+      }
+    ],
+    "http": [],
+    "notas": [
+      "{\"requests\": {\"total\": 11, \"pending\": 0, \"failed\": 0}, \"assertions\": {\"total\": 19, \"pending\": 0, \"failed\": 2}}",
+      "Reporte: evidencias/postman-original-publicas.json"
+    ],
+    "pendientes": [],
+    "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+    "estado": "Fallida"
+  },
+  {
+    "caso": "CP-AUTO-PM-04",
+    "nombre": "Carpeta móvil original de Postman",
+    "fecha": "2026-10-15T11:08:04.075540+00:00",
+    "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+    "checks": [
+      {
+        "comprobacion": "Código Newman",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aserciones fallidas",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "{\"requests\": {\"total\": 8, \"pending\": 0, \"failed\": 0}, \"assertions\": {\"total\": 25, \"pending\": 0, \"failed\": 0}}",
+      "Reporte: evidencias/postman-original-movil.json"
+    ],
+    "pendientes": [],
+    "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-AUTO-PM-02",
+    "nombre": "Reejecución de Postman con manejo de sesión e IDs corregidos",
+    "fecha": "2026-10-15T11:08:05.750906+00:00",
+    "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+    "checks": [
+      {
+        "comprobacion": "Código Newman",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aserciones fallidas",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "{\"requests\": {\"total\": 22, \"pending\": 0, \"failed\": 0}, \"assertions\": {\"total\": 40, \"pending\": 0, \"failed\": 0}}",
+      "Reporte: evidencias/postman-video-validado.json"
+    ],
+    "pendientes": [],
+    "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+    "estado": "Aprobada"
+  }
+]

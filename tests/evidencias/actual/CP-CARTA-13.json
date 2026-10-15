@@ -1,0 +1,79 @@
+{
+  "caso": {
+    "id": "CP-CARTA-13",
+    "modulo": "CARTA",
+    "requisito": "Issue #9 · Publicar la carta por slug y generar el código QR descargable\nIssue #17 · Construir la carta pública adaptable y la pantalla del código QR\nFuncionalidad: CARTA\nCaso: CP-CARTA-13",
+    "nombre": "Código QR",
+    "objetivo": "Verificar que el PNG descargado codifica la carta del truck de la sesión y abre esa carta desde un teléfono.",
+    "tipo": "Funcional · integración",
+    "precondiciones": "Sesión food_truck del truck de pruebas\nUsar IDs consultados por slug/nombre; conservar las dependencias indicadas. Todo POST requiere token vigente, salvo el ingreso móvil.",
+    "datos": "GET /panel/qr y GET /panel/qr/descargar. URL esperada: {url_base}/carta/truck-de-pruebas.",
+    "pasos": "1. Abrir /panel/qr con la sesión del Truck de Pruebas.\n2. Descargar /panel/qr/descargar.\n3. Decodificar el PNG y compararlo con url_base y el slug.\n4. Escanearlo con un teléfono Android y comprobar la carta abierta. Para el teléfono, usar la URL HTTPS publicada; localhost pertenece al propio teléfono.\n5. Repetir la lectura óptica en un segundo teléfono y registrar ambos modelos/versiones, conforme a la tarea del issue #9.",
+    "esperado": "El panel muestra el código, la descarga entrega una imagen y lo que codifica es la carta pública de ese truck",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Media",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S262 · Issue #9 · Publicar la carta por slug y generar el código QR descargable\nS263 · Issue #17 · Construir la carta pública adaptable y la pantalla del código QR\nS022 · docs/pruebas/casos/carta.md · líneas 218–226\nS023 · menu08_app/aplicacion/controladores/QrControlador.php · líneas 37–45\nS164 · docs/verificacion-produccion.md · líneas 78–86"
+  },
+  "resultados": {
+    "caso": "CP-CARTA-13",
+    "nombre": "Código QR",
+    "modulo": "CARTA",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Lector QR",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Contenido decodificado",
+        "esperado": "http://127.0.0.1:8088/carta/truck-de-pruebas",
+        "obtenido": "http://127.0.0.1:8088/carta/truck-de-pruebas",
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "QR real descargado por CP-CARTA-13; lectura óptica por ZXing. http://127.0.0.1:8088/carta/truck-de-pruebas"
+    ],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-114"
+    ],
+    "fecha": "2026-10-15T12:41:25.200716+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CARTA-13",
+      "nombre": "Código QR",
+      "fecha": "2026-10-15T12:41:25.200716+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Lector QR",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Contenido decodificado",
+          "esperado": "http://127.0.0.1:8088/carta/truck-de-pruebas",
+          "obtenido": "http://127.0.0.1:8088/carta/truck-de-pruebas",
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "QR real descargado por CP-CARTA-13; lectura óptica por ZXing. http://127.0.0.1:8088/carta/truck-de-pruebas"
+      ],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_qr.json",
+      "ejecucion": "EX-114"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "caso": {
+    "id": "CP-CARTA-30",
+    "modulo": "CARTA · agenda",
+    "requisito": "Issue #36 · Programar la agenda de paradas del food truck\nIssue #37 · Maquetar la agenda de paradas y el bloque «dónde estamos hoy» de la carta\nFuncionalidad: CARTA · agenda\nCaso: CP-CARTA-30",
+    "nombre": "Coherencia de zona horaria de PHP y MySQL",
+    "objetivo": "Verificar que el reloj que decide la parada vigente corresponde a America/Bogota.",
+    "tipo": "Integración · configuración temporal",
+    "precondiciones": "Instancia preparada con zona_horaria=America/Bogota; banco restaurado; acceso de lectura a PHP y al cliente SQL; sesión food_truck.",
+    "datos": "Clave zona_horaria de configuracion.ejemplo.php; agenda del banco. Referencia histórica del repositorio: viernes 04/09/2026, 12:00:31 UTC = 07:00:31 Bogotá.",
+    "pasos": "1. Leer la zona configurada y comparar el reloj de PHP con NOW() de la misma conexión de la aplicación.\n2. Consultar la agenda del panel sin el parámetro momento.\n3. Comparar la respuesta con el día y hora de Bogotá observados y con las franjas del banco.\n4. Registrar los valores observados; no reutilizar la hora de la evidencia histórica como hora actual.",
+    "esperado": "Los relojes de PHP y la sesión MySQL usan el mismo desplazamiento de America/Bogota. La parada vigente coincide con ese reloj, sin tomar la hora UTC de la cabecera HTTP como hora local.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S264 · Issue #36 · Programar la agenda de paradas del food truck\nS265 · Issue #37 · Maquetar la agenda de paradas y el bloque «dónde estamos hoy» de la carta\nS090 · menu08_app/configuracion/configuracion.ejemplo.php · líneas 26–34\nS091 · menu08_app/aplicacion/nucleo/ConexionBD.php · líneas 65–73\nS092 · docs/pruebas-agenda-paradas.md · líneas 36–44"
+  },
+  "resultados": {
+    "caso": "CP-CARTA-30",
+    "nombre": "Coherencia de zona horaria de PHP y MySQL",
+    "modulo": "CARTA · agenda",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "PHP",
+        "esperado": "America/Bogota",
+        "obtenido": "America/Bogota",
+        "cumple": true
+      },
+      {
+        "comprobacion": "MySQL",
+        "esperado": "-05:00",
+        "obtenido": "-05:00",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Diferencia menor 2 s",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "{\"php\": \"2026-10-15T05:57:23-05:00\", \"zona\": \"America/Bogota\", \"mysql\": {\"ahora\": \"2026-10-15 05:57:23\", \"zona\": \"-05:00\"}}"
+    ],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-027"
+    ],
+    "fecha": "2026-10-15T10:57:23.634420+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CARTA-30",
+      "nombre": "Coherencia de zona horaria de PHP y MySQL",
+      "fecha": "2026-10-15T10:57:23.634420+00:00",
+      "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+      "checks": [
+        {
+          "comprobacion": "PHP",
+          "esperado": "America/Bogota",
+          "obtenido": "America/Bogota",
+          "cumple": true
+        },
+        {
+          "comprobacion": "MySQL",
+          "esperado": "-05:00",
+          "obtenido": "-05:00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Diferencia menor 2 s",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "{\"php\": \"2026-10-15T05:57:23-05:00\", \"zona\": \"America/Bogota\", \"mysql\": {\"ahora\": \"2026-10-15 05:57:23\", \"zona\": \"-05:00\"}}"
+      ],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_http.json",
+      "ejecucion": "EX-027"
+    }
+  ]
+}

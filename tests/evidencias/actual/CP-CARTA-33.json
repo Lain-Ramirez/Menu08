@@ -1,0 +1,187 @@
+{
+  "caso": {
+    "id": "CP-CARTA-33",
+    "modulo": "CARTA · estado vacío",
+    "requisito": "Issue #9 · Publicar la carta por slug y generar el código QR descargable\nIssue #17 · Construir la carta pública adaptable y la pantalla del código QR\nFuncionalidad: CARTA · estado vacío\nCaso: CP-CARTA-33",
+    "nombre": "Carta pública sin catálogo publicado y controles de lectura móvil",
+    "objetivo": "Verificar el mensaje vacío y las medidas de interacción indicadas en el criterio de la carta pública.",
+    "tipo": "Funcional · estado vacío y presentación",
+    "precondiciones": "Truck de Pruebas activo; categorías del banco; sesión food_truck para alternar categorías y ventana pública sin sesión; restauración posterior.",
+    "datos": "Desactivar todas las categorías solo del Truck de Pruebas. Variante normal a 360 px para medir enlaces de categoría ≥44 px y texto de producto ≥14 px.",
+    "pasos": "1. Abrir la carta normal a 360 px y medir enlaces y texto con las herramientas del navegador.\n2. Desactivar las categorías propias desde el panel, con token vigente por envío.\n3. Abrir /carta/truck-de-pruebas sin sesión; comprobar HTTP y contenido del estado vacío.\n4. Restaurar datos_pruebas.sql y verificar que el catálogo vuelve.",
+    "esperado": "La carta conserva HTTP 200 y muestra un mensaje de catálogo vacío, no una pantalla en blanco ni un panel privado. En la variante normal, enlaces de categoría de al menos 44 px y texto de producto de al menos 14 px, según issue #17. La restauración recupera el catálogo.",
+    "herramienta": "Chrome y Firefox; herramientas de medidas y capturas",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Media",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S262 · Issue #9 · Publicar la carta por slug y generar el código QR descargable\nS263 · Issue #17 · Construir la carta pública adaptable y la pantalla del código QR\nS019 · menu08_app/aplicacion/controladores/CartaControlador.php · líneas 19–27\nS128 · docs/interfaz.md · líneas 1–9"
+  },
+  "resultados": {
+    "caso": "CP-CARTA-33",
+    "nombre": "Carta pública sin catálogo publicado y controles de lectura móvil",
+    "modulo": "CARTA · estado vacío",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Carta vacía 200",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Mensaje",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Objetivos de al menos 44px",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Texto mínimo 14px",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Carta vacía 200",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Mensaje",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Objetivos de al menos 44px",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Texto mínimo 14px",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "Alturas enlaces: [48, 48, 48, 48]; tamaños nombres: [16, 16, 16, 16, 16, 16, 16, 16, 16, 16]"
+    ],
+    "capturas": [
+      "evidencias/actual/CP-CARTA-33-chromium-catalogo-vacio.png",
+      "evidencias/actual/CP-CARTA-33-chromium-movil.png",
+      "evidencias/actual/CP-CARTA-33-firefox-catalogo-vacio.png",
+      "evidencias/actual/CP-CARTA-33-firefox-movil.png"
+    ],
+    "ejecuciones": [
+      "EX-085",
+      "EX-098"
+    ],
+    "fecha": "2026-10-15T12:39:50.237849+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CARTA-33",
+      "nombre": "Carta pública sin catálogo publicado y controles de lectura móvil",
+      "fecha": "2026-10-15T12:39:06.375170+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Carta vacía 200",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Mensaje",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Objetivos de al menos 44px",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Texto mínimo 14px",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+        "Alturas enlaces: [48, 48, 48, 48]; tamaños nombres: [16, 16, 16, 16, 16, 16, 16, 16, 16, 16]"
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / chromium",
+      "navegador": "chromium",
+      "capturas": [
+        "evidencias/actual/CP-CARTA-33-chromium-catalogo-vacio.png",
+        "evidencias/actual/CP-CARTA-33-chromium-movil.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-085"
+    },
+    {
+      "caso": "CP-CARTA-33",
+      "nombre": "Carta pública sin catálogo publicado y controles de lectura móvil",
+      "fecha": "2026-10-15T12:39:50.237849+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Carta vacía 200",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Mensaje",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Objetivos de al menos 44px",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Texto mínimo 14px",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+        "Alturas enlaces: [48, 48, 48, 48]; tamaños nombres: [16, 16, 16, 16, 16, 16, 16, 16, 16, 16]"
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / firefox",
+      "navegador": "firefox",
+      "capturas": [
+        "evidencias/actual/CP-CARTA-33-firefox-catalogo-vacio.png",
+        "evidencias/actual/CP-CARTA-33-firefox-movil.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-098"
+    }
+  ]
+}

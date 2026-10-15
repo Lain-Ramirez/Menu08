@@ -1,0 +1,12 @@
+{
+  "resultado": "Validada",
+  "casos": 101,
+  "estados": {
+    "Aprobada": 97,
+    "Pendiente de seguimiento": 4
+  },
+  "enlaces_excel": 762,
+  "imagenes_incrustadas": 121,
+  "video": "Resumen!D8 vacío",
+  "limite": "Validación estructural, sin ejecutar Microsoft Excel/LibreOffice. El hosting y las pruebas físicas conservan sus seguimientos."
+}

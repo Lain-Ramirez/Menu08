@@ -1,0 +1,109 @@
+{
+  "caso": {
+    "id": "CP-SVP-01",
+    "modulo": "SVP",
+    "requisito": "Issue #12 · Exponer el servicio JSON de consulta de órdenes en curso para el SVP\nIssue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nFuncionalidad: SVP\nCaso: CP-SVP-01",
+    "nombre": "Tablero con ventanilla cerrada (sin turno abierto)",
+    "objetivo": "Comprobar que el tablero y su servicio distinguen la ausencia de turno abierto.",
+    "tipo": "Integración CAJA → SVP · servicio e interfaz",
+    "precondiciones": "Banco restaurado. Sin turno abierto para el Truck de Pruebas. Sesión iniciada como pruebas.produccion@menu08.local\nUsar IDs consultados por slug/nombre; conservar las dependencias indicadas. Todo POST requiere token vigente, salvo el ingreso móvil.",
+    "datos": "GET /svp/ordenes",
+    "pasos": "1. Asegurar que no hay turno abierto para el Truck de Pruebas.\n2. Abrir /svp.\n3. Llamar a GET /svp/ordenes y examinar la respuesta JSON.",
+    "esperado": "La respuesta es {\"turno\": null, \"total\": 0, \"ordenes\": []}. El tablero muestra la pantalla de ventanilla cerrada",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S270 · Issue #12 · Exponer el servicio JSON de consulta de órdenes en curso para el SVP\nS271 · Issue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nS052 · docs/pruebas/casos/svp.md · líneas 33–41\nS053 · menu08_app/aplicacion/controladores/SvpControlador.php · líneas 54–62"
+  },
+  "resultados": {
+    "caso": "CP-SVP-01",
+    "nombre": "Tablero con ventanilla cerrada (sin turno abierto)",
+    "modulo": "SVP",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "HTTP",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin turno",
+        "esperado": null,
+        "obtenido": null,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin órdenes",
+        "esperado": [],
+        "obtenido": [],
+        "cumple": true
+      },
+      {
+        "comprobacion": "Total",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-084"
+    ],
+    "fecha": "2026-10-15T11:27:24.716648+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-SVP-01",
+      "nombre": "Tablero con ventanilla cerrada (sin turno abierto)",
+      "fecha": "2026-10-15T11:27:24.716648+00:00",
+      "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+      "checks": [
+        {
+          "comprobacion": "HTTP",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin turno",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin órdenes",
+          "esperado": [],
+          "obtenido": [],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        }
+      ],
+      "http": [
+        {
+          "metodo": "GET",
+          "ruta": "/svp/ordenes",
+          "estado": 200,
+          "ms": 5.76,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"turno\":null,\"ahora\":\"2026-10-15 06:27:24\",\"minutos_demora\":10,\"total\":0,\"ordenes\":[]}"
+        }
+      ],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_servicios.json",
+      "ejecucion": "EX-084"
+    }
+  ]
+}

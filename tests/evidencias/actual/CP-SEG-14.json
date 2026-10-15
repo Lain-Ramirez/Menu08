@@ -1,0 +1,91 @@
+{
+  "caso": {
+    "id": "CP-SEG-14",
+    "modulo": "Seguridad · acceso a datos",
+    "requisito": "Issue #7 · Implementar autenticación por sesión, control de acceso por rol y protección CSRF\nIssue #25 · Ejecutar las pruebas de seguridad y consolidar el reporte de pruebas ejecutadas\nFuncionalidad: Seguridad · acceso a datos\nCaso: CP-SEG-14",
+    "nombre": "Sentencias preparadas y contraseñas cifradas",
+    "objetivo": "Verificar las defensas de persistencia declaradas por el proyecto y respaldar las pruebas de entrada.",
+    "tipo": "Seguridad · revisión de código y SQL de lectura",
+    "precondiciones": "Copia de la rama production del repositorio; acceso de lectura a las siete clases de modelos y usuarios; no mostrar hashes ni credenciales reales en evidencias.",
+    "datos": "Modelos Categoria, FoodTruck, Producto, Orden, TurnoCaja, Ubicacion y Usuario. usuarios.contrasena de las cuentas de prueba; password_hash y password_verify.",
+    "pasos": "1. Revisar cada consulta con datos de entrada y localizar los marcadores y execute.\n2. Distinguir las consultas literales fijas y la lista de placeholders en Orden::registrar.\n3. Comprobar únicamente el formato bcrypt de las cuentas de prueba y el uso de verificación del hash.",
+    "esperado": "Los valores de entrada viajan por sentencias preparadas. Los fragmentos SQL concatenados documentados son literales o placeholders calculados por cantidad, nunca valores libres. Las contraseñas del banco tienen formato bcrypt $2y$ y se validan con password_verify; no se almacenan en texto plano.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S258 · Issue #7 · Implementar autenticación por sesión, control de acceso por rol y protección CSRF\nS274 · Issue #25 · Ejecutar las pruebas de seguridad y consolidar el reporte de pruebas ejecutadas\nS161 · docs/pruebas-seguridad.md · líneas 186–194\nS162 · docs/pruebas-autenticacion.md · líneas 68–76\nS163 · menu08_app/aplicacion/modelos/Usuario.php · líneas 47–55"
+  },
+  "resultados": {
+    "caso": "CP-SEG-14",
+    "nombre": "Sentencias preparadas y contraseñas cifradas",
+    "modulo": "Seguridad · acceso a datos",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Bcrypt todos",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "password_verify",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Preparadas reales",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "Inspección de código: modelos usan prepare y execute; concatenaciones de consultas revisadas en modelos, se conservan referencias del commit en Fuentes. No es prueba de penetración."
+    ],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-081"
+    ],
+    "fecha": "2026-10-15T12:39:01.797483+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-SEG-14",
+      "nombre": "Sentencias preparadas y contraseñas cifradas",
+      "fecha": "2026-10-15T12:39:01.797483+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Bcrypt todos",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "password_verify",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Preparadas reales",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Inspección de código: modelos usan prepare y execute; concatenaciones de consultas revisadas en modelos, se conservan referencias del commit en Fuentes. No es prueba de penetración."
+      ],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_servicios.json",
+      "ejecucion": "EX-081"
+    }
+  ]
+}

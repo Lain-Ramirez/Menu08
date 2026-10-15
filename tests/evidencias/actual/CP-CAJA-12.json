@@ -1,0 +1,126 @@
+{
+  "caso": {
+    "id": "CP-CAJA-12",
+    "modulo": "CAJA",
+    "requisito": "Issue #11 · Persistir la orden de CAJA con sus ítems, totales y medio de pago\nIssue #18 · Maquetar la pantalla de venta de CAJA con catálogo, orden en construcción y cobro\nIssue #19 · Maquetar las pantallas de apertura y cierre de turno y el comprobante imprimible de CAJA\nFuncionalidad: CAJA\nCaso: CP-CAJA-12",
+    "nombre": "Vista de impresión de 80 mm y exportación a PDF",
+    "objetivo": "Comprobar la salida imprimible de 80 mm en Chrome y Firefox mediante vista previa y PDF.",
+    "tipo": "Impresión · compatibilidad",
+    "precondiciones": "Orden T{turno_id}-002 registrada\nUsar IDs consultados por slug/nombre; conservar las dependencias indicadas. Todo POST requiere token vigente, salvo el ingreso móvil.",
+    "datos": "GET /caja/comprobante/{orden_id}; comprobante de la segunda orden del turno actual. Papel: 80 mm.",
+    "pasos": "1. Abrir /caja/comprobante/{orden_id} con la sesión de cajero.\n2. Usar el diálogo inicial o el botón de imprimir que ejecuta window.print().\n3. Revisar la vista previa de 80 mm sin navegación.\n4. Guardar el PDF en Chrome y en Firefox.\n5. Comparar productos, cantidades, total y número con la orden registrada.",
+    "esperado": "La vista de impresión se adapta al formato de ticket térmico de 80 mm. El PDF generado contiene productos, cantidades, total y consecutivo de forma limpia y legible",
+    "herramienta": "Chrome y Firefox; vista previa de impresión y Guardar como PDF",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Media",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S268 · Issue #11 · Persistir la orden de CAJA con sus ítems, totales y medio de pago\nS269 · Issue #18 · Maquetar la pantalla de venta de CAJA con catálogo, orden en construcción y cobro\nS267 · Issue #19 · Maquetar las pantallas de apertura y cierre de turno y el comprobante imprimible de CAJA\nS044 · docs/pruebas/casos/caja.md · líneas 206–214\nS043 · menu08_app/aplicacion/controladores/CajaControlador.php · líneas 98–106\nS031 · menu08_app/configuracion/rutas.php · líneas 86–94"
+  },
+  "resultados": {
+    "caso": "CP-CAJA-12",
+    "nombre": "Vista de impresión de 80 mm y exportación a PDF",
+    "modulo": "CAJA",
+    "estado": "Pendiente de seguimiento",
+    "checks": [
+      {
+        "comprobacion": "CSS 80mm",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "PDF generado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSS 80mm",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "pendientes": [
+      "Firefox headless permite comprobar estilos de impresión; la exportación PDF mediante diálogo gráfico requiere estación de grabación."
+    ],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "PDF: evidencias/CP-CAJA-12-comprobante-80mm.pdf"
+    ],
+    "capturas": [
+      "evidencias/actual/CP-CAJA-12-chromium-impresion-80mm.png",
+      "evidencias/actual/CP-CAJA-12-firefox-impresion-80mm.png"
+    ],
+    "ejecuciones": [
+      "EX-091",
+      "EX-104"
+    ],
+    "fecha": "2026-10-15T12:39:56.664036+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CAJA-12",
+      "nombre": "Vista de impresión de 80 mm y exportación a PDF",
+      "fecha": "2026-10-15T12:39:11.345616+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "CSS 80mm",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "PDF generado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+        "PDF: evidencias/CP-CAJA-12-comprobante-80mm.pdf"
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / chromium",
+      "navegador": "chromium",
+      "capturas": [
+        "evidencias/actual/CP-CAJA-12-chromium-impresion-80mm.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-091"
+    },
+    {
+      "caso": "CP-CAJA-12",
+      "nombre": "Vista de impresión de 80 mm y exportación a PDF",
+      "fecha": "2026-10-15T12:39:56.664036+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "CSS 80mm",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "pendientes": [
+        "Firefox headless permite comprobar estilos de impresión; la exportación PDF mediante diálogo gráfico requiere estación de grabación."
+      ],
+      "herramienta": "Playwright / firefox",
+      "navegador": "firefox",
+      "capturas": [
+        "evidencias/actual/CP-CAJA-12-firefox-impresion-80mm.png"
+      ],
+      "estado": "Pendiente de seguimiento",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-104"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "resultado": "Validada",
+  "verificaciones": 41112,
+  "enlaces_excel": 755,
+  "imagenes_incrustadas": 121,
+  "hojas": [
+    "Diseño de Casos de Pruebas",
+    "Ambiente de Pruebas",
+    "Registro de ejecución",
+    "Incidencias y seguimiento",
+    "Resumen",
+    "Evidencias",
+    "Fuentes"
+  ],
+  "casos": 101,
+  "ejecuciones": 117,
+  "estados": {
+    "Aprobada": 94,
+    "Fallida": 4,
+    "Pendiente de seguimiento": 3
+  },
+  "ancho_pdf_mm": 80.0947,
+  "limitacion": "Verificación estructural del XLSX y de sus recursos. No se ejecutó Microsoft Excel/LibreOffice en este entorno. El video y los seguimientos físicos/gráficos siguen pendientes."
+}

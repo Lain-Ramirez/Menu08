@@ -1,0 +1,9 @@
+{
+  "name": "menu08-pruebas",
+  "private": true,
+  "devDependencies": {
+    "newman": "6.2.1",
+    "@zxing/library": "0.21.3",
+    "pngjs": "7.0.0"
+  }
+}

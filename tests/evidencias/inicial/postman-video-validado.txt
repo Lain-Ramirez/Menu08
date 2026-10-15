@@ -1,0 +1,132 @@
+newman
+
+Menu08 · GA9 · recorrido validado para video
+
+❏ Recorrido validado para video
+↳ 01 GET /ingresar (captura el token)
+  GET http://127.0.0.1:8088/ingresar [200 OK, 6.9kB, 36ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 02 POST /ingresar como cajero
+  POST http://127.0.0.1:8088/ingresar [302 Found, 399B, 82ms]
+  ✓  Responde 302
+  ✓  Redirige a /caja
+
+↳ 03 GET /caja sin turno abierto
+  GET http://127.0.0.1:8088/caja [302 Found, 319B, 9ms]
+  ✓  Responde 302
+
+↳ 04 GET /caja/turno (captura el token)
+  GET http://127.0.0.1:8088/caja/turno [200 OK, 17.71kB, 7ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 05 POST /caja/turno/abrir
+  POST http://127.0.0.1:8088/caja/turno/abrir [302 Found, 313B, 12ms]
+  ✓  Responde 302
+
+↳ 06 GET /caja (captura el token)
+  GET http://127.0.0.1:8088/caja [200 OK, 35.66kB, 12ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+  ✓  ID dinámico papasId
+  ✓  ID dinámico hamburguesaId
+
+↳ 07 POST /caja/vender
+  POST http://127.0.0.1:8088/caja/vender [302 Found, 328B, 16ms]
+  ✓  Responde 302
+  ✓  Redirige al comprobante
+
+↳ 08 GET /caja/comprobante/{id}
+  GET http://127.0.0.1:8088/caja/comprobante/14 [200 OK, 12.71kB, 9ms]
+  ✓  Responde 200
+
+↳ Cerrar sesión antes de cambiar de rol
+  GET http://127.0.0.1:8088/salir [302 Found, 434B, 5ms]
+  ✓  Cierre de sesión 302
+
+↳ 09 GET /ingresar (captura el token)
+  GET http://127.0.0.1:8088/ingresar [200 OK, 6.9kB, 5ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 10 POST /ingresar como produccion
+  POST http://127.0.0.1:8088/ingresar [302 Found, 398B, 77ms]
+  ✓  Responde 302
+
+↳ 11 GET /svp (captura el token del meta)
+  GET http://127.0.0.1:8088/svp [200 OK, 21.05kB, 8ms]
+  ✓  Responde 200
+  ✓  Se capturo el token del meta
+
+↳ 12 GET /svp/ordenes
+  GET http://127.0.0.1:8088/svp/ordenes [200 OK, 636B, 7ms]
+  ✓  Responde 200
+  ✓  Responde JSON, nunca HTML
+  ✓  Hay al menos una orden en curso
+
+↳ 13 POST estado -> en_preparacion
+  POST http://127.0.0.1:8088/svp/orden/14/estado [200 OK, 564B, 11ms]
+  ✓  Responde 200
+  ✓  Responde JSON, nunca HTML
+  ✓  Paso a en_preparacion
+
+↳ 14 POST estado -> lista
+  POST http://127.0.0.1:8088/svp/orden/14/estado [200 OK, 569B, 13ms]
+  ✓  Responde 200
+  ✓  Paso a lista
+
+↳ 15 POST estado -> entregada
+  POST http://127.0.0.1:8088/svp/orden/14/estado [200 OK, 578B, 12ms]
+  ✓  Responde 200
+  ✓  Paso a entregada y no tiene siguiente
+
+↳ 16 GET /svp/ordenes (ya no esta)
+  GET http://127.0.0.1:8088/svp/ordenes [200 OK, 363B, 7ms]
+  ✓  Responde 200
+  ✓  La orden entregada ya no esta
+
+↳ Cerrar sesión antes de cambiar de rol
+  GET http://127.0.0.1:8088/salir [302 Found, 434B, 4ms]
+  ✓  Cierre de sesión 302
+
+↳ 17 GET /ingresar + cajero (captura el token)
+  GET http://127.0.0.1:8088/ingresar [200 OK, 6.9kB, 3ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 18 POST /ingresar como cajero
+  POST http://127.0.0.1:8088/ingresar [302 Found, 399B, 78ms]
+  ✓  Responde 302
+
+↳ 19 GET /caja/turno (captura el token)
+  GET http://127.0.0.1:8088/caja/turno [200 OK, 16.12kB, 9ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 20 POST /caja/turno/cerrar
+  POST http://127.0.0.1:8088/caja/turno/cerrar [302 Found, 322B, 12ms]
+  ✓  Responde 302
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │               22 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │               22 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │                0 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │               40 │                0 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 894ms                                     │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 122.83kB (approx)                        │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 19ms [min: 3ms, max: 82ms, s.d.: 24ms] │
+└───────────────────────────────────────────────────────────────┘
+(node:14123) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)

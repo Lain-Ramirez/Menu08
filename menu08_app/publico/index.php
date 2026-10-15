@@ -12,6 +12,7 @@ declare(strict_types=1);
 use Menu08\Nucleo\Configuracion;
 use Menu08\Nucleo\Enrutador;
 use Menu08\Nucleo\ManejadorErrores;
+use Menu08\Nucleo\RedireccionHttps;
 use Menu08\Nucleo\Sesion;
 
 $raiz = dirname(__DIR__);
@@ -65,6 +66,16 @@ spl_autoload_register(static function (string $clase) use ($raiz): void {
 ManejadorErrores::registrar();
 
 Configuracion::cargar($raiz . '/configuracion/configuracion.php');
+
+$destinoHttps = RedireccionHttps::destino(
+    (string) Configuracion::obtener('url_base', ''),
+    $_SERVER
+);
+
+if ($destinoHttps !== null) {
+    header('Location: ' . $destinoHttps, true, 301);
+    exit;
+}
 
 // El reloj de PHP, en la misma zona que el de MySQL: si los dos no coinciden,
 // "que parada esta abierta ahora" contesta una cosa y la base otra. Se comprueba

@@ -1,0 +1,123 @@
+{
+  "caso": {
+    "id": "CP-CARTA-24",
+    "modulo": "CARTA · agenda",
+    "requisito": "Issue #36 · Programar la agenda de paradas del food truck\nIssue #37 · Maquetar la agenda de paradas y el bloque «dónde estamos hoy» de la carta\nFuncionalidad: CARTA · agenda\nCaso: CP-CARTA-24",
+    "nombre": "Límites de apertura y cierre de una jornada diurna",
+    "objetivo": "Verificar la inclusión del instante de apertura y la exclusión del cierre de las paradas del banco.",
+    "tipo": "Funcional · valores límite",
+    "precondiciones": "Banco restaurado; sesión food_truck; agenda sin las ampliaciones de CP-CARTA-22 y CP-CARTA-23.",
+    "datos": "Parque de Pruebas: miércoles 11:00–15:00. Momentos 2026-09-02T10:59, 11:00, 14:59, 15:00; jueves 2026-09-03T00:30. Plaza de Pruebas: viernes 2026-09-04T13:00.",
+    "pasos": "1. Consultar /panel/ubicaciones?momento= con cada fecha y hora indicada.\n2. Registrar el nombre de la parada vigente o la ausencia de una.\n3. Comparar las respuestas con el día y la franja guardados.",
+    "esperado": "Miércoles 10:59: ninguna; 11:00 y 14:59: Parque de Pruebas; 15:00: ninguna. Jueves 00:30: ninguna, sin prolongar la jornada diurna. Viernes 13:00: Plaza de Pruebas.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S264 · Issue #36 · Programar la agenda de paradas del food truck\nS265 · Issue #37 · Maquetar la agenda de paradas y el bloque «dónde estamos hoy» de la carta\nS081 · docs/pruebas-agenda-paradas.md · líneas 74–82\nS082 · menu08_app/aplicacion/modelos/Ubicacion.php · líneas 126–134"
+  },
+  "resultados": {
+    "caso": "CP-CARTA-24",
+    "nombre": "Límites de apertura y cierre de una jornada diurna",
+    "modulo": "CARTA · agenda",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "2026-10-14 10:59:00",
+        "esperado": null,
+        "obtenido": null,
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-14 11:00:00",
+        "esperado": "Parque de Pruebas",
+        "obtenido": "Parque de Pruebas",
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-14 14:59:00",
+        "esperado": "Parque de Pruebas",
+        "obtenido": "Parque de Pruebas",
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-14 15:00:00",
+        "esperado": null,
+        "obtenido": null,
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-15 00:30:00",
+        "esperado": null,
+        "obtenido": null,
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-16 13:00:00",
+        "esperado": "Plaza de Pruebas",
+        "obtenido": "Plaza de Pruebas",
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-021"
+    ],
+    "fecha": "2026-10-15T12:38:50.881660+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CARTA-24",
+      "nombre": "Límites de apertura y cierre de una jornada diurna",
+      "fecha": "2026-10-15T12:38:50.881660+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "2026-10-14 10:59:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-14 11:00:00",
+          "esperado": "Parque de Pruebas",
+          "obtenido": "Parque de Pruebas",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-14 14:59:00",
+          "esperado": "Parque de Pruebas",
+          "obtenido": "Parque de Pruebas",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-14 15:00:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-15 00:30:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-16 13:00:00",
+          "esperado": "Plaza de Pruebas",
+          "obtenido": "Plaza de Pruebas",
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_http.json",
+      "ejecucion": "EX-021"
+    }
+  ]
+}

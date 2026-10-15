@@ -1,0 +1,73 @@
+{
+  "caso": {
+    "id": "CP-CARTA-14",
+    "modulo": "CARTA",
+    "requisito": "Issue #8 · Programar la administración del food truck, categorías y productos con carga de imágenes\nIssue #16 · Construir las vistas de administración de negocio, categorías y productos\nFuncionalidad: CARTA\nCaso: CP-CARTA-14",
+    "nombre": "Un food truck no administra el catálogo de otro",
+    "objetivo": "Comprobar que la sesión de un truck no puede leer ni editar categorías o productos de otro.",
+    "tipo": "Seguridad · acceso y aislamiento",
+    "precondiciones": "Sesión food_truck del truck de pruebas. En la base hay otro truck, Festín Rodante, con sus productos\nUsar IDs consultados por slug/nombre; conservar las dependencias indicadas. Todo POST requiere token vigente, salvo el ingreso móvil.",
+    "datos": "id de un producto y de una categoría de Festín Rodante",
+    "pasos": "1. Pedir /panel/productos/{id ajeno}.\n2. Pedir /panel/categorias/{id ajeno}.",
+    "esperado": "404, no 403: un 403 confirmaría que ese identificador existe",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S260 · Issue #8 · Programar la administración del food truck, categorías y productos con carga de imágenes\nS261 · Issue #16 · Construir las vistas de administración de negocio, categorías y productos\nS024 · docs/pruebas/casos/carta.md · líneas 232–240\nS025 · menu08_app/aplicacion/controladores/ProductoControlador.php · líneas 51–59"
+  },
+  "resultados": {
+    "caso": "CP-CARTA-14",
+    "nombre": "Un food truck no administra el catálogo de otro",
+    "modulo": "CARTA",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Producto ajeno",
+        "esperado": 404,
+        "obtenido": 404,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-013"
+    ],
+    "fecha": "2026-10-15T12:38:49.861747+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CARTA-14",
+      "nombre": "Un food truck no administra el catálogo de otro",
+      "fecha": "2026-10-15T12:38:49.861747+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Producto ajeno",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        }
+      ],
+      "http": [
+        {
+          "metodo": "GET",
+          "ruta": "/panel/productos/1",
+          "estado": 404,
+          "ms": 5.8,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <meta name=\"csrf-token\" content=\"[oculto]\">\n        <title>Error 404 · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                                    <span class=\"cabecera-usuario\">\n                                                    <span class=\"cabecera-avatar\" aria-hidden=\"true\">A</span>\n                                                <span class=\"cabecera-nombre-usuario\">Administrador de pruebas</span>\n                        <span class=\"etiqueta etiqueta-pendiente cabecera-rol\">food truck</span>\n                    </span>\n\n                    <a class=\"boton boton-texto cabecera-salir\" href=\"http://127.0.0.1:8088/salir\">\n                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3\"></path>\n                            <path d=\"M15 8l4 4-4 4\"></path><path d=\"M19 12H9\"></path>\n                        </svg>\n                        <span class=\"cabecera-salir-texto\">Salir</span>\n                    </a>\n\n                                        <button type=\"button\" class=\"boton-simbolo cabecera-alterna\"\n                            data-alterna=\"navegacion-panel\" data-alterna-desde=\"(max-width: 767.98px)\"\n                            aria-label=\"Alternar navegacion\">\n                        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M4 7h16\"></path><path d=\"M4 12h16\"></path><path d=\"M4 17h16\"></path>\n                        </svg>\n                    </button>\n                            </div>\n        </div>\n    </header>\n<nav class=\"navegacion sin-impresion\" id=\"navegacion-panel\" aria-label=\"Modulos\">\n    <ul class=\"navegacion-lista contenedor-ancho\">\n                                <li>\n                <a class=\"navegacion-enlace navegacion-activa\"\n                   href=\"http://127.0.0.1:8088/panel\"\n                   aria-current=\"page\">\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">📋</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">CARTA</span>\n                        <span class=\"navegacion-descripcion\">Catálogo y paradas</span>\n                    </span>\n                </a>\n            </li>\n                                <li>\n                <a class=\"navegacion-enlace\"\n                   href=\"http://127.0.0.1:8088/caja\"\n                   >\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">💵</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">CAJA</span>\n                        <span class=\"navegacion-descripcion\">Turno y ventas</span>\n                    </span>\n                </a>\n            </li>\n                                <li>\n                <a class=\"navegacion-enlace\"\n                   href=\"http://127.0.0.1:8088/svp\"\n                   >\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">👨‍🍳</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">SVP</span>\n                        <span class=\"navegacion-descripcion\">Tablero de producción</span>\n                    </span>\n                </a>\n            </li>\n            </ul>\n</nav>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n        \n        <section class=\"estado-vacio\" aria-labelledby=\"error-titulo\">\n    <span class=\"estado-vacio-icono\" aria-hidden=\"true\">\n        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n             stroke-linecap=\"round\" stroke-linejoin=\"round\">\n                            <circle cx=\"11\" cy=\"11\" r=\"7\"></circle><path d=\"m20 20-4-4\"></path><path d=\"M8.5 11h5\"></path>\n                    </svg>\n    </span>\n\n    <p class=\"estado-vacio-codigo\">Error 404</p>\n\n    <h1 class=\"estado-vacio-titulo\" id=\"error-titulo\">Página no encontrada</h1>\n\n    <p class=\"estado-vacio-texto\">No encontramos la pagina que busca.</p>\n\n    <p class=\"estado-vacio-acciones\">\n        <a class=\"boton boton-relleno\" href=\"http://127.0.0.1:8088/\">Volver al inicio</a>\n    </p>\n</section>\n\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+        }
+      ],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_http.json",
+      "ejecucion": "EX-013"
+    }
+  ]
+}

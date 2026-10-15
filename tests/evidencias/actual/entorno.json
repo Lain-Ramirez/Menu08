@@ -1,0 +1,9 @@
+{
+  "so": "Ubuntu 24.04.5 LTS",
+  "php": "PHP 8.3.6 (cli) (built: Sep  2 2026 12:56:02) (NTS)",
+  "mysql": "8.4.11",
+  "playwright": "1.64.0",
+  "fecha_utc": "2026-10-15T12:41:10.644936+00:00",
+  "repo_commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+  "estado_codigo_versionado": ""
+}

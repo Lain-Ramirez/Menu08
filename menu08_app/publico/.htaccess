@@ -5,6 +5,10 @@ Options -Indexes
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP_HOST} ^adso\.menu08\.com(?::80)?$ [NC]
+    RewriteRule ^ https://adso.menu08.com%{REQUEST_URI} [R=301,L,NE]
+
     # Los archivos y carpetas que existen se sirven tal cual (css, js, imagenes).
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d

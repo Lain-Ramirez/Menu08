@@ -1,0 +1,122 @@
+{
+  "caso": {
+    "id": "CP-SVP-11",
+    "modulo": "SVP · demoras",
+    "requisito": "Issue #13 · Exponer el servicio JSON de cambio de estado e integrar CAJA con el SVP\nIssue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nFuncionalidad: SVP · demoras\nCaso: CP-SVP-11",
+    "nombre": "Umbral de demora a los 10 minutos",
+    "objetivo": "Verificar la señal de demora y su realce en el tablero con el reloj del servidor.",
+    "tipo": "Funcional · valor límite",
+    "precondiciones": "Instancia local aislada; turno abierto; orden pendiente del Truck de Pruebas; sesión producción; posibilidad de ajustar y restaurar creado_en de esa orden local.",
+    "datos": "Orden con 9 minutos y después con 10 minutos desde creado_en según NOW(). MINUTOS_DEMORA=10.",
+    "pasos": "1. Preparar en la instancia aislada el caso de 9 minutos y consultar GET /svp/ordenes.\n2. Preparar el caso de 10 minutos y repetir la consulta.\n3. Observar la etiqueta y clase de demora en /svp; restaurar las marcas originales.",
+    "esperado": "minutos_demora=10. Con minutos=9, demorada=false; con minutos=10, demorada=true. El tablero refleja el realce de la orden; el cálculo usa creado_en y NOW(), según el modelo.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S272 · Issue #13 · Exponer el servicio JSON de cambio de estado e integrar CAJA con el SVP\nS271 · Issue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nS111 · menu08_app/aplicacion/controladores/SvpControlador.php · líneas 27–35\nS112 · menu08_app/aplicacion/modelos/Orden.php · líneas 359–367\nS113 · ADSO.menu08.com/recursos/js/svp.js · líneas 192–200"
+  },
+  "resultados": {
+    "caso": "CP-SVP-11",
+    "nombre": "Umbral de demora a los 10 minutos",
+    "modulo": "SVP · demoras",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Minutos",
+        "esperado": 9,
+        "obtenido": 9,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Demorada a 9",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Minutos",
+        "esperado": 10,
+        "obtenido": 10,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Demorada a 10",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "Antigüedad controlada por UPDATE únicamente en la base local."
+    ],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-060"
+    ],
+    "fecha": "2026-10-15T12:38:56.056671+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-SVP-11",
+      "nombre": "Umbral de demora a los 10 minutos",
+      "fecha": "2026-10-15T12:38:56.056671+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Minutos",
+          "esperado": 9,
+          "obtenido": 9,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Demorada a 9",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Minutos",
+          "esperado": 10,
+          "obtenido": 10,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Demorada a 10",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [
+        {
+          "metodo": "GET",
+          "ruta": "/svp/ordenes",
+          "estado": 200,
+          "ms": 6.5,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"turno\":12,\"ahora\":\"2026-10-15 07:38:56\",\"minutos_demora\":10,\"total\":1,\"ordenes\":[{\"id\":29,\"numero\":\"T12-003\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-15 07:29:56\",\"minutos\":9,\"demorada\":false,\"nota\":null,\"items\":[{\"nombre\":\"Vaso de agua\",\"cantidad\":1}]}]}"
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/svp/ordenes",
+          "estado": 200,
+          "ms": 7.07,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"turno\":12,\"ahora\":\"2026-10-15 07:38:56\",\"minutos_demora\":10,\"total\":1,\"ordenes\":[{\"id\":29,\"numero\":\"T12-003\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-15 07:28:56\",\"minutos\":10,\"demorada\":true,\"nota\":null,\"items\":[{\"nombre\":\"Vaso de agua\",\"cantidad\":1}]}]}"
+        }
+      ],
+      "notas": [
+        "Antigüedad controlada por UPDATE únicamente en la base local."
+      ],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_servicios.json",
+      "ejecucion": "EX-060"
+    }
+  ]
+}

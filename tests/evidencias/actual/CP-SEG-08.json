@@ -1,0 +1,250 @@
+{
+  "caso": {
+    "id": "CP-SEG-08",
+    "modulo": "Seguridad · servicios JSON",
+    "requisito": "Issue #7 · Implementar autenticación por sesión, control de acceso por rol y protección CSRF\nIssue #25 · Ejecutar las pruebas de seguridad y consolidar el reporte de pruebas ejecutadas\nFuncionalidad: Seguridad · servicios JSON\nCaso: CP-SEG-08",
+    "nombre": "Negativas JSON por sesión, rol y token en SVP",
+    "objetivo": "Comprobar que el cliente de sondeo recibe errores de contrato JSON sin redirecciones HTML.",
+    "tipo": "Seguridad · autorización de servicios",
+    "precondiciones": "Orden propia pendiente; sesiones separadas sin autenticación, cajero, producción y food_truck; token y estado registrados antes de cada intento.",
+    "datos": "GET /svp/ordenes; POST /svp/orden/{orden_id}/estado. Variantes: sin sesión, cajero, producción sin token, producción con token de 64 ceros.",
+    "pasos": "1. Solicitar el GET sin sesión y con cajero.\n2. Repetir el POST de estado sin sesión, con cajero y con producción sin token o alterado.\n3. Leer HTTP, Content-Type, error y mensaje; consultar la orden después.",
+    "esperado": "Sin sesión: 401 y no_autenticado. Rol cajero: 403 y rol_no_autorizado. Producción sin token o alterado: 403 y token_invalido. Todas las negativas son application/json; ninguna mueve la orden. Producción y food_truck sí pueden consultar con 200.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S258 · Issue #7 · Implementar autenticación por sesión, control de acceso por rol y protección CSRF\nS274 · Issue #25 · Ejecutar las pruebas de seguridad y consolidar el reporte de pruebas ejecutadas\nS143 · menu08_app/aplicacion/nucleo/Controlador.php · líneas 110–118\nS147 · menu08_app/aplicacion/nucleo/Controlador.php · líneas 206–214\nS114 · docs/pruebas-svp-estado.md · líneas 62–70"
+  },
+  "resultados": {
+    "caso": "CP-SEG-08",
+    "nombre": "Negativas JSON por sesión, rol y token en SVP",
+    "modulo": "Seguridad · servicios JSON",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "HTTP",
+        "esperado": 401,
+        "obtenido": 401,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Error",
+        "esperado": "no_autenticado",
+        "obtenido": "no_autenticado",
+        "cumple": true
+      },
+      {
+        "comprobacion": "JSON",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "HTTP",
+        "esperado": 403,
+        "obtenido": 403,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Error",
+        "esperado": "rol_no_autorizado",
+        "obtenido": "rol_no_autorizado",
+        "cumple": true
+      },
+      {
+        "comprobacion": "JSON",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Token inválido",
+        "esperado": 403,
+        "obtenido": 403,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Error",
+        "esperado": "token_invalido",
+        "obtenido": "token_invalido",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Token inválido",
+        "esperado": 403,
+        "obtenido": 403,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Error",
+        "esperado": "token_invalido",
+        "obtenido": "token_invalido",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Rol permitido",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Rol permitido",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-076"
+    ],
+    "fecha": "2026-10-15T12:39:00.548965+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-SEG-08",
+      "nombre": "Negativas JSON por sesión, rol y token en SVP",
+      "fecha": "2026-10-15T12:39:00.548965+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "HTTP",
+          "esperado": 401,
+          "obtenido": 401,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "no_autenticado",
+          "obtenido": "no_autenticado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "JSON",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "HTTP",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "rol_no_autorizado",
+          "obtenido": "rol_no_autorizado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "JSON",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Token inválido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "token_invalido",
+          "obtenido": "token_invalido",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Token inválido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "token_invalido",
+          "obtenido": "token_invalido",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rol permitido",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rol permitido",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        }
+      ],
+      "http": [
+        {
+          "metodo": "GET",
+          "ruta": "/svp/ordenes",
+          "estado": 401,
+          "ms": 2.69,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"error\":\"no_autenticado\",\"mensaje\":\"Debe iniciar sesion para consultar este servicio.\"}"
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/svp/ordenes",
+          "estado": 403,
+          "ms": 2.05,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"error\":\"rol_no_autorizado\",\"mensaje\":\"El rol \\\"cajero\\\" no tiene acceso a este servicio.\"}"
+        },
+        {
+          "metodo": "POST",
+          "ruta": "/svp/orden/51/estado",
+          "estado": 403,
+          "ms": 2.87,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"error\":\"token_invalido\",\"mensaje\":\"El token de seguridad expiro o no es valido. Recargue el tablero.\"}"
+        },
+        {
+          "metodo": "POST",
+          "ruta": "/svp/orden/51/estado",
+          "estado": 403,
+          "ms": 2.58,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"error\":\"token_invalido\",\"mensaje\":\"El token de seguridad expiro o no es valido. Recargue el tablero.\"}"
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/svp/ordenes",
+          "estado": 200,
+          "ms": 6.83,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"turno\":15,\"ahora\":\"2026-10-15 07:39:00\",\"minutos_demora\":10,\"total\":1,\"ordenes\":[{\"id\":51,\"numero\":\"T15-001\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-15 07:38:58\",\"minutos\":0,\"demorada\":false,\"nota\":null,\"items\":[{\"nombre\":\"Papas de prueba\",\"cantidad\":1}]}]}"
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/svp/ordenes",
+          "estado": 200,
+          "ms": 5.85,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"turno\":15,\"ahora\":\"2026-10-15 07:39:00\",\"minutos_demora\":10,\"total\":1,\"ordenes\":[{\"id\":51,\"numero\":\"T15-001\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-15 07:38:58\",\"minutos\":0,\"demorada\":false,\"nota\":null,\"items\":[{\"nombre\":\"Papas de prueba\",\"cantidad\":1}]}]}"
+        }
+      ],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_servicios.json",
+      "ejecucion": "EX-076"
+    }
+  ]
+}

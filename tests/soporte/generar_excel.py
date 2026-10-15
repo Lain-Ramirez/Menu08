@@ -19,7 +19,7 @@ S=json.loads((EV/'resumen.json').read_text());R=json.loads((EV/'ejecuciones.json
 INICIAL=json.loads((ROOT/'evidencias/inicial/ejecuciones.json').read_text())
 for id in ['CP-CARTA-08','CP-SEG-15','CP-AUTO-PM-01','CP-AUTO-PM-03']:
     old=next(x.copy() for x in INICIAL if x['caso']==id and x['estado']=='Fallida')
-    old['ejecucion']='EX-BASE-'+str(len(R)-ACTUALES+1).zfill(3);old['historica']=True;R.append(old)
+    old['ejecucion']='EX-BASE-'+str(len(R)-ACTUALES+1).zfill(3);old['historica']=True;old['caso_historico']=json.loads((ROOT/'evidencias/inicial'/(id+'.json')).read_text())['caso'];R.append(old)
 CASES=json.loads((ROOT/'soporte/casos_entrega.json').read_text());BY={x['id']:x for x in CASES};FINAL={x['caso']:x for x in S['resultados']}
 P='AA2502';G='725304';BG='FFF8F4';ALT='F5EBE4';INK='221A15';LINE='D7C2B7';GOLD='F5DF93';RED='FFDAD6';ORANGE='FFDCC2';WHITE='FFFFFF'
 STATE={'Aprobada':GOLD,'Fallida':RED,'Pendiente de seguimiento':ORANGE}
@@ -73,7 +73,7 @@ for i,c in enumerate(CASES,6):
     hyperlink(sh.cell(i,1),"#'Evidencias'!A"+str(116+(i-6)*26))
 
 INC={
- 'INC-01':dict(cases=['CP-CARTA-08','CP-AUTO-PM-03'],severity='Media',state='Verificada local',description='Producto no disponible visible en la carta. Reproduce DEF-01 del repositorio.',expected='Ocultarlo según criterio AA2 / aserción de la colección original.',actual='La carta lo muestra atenuado y con «No disponible».',steps='Ingresar food_truck; desactivar un producto; abrir /carta/truck-de-pruebas. La colección pública también rechaza Entrada agotada.',owner='Equipo Menu08 · decisión de producto por asignar',action='Corrección realizada: catalogoCarta filtra disponible=1. Reejecución HTTP y DOM en ambos navegadores: producto oculto al público y conservado en el panel. Carpeta pública Newman: 19 aserciones sin fallos.',version=S['commit'],retest='CP-CARTA-08'),
+ 'INC-01':dict(cases=['CP-CARTA-08','CP-AUTO-PM-03'],severity='Media',state='Verificada local',description='Producto no disponible visible en la carta. Reproduce DEF-01 del repositorio.',expected='Ocultarlo según criterio AA2 / aserción de la colección original.',actual='La carta lo muestra atenuado y con «No disponible».',steps='Ingresar food_truck; desactivar un producto; abrir /carta/truck-de-pruebas. La colección pública también rechaza Entrada agotada.',owner='Equipo Menu08 · catálogo',action='Corrección realizada: catalogoCarta filtra disponible=1. Reejecución HTTP y DOM en ambos navegadores: producto oculto al público y conservado en el panel. Carpeta pública Newman: 19 aserciones sin fallos.',version=S['commit'],retest='CP-CARTA-08'),
  'INC-02':dict(cases=['CP-AUTO-PM-01'],severity='Media',state='Verificada local',description='El recorrido Postman original usa IDs literales y cambia de rol sin cerrar sesión.',expected='20 peticiones originales con sus 36 aserciones sin fallos.',actual='20 peticiones realizadas; 15 aserciones fallidas. La venta usa IDs que no corresponden al banco y GET /ingresar redirige con sesión activa.',steps='Restaurar esquema, datos iniciales, Festín y pruebas. Ejecutar carpeta 1 con Newman --ignore-redirects. Revisar venta y cambios de rol.',owner='Equipo Menu08 · colección de pruebas',action='Corrección en la colección principal y en la muestra Menu08_GA9_VIDEO.postman_collection.json: descubrir IDs del HTML y añadir GET /salir antes de cada cambio de rol. Reejecución: 22 peticiones, 40 aserciones, 0 fallos.',version=S['commit'],retest='CP-AUTO-PM-02'),
  'INC-03':dict(cases=['CP-SEG-15'],severity='Alta',state='Pendiente de despliegue',description='El hosting permite HTTP y no entrega la redirección 301 a HTTPS requerida.',expected='HTTP 301 y Location=https://adso.menu08.com/carta/festin-rodante.',actual='HTTP 200, sin cabecera Location. HTTPS responde y valida TLS, pero no fuerza la migración desde HTTP.',steps='GET http://adso.menu08.com/carta/festin-rodante con redirecciones desactivadas; comparar código y Location.',owner='Equipo Menu08 · responsable de despliegue por asignar',action='Corrección realizada en ambas reglas .htaccess y antes de iniciar sesión en PHP. Apache HTTP/TLS y el front controller reales verifican 301, ruta, consulta y ausencia de bucles. Falta desplegar el PR y comprobar el hosting; no se afirma despliegue.',version=S['commit']+' (rama; hosting sin acreditar)',retest='CP-SEG-15'),
  'INC-04':dict(cases=['CP-AUTO-PM-03'],severity='Baja',state='Verificada local',description='La aserción de recursos remotos en /componentes interpreta cualquier URL absoluta como externa.',expected='Detectar recursos de un origen diferente; admitir recursos del propio origen.',actual='La aserción rechaza enlaces absolutos generados con url_base aunque apuntan al mismo servidor. La carpeta pública tiene 2 fallos: este y el de INC-01.',steps='Ejecutar carpeta 2. Abrir el test «No enlaza ningun recurso remoto» y comparar el origen de las URL de recursos con baseUrl.',owner='Equipo Menu08 · colección de pruebas',action='Corrección realizada en la colección principal: compara el origen de script, link e img con baseUrl. Permite URL absolutas del mismo servidor. Reejecución de la carpeta pública: 11 peticiones, 19 aserciones, 0 fallos.',version=S['commit'],retest='CP-AUTO-PM-03'),
@@ -94,7 +94,7 @@ sh=W['Registro de ejecución'];title(sh,13,'Registro de ejecución · esperado f
 labels=[sh.cell(5,c).value for c in range(1,14)];widths=[17,20,25,25,29,49,64,78,25,45,24,34,65]
 rows=[]
 for r in R:
-    c=BY[r['caso']];details='\n'.join(r['notas'])
+    c=r.get('caso_historico',BY[r['caso']]);details='\n'.join(r['notas'])
     if len(details)>1500:details=details[:1500]+'\nDetalle íntegro en JSON.'
     rows.append([r['ejecucion'],r['caso'],r['fecha'][:19].replace('T',' ')+' UTC',r['commit'],'Automatizada · revisión: '+RESP(r['caso']),c['datos'],c['esperado'],observed(r),r['estado'],('evidencias/inicial/' if r.get('historica') else 'evidencias/actual/')+r['caso']+'.json',incs(r['caso']),r.get('herramienta','Automatización'),details])
 table(sh,labels,widths,rows)
@@ -102,7 +102,7 @@ for i,r in enumerate(R,6):
     hyperlink(sh.cell(i,10),('evidencias/inicial/' if r.get('historica') else 'evidencias/actual/')+r['caso']+'.json');cell(sh,i,9,r['estado'],STATE[r['estado']],True,10)
 dv=DataValidation(type='list',formula1='"Aprobada,Fallida,Pendiente de seguimiento"');sh.add_data_validation(dv);dv.add(f'I6:I{5+len(R)}')
 
-sh=W['Incidencias y seguimiento'];title(sh,14,'Incidencias, acciones correctivas y reejecuciones · sin cierres simulados');bar(sh,4,1,14,'INC = defectos reproducidos; SEG = validación o decisión pendiente. La corrección local de Postman está comprobada.',GOLD,11)
+sh=W['Incidencias y seguimiento'];title(sh,14,'Incidencias, acciones correctivas y reejecuciones verificables');bar(sh,4,1,14,'INC = defectos reproducidos; SEG = validación o decisión pendiente. La corrección local de Postman está comprobada.',GOLD,11)
 labels=[sh.cell(5,c).value for c in range(1,15)];widths=[17,24,25,54,62,55,67,15,28,37,85,40,26,47];rows=[]
 for key,v in INC.items():
     origin=[r['ejecucion'] for r in R if r['caso'] in v['cases'] and r.get('historica')]

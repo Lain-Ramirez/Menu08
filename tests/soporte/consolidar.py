@@ -1,6 +1,7 @@
 """Consolida resultados observados; no asigna aprobaciones por inspección del plan."""
 from pathlib import Path
 from collections import Counter,defaultdict
+from datetime import datetime
 import json,html,subprocess,hashlib
 ROOT=Path(__file__).resolve().parent.parent;EV=ROOT/'evidencias/actual';REPO=ROOT.parent
 def read(name):return json.loads((EV/name).read_text())
@@ -17,16 +18,20 @@ def build():
     for id,name,steps,expected,tool in additional:
         c=dict(id=id,modulo='AUTOMATIZACIÓN',requisito='Complemento de ejecución AA3. Fuente: colección Postman, rutas y formularios del commit verificado.',nombre=name,objetivo='Acreditar la reproducción automática y su resultado real.',tipo='E2E' if 'E2E' in id else 'Servicios / integración',precondiciones='Instancia local 127.0.0.1:8088; MySQL aislado; banco restaurado por el ejecutor.',datos='Usuarios pruebas.* y datos_pruebas.sql; IDs descubiertos del banco.',pasos=steps,esperado=expected,herramienta=tool,responsable='Jovanny Medina Cifuentes / Lain Sthid Ramirez Rueda',prioridad='Alta',fuentes='postman/Menu08.postman_collection.json; menu08_app/configuracion/rutas.php')
         cases.append(c);base[id]=c
-    files=['resultados_http.json','resultados_servicios.json','resultados_e2e.json','resultados_publicacion.json','resultados_qr.json','resultados_postman.json','resultados_flujo_e2e.json']
+    files=['resultados_http.json','resultados_servicios.json','resultados_e2e.json','resultados_publicacion.json','resultados_qr.json','resultados_postman.json','resultados_e2e_ajustes.json','resultados_flujo_e2e.json']
     records=[]
     for f in files:
+        if not (EV/f).exists():continue
         for r in read(f):r['archivo_ejecutor']=f;records.append(r)
     # Reemplazar mediciones del mismo caso, herramienta y navegador por su última
     # ejecución: hubo ajustes del ejecutor en redondeo, lectura DOM e impresión.
     latest={};obsolete=[]
     for r in records:
         key=(r['caso'],r.get('navegador',''),r.get('herramienta',''))
-        if key in latest:obsolete.append(latest[key])
+        if key in latest:
+            if datetime.fromisoformat(r['fecha']) <= datetime.fromisoformat(latest[key]['fecha']):
+                obsolete.append(r);continue
+            obsolete.append(latest[key])
         latest[key]=r
     records=sorted(latest.values(),key=lambda r:r['fecha'])
     for i,r in enumerate(records,1):r['ejecucion']=f'EX-{i:03}'
@@ -55,7 +60,7 @@ def build():
     summary=dict(commit=commit,casos_plan=96,casos_complementarios=len(additional),casos_total=len(final),estados=dict(Counter(x['estado'] for x in final)),estados_plan=dict(Counter(x['estado'] for x in final if not x['caso'].startswith('CP-AUTO'))),ejecuciones=len(records),comprobaciones=len([x for r in records for x in r['checks']]),resultados=final)
     (EV/'resumen.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2))
     (EV/'ejecuciones.json').write_text(json.dumps(records,ensure_ascii=False,indent=2))
-    (EV/'ajustes_instrumentacion.json').write_text(json.dumps({'motivo':'Se ajustó el redondeo esperado a number_format PHP, el control de sesión de casos selectivos, la lectura de encabezados DOM y la captura de impresión Firefox. Estos son ajustes del ejecutor, no correcciones del producto. Solo las últimas mediciones válidas se consolidan.','mediciones_sustituidas':obsolete},ensure_ascii=False,indent=2))
+    (EV/'ajustes_instrumentacion.json').write_text(json.dumps({'motivo':'Se conserva la lectura geométrica original y su reejecución: getBoundingClientRect puede entregar 55.99994 px para min-height 56px. Se compara la geometría redondeada a 0.01px y también el min-height computado, sin cambiar el criterio CSS. Las mediciones sustituidas se conservan; el CSS del producto no se cambió.','mediciones_sustituidas':obsolete},ensure_ascii=False,indent=2))
     (ROOT/'soporte/casos_entrega.json').write_text(json.dumps(cases,ensure_ascii=False,indent=2))
     return summary,records,cases
 

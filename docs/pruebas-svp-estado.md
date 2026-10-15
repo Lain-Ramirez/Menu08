@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · De CAJA a SVP: una orden, cuatro estados. Recorrido real hasta la entrega, marcas de tiempo y rechazos de transiciones inválidas. Seguir el recorrido de una orden](../assets/brand/pruebas-svp-estado-menu08-com-header.png)](#el-recorrido-completo-de-una-orden)
+<!-- /Menu08.com:header -->
+
 # Pruebas del cambio de estado y de la integración CAJA → SVP
 
 Ejecutadas contra **https://adso.menu08.com** y contra la base de datos del prototipo.
@@ -118,3 +122,8 @@ Comprobado ya desplegado:
   lanzaron dos peticiones simultáneas de verdad.
 - **Qué debe ver producción cuando el cajero cierra el turno** con órdenes aún en curso: hoy
   desaparecen del tablero en el acto. Sigue siendo una decisión de producto pendiente.
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · Cada estado deja su propia marca de tiempo. La orden entregada sale del tablero y conserva su duración; la concurrencia sigue pendiente. Ver el alcance pendiente](../assets/brand/pruebas-svp-estado-menu08-com-footer.png)](#lo-que-estas-pruebas-no-cubren-todavía)
+<!-- /Menu08.com:footer -->

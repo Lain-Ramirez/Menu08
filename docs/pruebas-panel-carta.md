@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · CARTA: precios, fotos y catálogo bajo prueba. Aislamiento por food truck, validación del precio y baja lógica del producto. Ver validación del precio](../assets/brand/pruebas-panel-carta-menu08-com-header.png)](#validación-del-precio)
+<!-- /Menu08.com:header -->
+
 # Pruebas del panel de CARTA
 
 Ejecutadas contra **https://adso.menu08.com**, no en local. **20 comprobaciones, 0 fallos**
@@ -93,3 +97,8 @@ existe en un food truck.
 
 El formulario además **muestra** el precio en la forma en que se escribe aquí, `12.500`, en vez
 de `12500.00`.
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · El precio colombiano exige su propia lectura. El panel acepta separadores de miles y conserva los productos históricos al agotarlos. Revisar el defecto del precio](../assets/brand/pruebas-panel-carta-menu08-com-footer.png)](#el-defecto-que-encontraron-estas-pruebas)
+<!-- /Menu08.com:footer -->

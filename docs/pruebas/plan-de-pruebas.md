@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · Un plan común para CARTA, CAJA y SVP. Alcance, ambiente, banco de datos y criterios para ejecutar casos comparables. Ver alcance por módulo](../../assets/brand/pruebas-plan-de-pruebas-menu08-com-header.png)](#1-alcance-por-módulo)
+<!-- /Menu08.com:header -->
+
 # Plan de pruebas
 
 Ordena el aseguramiento de la calidad de los tres módulos —CARTA, CAJA y el Sistema de
@@ -262,3 +266,8 @@ pero dicen qué está ya cubierto y con qué resultado:
 ## Reejecución AA3
 
 El ciclo de correcciones y sus evidencias se documentan en [`ciclo-AA3.md`](ciclo-AA3.md). La batería conserva las 49 comprobaciones anteriores y añade 13 para redirección HTTPS. La automatización vive en `tests/`; los resultados distinguen la validación local del despliegue y de las pruebas físicas pendientes.
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · Un fallo enlaza caso, defecto y reejecución. El cierre requiere evidencias identificadas y ningún defecto abierto de severidad alta. Revisar criterios de salida](../../assets/brand/pruebas-plan-de-pruebas-menu08-com-footer.png)](#8-criterios-de-salida)
+<!-- /Menu08.com:footer -->

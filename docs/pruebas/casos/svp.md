@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · SVP: seguir la venta hasta su entrega. Diez casos de integración comprueban el tablero, el sondeo y los estados de producción. Ver el ciclo de vida de una orden](../../../assets/brand/pruebas-casos-svp-menu08-com-header.png)](#ciclo-de-vida-de-una-orden)
+<!-- /Menu08.com:header -->
+
 # Casos de prueba · SVP — integración con CAJA
 
 Diez casos `CP-SVP-xx` sobre el flujo completo de la integración entre CAJA y el Sistema de
@@ -195,3 +199,8 @@ No se abrió ningún defecto.
 ---
 
 **Issue #24 · Probar la integración de CAJA con el Sistema de Visualización de Producción**
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · La entrega retira la orden del tablero. El ciclo registra marcas de tiempo, actualización por sondeo y coexistencia de estados. Ver sondeo y estados](../../../assets/brand/pruebas-casos-svp-menu08-com-footer.png)](#sondeo-y-coexistencia-de-estados)
+<!-- /Menu08.com:footer -->

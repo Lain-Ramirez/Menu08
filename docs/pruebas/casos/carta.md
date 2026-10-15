@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · CARTA: casos del panel, catálogo y QR. Ciclo histórico con autenticación, catálogo público, aislamiento y lectura a 320 px. Ver casos de autenticación](../../../assets/brand/pruebas-casos-carta-menu08-com-header.png)](#autenticación)
+<!-- /Menu08.com:header -->
+
 # Casos de prueba · CARTA
 
 Dieciséis casos `CP-CARTA-xx` sobre el flujo completo del módulo: autenticación con roles,
@@ -283,3 +287,8 @@ nomenclatura salen de [`../plantilla-caso-de-prueba.md`](../plantilla-caso-de-pr
 ---
 
 **Issue #22 · Fase 5 - Pruebas**
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · Dos fallos quedan trazados en este ciclo. El historial registra disponibilidad y desborde a 320 px; la corrección posterior vive en AA3. Consultar la reejecución AA3](../../../assets/brand/pruebas-casos-carta-menu08-com-footer.png)](../ciclo-AA3.md)
+<!-- /Menu08.com:footer -->

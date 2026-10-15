@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · AA3: del fallo inicial a la reejecución. Correcciones de agotados, Postman y HTTPS con registros iniciales y actuales. Abrir las evidencias actuales](../../assets/brand/pruebas-ciclo-aa3-menu08-com-header.png)](../../tests/evidencias/actual/README.md)
+<!-- /Menu08.com:header -->
+
 # Ciclo AA3: correcciones y reejecución
 
 La automatización y sus registros se concentran en [`tests/`](../../tests/README.md). El ciclo inicial está conservado en [`tests/evidencias/inicial/`](../../tests/evidencias/inicial/README.md); la reejecución usa los archivos de [`tests/evidencias/actual/`](../../tests/evidencias/actual/).
@@ -14,3 +18,8 @@ La verificación local de HTTPS no certifica su despliegue. La respuesta HTTP de
 Los informes de septiembre y del primer ciclo son históricos. Para el comportamiento vigente de esta rama, el producto no disponible queda oculto al público y continúa administrable desde el panel. Esta corrección reemplaza la decisión previa de mostrarlo atenuado.
 
 Los seguimientos físicos/gráficos —lectura a tres metros y PDF de Firefox— y la decisión de cierre con órdenes en curso conservan su estado pendiente. Las fechas, los conteos y el commit efectivamente probado figuran en los registros de la reejecución.
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · La corrección local exige seguimiento real. HTTPS en hosting, lectura a distancia, PDF y cierre con órdenes conservan sus pendientes. Consultar los registros actuales](../../assets/brand/pruebas-ciclo-aa3-menu08-com-footer.png)](../../tests/evidencias/actual/README.md)
+<!-- /Menu08.com:footer -->

@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Una base visual para las tres aplicaciones. Paleta Brasa, componentes, foco y respuesta táctil de CARTA, CAJA y SVP. Menu08.com · Food Trucks.](../assets/brand/interfaz-menu08-com-header.png)](#tres-hojas-un-reparto-claro)
+<!-- /Menu08.com:header -->
+
 # La base visual y el catálogo de componentes
 
 Qué declara cada hoja de estilo, por qué la escala es la que es, y qué queda pendiente.
@@ -388,3 +392,7 @@ Dicho aquí para que nadie lo dé por hecho:
   oscuro—. No
   sustituye la revisión sobre el sitio publicado con datos reales, que queda pendiente tras el
   despliegue.
+
+<!-- Menu08.com:footer -->
+[![Tokens compartidos y mejoras progresivas. Color, foco y movimiento siguen reglas comunes; los formularios operan sin JavaScript. Menu08.com · Food Trucks.](../assets/brand/interfaz-menu08-com-footer.png)](#el-marco-del-panel)
+<!-- /Menu08.com:footer -->

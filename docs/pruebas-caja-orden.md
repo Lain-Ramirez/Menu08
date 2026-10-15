@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![CAJA registra el importe del servidor. Evidencia de totales, transacción, comprobante y venta con turno cerrado. Menu08.com · Food Trucks.](../assets/brand/pruebas-caja-orden-menu08-com-header.png)](#el-total-lo-calcula-el-servidor)
+<!-- /Menu08.com:header -->
+
 # Pruebas del registro de órdenes
 
 Ejecutadas contra **https://adso.menu08.com**. **14 comprobaciones, 0 fallos.**
@@ -87,3 +91,7 @@ Los importes se calculan en centavos con aritmética entera y solo se formatean 
 dinero en coma flotante arrastra errores de redondeo que en una jornada de decenas de ventas
 descuadran la caja por unos pesos, y el cuadre del turno es justamente lo que los delataría.
 Verificado con seis casos, incluidos `9.999,99 × 99` y decimales que en flotante fallan.
+
+<!-- Menu08.com:footer -->
+[![Una venta completa o ninguna fila nueva. El fallo forzado del detalle revierte la orden; los importes se calculan en centavos. Menu08.com · Food Trucks.](../assets/brand/pruebas-caja-orden-menu08-com-footer.png)](pruebas-caja-turno.md)
+<!-- /Menu08.com:footer -->

@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Guía de Postman para Menu08.com: importa la colección y recorre una venta con sesión, token y respuestas de CARTA, CAJA y SVP](assets/brand/pruebas-postman-menu08-com-header.png)](#atajo-importa-la-colección-y-ya-está)
+<!-- /Menu08.com:header -->
+
 # Probar Menu08 con Postman
 
 Guía para probar **todas** las rutas del prototipo desde Postman, sin tener que leer el código PHP.
@@ -600,3 +604,7 @@ campos se comprueban leyendo el controlador, nunca deduciéndolos del formulario
 Si cambia el banco de pruebas, se actualizan también
 [`menu08_app/basedatos/datos_pruebas.sql`](menu08_app/basedatos/datos_pruebas.sql) y la tabla de
 identificadores de este documento.
+
+<!-- Menu08.com:footer -->
+[![Cierre de la guía Postman de Menu08.com: interpreta cada respuesta con sesión, token y código y ejecuta la colección del recorrido completo](assets/brand/pruebas-postman-menu08-com-footer.png)](postman/Menu08.postman_collection.json)
+<!-- /Menu08.com:footer -->

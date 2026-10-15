@@ -2,3 +2,6 @@
 	path = movil
 	url = git@github.com:Lain-Ramirez/GA8-220501096-AA2-EV02.git
 	branch = production
+[submodule ".brand"]
+	path = .brand
+	url = git@github.com:JovannyCO/__Brands.git

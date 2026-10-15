@@ -1,0 +1,121 @@
+{
+  "caso": {
+    "id": "CP-CAJA-11",
+    "modulo": "CAJA",
+    "requisito": "Issue #11 · Persistir la orden de CAJA con sus ítems, totales y medio de pago\nIssue #18 · Maquetar la pantalla de venta de CAJA con catálogo, orden en construcción y cobro\nIssue #19 · Maquetar las pantallas de apertura y cierre de turno y el comprobante imprimible de CAJA\nFuncionalidad: CAJA\nCaso: CP-CAJA-11",
+    "nombre": "Detalle del comprobante de una orden",
+    "objetivo": "Verificar que el comprobante presenta los datos históricos de la venta y su medio de pago.",
+    "tipo": "Funcional · integración",
+    "precondiciones": "Orden T{turno_id}-002 registrada. Turno id = {turno_id}\nUsar IDs consultados por slug/nombre; conservar las dependencias indicadas. Todo POST requiere token vigente, salvo el ingreso móvil.",
+    "datos": "Navegación a /caja/comprobante/{id}",
+    "pasos": "1. Abrir la URL del comprobante de la orden T{turno_id}-002.\n2. Verificar los datos del encabezado, productos, cantidades, precios, total, medio de pago y consecutivo.",
+    "esperado": "La vista muestra encabezado del truck, número de orden consecutivo (T{turno_id}-002), fecha y hora, lista detallada de productos con cantidades y precios, total, artículos totales, medio de pago y nota",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Media",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S268 · Issue #11 · Persistir la orden de CAJA con sus ítems, totales y medio de pago\nS269 · Issue #18 · Maquetar la pantalla de venta de CAJA con catálogo, orden en construcción y cobro\nS267 · Issue #19 · Maquetar las pantallas de apertura y cierre de turno y el comprobante imprimible de CAJA\nS042 · docs/pruebas/casos/caja.md · líneas 191–199\nS043 · menu08_app/aplicacion/controladores/CajaControlador.php · líneas 98–106\nS031 · menu08_app/configuracion/rutas.php · líneas 86–94"
+  },
+  "resultados": {
+    "caso": "CP-CAJA-11",
+    "nombre": "Detalle del comprobante de una orden",
+    "modulo": "CAJA",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Comprobante",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "64.800",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin cebolla en la hamburguesa",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Hamburguesa de prueba",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Tarjeta",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-036"
+    ],
+    "fecha": "2026-10-15T10:57:24.539589+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CAJA-11",
+      "nombre": "Detalle del comprobante de una orden",
+      "fecha": "2026-10-15T10:57:24.539589+00:00",
+      "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+      "checks": [
+        {
+          "comprobacion": "Comprobante",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "64.800",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin cebolla en la hamburguesa",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Hamburguesa de prueba",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tarjeta",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [
+        {
+          "metodo": "GET",
+          "ruta": "/caja/comprobante/15",
+          "estado": 200,
+          "ms": 6.94,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <meta name=\"csrf-token\" content=\"[oculto]\">\n        <title>Orden T4-002 · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n            <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/comprobante.css\">\n    \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n        <script src=\"http://127.0.0.1:8088/recursos/js/comprobante.js\" defer></script>\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                                    <span class=\"cabecera-usuario\">\n                                                    <span class=\"cabecera-avatar\" aria-hidden=\"true\">C</span>\n                                                <span class=\"cabecera-nombre-usuario\">Cajero de pruebas</span>\n                        <span class=\"etiqueta etiqueta-pendiente cabecera-rol\">cajero</span>\n                    </span>\n\n                    <a class=\"boton boton-texto cabecera-salir\" href=\"http://127.0.0.1:8088/salir\">\n                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3\"></path>\n                            <path d=\"M15 8l4 4-4 4\"></path><path d=\"M19 12H9\"></path>\n                        </svg>\n                        <span class=\"cabecera-salir-texto\">Salir</span>\n                    </a>\n\n                                        <button type=\"button\" class=\"boton-simbolo cabecera-alterna\"\n                            data-alterna=\"navegacion-panel\" data-alterna-desde=\"(max-width: 767.98px)\"\n                            aria-label=\"Alternar navegacion\">\n                        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M4 7h16\"></path><path d=\"M4 12h16\"></path><path d=\"M4 17h16\"></path>\n                        </svg>\n                    </button>\n                            </div>\n        </div>\n    </header>\n<nav class=\"navegacion sin-impresion\" id=\"navegacion-panel\" aria-label=\"Modulos\">\n    <ul class=\"navegacion-lista contenedor-ancho\">\n                                <li>\n                <a class=\"navegacion-enlace navegacion-activa\"\n                   href=\"http://127.0.0.1:8088/caja\"\n                   aria-current=\"page\">\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">💵</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">CAJA</span>\n                        <span class=\"navegacion-descripcion\">Turno y ventas</span>\n                    </span>\n                </a>\n            </li>\n            </ul>\n</nav>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n        \n        <noscript>\n    <div class=\"aviso aviso-aviso sin-impresion\">\n        <svg class=\"aviso-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>        <p>\n            El diálogo de impresión se abre con JavaScript. Sin él, imprima el comprobante\n            desde el menú del navegador o con Ctrl+P: lo que sale al papel es el mismo.\n        </p>\n    </div>\n</noscript>\n\n<div class=\"fila fila-entre sin-impresion\">\n    <a class=\"boton boton-texto\" href=\"http://127.0.0.1:8088/caja\">\n        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M19 12H5\"/><path d=\"m11 6-6 6 6 6\"/></svg>Volver a caja\n    </a>\n\n    <div class=\"fila fila-2\">\n        <span class=\"texto-apagado texto-p\">El diálogo de impresión se abre solo al cargar la página.</span>\n\n                <button type=\"button\" class=\"boton boton-relleno\" data-comprobante-imprimir disabled>\n            <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 9V4h10v5\"/><rect x=\"3\" y=\"9\" width=\"18\" height=\"7\" rx=\"2\"/><path d=\"M7 14h10v6H7z\"/></svg>Imprimir de nuevo\n        </button>\n    </div>\n</div>\n\n<div class=\"comprobante-mesa\">\n    <div>\n        <p class=\"comprobante-medida\">\n            <span class=\"comprobante-medida-linea\"></span>\n            80 mm · 302 px a 96 ppp\n            <span class=\"comprobante-medida-linea\"></span>\n        </p>\n\n        <div class=\"comprobante-hoja\">\n            <article class=\"comprobante\">\n                <header>\n                    <p class=\"comprobante-negocio\">Truck de Pruebas</p>\n\n                                            <p class=\"comprobante-contacto\">Bogota · Tel. 6017000000</p>\n                                    </header>\n\n                <hr class=\"comprobante-regla\">\n\n                <div>\n                    <p class=\"comprobante-rotulo\">Orden</p>\n                    <p class=\"comprobante-numero\">T4-002</p>\n                    <p class=\"comprobante-fecha\">15/10/2026 · 05:57</p>\n                </div>\n\n                <hr class=\"comprobante-regla comprobante-regla-solida\">\n\n                <div>\n                                                                <div class=\"comprobante-linea\">\n                            <span class=\"comprobante-cantidad\">1</span>\n\n                            <span class=\"comprobante-detalle\">\n                                <span class=\"comprobante-nombre\">Hamburguesa de prueba</span>\n                                <span class=\"comprobante-unitario\">\n                                    $ 24.900 c/u\n                                </span>\n                            </span>\n\n                            <span class=\"comprobante-subtotal\">$ 24.900</span>\n                        </div>\n                                            <div class=\"comprobante-linea\">\n                            <span class=\"comprobante-cantidad\">1</span>\n\n                            <span class=\"comprobante-detalle\">\n                                <span class=\"comprobante-nombre\">Salchipapa de prueba</span>\n                                <span class=\"comprobante-unitario\">\n                                    $ 21.000 c/u\n                                </span>\n                            </span>\n\n                            <span class=\"comprobante-subtotal\">$ 21.000</span>\n                        </div>\n                                            <div class=\"comprobante-linea\">\n                            <span class=\"comprobante-cantidad\">2</span>\n\n                            <span class=\"comprobante-detalle\">\n                                <span class=\"comprobante-nombre\">Gaseosa de prueba</span>\n                                <span class=\"comprobante-unitario\">\n                                    $ 4.500 c/u\n                                </span>\n                            </span>\n\n                            <span class=\"comprobante-subtotal\">$ 9.000</span>\n                        </div>\n                                            <div class=\"comprobante-linea\">\n                            <span class=\"comprobante-cantidad\">1</span>\n\n                            <span class=\"comprobante-detalle\">\n                                <span class=\"comprobante-nombre\">Brownie de prueba</span>\n                                <span class=\"comprobante-unitario\">\n                                    $ 9.900 c/u\n                                </span>\n                            </span>\n\n                            <span class=\"comprobante-subtotal\">$ 9.900</span>\n                        </div>\n                                    </div>\n\n                <hr class=\"comprobante-regla comprobante-regla-solida\">\n\n                <div class=\"comprobante-total\">\n                    <span class=\"comprobante-total-rotulo\">TOTAL</span>\n                    <span class=\"comprobante-total-valor\">$ 64.800</span>\n                </div>\n\n                <hr class=\"comprobante-regla comprobante-regla-doble\">\n\n                <div>\n                    <div class=\"comprobante-dato\">\n                        <span class=\"comprobante-dato-rotulo\">Medio de pago</span>\n                        <span class=\"comprobante-dato-valor\">Tarjeta</span>\n                    </div>\n\n                    <div class=\"comprobante-dato\">\n                        <span class=\"comprobante-dato-rotulo\">Artículos</span>\n                        <span class=\"comprobante-dato-valor numerica\">5</span>\n                    </div>\n                </div>\n\n                                    <hr class=\"comprobante-regla\">\n\n                    <p class=\"comprobante-nota\">\n                        <span class=\"comprobante-nota-rotulo\">Nota</span>\n                        Sin cebolla en la hamburguesa                    </p>\n                \n                <hr class=\"comprobante-regla\">\n\n                <p class=\"comprobante-gracias\">Gracias por su compra</p>\n\n                                    <p class=\"comprobante-pie\">127.0.0.1:8088/carta/truck-de-pruebas</p>\n                            </article>\n        </div>\n    </div>\n</div>\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+        }
+      ],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_http.json",
+      "ejecucion": "EX-036"
+    }
+  ]
+}

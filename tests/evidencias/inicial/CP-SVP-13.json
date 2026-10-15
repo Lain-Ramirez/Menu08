@@ -1,0 +1,91 @@
+{
+  "caso": {
+    "id": "CP-SVP-13",
+    "modulo": "SVP · marcas de tiempo",
+    "requisito": "Issue #13 · Exponer el servicio JSON de cambio de estado e integrar CAJA con el SVP\nIssue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nFuncionalidad: SVP · marcas de tiempo\nCaso: CP-SVP-13",
+    "nombre": "Marcas cronológicas y duración conservada tras entregar",
+    "objetivo": "Verificar que las transiciones no sobrescriben las marcas anteriores y conservan el tiempo hasta lista.",
+    "tipo": "Integración · persistencia temporal",
+    "precondiciones": "Orden propia pendiente; turno abierto; sesión producción; token vigente; reloj America/Bogota; en instancia aislada puede reproducirse el ejemplo de antigüedad de 110 minutos del repositorio.",
+    "datos": "creado_en, en_preparacion_en, lista_en, entregada_en, estado_actualizado_en; consulta TIMESTAMPDIFF(MINUTE, creado_en, lista_en).",
+    "pasos": "1. Avanzar secuencialmente en_preparacion, lista y entregada mediante el servicio.\n2. Leer todas las marcas después de cada paso.\n3. Consultar la duración con TIMESTAMPDIFF después de entregar.",
+    "esperado": "creado_en ≤ en_preparacion_en ≤ lista_en ≤ entregada_en. estado_actualizado_en coincide con la última transición. lista_en permanece guardado y la duración se puede consultar después de entregar, sin fijar un tiempo que no se haya medido.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S272 · Issue #13 · Exponer el servicio JSON de cambio de estado e integrar CAJA con el SVP\nS271 · Issue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nS116 · docs/pruebas-svp-estado.md · líneas 25–33\nS117 · menu08_app/aplicacion/modelos/Orden.php · líneas 47–55"
+  },
+  "resultados": {
+    "caso": "CP-SVP-13",
+    "nombre": "Marcas cronológicas y duración conservada tras entregar",
+    "modulo": "SVP · marcas de tiempo",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Cronología",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Última marca",
+        "esperado": "2026-10-15 06:27:24",
+        "obtenido": "2026-10-15 06:27:24",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Duración no negativa",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "{\"creado_en\": \"2026-10-15 06:27:24\", \"en_preparacion_en\": \"2026-10-15 06:27:24\", \"lista_en\": \"2026-10-15 06:27:24\", \"entregada_en\": \"2026-10-15 06:27:24\", \"estado_actualizado_en\": \"2026-10-15 06:27:24\", \"duracion\": 0}"
+    ],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-095"
+    ],
+    "fecha": "2026-10-15T11:27:25.350885+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-SVP-13",
+      "nombre": "Marcas cronológicas y duración conservada tras entregar",
+      "fecha": "2026-10-15T11:27:25.350885+00:00",
+      "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+      "checks": [
+        {
+          "comprobacion": "Cronología",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Última marca",
+          "esperado": "2026-10-15 06:27:24",
+          "obtenido": "2026-10-15 06:27:24",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Duración no negativa",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "{\"creado_en\": \"2026-10-15 06:27:24\", \"en_preparacion_en\": \"2026-10-15 06:27:24\", \"lista_en\": \"2026-10-15 06:27:24\", \"entregada_en\": \"2026-10-15 06:27:24\", \"estado_actualizado_en\": \"2026-10-15 06:27:24\", \"duracion\": 0}"
+      ],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_servicios.json",
+      "ejecucion": "EX-095"
+    }
+  ]
+}

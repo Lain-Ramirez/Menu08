@@ -1,0 +1,123 @@
+{
+  "caso": {
+    "id": "CP-CARTA-26",
+    "modulo": "CARTA · agenda",
+    "requisito": "Issue #36 · Programar la agenda de paradas del food truck\nIssue #37 · Maquetar la agenda de paradas y el bloque «dónde estamos hoy» de la carta\nFuncionalidad: CARTA · agenda\nCaso: CP-CARTA-26",
+    "nombre": "Cambio de semana de domingo a lunes",
+    "objetivo": "Comprobar el paso del día 7 al día 1 en la consulta de una parada nocturna.",
+    "tipo": "Funcional · fecha límite",
+    "precondiciones": "CP-CARTA-22 completado; parada del domingo activa 20:00–02:00; sesión food_truck; sin otra parada que solape esa franja.",
+    "datos": "2026-09-06T19:59, 20:00 y 23:30; 2026-09-07T01:00, 01:59 y 02:00.",
+    "pasos": "1. Consultar /panel/ubicaciones?momento= para los seis instantes.\n2. Comprobar el nombre de la parada y su día de origen.\n3. Restaurar datos_pruebas.sql después del escenario.",
+    "esperado": "Domingo 19:59: ninguna. Desde domingo 20:00 hasta lunes 01:59: Parada nocturna del domingo. Lunes 02:00: ninguna. La consulta no pierde la jornada por cambiar de semana.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S264 · Issue #36 · Programar la agenda de paradas del food truck\nS265 · Issue #37 · Maquetar la agenda de paradas y el bloque «dónde estamos hoy» de la carta\nS077 · docs/pruebas-agenda-paradas.md · líneas 82–90\nS084 · menu08_app/aplicacion/modelos/Ubicacion.php · líneas 27–35"
+  },
+  "resultados": {
+    "caso": "CP-CARTA-26",
+    "nombre": "Cambio de semana de domingo a lunes",
+    "modulo": "CARTA · agenda",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "2026-10-18 19:59:00",
+        "esperado": null,
+        "obtenido": null,
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-18 20:00:00",
+        "esperado": "Parada nocturna del domingo",
+        "obtenido": "Parada nocturna del domingo",
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-18 23:30:00",
+        "esperado": "Parada nocturna del domingo",
+        "obtenido": "Parada nocturna del domingo",
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-19 00:30:00",
+        "esperado": "Parada nocturna del domingo",
+        "obtenido": "Parada nocturna del domingo",
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-19 01:59:00",
+        "esperado": "Parada nocturna del domingo",
+        "obtenido": "Parada nocturna del domingo",
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-19 02:00:00",
+        "esperado": null,
+        "obtenido": null,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-023"
+    ],
+    "fecha": "2026-10-15T12:38:51.309964+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CARTA-26",
+      "nombre": "Cambio de semana de domingo a lunes",
+      "fecha": "2026-10-15T12:38:51.309964+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "2026-10-18 19:59:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-18 20:00:00",
+          "esperado": "Parada nocturna del domingo",
+          "obtenido": "Parada nocturna del domingo",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-18 23:30:00",
+          "esperado": "Parada nocturna del domingo",
+          "obtenido": "Parada nocturna del domingo",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-19 00:30:00",
+          "esperado": "Parada nocturna del domingo",
+          "obtenido": "Parada nocturna del domingo",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-19 01:59:00",
+          "esperado": "Parada nocturna del domingo",
+          "obtenido": "Parada nocturna del domingo",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-19 02:00:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_http.json",
+      "ejecucion": "EX-023"
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+<html lang="es"><meta charset="utf-8"><style>body{margin:0;background:#fff8f4;color:#221a15;font:16px Arial,sans-serif}main{padding:32px;max-width:1200px;margin:auto}header{background:#aa2502;color:white;padding:24px 32px}h1{font-size:25px;margin:8px 0}h2{font-size:19px}small{font-size:13px}table{border-collapse:collapse;width:100%;margin:16px 0}td,th{padding:10px;text-align:left;border:1px solid #d7c2b7;vertical-align:top;overflow-wrap:anywhere}th{background:#725304;color:white}tr:nth-child(even){background:#f5ebe4}.fail{background:#ffdad6!important}.badge{display:inline-block;padding:8px 14px;border:1px solid #725304;background:#f5df93;color:#251a00;border-radius:8px;font-weight:bold}.meta{background:#f5ebe4;padding:16px;line-height:1.6}a{color:#aa2502}pre{white-space:pre-wrap;background:#251b16;color:#f0dfd7;padding:18px}img{max-width:100%;border:1px solid #d7c2b7}li{margin:8px 0}.pending{background:#ffdcc2;padding:14px}</style><header><h1>Menu08 · postman-original-recorrido</h1><p>Salida real de herramienta · representación del archivo TXT</p></header><main><pre>newman
+
+Menu08 — prototipo SENA
+
+❏ 1 - Recorrido completo (ejecutar en orden)
+↳ 01 GET /ingresar (captura el token)
+  GET http://127.0.0.1:8088/ingresar [200 OK, 6.9kB, 36ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 02 POST /ingresar como cajero
+  POST http://127.0.0.1:8088/ingresar [302 Found, 399B, 81ms]
+  ✓  Responde 302
+  ✓  Redirige a /caja
+
+↳ 03 GET /caja sin turno abierto
+  GET http://127.0.0.1:8088/caja [302 Found, 319B, 8ms]
+  ✓  Responde 302
+
+↳ 04 GET /caja/turno (captura el token)
+  GET http://127.0.0.1:8088/caja/turno [200 OK, 17.71kB, 8ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 05 POST /caja/turno/abrir
+  POST http://127.0.0.1:8088/caja/turno/abrir [302 Found, 313B, 12ms]
+  ✓  Responde 302
+
+↳ 06 GET /caja (captura el token)
+  GET http://127.0.0.1:8088/caja [200 OK, 35.64kB, 12ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+  ✓  ID dinámico papasId
+  ✓  ID dinámico hamburguesaId
+
+↳ 07 POST /caja/vender
+  POST http://127.0.0.1:8088/caja/vender [302 Found, 328B, 16ms]
+  ✓  Responde 302
+  ✓  Redirige al comprobante
+
+↳ 08 GET /caja/comprobante/{id}
+  GET http://127.0.0.1:8088/caja/comprobante/14 [200 OK, 12.71kB, 9ms]
+  ✓  Responde 200
+
+↳ Cerrar sesión antes de cambiar de rol
+  GET http://127.0.0.1:8088/salir [302 Found, 434B, 6ms]
+  ✓  Cierre de sesión 302
+
+↳ 09 GET /ingresar (captura el token)
+  GET http://127.0.0.1:8088/ingresar [200 OK, 6.9kB, 5ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 10 POST /ingresar como produccion
+  POST http://127.0.0.1:8088/ingresar [302 Found, 398B, 79ms]
+  ✓  Responde 302
+
+↳ 11 GET /svp (captura el token del meta)
+  GET http://127.0.0.1:8088/svp [200 OK, 21.05kB, 8ms]
+  ✓  Responde 200
+  ✓  Se capturo el token del meta
+
+↳ 12 GET /svp/ordenes
+  GET http://127.0.0.1:8088/svp/ordenes [200 OK, 636B, 8ms]
+  ✓  Responde 200
+  ✓  Responde JSON, nunca HTML
+  ✓  Hay al menos una orden en curso
+
+↳ 13 POST estado -&gt; en_preparacion
+  POST http://127.0.0.1:8088/svp/orden/14/estado [200 OK, 564B, 13ms]
+  ✓  Responde 200
+  ✓  Responde JSON, nunca HTML
+  ✓  Paso a en_preparacion
+
+↳ 14 POST estado -&gt; lista
+  POST http://127.0.0.1:8088/svp/orden/14/estado [200 OK, 569B, 13ms]
+  ✓  Responde 200
+  ✓  Paso a lista
+
+↳ 15 POST estado -&gt; entregada
+  POST http://127.0.0.1:8088/svp/orden/14/estado [200 OK, 578B, 12ms]
+  ✓  Responde 200
+  ✓  Paso a entregada y no tiene siguiente
+
+↳ 16 GET /svp/ordenes (ya no esta)
+  GET http://127.0.0.1:8088/svp/ordenes [200 OK, 363B, 6ms]
+  ✓  Responde 200
+  ✓  La orden entregada ya no esta
+
+↳ Cerrar sesión antes de cambiar de rol
+  GET http://127.0.0.1:8088/salir [302 Found, 434B, 4ms]
+  ✓  Cierre de sesión 302
+
+↳ 17 GET /ingresar + cajero (captura el token)
+  GET http://127.0.0.1:8088/ingresar [200 OK, 6.9kB, 11ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 18 POST /ingresar como cajero
+  POST http://127.0.0.1:8088/ingresar [302 Found, 399B, 79ms]
+  ✓  Responde 302
+
+↳ 19 GET /caja/turno (captura el token)
+  GET http://127.0.0.1:8088/caja/turno [200 OK, 16.12kB, 9ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 20 POST /caja/turno/cerrar
+  POST http://127.0.0.1:8088/caja/turno/cerrar [302 Found, 322B, 11ms]
+  ✓  Responde 302
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │               22 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │               22 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │                0 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │               40 │                0 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 879ms                                     │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 122.82kB (approx)                        │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 20ms [min: 4ms, max: 81ms, s.d.: 24ms] │
+└───────────────────────────────────────────────────────────────┘
+(node:32689) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+</pre></main></html>

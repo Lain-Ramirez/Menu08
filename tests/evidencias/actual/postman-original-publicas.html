@@ -1,0 +1,79 @@
+<html lang="es"><meta charset="utf-8"><style>body{margin:0;background:#fff8f4;color:#221a15;font:16px Arial,sans-serif}main{padding:32px;max-width:1200px;margin:auto}header{background:#aa2502;color:white;padding:24px 32px}h1{font-size:25px;margin:8px 0}h2{font-size:19px}small{font-size:13px}table{border-collapse:collapse;width:100%;margin:16px 0}td,th{padding:10px;text-align:left;border:1px solid #d7c2b7;vertical-align:top;overflow-wrap:anywhere}th{background:#725304;color:white}tr:nth-child(even){background:#f5ebe4}.fail{background:#ffdad6!important}.badge{display:inline-block;padding:8px 14px;border:1px solid #725304;background:#f5df93;color:#251a00;border-radius:8px;font-weight:bold}.meta{background:#f5ebe4;padding:16px;line-height:1.6}a{color:#aa2502}pre{white-space:pre-wrap;background:#251b16;color:#f0dfd7;padding:18px}img{max-width:100%;border:1px solid #d7c2b7}li{margin:8px 0}.pending{background:#ffdcc2;padding:14px}</style><header><h1>Menu08 · postman-original-publicas</h1><p>Salida real de herramienta · representación del archivo TXT</p></header><main><pre>newman
+
+Menu08 — prototipo SENA
+
+❏ 2 - Publicas (sin sesion)
+↳ GET /
+  GET http://127.0.0.1:8088/ [200 OK, 11.41kB, 41ms]
+  ✓  Responde 200
+  ✓  Enlaza las cartas por slug
+
+↳ GET /comprobacion/{slug}
+  GET http://127.0.0.1:8088/comprobacion/truck-de-pruebas [200 OK, 4.85kB, 8ms]
+  ✓  Responde 200
+
+↳ GET /carta/{slug}
+  GET http://127.0.0.1:8088/carta/truck-de-pruebas [200 OK, 26.93kB, 11ms]
+  ✓  Responde 200
+  ✓  Oculta lo desactivado
+
+↳ GET /carta/no-existe (404)
+  GET http://127.0.0.1:8088/carta/no-existe [404 Not Found, 4.57kB, 7ms]
+  ✓  Responde 404
+
+↳ GET /turnos/{slug}
+  GET http://127.0.0.1:8088/turnos/truck-de-pruebas [200 OK, 6.73kB, 9ms]
+  ✓  Responde 200
+  ✓  Muestra columnas de turnos
+
+↳ GET /turnos/{slug}/ordenes
+  GET http://127.0.0.1:8088/turnos/truck-de-pruebas/ordenes [200 OK, 346B, 8ms]
+  ✓  Responde 200 JSON
+  ✓  Estructura publica de turnos
+
+↳ GET /turnos/no-existe (404)
+  GET http://127.0.0.1:8088/turnos/no-existe [404 Not Found, 4.57kB, 8ms]
+  ✓  Responde 404
+
+↳ GET /turnos/no-existe/ordenes (404)
+  GET http://127.0.0.1:8088/turnos/no-existe/ordenes [404 Not Found, 389B, 7ms]
+  ✓  Responde 404 JSON
+
+↳ HEAD / (mismo codigo que GET, sin cuerpo)
+  HEAD http://127.0.0.1:8088/ [200 OK, 272B, 10ms]
+  ✓  Responde 200
+  ✓  Sin cuerpo
+
+↳ HEAD /carta/no-existe (404, sin cuerpo)
+  HEAD http://127.0.0.1:8088/carta/no-existe [404 Not Found, 279B, 7ms]
+  ✓  Responde 404
+  ✓  Sin cuerpo
+
+↳ GET /componentes
+  GET http://127.0.0.1:8088/componentes [200 OK, 34.04kB, 3ms]
+  ✓  Responde 200
+  ✓  Carga las tres hojas locales
+  ✓  No enlaza recursos de otro origen
+
+┌─────────────────────────┬──────────────────┬─────────────────┐
+│                         │         executed │          failed │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│              iterations │                1 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│                requests │               11 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│            test-scripts │               11 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│      prerequest-scripts │                0 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│              assertions │               19 │               0 │
+├─────────────────────────┴──────────────────┴─────────────────┤
+│ total run duration: 373ms                                    │
+├──────────────────────────────────────────────────────────────┤
+│ total data received: 91.28kB (approx)                        │
+├──────────────────────────────────────────────────────────────┤
+│ average response time: 10ms [min: 3ms, max: 41ms, s.d.: 9ms] │
+└──────────────────────────────────────────────────────────────┘
+(node:32736) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+</pre></main></html>

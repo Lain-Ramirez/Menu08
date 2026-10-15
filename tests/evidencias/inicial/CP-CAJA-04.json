@@ -1,0 +1,204 @@
+{
+  "caso": {
+    "id": "CP-CAJA-04",
+    "modulo": "CAJA",
+    "requisito": "Issue #11 · Persistir la orden de CAJA con sus ítems, totales y medio de pago\nIssue #18 · Maquetar la pantalla de venta de CAJA con catálogo, orden en construcción y cobro\nIssue #19 · Maquetar las pantallas de apertura y cierre de turno y el comprobante imprimible de CAJA\nFuncionalidad: CAJA\nCaso: CP-CAJA-04",
+    "nombre": "Armado de la orden desde el catálogo en vista de caja",
+    "objetivo": "Comprobar que agregar, aumentar, reducir y vaciar productos recalcula la orden en la interfaz.",
+    "tipo": "Funcional · integración",
+    "precondiciones": "Turno abierto (CP-CAJA-01). Sesión de cajero activa\nUsar IDs consultados por slug/nombre; conservar las dependencias indicadas. Todo POST requiere token vigente, salvo el ingreso móvil.",
+    "datos": "Interacción en menu08_app/aplicacion/vistas/caja/venta.php: agregar producto, modificar cantidad (+ / −), quitar producto y vaciar",
+    "pasos": "1. Abrir /caja.\n2. Tocar un producto del catálogo para agregarlo a la orden (se añade con cantidad 1).\n3. Modificar la cantidad en el renglón de la orden usando los controles (+ y −).\n4. Quitar un producto reduciendo su cantidad a 0, o usar el botón «Vaciar».\n5. Observar la actualización reactiva del total y el estado del botón «Cobrar».\n6. Pulsar dos veces el mismo producto y comprobar que aumenta cantidad en una sola línea, sin duplicarla.",
+    "esperado": "La pantalla muestra el catálogo de productos disponibles con botones activos vía caja.js. Al agregar productos, modificar cantidades o quitarlos, el total y el número de artículos se recalculan reactivamente al vuelo. Al vaciar la orden, el total vuelve a $ 0 y el botón «Cobrar» se deshabilita\nAl pulsar de nuevo un producto ya agregado, aumenta su cantidad en la misma línea.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Media",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S268 · Issue #11 · Persistir la orden de CAJA con sus ítems, totales y medio de pago\nS269 · Issue #18 · Maquetar la pantalla de venta de CAJA con catálogo, orden en construcción y cobro\nS267 · Issue #19 · Maquetar las pantallas de apertura y cierre de turno y el comprobante imprimible de CAJA\nS034 · docs/pruebas/casos/caja.md · líneas 82–90\nS007 · menu08_app/aplicacion/controladores/CajaControlador.php · líneas 37–45\nS031 · menu08_app/configuracion/rutas.php · líneas 86–94"
+  },
+  "resultados": {
+    "caso": "CP-CAJA-04",
+    "nombre": "Armado de la orden desde el catálogo en vista de caja",
+    "modulo": "CAJA",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Total reactivo",
+        "esperado": "$ 16.200",
+        "obtenido": "$ 16.200",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Dos renglones",
+        "esperado": 2,
+        "obtenido": 2,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Total vacío",
+        "esperado": "$ 0",
+        "obtenido": "$ 0",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cobrar deshabilitado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin errores JS",
+        "esperado": [],
+        "obtenido": [],
+        "cumple": true
+      },
+      {
+        "comprobacion": "Total reactivo",
+        "esperado": "$ 16.200",
+        "obtenido": "$ 16.200",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Dos renglones",
+        "esperado": 2,
+        "obtenido": 2,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Total vacío",
+        "esperado": "$ 0",
+        "obtenido": "$ 0",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cobrar deshabilitado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin errores JS",
+        "esperado": [],
+        "obtenido": [],
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "capturas": [
+      "evidencias/CP-CAJA-04-chromium-orden-armada.png",
+      "evidencias/CP-CAJA-04-firefox-orden-armada.png"
+    ],
+    "ejecuciones": [
+      "EX-055",
+      "EX-064"
+    ],
+    "fecha": "2026-10-15T11:03:32.561827+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CAJA-04",
+      "nombre": "Armado de la orden desde el catálogo en vista de caja",
+      "fecha": "2026-10-15T11:02:47.504280+00:00",
+      "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+      "checks": [
+        {
+          "comprobacion": "Total reactivo",
+          "esperado": "$ 16.200",
+          "obtenido": "$ 16.200",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Dos renglones",
+          "esperado": 2,
+          "obtenido": 2,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total vacío",
+          "esperado": "$ 0",
+          "obtenido": "$ 0",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cobrar deshabilitado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin errores JS",
+          "esperado": [],
+          "obtenido": [],
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / chromium",
+      "navegador": "chromium",
+      "capturas": [
+        "evidencias/CP-CAJA-04-chromium-orden-armada.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-055"
+    },
+    {
+      "caso": "CP-CAJA-04",
+      "nombre": "Armado de la orden desde el catálogo en vista de caja",
+      "fecha": "2026-10-15T11:03:32.561827+00:00",
+      "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+      "checks": [
+        {
+          "comprobacion": "Total reactivo",
+          "esperado": "$ 16.200",
+          "obtenido": "$ 16.200",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Dos renglones",
+          "esperado": 2,
+          "obtenido": 2,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total vacío",
+          "esperado": "$ 0",
+          "obtenido": "$ 0",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cobrar deshabilitado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin errores JS",
+          "esperado": [],
+          "obtenido": [],
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / firefox",
+      "navegador": "firefox",
+      "capturas": [
+        "evidencias/CP-CAJA-04-firefox-orden-armada.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-064"
+    }
+  ]
+}

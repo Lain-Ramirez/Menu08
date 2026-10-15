@@ -1,0 +1,85 @@
+{
+  "caso": {
+    "id": "CP-SVP-02",
+    "modulo": "SVP",
+    "requisito": "Issue #12 · Exponer el servicio JSON de consulta de órdenes en curso para el SVP\nIssue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nFuncionalidad: SVP\nCaso: CP-SVP-02",
+    "nombre": "Tablero con turno abierto y producción al día (sin órdenes en curso)",
+    "objetivo": "Verificar que un turno abierto sin órdenes se informa con su ID y producción al día.",
+    "tipo": "Integración CAJA → SVP · servicio e interfaz",
+    "precondiciones": "Turno id = {turno_id} abierto para el Truck de Pruebas. Sin órdenes en ningún estado activo\nUsar IDs consultados por slug/nombre; conservar las dependencias indicadas. Todo POST requiere token vigente, salvo el ingreso móvil.",
+    "datos": "GET /svp/ordenes",
+    "pasos": "1. Desde la sesión de cajero, abrir un turno nuevo en /caja/turno con base 50 000.\n2. Sin registrar ninguna venta, cambiar a la sesión de producción.\n3. Llamar a GET /svp/ordenes y examinar la respuesta.",
+    "esperado": "La respuesta informa turno con el id del turno abierto y una lista de órdenes vacía. turno no debe ser null, para que el tablero distinga «ventanilla abierta, cocina al día» de «ventanilla cerrada»",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S270 · Issue #12 · Exponer el servicio JSON de consulta de órdenes en curso para el SVP\nS271 · Issue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nS054 · docs/pruebas/casos/svp.md · líneas 48–56\nS053 · menu08_app/aplicacion/controladores/SvpControlador.php · líneas 54–62"
+  },
+  "resultados": {
+    "caso": "CP-SVP-02",
+    "nombre": "Tablero con turno abierto y producción al día (sin órdenes en curso)",
+    "modulo": "SVP",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Turno entero",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Lista vacía",
+        "esperado": [],
+        "obtenido": [],
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-052"
+    ],
+    "fecha": "2026-10-15T12:38:55.773872+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-SVP-02",
+      "nombre": "Tablero con turno abierto y producción al día (sin órdenes en curso)",
+      "fecha": "2026-10-15T12:38:55.773872+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Turno entero",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Lista vacía",
+          "esperado": [],
+          "obtenido": [],
+          "cumple": true
+        }
+      ],
+      "http": [
+        {
+          "metodo": "GET",
+          "ruta": "/svp/ordenes",
+          "estado": 200,
+          "ms": 4.82,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"turno\":12,\"ahora\":\"2026-10-15 07:38:55\",\"minutos_demora\":10,\"total\":0,\"ordenes\":[]}"
+        }
+      ],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_servicios.json",
+      "ejecucion": "EX-052"
+    }
+  ]
+}

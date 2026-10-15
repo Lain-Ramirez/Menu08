@@ -1,0 +1,186 @@
+[
+  {
+    "caso": "CP-AUTO-E2E-01",
+    "nombre": "Flujo E2E completo: caja, producción, turnos y cierre por interfaz",
+    "fecha": "2026-10-15T12:40:42.866978+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Total vendido",
+        "esperado": "6500.00",
+        "obtenido": "6500.00",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Pendiente privada",
+        "esperado": 1,
+        "obtenido": 1,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Pendiente oculta pública",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Estado SQL en_preparacion",
+        "esperado": "en_preparacion",
+        "obtenido": "en_preparacion",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Visibilidad pública en_preparacion",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Estado SQL lista",
+        "esperado": "lista",
+        "obtenido": "lista",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Visibilidad pública lista",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Estado SQL entregada",
+        "esperado": "entregada",
+        "obtenido": "entregada",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Visibilidad pública entregada",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Diferencia",
+        "esperado": "0.00",
+        "obtenido": "0.00",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Turno cerrado",
+        "esperado": "cerrado",
+        "obtenido": "cerrado",
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Se interactuó con formularios y botones reales en tres contextos de navegador; SQL solo contrasta resultados y prepara el banco."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-AUTO-E2E-01-chromium-venta.png",
+      "evidencias/actual/CP-AUTO-E2E-01-chromium-en_preparacion.png",
+      "evidencias/actual/CP-AUTO-E2E-01-chromium-publico-en_preparacion.png",
+      "evidencias/actual/CP-AUTO-E2E-01-chromium-lista.png",
+      "evidencias/actual/CP-AUTO-E2E-01-chromium-publico-lista.png",
+      "evidencias/actual/CP-AUTO-E2E-01-chromium-entregada.png",
+      "evidencias/actual/CP-AUTO-E2E-01-chromium-publico-entregada.png",
+      "evidencias/actual/CP-AUTO-E2E-01-chromium-cierre.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-AUTO-E2E-01",
+    "nombre": "Flujo E2E completo: caja, producción, turnos y cierre por interfaz",
+    "fecha": "2026-10-15T12:41:01.435778+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Total vendido",
+        "esperado": "6500.00",
+        "obtenido": "6500.00",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Pendiente privada",
+        "esperado": 1,
+        "obtenido": 1,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Pendiente oculta pública",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Estado SQL en_preparacion",
+        "esperado": "en_preparacion",
+        "obtenido": "en_preparacion",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Visibilidad pública en_preparacion",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Estado SQL lista",
+        "esperado": "lista",
+        "obtenido": "lista",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Visibilidad pública lista",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Estado SQL entregada",
+        "esperado": "entregada",
+        "obtenido": "entregada",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Visibilidad pública entregada",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Diferencia",
+        "esperado": "0.00",
+        "obtenido": "0.00",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Turno cerrado",
+        "esperado": "cerrado",
+        "obtenido": "cerrado",
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Se interactuó con formularios y botones reales en tres contextos de navegador; SQL solo contrasta resultados y prepara el banco."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-AUTO-E2E-01-firefox-venta.png",
+      "evidencias/actual/CP-AUTO-E2E-01-firefox-en_preparacion.png",
+      "evidencias/actual/CP-AUTO-E2E-01-firefox-publico-en_preparacion.png",
+      "evidencias/actual/CP-AUTO-E2E-01-firefox-lista.png",
+      "evidencias/actual/CP-AUTO-E2E-01-firefox-publico-lista.png",
+      "evidencias/actual/CP-AUTO-E2E-01-firefox-entregada.png",
+      "evidencias/actual/CP-AUTO-E2E-01-firefox-publico-entregada.png",
+      "evidencias/actual/CP-AUTO-E2E-01-firefox-cierre.png"
+    ],
+    "estado": "Aprobada"
+  }
+]

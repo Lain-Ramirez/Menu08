@@ -1,0 +1,764 @@
+{
+  "caso": {
+    "id": "CP-CARTA-32",
+    "modulo": "CARTA · panel y autenticación",
+    "requisito": "Issue #15 · Maquetar la plantilla del panel con navegación y la pantalla de acceso\nIssue #16 · Construir las vistas de administración de negocio, categorías y productos\nFuncionalidad: CARTA · panel y autenticación\nCaso: CP-CARTA-32",
+    "nombre": "Presentación del acceso, navegación y formularios del panel",
+    "objetivo": "Verificar los criterios de interacción y presentación documentados para el acceso y el panel.",
+    "tipo": "Presentación · interfaz y validación cliente",
+    "precondiciones": "Chrome y Firefox; sesión food_truck para el panel; ventana sin sesión para acceso; categorías y productos del banco; imagen JPEG versionada; ambos temas.",
+    "datos": "Anchos 360, 768 y 1280 px. Correo de prueba; contraseña incorrecta para observar error. Formulario con correo o contraseña vacíos. Producto del banco y foto JPG válida.",
+    "pasos": "1. Abrir /ingresar y comprobar etiqueta, correo, contraseña y token oculto; intentar enviar campos vacíos.\n2. Enviar contraseña incorrecta y comprobar que el correo escrito se conserva con su error.\n3. Ingresar y revisar cabecera con negocio/usuario, enlace de salida, enlace activo y menú colapsado por debajo de 768 px.\n4. Abrir negocio, categorías y productos; usar filtro de categoría y previsualizar una imagen antes de enviar.\n5. Repetir a 360 y 1280 px en claro y oscuro; medir el desborde del documento y revisar los criterios de estilos del issue.",
+    "esperado": "El navegador valida los campos vacíos; el ingreso fallido conserva el correo y muestra el error. El panel identifica negocio y usuario y adapta la navegación. La imagen tiene previsualización y los formularios señalan obligatorios y CSRF. Las vistas deben cumplir ausencia de desborde y uso de tokens, criterios todavía sin marcar en los issues #15/#16; cualquier discrepancia queda como fallo, sin asumir aprobación.",
+    "herramienta": "Chrome y Firefox; herramientas del navegador; inspección de DOM y capturas",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Media",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S259 · Issue #15 · Maquetar la plantilla del panel con navegación y la pantalla de acceso\nS261 · Issue #16 · Construir las vistas de administración de negocio, categorías y productos\nS128 · docs/interfaz.md · líneas 1–9\nS247 · ADSO.menu08.com/recursos/js/productos.js · líneas 1–9\nS248 · menu08_app/aplicacion/controladores/PanelControlador.php · líneas 49–57"
+  },
+  "resultados": {
+    "caso": "CP-CARTA-32",
+    "nombre": "Presentación del acceso, navegación y formularios del panel",
+    "modulo": "CARTA · panel y autenticación",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Campos vacíos inválidos",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Correo conservado",
+        "esperado": "pruebas.foodtruck@menu08.local",
+        "obtenido": "pruebas.foodtruck@menu08.local",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Negocio identificado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/categorias 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/categorias",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/productos/nuevo 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/productos/nuevo",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/ubicaciones 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/ubicaciones",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/categorias 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/categorias",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/productos/nuevo 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/productos/nuevo",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/ubicaciones 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/ubicaciones",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/categorias 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/categorias",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/productos/nuevo 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/productos/nuevo",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/ubicaciones 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/ubicaciones",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Foto previsualizada",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Campos vacíos inválidos",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Correo conservado",
+        "esperado": "pruebas.foodtruck@menu08.local",
+        "obtenido": "pruebas.foodtruck@menu08.local",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Negocio identificado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/categorias 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/categorias",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/productos/nuevo 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/productos/nuevo",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/ubicaciones 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/ubicaciones",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/categorias 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/categorias",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/productos/nuevo 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/productos/nuevo",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/ubicaciones 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/ubicaciones",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/categorias 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/categorias",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/productos/nuevo 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/productos/nuevo",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/ubicaciones 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/ubicaciones",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Foto previsualizada",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "capturas": [
+      "evidencias/CP-CARTA-32-chromium-login-rechazado.png",
+      "evidencias/CP-CARTA-32-chromium-panel.png",
+      "evidencias/CP-CARTA-32-chromium-formulario-foto.png",
+      "evidencias/CP-CARTA-32-firefox-login-rechazado.png",
+      "evidencias/CP-CARTA-32-firefox-panel.png",
+      "evidencias/CP-CARTA-32-firefox-formulario-foto.png"
+    ],
+    "ejecuciones": [
+      "EX-052",
+      "EX-061"
+    ],
+    "fecha": "2026-10-15T11:03:25.954634+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CARTA-32",
+      "nombre": "Presentación del acceso, navegación y formularios del panel",
+      "fecha": "2026-10-15T11:02:42.887094+00:00",
+      "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+      "checks": [
+        {
+          "comprobacion": "Campos vacíos inválidos",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Correo conservado",
+          "esperado": "pruebas.foodtruck@menu08.local",
+          "obtenido": "pruebas.foodtruck@menu08.local",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Negocio identificado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/categorias",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/nuevo 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/productos/nuevo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/ubicaciones",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/categorias",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/nuevo 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/productos/nuevo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/ubicaciones",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/categorias",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/nuevo 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/productos/nuevo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/ubicaciones",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Foto previsualizada",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / chromium",
+      "navegador": "chromium",
+      "capturas": [
+        "evidencias/CP-CARTA-32-chromium-login-rechazado.png",
+        "evidencias/CP-CARTA-32-chromium-panel.png",
+        "evidencias/CP-CARTA-32-chromium-formulario-foto.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-052"
+    },
+    {
+      "caso": "CP-CARTA-32",
+      "nombre": "Presentación del acceso, navegación y formularios del panel",
+      "fecha": "2026-10-15T11:03:25.954634+00:00",
+      "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+      "checks": [
+        {
+          "comprobacion": "Campos vacíos inválidos",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Correo conservado",
+          "esperado": "pruebas.foodtruck@menu08.local",
+          "obtenido": "pruebas.foodtruck@menu08.local",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Negocio identificado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/categorias",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/nuevo 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/productos/nuevo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/ubicaciones",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/categorias",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/nuevo 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/productos/nuevo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/ubicaciones",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/categorias",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/nuevo 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/productos/nuevo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/ubicaciones",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Foto previsualizada",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / firefox",
+      "navegador": "firefox",
+      "capturas": [
+        "evidencias/CP-CARTA-32-firefox-login-rechazado.png",
+        "evidencias/CP-CARTA-32-firefox-panel.png",
+        "evidencias/CP-CARTA-32-firefox-formulario-foto.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-061"
+    }
+  ]
+}

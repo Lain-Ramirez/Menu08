@@ -1,0 +1,1791 @@
+[
+  {
+    "caso": "CP-CARTA-16",
+    "nombre": "La carta a 320 px",
+    "fecha": "2026-10-15T12:39:03.077056+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "truck-de-pruebas 320 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "truck-de-pruebas 360 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "truck-de-pruebas 768 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "festin-rodante 320 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "festin-rodante 360 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "festin-rodante 768 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "{\"slug\": \"truck-de-pruebas\", \"ancho\": 320, \"cliente\": 320, \"documento\": 320}",
+      "{\"slug\": \"truck-de-pruebas\", \"ancho\": 360, \"cliente\": 360, \"documento\": 360}",
+      "{\"slug\": \"truck-de-pruebas\", \"ancho\": 768, \"cliente\": 768, \"documento\": 768}",
+      "{\"slug\": \"festin-rodante\", \"ancho\": 320, \"cliente\": 320, \"documento\": 320}",
+      "{\"slug\": \"festin-rodante\", \"ancho\": 360, \"cliente\": 360, \"documento\": 360}",
+      "{\"slug\": \"festin-rodante\", \"ancho\": 768, \"cliente\": 768, \"documento\": 768}"
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-CARTA-16-chromium-truck-de-pruebas-320.png",
+      "evidencias/actual/CP-CARTA-16-chromium-truck-de-pruebas-360.png",
+      "evidencias/actual/CP-CARTA-16-chromium-truck-de-pruebas-768.png",
+      "evidencias/actual/CP-CARTA-16-chromium-festin-rodante-320.png",
+      "evidencias/actual/CP-CARTA-16-chromium-festin-rodante-360.png",
+      "evidencias/actual/CP-CARTA-16-chromium-festin-rodante-768.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CARTA-10",
+    "nombre": "La carta pública dice lo que dice la base",
+    "fecha": "2026-10-15T12:39:03.798087+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Orden catálogo",
+        "esperado": [
+          "Papas de prueba",
+          "Empanada de prueba",
+          "Hamburguesa de prueba",
+          "Perro de prueba",
+          "Salchipapa de prueba",
+          "Gaseosa de prueba",
+          "Limonada de prueba",
+          "Vaso de agua",
+          "Brownie de prueba",
+          "Producto con un nombre deliberadamente largo para probar el corte en pantalla"
+        ],
+        "obtenido": [
+          "Papas de prueba",
+          "Empanada de prueba",
+          "Hamburguesa de prueba",
+          "Perro de prueba",
+          "Salchipapa de prueba",
+          "Gaseosa de prueba",
+          "Limonada de prueba",
+          "Vaso de agua",
+          "Brownie de prueba",
+          "Producto con un nombre deliberadamente largo para probar el corte en pantalla"
+        ],
+        "cumple": true
+      },
+      {
+        "comprobacion": "Precios exactos DOM",
+        "esperado": [
+          "$ 6.500",
+          "$ 3.200",
+          "$ 24.900",
+          "$ 18.751",
+          "$ 21.000",
+          "$ 4.500",
+          "$ 7.000",
+          "$ 0",
+          "$ 9.900",
+          "$ 12.346"
+        ],
+        "obtenido": [
+          "$ 6.500",
+          "$ 3.200",
+          "$ 24.900",
+          "$ 18.751",
+          "$ 21.000",
+          "$ 4.500",
+          "$ 7.000",
+          "$ 0",
+          "$ 9.900",
+          "$ 12.346"
+        ],
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "El formato público redondea a pesos; el valor monetario exacto se comprueba por SQL y ventas en CP-CAJA-08."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-CARTA-10-chromium-catalogo.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CARTA-32",
+    "nombre": "Presentación del acceso, navegación y formularios del panel",
+    "fecha": "2026-10-15T12:39:04.021381+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Campos vacíos inválidos",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Correo conservado",
+        "esperado": "pruebas.foodtruck@menu08.local",
+        "obtenido": "pruebas.foodtruck@menu08.local",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Negocio identificado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/categorias 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/categorias",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/productos/nuevo 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/productos/nuevo",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/ubicaciones 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/ubicaciones",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/categorias 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/categorias",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/productos/nuevo 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/productos/nuevo",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/ubicaciones 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/ubicaciones",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/categorias 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/categorias",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/productos/nuevo 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/productos/nuevo",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/ubicaciones 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/ubicaciones",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Foto previsualizada",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-CARTA-32-chromium-login-rechazado.png",
+      "evidencias/actual/CP-CARTA-32-chromium-panel.png",
+      "evidencias/actual/CP-CARTA-32-chromium-formulario-foto.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CARTA-33",
+    "nombre": "Carta pública sin catálogo publicado y controles de lectura móvil",
+    "fecha": "2026-10-15T12:39:06.375170+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Carta vacía 200",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Mensaje",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Objetivos de al menos 44px",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Texto mínimo 14px",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "Alturas enlaces: [48, 48, 48, 48]; tamaños nombres: [16, 16, 16, 16, 16, 16, 16, 16, 16, 16]"
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-CARTA-33-chromium-catalogo-vacio.png",
+      "evidencias/actual/CP-CARTA-33-chromium-movil.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CARTA-34",
+    "nombre": "Parada vigente, siguiente programada y agenda agrupada",
+    "fecha": "2026-10-15T12:39:06.804792+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Días agrupados",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Siguiente programada",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Agenda resumida",
+        "esperado": 1,
+        "obtenido": 1,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Inactiva oculta",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Punto vigente",
+        "esperado": "Punto vigente QA",
+        "obtenido": "Punto vigente QA",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Abierto",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin desborde bloque",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [
+      {
+        "metodo": "GET",
+        "ruta": "/ingresar",
+        "estado": 200,
+        "ms": 5.68,
+        "content_type": "text/html; charset=utf-8",
+        "location": null,
+        "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <title>Ingresar · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                            </div>\n        </div>\n    </header>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n        \n        <section class=\"acceso\">\n    <div class=\"tarjeta tarjeta-elevada acceso-tarjeta\">\n        <header class=\"acceso-encabezado\">\n            <span class=\"cabecera-sello acceso-sello\" aria-hidden=\"true\">🍴</span>\n            <h1 class=\"acceso-titulo\">Ingresar</h1>\n            <p class=\"texto-apagado texto-m\">Zona privada de Menu08.</p>\n        </header>\n\n        \n        <form class=\"pila pila-4\" method=\"post\" action=\"http://127.0.0.1:8088/ingresar\">\n            <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">\n            <div class=\"campo campo-sobre-contenedor\">\n                <input class=\"campo-control\" type=\"email\" id=\"correo\" name=\"correo\"\n                       value=\"\" placeholder=\" \"\n                       required autocomplete=\"username\" autofocus>\n                <label class=\"campo-etiqueta\" for=\"correo\">Correo</label>\n            </div>\n\n            <div class=\"campo campo-sobre-contenedor campo-con-accion\">\n                <input class=\"campo-control\" type=\"password\" id=\"contrasena\" name=\"contrasena\"\n                       placeholder=\" \" required autocomplete=\"current-password\">\n                <label class=\"campo-etiqueta\" for=\"contrasena\">Contraseña</label>\n\n                                <button type=\"button\" class=\"boton-simbolo campo-accion\" data-ver-clave=\"contrasena\"\n                        aria-label=\"Mostrar la contraseña\" aria-pressed=\"false\" hidden>\n                    <svg class=\"campo-accion-muestra\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                         stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z\"></path>\n                        <circle cx=\"12\" cy=\"12\" r=\"3\"></circle>\n                    </svg>\n                    <svg class=\"campo-accion-oculta\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                         stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M3 3l18 18\"></path>\n                        <path d=\"M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1\"></path>\n                        <path d=\"M6.6 6.6A17.3 17.3 0 0 0 2 12s3.6 7 10 7a10.7 10.7 0 0 0 5.4-1.5\"></path>\n                        <path d=\"M9.9 9.9a3 3 0 0 0 4.2 4.2\"></path>\n                    </svg>\n                </button>\n            </div>\n\n            <button class=\"boton boton-relleno boton-bloque acceso-entrar\" type=\"submit\">\n                <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                     stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                    <path d=\"M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3\"></path>\n                    <path d=\"M10 8l4 4-4 4\"></path><path d=\"M14 12H4\"></path>\n                </svg>\n                Entrar\n            </button>\n        </form>\n\n        <p class=\"acceso-pie texto-m\">\n            <a href=\"http://127.0.0.1:8088/\">Ver las cartas publicadas</a>\n        </p>\n    </div>\n</section>\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+      },
+      {
+        "metodo": "POST",
+        "ruta": "/ingresar",
+        "estado": 302,
+        "ms": 78.63,
+        "content_type": "text/html; charset=UTF-8",
+        "location": "http://127.0.0.1:8088/panel",
+        "cuerpo": ""
+      },
+      {
+        "metodo": "GET",
+        "ruta": "/panel/ubicaciones",
+        "estado": 200,
+        "ms": 7.51,
+        "content_type": "text/html; charset=utf-8",
+        "location": null,
+        "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <meta name=\"csrf-token\" content=\"[oculto]\">\n        <title>Paradas · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n        <script src=\"http://127.0.0.1:8088/recursos/js/validacion.js\" defer></script>\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                                    <span class=\"cabecera-usuario\">\n                                                    <span class=\"cabecera-avatar\" aria-hidden=\"true\">A</span>\n                                                <span class=\"cabecera-nombre-usuario\">Administrador de pruebas</span>\n                        <span class=\"etiqueta etiqueta-pendiente cabecera-rol\">food truck</span>\n                    </span>\n\n                    <a class=\"boton boton-texto cabecera-salir\" href=\"http://127.0.0.1:8088/salir\">\n                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3\"></path>\n                            <path d=\"M15 8l4 4-4 4\"></path><path d=\"M19 12H9\"></path>\n                        </svg>\n                        <span class=\"cabecera-salir-texto\">Salir</span>\n                    </a>\n\n                                        <button type=\"button\" class=\"boton-simbolo cabecera-alterna\"\n                            data-alterna=\"navegacion-panel\" data-alterna-desde=\"(max-width: 767.98px)\"\n                            aria-label=\"Alternar navegacion\">\n                        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M4 7h16\"></path><path d=\"M4 12h16\"></path><path d=\"M4 17h16\"></path>\n                        </svg>\n                    </button>\n                            </div>\n        </div>\n    </header>\n<nav class=\"navegacion sin-impresion\" id=\"navegacion-panel\" aria-label=\"Modulos\">\n    <ul class=\"navegacion-lista contenedor-ancho\">\n                                <li>\n                <a class=\"navegacion-enlace navegacion-activa\"\n                   href=\"http://127.0.0.1:8088/panel\"\n                   aria-current=\"page\">\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">📋</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">CARTA</span>\n                        <span class=\"navegacion-descripcion\">Catálogo y paradas</span>\n                    </span>\n                </a>\n            </li>\n                                <li>\n                <a class=\"navegacion-enlace\"\n                   href=\"http://127.0.0.1:8088/caja\"\n                   >\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">💵</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">CAJA</span>\n                        <span class=\"navegacion-descripcion\">Turno y ventas</span>\n                    </span>\n                </a>\n            </li>\n                                <li>\n                <a class=\"navegacion-enlace\"\n                   href=\"http://127.0.0.1:8088/svp\"\n                   >\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">👨‍🍳</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">SVP</span>\n                        <span class=\"navegacion-descripcion\">Tablero de producción</span>\n                    </span>\n                </a>\n            </li>\n            </ul>\n</nav>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n                    <div class=\"pila pila-3 sin-impresion\">\n                                                        <div class=\"aviso aviso-exito aviso-cerrable\"\n                         role=\"status\" data-aviso-sesion=\"exito\">\n                        <svg class=\"aviso-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"m8.5 12.5 2.5 2.5 4.5-5\"/></svg>                        <p>Bienvenido, Administrador de pruebas.</p>\n\n                                                <button type=\"button\" class=\"boton-simbolo aviso-cerrar\" data-aviso-cerrar\n                                aria-label=\"Cerrar el aviso\" hidden>\n                            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                                 stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                                <path d=\"M6 6l12 12\"></path><path d=\"M18 6 6 18\"></path>\n                            </svg>\n                        </button>\n                    </div>\n                            </div>\n        \n        <div class=\"pila pila-1\">\n    <h1>Paradas</h1>\n\n    <p class=\"texto-apagado\">\n        Un food truck no tiene dirección: para en puntos distintos según el día. Cada parada es un\n        punto con su día y su franja horaria, y con ellas la carta pública responde dónde está el\n        truck ahora mismo.\n    </p>\n</div>\n\n<section class=\"panel-vigente\" aria-labelledby=\"panel-vigente-titulo\">\n    <h2 class=\"panel-vigente-titulo\" id=\"panel-vigente-titulo\">Dónde estamos</h2>\n\n            <p class=\"panel-vigente-texto\">\n            No hay ninguna parada vigente ahora mismo.\n        </p>\n    \n        <form class=\"panel-momento\" method=\"get\" action=\"http://127.0.0.1:8088/panel/ubicaciones\">\n        <div class=\"campo campo-sobre-contenedor\">\n            <input class=\"campo-control\" type=\"datetime-local\" id=\"momento\" name=\"momento\"\n                   placeholder=\" \"\n                   value=\"\">\n            <label class=\"campo-etiqueta\" for=\"momento\">Consultar otro momento</label>\n        </div>\n\n        <button type=\"submit\" class=\"boton boton-contorno\">\n            <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg>Consultar\n        </button>\n\n            </form>\n</section>\n\n<div class=\"panel-paradas\">\n        <form class=\"tarjeta tarjeta-elevada pila panel-grupo panel-paradas-formulario\"\n          id=\"parada-formulario\"\n          method=\"post\" action=\"http://127.0.0.1:8088/panel/ubicaciones\"\n          novalidate data-validar>\n        <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">        <input type=\"hidden\" name=\"id\" value=\"0\">\n\n        <h2 class=\"tarjeta-titulo\">Nueva parada</h2>\n\n        <div>\n            <div class=\"campo\">\n                <input class=\"campo-control\" type=\"text\" id=\"nombre\" name=\"nombre\" maxlength=\"120\"\n                       required autocomplete=\"off\" placeholder=\" \"\n                       value=\"\"\n                       aria-describedby=\"nombre-apoyo\"\n                       data-validar-requerido=\"El punto es obligatorio.\"\n                       data-validar-largo=\"El punto no puede pasar de 120 caracteres.\">\n                <label class=\"campo-etiqueta\" for=\"nombre\">Punto</label>\n            </div>\n            <span class=\"error-campo\" data-validar-error=\"nombre\" hidden></span>            <p class=\"campo-apoyo\" id=\"nombre-apoyo\">Como lo conoce la gente: Parque de la 93.</p>\n        </div>\n\n        <div>\n            <div class=\"campo\">\n                <input class=\"campo-control\" type=\"text\" id=\"referencia\" name=\"referencia\" maxlength=\"200\"\n                       autocomplete=\"off\" placeholder=\" \"\n                       value=\"\"\n                       aria-describedby=\"referencia-apoyo\"\n                       data-validar-largo=\"La referencia no puede pasar de 200 caracteres.\">\n                <label class=\"campo-etiqueta\" for=\"referencia\">Referencia</label>\n            </div>\n            <span class=\"error-campo\" data-validar-error=\"referencia\" hidden></span>            <p class=\"campo-apoyo\" id=\"referencia-apoyo\">Opcional: costado norte, frente al centro comercial.</p>\n        </div>\n\n        <div>\n            <div class=\"campo campo-con-valor\">\n                <select class=\"campo-control\" id=\"dia_semana\" name=\"dia_semana\" required\n                        data-validar-requerido=\"El dia de la semana es obligatorio.\">\n                    <option value=\"\">Elija un día</option>\n                                            <option value=\"1\"\n                            >\n                            Lunes                        </option>\n                                            <option value=\"2\"\n                            >\n                            Martes                        </option>\n                                            <option value=\"3\"\n                            >\n                            Miércoles                        </option>\n                                            <option value=\"4\"\n                            >\n                            Jueves                        </option>\n                                            <option value=\"5\"\n                            >\n                            Viernes                        </option>\n                                            <option value=\"6\"\n                            >\n                            Sábado                        </option>\n                                            <option value=\"7\"\n                            >\n                            Domingo                        </option>\n                                    </select>\n                <label class=\"campo-etiqueta\" for=\"dia_semana\">Día</label>\n            </div>\n            <span class=\"error-campo\" data-validar-error=\"dia_semana\" hidden></span>        </div>\n\n        <div class=\"panel-formulario-linea panel-formulario-linea-2\">\n            <div>\n                <div class=\"campo\">\n                    <input class=\"campo-control\" type=\"time\" id=\"hora_inicio\" name=\"hora_inicio\" required\n                           placeholder=\" \" value=\"\"\n                           data-validar-requerido=\"La hora de inicio es obligatoria.\"\n                           data-validar-patron=\"^([01][0-9]|2[0-3]):[0-5][0-9]$\"\n                           data-validar-formato=\"La hora de inicio debe tener el formato HH:MM, de 00:00 a 23:59.\">\n                    <label class=\"campo-etiqueta\" for=\"hora_inicio\">Abre</label>\n                </div>\n                <span class=\"error-campo\" data-validar-error=\"hora_inicio\" hidden></span>            </div>\n\n            <div>\n                <div class=\"campo\">\n                    <input class=\"campo-control\" type=\"time\" id=\"hora_fin\" name=\"hora_fin\" required\n                           placeholder=\" \" value=\"\"\n                           aria-describedby=\"hora-apoyo\"\n                           data-validar-requerido=\"La hora de fin es obligatoria.\"\n                           data-validar-patron=\"^([01][0-9]|2[0-3]):[0-5][0-9]$\"\n                           data-validar-formato=\"La hora de fin debe tener el formato HH:MM, de 00:00 a 23:59.\">\n                    <label class=\"campo-etiqueta\" for=\"hora_fin\">Cierra</label>\n                </div>\n                <span class=\"error-campo\" data-validar-error=\"hora_fin\" hidden></span>            </div>\n        </div>\n\n        <p class=\"campo-apoyo\" id=\"hora-apoyo\">\n            Una hora de cierre igual o anterior a la de apertura significa que la jornada cierra al\n            día siguiente: de 18:00 a 01:00 es correcto.\n        </p>\n\n        <div class=\"panel-formulario-linea panel-formulario-linea-2\">\n            <div>\n                <div class=\"campo\">\n                    <input class=\"campo-control\" type=\"text\" id=\"latitud\" name=\"latitud\"\n                           inputmode=\"decimal\" maxlength=\"12\" autocomplete=\"off\" placeholder=\" \"\n                           value=\"\"\n                           data-validar-patron=\"^-?\\d{1,3}([.,]\\d{1,7})?$\"\n                           data-validar-formato=\"La latitud debe ser un numero con hasta 7 decimales.\">\n                    <label class=\"campo-etiqueta\" for=\"latitud\">Latitud</label>\n                </div>\n                <span class=\"error-campo\" data-validar-error=\"latitud\" hidden></span>            </div>\n\n            <div>\n                <div class=\"campo\">\n                    <input class=\"campo-control\" type=\"text\" id=\"longitud\" name=\"longitud\"\n                           inputmode=\"decimal\" maxlength=\"12\" autocomplete=\"off\" placeholder=\" \"\n                           value=\"\"\n                           aria-describedby=\"coordenadas-apoyo\"\n                           data-validar-patron=\"^-?\\d{1,3}([.,]\\d{1,7})?$\"\n                           data-validar-formato=\"La longitud debe ser un numero con hasta 7 decimales.\">\n                    <label class=\"campo-etiqueta\" for=\"longitud\">Longitud</label>\n                </div>\n                <span class=\"error-campo\" data-validar-error=\"longitud\" hidden></span>            </div>\n        </div>\n\n        <p class=\"campo-apoyo\" id=\"coordenadas-apoyo\">\n            Opcionales. Las rellena sola la aplicación móvil cuando el truck reporta su punto.\n        </p>\n\n        <div class=\"tarjeta-pie\">\n            <button type=\"submit\" class=\"boton boton-relleno\">Crear parada</button>\n\n                    </div>\n    </form>\n\n        <section class=\"pila pila-5 panel-paradas-agenda\" aria-labelledby=\"panel-agenda-titulo\">\n        <h2 id=\"panel-agenda-titulo\">La semana</h2>\n\n                                    \n                <div class=\"pila pila-2\">\n                    <h3 class=\"panel-dia\">Lunes</h3>\n\n                    <ul class=\"panel-paradas-lista\">\n                                                                                <li class=\"panel-parada panel-parada-inactiva\">\n                                <div class=\"panel-parada-texto\">\n                                    <p class=\"panel-parada-punto\">Parada desactivada</p>\n\n                                                                            <p class=\"panel-parada-referencia\">no debe aparecer en la carta publica</p>\n                                    \n                                    <p class=\"panel-parada-horario numerica\">\n                                        09:00 a 13:00                                                                                                                    </p>\n\n                                                                            <span class=\"etiqueta etiqueta-entregada\">No aparece en la carta</span>\n                                                                    </div>\n\n                                <div class=\"panel-parada-acciones\">\n                                    <a class=\"boton boton-texto\"\n                                       href=\"http://127.0.0.1:8088/panel/ubicaciones/84#parada-formulario\">\n                                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20h4l10-10-4-4L4 16v4Z\"/><path d=\"m13.5 6.5 4 4\"/></svg>Editar\n                                    </a>\n\n                                                                        <form method=\"post\"\n                                          action=\"http://127.0.0.1:8088/panel/ubicaciones/estado\"\n                                          >\n                                        <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">                                        <input type=\"hidden\" name=\"id\" value=\"84\">\n\n                                        <button type=\"submit\" class=\"boton boton-contorno\">\n                                            Activar                                        </button>\n                                    </form>\n                                </div>\n                            </li>\n                                            </ul>\n                </div>\n                                                                \n                <div class=\"pila pila-2\">\n                    <h3 class=\"panel-dia\">Miércoles</h3>\n\n                    <ul class=\"panel-paradas-lista\">\n                                                                                <li class=\"panel-parada\">\n                                <div class=\"panel-parada-texto\">\n                                    <p class=\"panel-parada-punto\">Parque de Pruebas</p>\n\n                                                                            <p class=\"panel-parada-referencia\">costado norte, junto a la ciclorruta</p>\n                                    \n                                    <p class=\"panel-parada-horario numerica\">\n                                        11:00 a 15:00                                                                                                                            · 4.6767000, -74.0483000                                                                            </p>\n\n                                                                    </div>\n\n                                <div class=\"panel-parada-acciones\">\n                                    <a class=\"boton boton-texto\"\n                                       href=\"http://127.0.0.1:8088/panel/ubicaciones/81#parada-formulario\">\n                                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20h4l10-10-4-4L4 16v4Z\"/><path d=\"m13.5 6.5 4 4\"/></svg>Editar\n                                    </a>\n\n                                                                        <form method=\"post\"\n                                          action=\"http://127.0.0.1:8088/panel/ubicaciones/estado\"\n                                          data-confirmar=\"¿Desactivar «Parque de Pruebas»? Dejará de aparecer en la carta pública.\" data-confirmar-titulo=\"Desactivar parada\" data-confirmar-aceptar=\"Desactivar\" data-confirmar-peligro>\n                                        <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">                                        <input type=\"hidden\" name=\"id\" value=\"81\">\n\n                                        <button type=\"submit\" class=\"boton boton-contorno\">\n                                            Desactivar                                        </button>\n                                    </form>\n                                </div>\n                            </li>\n                                            </ul>\n                </div>\n                                                                \n                <div class=\"pila pila-2\">\n                    <h3 class=\"panel-dia\">Viernes</h3>\n\n                    <ul class=\"panel-paradas-lista\">\n                                                                                <li class=\"panel-parada\">\n                                <div class=\"panel-parada-texto\">\n                                    <p class=\"panel-parada-punto\">Plaza de Pruebas</p>\n\n                                                                            <p class=\"panel-parada-referencia\">frente a la biblioteca</p>\n                                    \n                                    <p class=\"panel-parada-horario numerica\">\n                                        12:00 a 20:00                                                                                                                            · 4.6510000, -74.0560000                                                                            </p>\n\n                                                                    </div>\n\n                                <div class=\"panel-parada-acciones\">\n                                    <a class=\"boton boton-texto\"\n                                       href=\"http://127.0.0.1:8088/panel/ubicaciones/82#parada-formulario\">\n                                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20h4l10-10-4-4L4 16v4Z\"/><path d=\"m13.5 6.5 4 4\"/></svg>Editar\n                                    </a>\n\n                                                                        <form method=\"post\"\n                                          action=\"http://127.0.0.1:8088/panel/ubicaciones/estado\"\n                                          data-confirmar=\"¿Desactivar «Plaza de Pruebas»? Dejará de aparecer en la carta pública.\" data-confirmar-titulo=\"Desactivar parada\" data-confirmar-aceptar=\"Desactivar\" data-confirmar-peligro>\n                                        <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">                                        <input type=\"hidden\" name=\"id\" value=\"82\">\n\n                                        <button type=\"submit\" class=\"boton boton-contorno\">\n                                            Desactivar                                        </button>\n                                    </form>\n                                </div>\n                            </li>\n                                            </ul>\n                </div>\n                            \n                <div class=\"pila pila-2\">\n                    <h3 class=\"panel-dia\">Sábado</h3>\n\n                    <ul class=\"panel-paradas-lista\">\n                                                                                <li class=\"panel-parada\">\n                                <div class=\"panel-parada-texto\">\n                                    <p class=\"panel-parada-punto\">Zona Rosa de Pruebas</p>\n\n                                                                            <p class=\"panel-parada-referencia\">sobre la calle peatonal</p>\n                                    \n                                    <p class=\"panel-parada-horario numerica\">\n                                        18:00 a 01:00                                         · cierra al día siguiente                                                                                    · 4.6650000, -74.0540000                                                                            </p>\n\n                                                                    </div>\n\n                                <div class=\"panel-parada-acciones\">\n                                    <a class=\"boton boton-texto\"\n                                       href=\"http://127.0.0.1:8088/panel/ubicaciones/83#parada-formulario\">\n                                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20h4l10-10-4-4L4 16v4Z\"/><path d=\"m13.5 6.5 4 4\"/></svg>Editar\n                                    </a>\n\n                                                                        <form method=\"post\"\n                                          action=\"http://127.0.0.1:8088/panel/ubicaciones/estado\"\n                                          data-confirmar=\"¿Desactivar «Zona Rosa de Pruebas»? Dejará de aparecer en la carta pública.\" data-confirmar-titulo=\"Desactivar parada\" data-confirmar-aceptar=\"Desactivar\" data-confirmar-peligro>\n                                        <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">                                        <input type=\"hidden\" name=\"id\" value=\"83\">\n\n                                        <button type=\"submit\" class=\"boton boton-contorno\">\n                                            Desactivar                                        </button>\n                                    </form>\n                                </div>\n                            </li>\n                                            </ul>\n                </div>\n                                                \n                            <p class=\"texto-apagado texto-m\">\n                    Sin paradas: martes, jueves, domingo.\n                </p>\n                        </section>\n</div>\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+      },
+      {
+        "metodo": "POST",
+        "ruta": "/panel/ubicaciones",
+        "estado": 302,
+        "ms": 8.54,
+        "content_type": "text/html; charset=UTF-8",
+        "location": "http://127.0.0.1:8088/panel/ubicaciones",
+        "cuerpo": ""
+      }
+    ],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "Días DOM: ['Lunes', 'Miércoles', 'Viernes', 'Sábado']"
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-CARTA-34-chromium-agenda.png",
+      "evidencias/actual/CP-CARTA-34-chromium-siguiente.png",
+      "evidencias/actual/CP-CARTA-34-chromium-vigente-320.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CARTA-08",
+    "nombre": "Producto marcado como no disponible",
+    "fecha": "2026-10-15T12:39:07.339288+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Agotado se oculta según AA2",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-CARTA-08-chromium-producto-agotado.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CAJA-04",
+    "nombre": "Armado de la orden desde el catálogo en vista de caja",
+    "fecha": "2026-10-15T12:39:08.582048+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Total reactivo",
+        "esperado": "$ 16.200",
+        "obtenido": "$ 16.200",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Dos renglones",
+        "esperado": 2,
+        "obtenido": 2,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Total vacío",
+        "esperado": "$ 0",
+        "obtenido": "$ 0",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cobrar deshabilitado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin errores JS",
+        "esperado": [],
+        "obtenido": [],
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-CAJA-04-chromium-orden-armada.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CAJA-05",
+    "nombre": "Filtrado por categoría en el catálogo",
+    "fecha": "2026-10-15T12:39:09.272085+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Filtro entradas",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Búsqueda local",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-CAJA-05-chromium-filtro.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CAJA-26",
+    "nombre": "Cambio calculado y bloqueo por efectivo recibido insuficiente",
+    "fecha": "2026-10-15T12:39:09.558847+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Insuficiente bloqueado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cambio exacto",
+        "esperado": "$ 0",
+        "obtenido": "$ 0",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cambio",
+        "esperado": "$ 33.800",
+        "obtenido": "$ 33.800",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Persistencia",
+        "esperado": "16200.00",
+        "obtenido": "16200.00",
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-CAJA-26-chromium-efectivo-insuficiente.png",
+      "evidencias/actual/CP-CAJA-26-chromium-cambio-correcto.png",
+      "evidencias/actual/CP-CAJA-26-chromium-comprobante.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CAJA-12",
+    "nombre": "Vista de impresión de 80 mm y exportación a PDF",
+    "fecha": "2026-10-15T12:39:11.345616+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "CSS 80mm",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "PDF generado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "PDF: evidencias/CP-CAJA-12-comprobante-80mm.pdf"
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-CAJA-12-chromium-impresion-80mm.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-SVP-08",
+    "nombre": "El sondeo actualiza el tablero sin recargar la página",
+    "fecha": "2026-10-15T12:39:12.234681+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Misma navegación",
+        "esperado": 1792067952237.3,
+        "obtenido": 1792067952237.3,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Movida por sondeo",
+        "esperado": "en_preparacion",
+        "obtenido": "en_preparacion",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Turno visible público",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [
+      {
+        "metodo": "GET",
+        "ruta": "/svp",
+        "estado": 200,
+        "ms": 9.45,
+        "content_type": "text/html; charset=utf-8",
+        "location": null,
+        "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <meta name=\"csrf-token\" content=\"[oculto]\">\n        <title>Sistema de Visualizacion de Produccion · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n            <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/svp.css\">\n    \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n        <script src=\"http://127.0.0.1:8088/recursos/js/svp.js\" defer></script>\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                                    <span class=\"cabecera-usuario\">\n                                                    <span class=\"cabecera-avatar\" aria-hidden=\"true\">P</span>\n                                                <span class=\"cabecera-nombre-usuario\">Produccion de pruebas</span>\n                        <span class=\"etiqueta etiqueta-pendiente cabecera-rol\">produccion</span>\n                    </span>\n\n                    <a class=\"boton boton-texto cabecera-salir\" href=\"http://127.0.0.1:8088/salir\">\n                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3\"></path>\n                            <path d=\"M15 8l4 4-4 4\"></path><path d=\"M19 12H9\"></path>\n                        </svg>\n                        <span class=\"cabecera-salir-texto\">Salir</span>\n                    </a>\n\n                                        <button type=\"button\" class=\"boton-simbolo cabecera-alterna\"\n                            data-alterna=\"navegacion-panel\" data-alterna-desde=\"(max-width: 767.98px)\"\n                            aria-label=\"Alternar navegacion\">\n                        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M4 7h16\"></path><path d=\"M4 12h16\"></path><path d=\"M4 17h16\"></path>\n                        </svg>\n                    </button>\n                            </div>\n        </div>\n    </header>\n<nav class=\"navegacion sin-impresion\" id=\"navegacion-panel\" aria-label=\"Modulos\">\n    <ul class=\"navegacion-lista contenedor-ancho\">\n                                <li>\n                <a class=\"navegacion-enlace navegacion-activa\"\n                   href=\"http://127.0.0.1:8088/svp\"\n                   aria-current=\"page\">\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">👨‍🍳</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">SVP</span>\n                        <span class=\"navegacion-descripcion\">Tablero de producción</span>\n                    </span>\n                </a>\n            </li>\n            </ul>\n</nav>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n                    <div class=\"pila pila-3 sin-impresion\">\n                                                        <div class=\"aviso aviso-exito aviso-cerrable\"\n                         role=\"status\" data-aviso-sesion=\"exito\">\n                        <svg class=\"aviso-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"m8.5 12.5 2.5 2.5 4.5-5\"/></svg>                        <p>Bienvenido, Produccion de pruebas.</p>\n\n                                                <button type=\"button\" class=\"boton-simbolo aviso-cerrar\" data-aviso-cerrar\n                                aria-label=\"Cerrar el aviso\" hidden>\n                            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                                 stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                                <path d=\"M6 6l12 12\"></path><path d=\"M18 6 6 18\"></path>\n                            </svg>\n                        </button>\n                    </div>\n                            </div>\n        \n        <div class=\"svp\" data-svp\n     data-svp-demora=\"10\"\n     data-svp-ahora=\"2026-10-15 07:39:12\"\n     data-svp-ordenes=\"http://127.0.0.1:8088/svp/ordenes\"\n     data-svp-avance-base=\"http://127.0.0.1:8088/svp/orden/\">\n\n    <noscript>\n        <div class=\"aviso aviso-aviso\">\n            <svg class=\"aviso-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>            <p>\n                Sin JavaScript el tablero no se refresca solo ni avanza las órdenes: lo que se ve es\n                la foto del momento en que se cargó la página. Actívelo en el navegador, o recargue\n                para ver los cambios.\n            </p>\n        </div>\n    </noscript>\n\n    <div class=\"svp-barra\">\n        <div class=\"svp-barra-datos\">\n            <h1 class=\"solo-lectores\">Sistema de Visualización de Producción</h1>\n\n                            <span class=\"etiqueta etiqueta-turno\">\n                    <svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg>                    Turno #16                </span>\n            \n            <span class=\"svp-barra-cifras\">\n                <strong data-svp-total>2</strong>\n                <span data-svp-total-rotulo>órdenes en curso</span>\n                · se realzan a partir de <strong data-svp-demora-rotulo>10</strong> min\n            </span>\n        </div>\n\n                <div class=\"svp-barra-controles\">\n            <span class=\"svp-hora\" data-svp-hora aria-hidden=\"true\"></span>\n\n            <span class=\"svp-latido\" data-svp-latido>\n                <span class=\"svp-latido-punto\" aria-hidden=\"true\"></span>\n                <span data-svp-latido-texto>Actualizado ahora</span>\n            </span>\n\n                        <button type=\"button\" class=\"boton boton-tonal svp-pantalla\" data-svp-pantalla\n                    aria-pressed=\"false\" hidden>\n                <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 3H5a2 2 0 0 0-2 2v3\"/><path d=\"M21 8V5a2 2 0 0 0-2-2h-3\"/><path d=\"M16 21h3a2 2 0 0 0 2-2v-3\"/><path d=\"M3 16v3a2 2 0 0 0 2 2h3\"/></svg>                <span data-svp-pantalla-texto>Pantalla completa</span>\n            </button>\n        </div>\n    </div>\n\n        <div class=\"aviso aviso-error\" role=\"alert\" data-svp-aviso hidden>\n        <svg class=\"aviso-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>        <p data-svp-aviso-texto></p>\n    </div>\n\n    <div class=\"svp-columnas\" data-svp-columnas>\n                    <section class=\"svp-columna svp-columna-pendiente\"\n                     data-svp-columna=\"pendiente\"\n                     aria-labelledby=\"svp-columna-pendiente\">\n                <div class=\"svp-columna-cabeza\">\n                    <h2 class=\"svp-columna-titulo\" id=\"svp-columna-pendiente\">\n                        Pendientes                    </h2>\n                    <span class=\"svp-columna-cuenta\" data-svp-cuenta>2</span>\n                </div>\n\n                <ul class=\"svp-lista\" data-svp-lista>\n                                            <li class=\"svp-tarjeta svp-tarjeta-pendiente\" data-svp-tarjeta data-svp-orden=\"53\" data-svp-estado=\"pendiente\" data-svp-creado=\"2026-10-15 07:39:11\"><div class=\"svp-tarjeta-cabeza\"><span class=\"svp-numero\" data-svp-numero>T16-001</span><span class=\"svp-crono\"><svg class=\"svp-crono-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg><span class=\"svp-reloj numerica\" data-svp-reloj>00:01</span></span></div><div class=\"svp-tarjeta-cuerpo\"><p class=\"svp-tiempos\"><span class=\"etiqueta etiqueta-pendiente\">Pendiente</span><span>Recibida a las <span class=\"numerica\" data-svp-recibida>07:39</span></span><span class=\"etiqueta etiqueta-demorada\" data-svp-demora hidden><svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>Demorada</span></p><ul class=\"svp-lineas\" data-svp-lineas><li class=\"svp-linea\"><span class=\"svp-cantidad\">2</span><span class=\"svp-producto\">Papas de prueba</span></li><li class=\"svp-linea\"><span class=\"svp-cantidad\">1</span><span class=\"svp-producto\">Empanada de prueba</span></li></ul><p class=\"svp-nota\" data-svp-nota hidden><span class=\"svp-nota-rotulo\">Nota</span><span data-svp-nota-texto></span></p><button type=\"button\" class=\"boton svp-avance\" data-svp-avance=\"en_preparacion\" disabled><svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 5v14l11-7L7 5Z\"/></svg>Empezar</button></div></li>                                            <li class=\"svp-tarjeta svp-tarjeta-pendiente\" data-svp-tarjeta data-svp-orden=\"54\" data-svp-estado=\"pendiente\" data-svp-creado=\"2026-10-15 07:39:11\"><div class=\"svp-tarjeta-cabeza\"><span class=\"svp-numero\" data-svp-numero>T16-002</span><span class=\"svp-crono\"><svg class=\"svp-crono-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg><span class=\"svp-reloj numerica\" data-svp-reloj>00:01</span></span></div><div class=\"svp-tarjeta-cuerpo\"><p class=\"svp-tiempos\"><span class=\"etiqueta etiqueta-pendiente\">Pendiente</span><span>Recibida a las <span class=\"numerica\" data-svp-recibida>07:39</span></span><span class=\"etiqueta etiqueta-demorada\" data-svp-demora hidden><svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>Demorada</span></p><ul class=\"svp-lineas\" data-svp-lineas><li class=\"svp-linea\"><span class=\"svp-cantidad\">1</span><span class=\"svp-producto\">Brownie de prueba</span></li></ul><p class=\"svp-nota\" data-svp-nota><span class=\"svp-nota-rotulo\">Nota</span><span data-svp-nota-texto>Extra sal</span></p><button type=\"button\" class=\"boton svp-avance\" data-svp-avance=\"en_preparacion\" disabled><svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 5v14l11-7L7 5Z\"/></svg>Empezar</button></div></li>                                    </ul>\n\n                <p class=\"svp-columna-vacia\" data-svp-columna-vacia hidden>\n                    Nada esperando.                </p>\n            </section>\n                    <section class=\"svp-columna svp-columna-preparacion\"\n                     data-svp-columna=\"en_preparacion\"\n                     aria-labelledby=\"svp-columna-en_preparacion\">\n                <div class=\"svp-columna-cabeza\">\n                    <h2 class=\"svp-columna-titulo\" id=\"svp-columna-en_preparacion\">\n                        En preparación                    </h2>\n                    <span class=\"svp-columna-cuenta\" data-svp-cuenta>0</span>\n                </div>\n\n                <ul class=\"svp-lista\" data-svp-lista>\n                                    </ul>\n\n                <p class=\"svp-columna-vacia\" data-svp-columna-vacia>\n                    Nada en la plancha.                </p>\n            </section>\n                    <section class=\"svp-columna svp-columna-lista\"\n                     data-svp-columna=\"lista\"\n                     aria-labelledby=\"svp-columna-lista\">\n                <div class=\"svp-columna-cabeza\">\n                    <h2 class=\"svp-columna-titulo\" id=\"svp-columna-lista\">\n                        Listas                    </h2>\n                    <span class=\"svp-columna-cuenta\" data-svp-cuenta>0</span>\n                </div>\n\n                <ul class=\"svp-lista\" data-svp-lista>\n                                    </ul>\n\n                <p class=\"svp-columna-vacia\" data-svp-columna-vacia>\n                    Nada esperando en la ventanilla.                </p>\n            </section>\n            </div>\n\n        <div class=\"svp-vacio\" data-svp-vacio=\"cerrado\" hidden>\n        <span class=\"svp-vacio-icono\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 9h18\"/><path d=\"M3 14h18\"/></svg></span>\n        <h2 class=\"svp-vacio-titulo\">La ventanilla está cerrada</h2>\n        <p class=\"svp-vacio-texto\">\n            No hay ningún turno abierto, así que no entran órdenes. El tablero se enciende solo\n            en cuanto CAJA abra el turno.\n        </p>\n    </div>\n\n    <div class=\"svp-vacio\" data-svp-vacio=\"al-dia\" hidden>\n        <span class=\"svp-vacio-icono\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m5 12.5 4.5 4.5L19 7\"/></svg></span>\n        <h2 class=\"svp-vacio-titulo\">Producción al día</h2>\n        <p class=\"svp-vacio-texto\">\n            El turno está abierto y no queda nada en la plancha. Las órdenes nuevas aparecen aquí\n            solas, sin recargar.\n        </p>\n    </div>\n\n                <template data-svp-plantilla=\"pendiente\"><li class=\"svp-tarjeta svp-tarjeta-pendiente\" data-svp-tarjeta data-svp-orden=\"\" data-svp-estado=\"\" data-svp-creado=\"\"><div class=\"svp-tarjeta-cabeza\"><span class=\"svp-numero\" data-svp-numero></span><span class=\"svp-crono\"><svg class=\"svp-crono-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg><span class=\"svp-reloj numerica\" data-svp-reloj>00:00</span></span></div><div class=\"svp-tarjeta-cuerpo\"><p class=\"svp-tiempos\"><span class=\"etiqueta etiqueta-pendiente\">Pendiente</span><span>Recibida a las <span class=\"numerica\" data-svp-recibida>--:--</span></span><span class=\"etiqueta etiqueta-demorada\" data-svp-demora hidden><svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>Demorada</span></p><ul class=\"svp-lineas\" data-svp-lineas></ul><p class=\"svp-nota\" data-svp-nota hidden><span class=\"svp-nota-rotulo\">Nota</span><span data-svp-nota-texto></span></p><button type=\"button\" class=\"boton svp-avance\" data-svp-avance=\"en_preparacion\" disabled><svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 5v14l11-7L7 5Z\"/></svg>Empezar</button></div></li></template>\n            <template data-svp-plantilla=\"en_preparacion\"><li class=\"svp-tarjeta svp-tarjeta-preparacion\" data-svp-tarjeta data-svp-orden=\"\" data-svp-estado=\"\" data-svp-creado=\"\"><div class=\"svp-tarjeta-cabeza\"><span class=\"svp-numero\" data-svp-numero></span><span class=\"svp-crono\"><svg class=\"svp-crono-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg><span class=\"svp-reloj numerica\" data-svp-reloj>00:00</span></span></div><div class=\"svp-tarjeta-cuerpo\"><p class=\"svp-tiempos\"><span class=\"etiqueta etiqueta-preparacion\">En preparación</span><span>Recibida a las <span class=\"numerica\" data-svp-recibida>--:--</span></span><span class=\"etiqueta etiqueta-demorada\" data-svp-demora hidden><svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>Demorada</span></p><ul class=\"svp-lineas\" data-svp-lineas></ul><p class=\"svp-nota\" data-svp-nota hidden><span class=\"svp-nota-rotulo\">Nota</span><span data-svp-nota-texto></span></p><button type=\"button\" class=\"boton svp-avance\" data-svp-avance=\"lista\" disabled><svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m5 12.5 4.5 4.5L19 7\"/></svg>Marcar lista</button></div></li></template>\n            <template data-svp-plantilla=\"lista\"><li class=\"svp-tarjeta svp-tarjeta-lista\" data-svp-tarjeta data-svp-orden=\"\" data-svp-estado=\"\" data-svp-creado=\"\"><div class=\"svp-tarjeta-cabeza\"><span class=\"svp-numero\" data-svp-numero></span><span class=\"svp-crono\"><svg class=\"svp-crono-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg><span class=\"svp-reloj numerica\" data-svp-reloj>00:00</span></span></div><div class=\"svp-tarjeta-cuerpo\"><p class=\"svp-tiempos\"><span class=\"etiqueta etiqueta-lista\">Lista</span><span>Recibida a las <span class=\"numerica\" data-svp-recibida>--:--</span></span><span class=\"etiqueta etiqueta-demorada\" data-svp-demora hidden><svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>Demorada</span></p><ul class=\"svp-lineas\" data-svp-lineas></ul><p class=\"svp-nota\" data-svp-nota hidden><span class=\"svp-nota-rotulo\">Nota</span><span data-svp-nota-texto></span></p><button type=\"button\" class=\"boton svp-avance\" data-svp-avance=\"entregada\" disabled><svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m13 6 6 6-6 6\"/></svg>Entregar</button></div></li></template>\n    \n    <template data-svp-plantilla-linea><li class=\"svp-linea\"><span class=\"svp-cantidad\"></span><span class=\"svp-producto\"></span></li></template>\n</div>\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+      },
+      {
+        "metodo": "POST",
+        "ruta": "/svp/orden/54/estado",
+        "estado": 200,
+        "ms": 12.0,
+        "content_type": "application/json; charset=utf-8",
+        "location": null,
+        "cuerpo": "{\"orden\":{\"id\":54,\"numero\":\"T16-002\",\"estado_anterior\":\"pendiente\",\"estado\":\"en_preparacion\",\"estado_nombre\":\"En preparacion\",\"siguiente\":\"lista\",\"creado_en\":\"2026-10-15 07:39:11\",\"en_preparacion_en\":\"2026-10-15 07:39:12\",\"lista_en\":null,\"entregada_en\":null,\"minutos_hasta_lista\":null}}"
+      }
+    ],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-SVP-08-chromium-sondeo.png",
+      "evidencias/actual/CP-SVP-08-chromium-pantalla-publica.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-SVP-18",
+    "nombre": "Pérdida de red, recuperación y sesión caducada",
+    "fecha": "2026-10-15T12:39:22.091017+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Tarjetas conservadas",
+        "esperado": 2,
+        "obtenido": 2,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aviso interno",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aviso público",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Recupera interno",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Recupera público",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aviso sesión caducada",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-SVP-18-chromium-red-interrumpida.png",
+      "evidencias/actual/CP-SVP-18-chromium-publico-sin-red.png",
+      "evidencias/actual/CP-SVP-18-chromium-red-recuperada.png",
+      "evidencias/actual/CP-SVP-18-chromium-sesion-caducada.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-SVP-19",
+    "nombre": "Resoluciones del plan y temas claro y oscuro",
+    "fecha": "2026-10-15T12:39:41.076647+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "/svp 360 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 360 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 360 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 360 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 768 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 768 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 768 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 768 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 1280 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 1280 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 1280 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 1280 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Número mínimo 32px",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Botón mínimo 56px (redondeo a 0.01px)",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Altura mínima CSS",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "Número: 40 px; botón: 56.000030517578125 px. Geometría redondeada a 0.01px para la precisión de getBoundingClientRect; min-height CSS también se comprueba."
+    ],
+    "pendientes": [
+      "Lectura de números públicos a 3 metros en monitor físico de 24 pulgadas pendiente; emular ancho no la sustituye."
+    ],
+    "herramienta": "Playwright / chromium",
+    "navegador": "chromium",
+    "capturas": [
+      "evidencias/actual/CP-SVP-19-chromium-svp-360-claro.png",
+      "evidencias/actual/CP-SVP-19-chromium-turnos-360-claro.png",
+      "evidencias/actual/CP-SVP-19-chromium-svp-360-oscuro.png",
+      "evidencias/actual/CP-SVP-19-chromium-turnos-360-oscuro.png",
+      "evidencias/actual/CP-SVP-19-chromium-svp-768-claro.png",
+      "evidencias/actual/CP-SVP-19-chromium-turnos-768-claro.png",
+      "evidencias/actual/CP-SVP-19-chromium-svp-768-oscuro.png",
+      "evidencias/actual/CP-SVP-19-chromium-turnos-768-oscuro.png",
+      "evidencias/actual/CP-SVP-19-chromium-svp-1280-claro.png",
+      "evidencias/actual/CP-SVP-19-chromium-turnos-1280-claro.png",
+      "evidencias/actual/CP-SVP-19-chromium-svp-1280-oscuro.png",
+      "evidencias/actual/CP-SVP-19-chromium-turnos-1280-oscuro.png"
+    ],
+    "estado": "Pendiente de seguimiento"
+  },
+  {
+    "caso": "CP-CARTA-16",
+    "nombre": "La carta a 320 px",
+    "fecha": "2026-10-15T12:39:44.750978+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "truck-de-pruebas 320 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "truck-de-pruebas 360 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "truck-de-pruebas 768 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "festin-rodante 320 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "festin-rodante 360 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "festin-rodante 768 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "{\"slug\": \"truck-de-pruebas\", \"ancho\": 320, \"cliente\": 320, \"documento\": 320}",
+      "{\"slug\": \"truck-de-pruebas\", \"ancho\": 360, \"cliente\": 360, \"documento\": 360}",
+      "{\"slug\": \"truck-de-pruebas\", \"ancho\": 768, \"cliente\": 768, \"documento\": 768}",
+      "{\"slug\": \"festin-rodante\", \"ancho\": 320, \"cliente\": 320, \"documento\": 320}",
+      "{\"slug\": \"festin-rodante\", \"ancho\": 360, \"cliente\": 360, \"documento\": 360}",
+      "{\"slug\": \"festin-rodante\", \"ancho\": 768, \"cliente\": 768, \"documento\": 768}"
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-CARTA-16-firefox-truck-de-pruebas-320.png",
+      "evidencias/actual/CP-CARTA-16-firefox-truck-de-pruebas-360.png",
+      "evidencias/actual/CP-CARTA-16-firefox-truck-de-pruebas-768.png",
+      "evidencias/actual/CP-CARTA-16-firefox-festin-rodante-320.png",
+      "evidencias/actual/CP-CARTA-16-firefox-festin-rodante-360.png",
+      "evidencias/actual/CP-CARTA-16-firefox-festin-rodante-768.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CARTA-10",
+    "nombre": "La carta pública dice lo que dice la base",
+    "fecha": "2026-10-15T12:39:46.358692+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Orden catálogo",
+        "esperado": [
+          "Papas de prueba",
+          "Empanada de prueba",
+          "Hamburguesa de prueba",
+          "Perro de prueba",
+          "Salchipapa de prueba",
+          "Gaseosa de prueba",
+          "Limonada de prueba",
+          "Vaso de agua",
+          "Brownie de prueba",
+          "Producto con un nombre deliberadamente largo para probar el corte en pantalla"
+        ],
+        "obtenido": [
+          "Papas de prueba",
+          "Empanada de prueba",
+          "Hamburguesa de prueba",
+          "Perro de prueba",
+          "Salchipapa de prueba",
+          "Gaseosa de prueba",
+          "Limonada de prueba",
+          "Vaso de agua",
+          "Brownie de prueba",
+          "Producto con un nombre deliberadamente largo para probar el corte en pantalla"
+        ],
+        "cumple": true
+      },
+      {
+        "comprobacion": "Precios exactos DOM",
+        "esperado": [
+          "$ 6.500",
+          "$ 3.200",
+          "$ 24.900",
+          "$ 18.751",
+          "$ 21.000",
+          "$ 4.500",
+          "$ 7.000",
+          "$ 0",
+          "$ 9.900",
+          "$ 12.346"
+        ],
+        "obtenido": [
+          "$ 6.500",
+          "$ 3.200",
+          "$ 24.900",
+          "$ 18.751",
+          "$ 21.000",
+          "$ 4.500",
+          "$ 7.000",
+          "$ 0",
+          "$ 9.900",
+          "$ 12.346"
+        ],
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "El formato público redondea a pesos; el valor monetario exacto se comprueba por SQL y ventas en CP-CAJA-08."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-CARTA-10-firefox-catalogo.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CARTA-32",
+    "nombre": "Presentación del acceso, navegación y formularios del panel",
+    "fecha": "2026-10-15T12:39:46.730043+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Campos vacíos inválidos",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Correo conservado",
+        "esperado": "pruebas.foodtruck@menu08.local",
+        "obtenido": "pruebas.foodtruck@menu08.local",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Negocio identificado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/categorias 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/categorias",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/productos/nuevo 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/productos/nuevo",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/ubicaciones 360",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/ubicaciones",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/categorias 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/categorias",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/productos/nuevo 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/productos/nuevo",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/ubicaciones 768",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/ubicaciones",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/categorias 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/categorias",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/productos/nuevo 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/productos/nuevo",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/panel/ubicaciones 1280",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "CSRF /panel/ubicaciones",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Foto previsualizada",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-CARTA-32-firefox-login-rechazado.png",
+      "evidencias/actual/CP-CARTA-32-firefox-panel.png",
+      "evidencias/actual/CP-CARTA-32-firefox-formulario-foto.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CARTA-33",
+    "nombre": "Carta pública sin catálogo publicado y controles de lectura móvil",
+    "fecha": "2026-10-15T12:39:50.237849+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Carta vacía 200",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Mensaje",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Objetivos de al menos 44px",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Texto mínimo 14px",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "Alturas enlaces: [48, 48, 48, 48]; tamaños nombres: [16, 16, 16, 16, 16, 16, 16, 16, 16, 16]"
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-CARTA-33-firefox-catalogo-vacio.png",
+      "evidencias/actual/CP-CARTA-33-firefox-movil.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CARTA-34",
+    "nombre": "Parada vigente, siguiente programada y agenda agrupada",
+    "fecha": "2026-10-15T12:39:50.788832+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Días agrupados",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Siguiente programada",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Agenda resumida",
+        "esperado": 1,
+        "obtenido": 1,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Inactiva oculta",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Punto vigente",
+        "esperado": "Punto vigente QA",
+        "obtenido": "Punto vigente QA",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Abierto",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin desborde bloque",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [
+      {
+        "metodo": "GET",
+        "ruta": "/ingresar",
+        "estado": 200,
+        "ms": 3.12,
+        "content_type": "text/html; charset=utf-8",
+        "location": null,
+        "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <title>Ingresar · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                            </div>\n        </div>\n    </header>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n        \n        <section class=\"acceso\">\n    <div class=\"tarjeta tarjeta-elevada acceso-tarjeta\">\n        <header class=\"acceso-encabezado\">\n            <span class=\"cabecera-sello acceso-sello\" aria-hidden=\"true\">🍴</span>\n            <h1 class=\"acceso-titulo\">Ingresar</h1>\n            <p class=\"texto-apagado texto-m\">Zona privada de Menu08.</p>\n        </header>\n\n        \n        <form class=\"pila pila-4\" method=\"post\" action=\"http://127.0.0.1:8088/ingresar\">\n            <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">\n            <div class=\"campo campo-sobre-contenedor\">\n                <input class=\"campo-control\" type=\"email\" id=\"correo\" name=\"correo\"\n                       value=\"\" placeholder=\" \"\n                       required autocomplete=\"username\" autofocus>\n                <label class=\"campo-etiqueta\" for=\"correo\">Correo</label>\n            </div>\n\n            <div class=\"campo campo-sobre-contenedor campo-con-accion\">\n                <input class=\"campo-control\" type=\"password\" id=\"contrasena\" name=\"contrasena\"\n                       placeholder=\" \" required autocomplete=\"current-password\">\n                <label class=\"campo-etiqueta\" for=\"contrasena\">Contraseña</label>\n\n                                <button type=\"button\" class=\"boton-simbolo campo-accion\" data-ver-clave=\"contrasena\"\n                        aria-label=\"Mostrar la contraseña\" aria-pressed=\"false\" hidden>\n                    <svg class=\"campo-accion-muestra\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                         stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z\"></path>\n                        <circle cx=\"12\" cy=\"12\" r=\"3\"></circle>\n                    </svg>\n                    <svg class=\"campo-accion-oculta\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                         stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M3 3l18 18\"></path>\n                        <path d=\"M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1\"></path>\n                        <path d=\"M6.6 6.6A17.3 17.3 0 0 0 2 12s3.6 7 10 7a10.7 10.7 0 0 0 5.4-1.5\"></path>\n                        <path d=\"M9.9 9.9a3 3 0 0 0 4.2 4.2\"></path>\n                    </svg>\n                </button>\n            </div>\n\n            <button class=\"boton boton-relleno boton-bloque acceso-entrar\" type=\"submit\">\n                <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                     stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                    <path d=\"M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3\"></path>\n                    <path d=\"M10 8l4 4-4 4\"></path><path d=\"M14 12H4\"></path>\n                </svg>\n                Entrar\n            </button>\n        </form>\n\n        <p class=\"acceso-pie texto-m\">\n            <a href=\"http://127.0.0.1:8088/\">Ver las cartas publicadas</a>\n        </p>\n    </div>\n</section>\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+      },
+      {
+        "metodo": "POST",
+        "ruta": "/ingresar",
+        "estado": 302,
+        "ms": 79.37,
+        "content_type": "text/html; charset=UTF-8",
+        "location": "http://127.0.0.1:8088/panel",
+        "cuerpo": ""
+      },
+      {
+        "metodo": "GET",
+        "ruta": "/panel/ubicaciones",
+        "estado": 200,
+        "ms": 7.76,
+        "content_type": "text/html; charset=utf-8",
+        "location": null,
+        "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <meta name=\"csrf-token\" content=\"[oculto]\">\n        <title>Paradas · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n        <script src=\"http://127.0.0.1:8088/recursos/js/validacion.js\" defer></script>\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                                    <span class=\"cabecera-usuario\">\n                                                    <span class=\"cabecera-avatar\" aria-hidden=\"true\">A</span>\n                                                <span class=\"cabecera-nombre-usuario\">Administrador de pruebas</span>\n                        <span class=\"etiqueta etiqueta-pendiente cabecera-rol\">food truck</span>\n                    </span>\n\n                    <a class=\"boton boton-texto cabecera-salir\" href=\"http://127.0.0.1:8088/salir\">\n                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3\"></path>\n                            <path d=\"M15 8l4 4-4 4\"></path><path d=\"M19 12H9\"></path>\n                        </svg>\n                        <span class=\"cabecera-salir-texto\">Salir</span>\n                    </a>\n\n                                        <button type=\"button\" class=\"boton-simbolo cabecera-alterna\"\n                            data-alterna=\"navegacion-panel\" data-alterna-desde=\"(max-width: 767.98px)\"\n                            aria-label=\"Alternar navegacion\">\n                        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M4 7h16\"></path><path d=\"M4 12h16\"></path><path d=\"M4 17h16\"></path>\n                        </svg>\n                    </button>\n                            </div>\n        </div>\n    </header>\n<nav class=\"navegacion sin-impresion\" id=\"navegacion-panel\" aria-label=\"Modulos\">\n    <ul class=\"navegacion-lista contenedor-ancho\">\n                                <li>\n                <a class=\"navegacion-enlace navegacion-activa\"\n                   href=\"http://127.0.0.1:8088/panel\"\n                   aria-current=\"page\">\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">📋</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">CARTA</span>\n                        <span class=\"navegacion-descripcion\">Catálogo y paradas</span>\n                    </span>\n                </a>\n            </li>\n                                <li>\n                <a class=\"navegacion-enlace\"\n                   href=\"http://127.0.0.1:8088/caja\"\n                   >\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">💵</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">CAJA</span>\n                        <span class=\"navegacion-descripcion\">Turno y ventas</span>\n                    </span>\n                </a>\n            </li>\n                                <li>\n                <a class=\"navegacion-enlace\"\n                   href=\"http://127.0.0.1:8088/svp\"\n                   >\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">👨‍🍳</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">SVP</span>\n                        <span class=\"navegacion-descripcion\">Tablero de producción</span>\n                    </span>\n                </a>\n            </li>\n            </ul>\n</nav>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n                    <div class=\"pila pila-3 sin-impresion\">\n                                                        <div class=\"aviso aviso-exito aviso-cerrable\"\n                         role=\"status\" data-aviso-sesion=\"exito\">\n                        <svg class=\"aviso-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"m8.5 12.5 2.5 2.5 4.5-5\"/></svg>                        <p>Bienvenido, Administrador de pruebas.</p>\n\n                                                <button type=\"button\" class=\"boton-simbolo aviso-cerrar\" data-aviso-cerrar\n                                aria-label=\"Cerrar el aviso\" hidden>\n                            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                                 stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                                <path d=\"M6 6l12 12\"></path><path d=\"M18 6 6 18\"></path>\n                            </svg>\n                        </button>\n                    </div>\n                            </div>\n        \n        <div class=\"pila pila-1\">\n    <h1>Paradas</h1>\n\n    <p class=\"texto-apagado\">\n        Un food truck no tiene dirección: para en puntos distintos según el día. Cada parada es un\n        punto con su día y su franja horaria, y con ellas la carta pública responde dónde está el\n        truck ahora mismo.\n    </p>\n</div>\n\n<section class=\"panel-vigente\" aria-labelledby=\"panel-vigente-titulo\">\n    <h2 class=\"panel-vigente-titulo\" id=\"panel-vigente-titulo\">Dónde estamos</h2>\n\n            <p class=\"panel-vigente-texto\">\n            No hay ninguna parada vigente ahora mismo.\n        </p>\n    \n        <form class=\"panel-momento\" method=\"get\" action=\"http://127.0.0.1:8088/panel/ubicaciones\">\n        <div class=\"campo campo-sobre-contenedor\">\n            <input class=\"campo-control\" type=\"datetime-local\" id=\"momento\" name=\"momento\"\n                   placeholder=\" \"\n                   value=\"\">\n            <label class=\"campo-etiqueta\" for=\"momento\">Consultar otro momento</label>\n        </div>\n\n        <button type=\"submit\" class=\"boton boton-contorno\">\n            <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg>Consultar\n        </button>\n\n            </form>\n</section>\n\n<div class=\"panel-paradas\">\n        <form class=\"tarjeta tarjeta-elevada pila panel-grupo panel-paradas-formulario\"\n          id=\"parada-formulario\"\n          method=\"post\" action=\"http://127.0.0.1:8088/panel/ubicaciones\"\n          novalidate data-validar>\n        <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">        <input type=\"hidden\" name=\"id\" value=\"0\">\n\n        <h2 class=\"tarjeta-titulo\">Nueva parada</h2>\n\n        <div>\n            <div class=\"campo\">\n                <input class=\"campo-control\" type=\"text\" id=\"nombre\" name=\"nombre\" maxlength=\"120\"\n                       required autocomplete=\"off\" placeholder=\" \"\n                       value=\"\"\n                       aria-describedby=\"nombre-apoyo\"\n                       data-validar-requerido=\"El punto es obligatorio.\"\n                       data-validar-largo=\"El punto no puede pasar de 120 caracteres.\">\n                <label class=\"campo-etiqueta\" for=\"nombre\">Punto</label>\n            </div>\n            <span class=\"error-campo\" data-validar-error=\"nombre\" hidden></span>            <p class=\"campo-apoyo\" id=\"nombre-apoyo\">Como lo conoce la gente: Parque de la 93.</p>\n        </div>\n\n        <div>\n            <div class=\"campo\">\n                <input class=\"campo-control\" type=\"text\" id=\"referencia\" name=\"referencia\" maxlength=\"200\"\n                       autocomplete=\"off\" placeholder=\" \"\n                       value=\"\"\n                       aria-describedby=\"referencia-apoyo\"\n                       data-validar-largo=\"La referencia no puede pasar de 200 caracteres.\">\n                <label class=\"campo-etiqueta\" for=\"referencia\">Referencia</label>\n            </div>\n            <span class=\"error-campo\" data-validar-error=\"referencia\" hidden></span>            <p class=\"campo-apoyo\" id=\"referencia-apoyo\">Opcional: costado norte, frente al centro comercial.</p>\n        </div>\n\n        <div>\n            <div class=\"campo campo-con-valor\">\n                <select class=\"campo-control\" id=\"dia_semana\" name=\"dia_semana\" required\n                        data-validar-requerido=\"El dia de la semana es obligatorio.\">\n                    <option value=\"\">Elija un día</option>\n                                            <option value=\"1\"\n                            >\n                            Lunes                        </option>\n                                            <option value=\"2\"\n                            >\n                            Martes                        </option>\n                                            <option value=\"3\"\n                            >\n                            Miércoles                        </option>\n                                            <option value=\"4\"\n                            >\n                            Jueves                        </option>\n                                            <option value=\"5\"\n                            >\n                            Viernes                        </option>\n                                            <option value=\"6\"\n                            >\n                            Sábado                        </option>\n                                            <option value=\"7\"\n                            >\n                            Domingo                        </option>\n                                    </select>\n                <label class=\"campo-etiqueta\" for=\"dia_semana\">Día</label>\n            </div>\n            <span class=\"error-campo\" data-validar-error=\"dia_semana\" hidden></span>        </div>\n\n        <div class=\"panel-formulario-linea panel-formulario-linea-2\">\n            <div>\n                <div class=\"campo\">\n                    <input class=\"campo-control\" type=\"time\" id=\"hora_inicio\" name=\"hora_inicio\" required\n                           placeholder=\" \" value=\"\"\n                           data-validar-requerido=\"La hora de inicio es obligatoria.\"\n                           data-validar-patron=\"^([01][0-9]|2[0-3]):[0-5][0-9]$\"\n                           data-validar-formato=\"La hora de inicio debe tener el formato HH:MM, de 00:00 a 23:59.\">\n                    <label class=\"campo-etiqueta\" for=\"hora_inicio\">Abre</label>\n                </div>\n                <span class=\"error-campo\" data-validar-error=\"hora_inicio\" hidden></span>            </div>\n\n            <div>\n                <div class=\"campo\">\n                    <input class=\"campo-control\" type=\"time\" id=\"hora_fin\" name=\"hora_fin\" required\n                           placeholder=\" \" value=\"\"\n                           aria-describedby=\"hora-apoyo\"\n                           data-validar-requerido=\"La hora de fin es obligatoria.\"\n                           data-validar-patron=\"^([01][0-9]|2[0-3]):[0-5][0-9]$\"\n                           data-validar-formato=\"La hora de fin debe tener el formato HH:MM, de 00:00 a 23:59.\">\n                    <label class=\"campo-etiqueta\" for=\"hora_fin\">Cierra</label>\n                </div>\n                <span class=\"error-campo\" data-validar-error=\"hora_fin\" hidden></span>            </div>\n        </div>\n\n        <p class=\"campo-apoyo\" id=\"hora-apoyo\">\n            Una hora de cierre igual o anterior a la de apertura significa que la jornada cierra al\n            día siguiente: de 18:00 a 01:00 es correcto.\n        </p>\n\n        <div class=\"panel-formulario-linea panel-formulario-linea-2\">\n            <div>\n                <div class=\"campo\">\n                    <input class=\"campo-control\" type=\"text\" id=\"latitud\" name=\"latitud\"\n                           inputmode=\"decimal\" maxlength=\"12\" autocomplete=\"off\" placeholder=\" \"\n                           value=\"\"\n                           data-validar-patron=\"^-?\\d{1,3}([.,]\\d{1,7})?$\"\n                           data-validar-formato=\"La latitud debe ser un numero con hasta 7 decimales.\">\n                    <label class=\"campo-etiqueta\" for=\"latitud\">Latitud</label>\n                </div>\n                <span class=\"error-campo\" data-validar-error=\"latitud\" hidden></span>            </div>\n\n            <div>\n                <div class=\"campo\">\n                    <input class=\"campo-control\" type=\"text\" id=\"longitud\" name=\"longitud\"\n                           inputmode=\"decimal\" maxlength=\"12\" autocomplete=\"off\" placeholder=\" \"\n                           value=\"\"\n                           aria-describedby=\"coordenadas-apoyo\"\n                           data-validar-patron=\"^-?\\d{1,3}([.,]\\d{1,7})?$\"\n                           data-validar-formato=\"La longitud debe ser un numero con hasta 7 decimales.\">\n                    <label class=\"campo-etiqueta\" for=\"longitud\">Longitud</label>\n                </div>\n                <span class=\"error-campo\" data-validar-error=\"longitud\" hidden></span>            </div>\n        </div>\n\n        <p class=\"campo-apoyo\" id=\"coordenadas-apoyo\">\n            Opcionales. Las rellena sola la aplicación móvil cuando el truck reporta su punto.\n        </p>\n\n        <div class=\"tarjeta-pie\">\n            <button type=\"submit\" class=\"boton boton-relleno\">Crear parada</button>\n\n                    </div>\n    </form>\n\n        <section class=\"pila pila-5 panel-paradas-agenda\" aria-labelledby=\"panel-agenda-titulo\">\n        <h2 id=\"panel-agenda-titulo\">La semana</h2>\n\n                                    \n                <div class=\"pila pila-2\">\n                    <h3 class=\"panel-dia\">Lunes</h3>\n\n                    <ul class=\"panel-paradas-lista\">\n                                                                                <li class=\"panel-parada panel-parada-inactiva\">\n                                <div class=\"panel-parada-texto\">\n                                    <p class=\"panel-parada-punto\">Parada desactivada</p>\n\n                                                                            <p class=\"panel-parada-referencia\">no debe aparecer en la carta publica</p>\n                                    \n                                    <p class=\"panel-parada-horario numerica\">\n                                        09:00 a 13:00                                                                                                                    </p>\n\n                                                                            <span class=\"etiqueta etiqueta-entregada\">No aparece en la carta</span>\n                                                                    </div>\n\n                                <div class=\"panel-parada-acciones\">\n                                    <a class=\"boton boton-texto\"\n                                       href=\"http://127.0.0.1:8088/panel/ubicaciones/93#parada-formulario\">\n                                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20h4l10-10-4-4L4 16v4Z\"/><path d=\"m13.5 6.5 4 4\"/></svg>Editar\n                                    </a>\n\n                                                                        <form method=\"post\"\n                                          action=\"http://127.0.0.1:8088/panel/ubicaciones/estado\"\n                                          >\n                                        <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">                                        <input type=\"hidden\" name=\"id\" value=\"93\">\n\n                                        <button type=\"submit\" class=\"boton boton-contorno\">\n                                            Activar                                        </button>\n                                    </form>\n                                </div>\n                            </li>\n                                            </ul>\n                </div>\n                                                                \n                <div class=\"pila pila-2\">\n                    <h3 class=\"panel-dia\">Miércoles</h3>\n\n                    <ul class=\"panel-paradas-lista\">\n                                                                                <li class=\"panel-parada\">\n                                <div class=\"panel-parada-texto\">\n                                    <p class=\"panel-parada-punto\">Parque de Pruebas</p>\n\n                                                                            <p class=\"panel-parada-referencia\">costado norte, junto a la ciclorruta</p>\n                                    \n                                    <p class=\"panel-parada-horario numerica\">\n                                        11:00 a 15:00                                                                                                                            · 4.6767000, -74.0483000                                                                            </p>\n\n                                                                    </div>\n\n                                <div class=\"panel-parada-acciones\">\n                                    <a class=\"boton boton-texto\"\n                                       href=\"http://127.0.0.1:8088/panel/ubicaciones/90#parada-formulario\">\n                                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20h4l10-10-4-4L4 16v4Z\"/><path d=\"m13.5 6.5 4 4\"/></svg>Editar\n                                    </a>\n\n                                                                        <form method=\"post\"\n                                          action=\"http://127.0.0.1:8088/panel/ubicaciones/estado\"\n                                          data-confirmar=\"¿Desactivar «Parque de Pruebas»? Dejará de aparecer en la carta pública.\" data-confirmar-titulo=\"Desactivar parada\" data-confirmar-aceptar=\"Desactivar\" data-confirmar-peligro>\n                                        <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">                                        <input type=\"hidden\" name=\"id\" value=\"90\">\n\n                                        <button type=\"submit\" class=\"boton boton-contorno\">\n                                            Desactivar                                        </button>\n                                    </form>\n                                </div>\n                            </li>\n                                            </ul>\n                </div>\n                                                                \n                <div class=\"pila pila-2\">\n                    <h3 class=\"panel-dia\">Viernes</h3>\n\n                    <ul class=\"panel-paradas-lista\">\n                                                                                <li class=\"panel-parada\">\n                                <div class=\"panel-parada-texto\">\n                                    <p class=\"panel-parada-punto\">Plaza de Pruebas</p>\n\n                                                                            <p class=\"panel-parada-referencia\">frente a la biblioteca</p>\n                                    \n                                    <p class=\"panel-parada-horario numerica\">\n                                        12:00 a 20:00                                                                                                                            · 4.6510000, -74.0560000                                                                            </p>\n\n                                                                    </div>\n\n                                <div class=\"panel-parada-acciones\">\n                                    <a class=\"boton boton-texto\"\n                                       href=\"http://127.0.0.1:8088/panel/ubicaciones/91#parada-formulario\">\n                                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20h4l10-10-4-4L4 16v4Z\"/><path d=\"m13.5 6.5 4 4\"/></svg>Editar\n                                    </a>\n\n                                                                        <form method=\"post\"\n                                          action=\"http://127.0.0.1:8088/panel/ubicaciones/estado\"\n                                          data-confirmar=\"¿Desactivar «Plaza de Pruebas»? Dejará de aparecer en la carta pública.\" data-confirmar-titulo=\"Desactivar parada\" data-confirmar-aceptar=\"Desactivar\" data-confirmar-peligro>\n                                        <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">                                        <input type=\"hidden\" name=\"id\" value=\"91\">\n\n                                        <button type=\"submit\" class=\"boton boton-contorno\">\n                                            Desactivar                                        </button>\n                                    </form>\n                                </div>\n                            </li>\n                                            </ul>\n                </div>\n                            \n                <div class=\"pila pila-2\">\n                    <h3 class=\"panel-dia\">Sábado</h3>\n\n                    <ul class=\"panel-paradas-lista\">\n                                                                                <li class=\"panel-parada\">\n                                <div class=\"panel-parada-texto\">\n                                    <p class=\"panel-parada-punto\">Zona Rosa de Pruebas</p>\n\n                                                                            <p class=\"panel-parada-referencia\">sobre la calle peatonal</p>\n                                    \n                                    <p class=\"panel-parada-horario numerica\">\n                                        18:00 a 01:00                                         · cierra al día siguiente                                                                                    · 4.6650000, -74.0540000                                                                            </p>\n\n                                                                    </div>\n\n                                <div class=\"panel-parada-acciones\">\n                                    <a class=\"boton boton-texto\"\n                                       href=\"http://127.0.0.1:8088/panel/ubicaciones/92#parada-formulario\">\n                                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20h4l10-10-4-4L4 16v4Z\"/><path d=\"m13.5 6.5 4 4\"/></svg>Editar\n                                    </a>\n\n                                                                        <form method=\"post\"\n                                          action=\"http://127.0.0.1:8088/panel/ubicaciones/estado\"\n                                          data-confirmar=\"¿Desactivar «Zona Rosa de Pruebas»? Dejará de aparecer en la carta pública.\" data-confirmar-titulo=\"Desactivar parada\" data-confirmar-aceptar=\"Desactivar\" data-confirmar-peligro>\n                                        <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">                                        <input type=\"hidden\" name=\"id\" value=\"92\">\n\n                                        <button type=\"submit\" class=\"boton boton-contorno\">\n                                            Desactivar                                        </button>\n                                    </form>\n                                </div>\n                            </li>\n                                            </ul>\n                </div>\n                                                \n                            <p class=\"texto-apagado texto-m\">\n                    Sin paradas: martes, jueves, domingo.\n                </p>\n                        </section>\n</div>\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+      },
+      {
+        "metodo": "POST",
+        "ruta": "/panel/ubicaciones",
+        "estado": 302,
+        "ms": 9.66,
+        "content_type": "text/html; charset=UTF-8",
+        "location": "http://127.0.0.1:8088/panel/ubicaciones",
+        "cuerpo": ""
+      }
+    ],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "Días DOM: ['Lunes', 'Miércoles', 'Viernes', 'Sábado']"
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-CARTA-34-firefox-agenda.png",
+      "evidencias/actual/CP-CARTA-34-firefox-siguiente.png",
+      "evidencias/actual/CP-CARTA-34-firefox-vigente-320.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CARTA-08",
+    "nombre": "Producto marcado como no disponible",
+    "fecha": "2026-10-15T12:39:51.566808+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Agotado se oculta según AA2",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-CARTA-08-firefox-producto-agotado.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CAJA-04",
+    "nombre": "Armado de la orden desde el catálogo en vista de caja",
+    "fecha": "2026-10-15T12:39:53.278946+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Total reactivo",
+        "esperado": "$ 16.200",
+        "obtenido": "$ 16.200",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Dos renglones",
+        "esperado": 2,
+        "obtenido": 2,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Total vacío",
+        "esperado": "$ 0",
+        "obtenido": "$ 0",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cobrar deshabilitado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin errores JS",
+        "esperado": [],
+        "obtenido": [],
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-CAJA-04-firefox-orden-armada.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CAJA-05",
+    "nombre": "Filtrado por categoría en el catálogo",
+    "fecha": "2026-10-15T12:39:54.367925+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Filtro entradas",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Búsqueda local",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-CAJA-05-firefox-filtro.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CAJA-26",
+    "nombre": "Cambio calculado y bloqueo por efectivo recibido insuficiente",
+    "fecha": "2026-10-15T12:39:54.737478+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Insuficiente bloqueado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cambio exacto",
+        "esperado": "$ 0",
+        "obtenido": "$ 0",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cambio",
+        "esperado": "$ 33.800",
+        "obtenido": "$ 33.800",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Persistencia",
+        "esperado": "16200.00",
+        "obtenido": "16200.00",
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-CAJA-26-firefox-efectivo-insuficiente.png",
+      "evidencias/actual/CP-CAJA-26-firefox-cambio-correcto.png",
+      "evidencias/actual/CP-CAJA-26-firefox-comprobante.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-CAJA-12",
+    "nombre": "Vista de impresión de 80 mm y exportación a PDF",
+    "fecha": "2026-10-15T12:39:56.664036+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "CSS 80mm",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [
+      "Firefox headless permite comprobar estilos de impresión; la exportación PDF mediante diálogo gráfico requiere estación de grabación."
+    ],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-CAJA-12-firefox-impresion-80mm.png"
+    ],
+    "estado": "Pendiente de seguimiento"
+  },
+  {
+    "caso": "CP-SVP-08",
+    "nombre": "El sondeo actualiza el tablero sin recargar la página",
+    "fecha": "2026-10-15T12:39:58.475992+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Misma navegación",
+        "esperado": 1792067998479,
+        "obtenido": 1792067998479,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Movida por sondeo",
+        "esperado": "en_preparacion",
+        "obtenido": "en_preparacion",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Turno visible público",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [
+      {
+        "metodo": "GET",
+        "ruta": "/svp",
+        "estado": 200,
+        "ms": 13.06,
+        "content_type": "text/html; charset=utf-8",
+        "location": null,
+        "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <meta name=\"csrf-token\" content=\"[oculto]\">\n        <title>Sistema de Visualizacion de Produccion · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n            <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/svp.css\">\n    \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n        <script src=\"http://127.0.0.1:8088/recursos/js/svp.js\" defer></script>\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                                    <span class=\"cabecera-usuario\">\n                                                    <span class=\"cabecera-avatar\" aria-hidden=\"true\">P</span>\n                                                <span class=\"cabecera-nombre-usuario\">Produccion de pruebas</span>\n                        <span class=\"etiqueta etiqueta-pendiente cabecera-rol\">produccion</span>\n                    </span>\n\n                    <a class=\"boton boton-texto cabecera-salir\" href=\"http://127.0.0.1:8088/salir\">\n                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3\"></path>\n                            <path d=\"M15 8l4 4-4 4\"></path><path d=\"M19 12H9\"></path>\n                        </svg>\n                        <span class=\"cabecera-salir-texto\">Salir</span>\n                    </a>\n\n                                        <button type=\"button\" class=\"boton-simbolo cabecera-alterna\"\n                            data-alterna=\"navegacion-panel\" data-alterna-desde=\"(max-width: 767.98px)\"\n                            aria-label=\"Alternar navegacion\">\n                        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M4 7h16\"></path><path d=\"M4 12h16\"></path><path d=\"M4 17h16\"></path>\n                        </svg>\n                    </button>\n                            </div>\n        </div>\n    </header>\n<nav class=\"navegacion sin-impresion\" id=\"navegacion-panel\" aria-label=\"Modulos\">\n    <ul class=\"navegacion-lista contenedor-ancho\">\n                                <li>\n                <a class=\"navegacion-enlace navegacion-activa\"\n                   href=\"http://127.0.0.1:8088/svp\"\n                   aria-current=\"page\">\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">👨‍🍳</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">SVP</span>\n                        <span class=\"navegacion-descripcion\">Tablero de producción</span>\n                    </span>\n                </a>\n            </li>\n            </ul>\n</nav>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n                    <div class=\"pila pila-3 sin-impresion\">\n                                                        <div class=\"aviso aviso-exito aviso-cerrable\"\n                         role=\"status\" data-aviso-sesion=\"exito\">\n                        <svg class=\"aviso-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"m8.5 12.5 2.5 2.5 4.5-5\"/></svg>                        <p>Bienvenido, Produccion de pruebas.</p>\n\n                                                <button type=\"button\" class=\"boton-simbolo aviso-cerrar\" data-aviso-cerrar\n                                aria-label=\"Cerrar el aviso\" hidden>\n                            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                                 stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                                <path d=\"M6 6l12 12\"></path><path d=\"M18 6 6 18\"></path>\n                            </svg>\n                        </button>\n                    </div>\n                            </div>\n        \n        <div class=\"svp\" data-svp\n     data-svp-demora=\"10\"\n     data-svp-ahora=\"2026-10-15 07:39:58\"\n     data-svp-ordenes=\"http://127.0.0.1:8088/svp/ordenes\"\n     data-svp-avance-base=\"http://127.0.0.1:8088/svp/orden/\">\n\n    <noscript>\n        <div class=\"aviso aviso-aviso\">\n            <svg class=\"aviso-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>            <p>\n                Sin JavaScript el tablero no se refresca solo ni avanza las órdenes: lo que se ve es\n                la foto del momento en que se cargó la página. Actívelo en el navegador, o recargue\n                para ver los cambios.\n            </p>\n        </div>\n    </noscript>\n\n    <div class=\"svp-barra\">\n        <div class=\"svp-barra-datos\">\n            <h1 class=\"solo-lectores\">Sistema de Visualización de Producción</h1>\n\n                            <span class=\"etiqueta etiqueta-turno\">\n                    <svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg>                    Turno #17                </span>\n            \n            <span class=\"svp-barra-cifras\">\n                <strong data-svp-total>2</strong>\n                <span data-svp-total-rotulo>órdenes en curso</span>\n                · se realzan a partir de <strong data-svp-demora-rotulo>10</strong> min\n            </span>\n        </div>\n\n                <div class=\"svp-barra-controles\">\n            <span class=\"svp-hora\" data-svp-hora aria-hidden=\"true\"></span>\n\n            <span class=\"svp-latido\" data-svp-latido>\n                <span class=\"svp-latido-punto\" aria-hidden=\"true\"></span>\n                <span data-svp-latido-texto>Actualizado ahora</span>\n            </span>\n\n                        <button type=\"button\" class=\"boton boton-tonal svp-pantalla\" data-svp-pantalla\n                    aria-pressed=\"false\" hidden>\n                <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 3H5a2 2 0 0 0-2 2v3\"/><path d=\"M21 8V5a2 2 0 0 0-2-2h-3\"/><path d=\"M16 21h3a2 2 0 0 0 2-2v-3\"/><path d=\"M3 16v3a2 2 0 0 0 2 2h3\"/></svg>                <span data-svp-pantalla-texto>Pantalla completa</span>\n            </button>\n        </div>\n    </div>\n\n        <div class=\"aviso aviso-error\" role=\"alert\" data-svp-aviso hidden>\n        <svg class=\"aviso-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>        <p data-svp-aviso-texto></p>\n    </div>\n\n    <div class=\"svp-columnas\" data-svp-columnas>\n                    <section class=\"svp-columna svp-columna-pendiente\"\n                     data-svp-columna=\"pendiente\"\n                     aria-labelledby=\"svp-columna-pendiente\">\n                <div class=\"svp-columna-cabeza\">\n                    <h2 class=\"svp-columna-titulo\" id=\"svp-columna-pendiente\">\n                        Pendientes                    </h2>\n                    <span class=\"svp-columna-cuenta\" data-svp-cuenta>2</span>\n                </div>\n\n                <ul class=\"svp-lista\" data-svp-lista>\n                                            <li class=\"svp-tarjeta svp-tarjeta-pendiente\" data-svp-tarjeta data-svp-orden=\"55\" data-svp-estado=\"pendiente\" data-svp-creado=\"2026-10-15 07:39:56\"><div class=\"svp-tarjeta-cabeza\"><span class=\"svp-numero\" data-svp-numero>T17-001</span><span class=\"svp-crono\"><svg class=\"svp-crono-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg><span class=\"svp-reloj numerica\" data-svp-reloj>00:02</span></span></div><div class=\"svp-tarjeta-cuerpo\"><p class=\"svp-tiempos\"><span class=\"etiqueta etiqueta-pendiente\">Pendiente</span><span>Recibida a las <span class=\"numerica\" data-svp-recibida>07:39</span></span><span class=\"etiqueta etiqueta-demorada\" data-svp-demora hidden><svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>Demorada</span></p><ul class=\"svp-lineas\" data-svp-lineas><li class=\"svp-linea\"><span class=\"svp-cantidad\">2</span><span class=\"svp-producto\">Papas de prueba</span></li><li class=\"svp-linea\"><span class=\"svp-cantidad\">1</span><span class=\"svp-producto\">Empanada de prueba</span></li></ul><p class=\"svp-nota\" data-svp-nota hidden><span class=\"svp-nota-rotulo\">Nota</span><span data-svp-nota-texto></span></p><button type=\"button\" class=\"boton svp-avance\" data-svp-avance=\"en_preparacion\" disabled><svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 5v14l11-7L7 5Z\"/></svg>Empezar</button></div></li>                                            <li class=\"svp-tarjeta svp-tarjeta-pendiente\" data-svp-tarjeta data-svp-orden=\"56\" data-svp-estado=\"pendiente\" data-svp-creado=\"2026-10-15 07:39:56\"><div class=\"svp-tarjeta-cabeza\"><span class=\"svp-numero\" data-svp-numero>T17-002</span><span class=\"svp-crono\"><svg class=\"svp-crono-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg><span class=\"svp-reloj numerica\" data-svp-reloj>00:02</span></span></div><div class=\"svp-tarjeta-cuerpo\"><p class=\"svp-tiempos\"><span class=\"etiqueta etiqueta-pendiente\">Pendiente</span><span>Recibida a las <span class=\"numerica\" data-svp-recibida>07:39</span></span><span class=\"etiqueta etiqueta-demorada\" data-svp-demora hidden><svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>Demorada</span></p><ul class=\"svp-lineas\" data-svp-lineas><li class=\"svp-linea\"><span class=\"svp-cantidad\">1</span><span class=\"svp-producto\">Brownie de prueba</span></li></ul><p class=\"svp-nota\" data-svp-nota><span class=\"svp-nota-rotulo\">Nota</span><span data-svp-nota-texto>Extra sal</span></p><button type=\"button\" class=\"boton svp-avance\" data-svp-avance=\"en_preparacion\" disabled><svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 5v14l11-7L7 5Z\"/></svg>Empezar</button></div></li>                                    </ul>\n\n                <p class=\"svp-columna-vacia\" data-svp-columna-vacia hidden>\n                    Nada esperando.                </p>\n            </section>\n                    <section class=\"svp-columna svp-columna-preparacion\"\n                     data-svp-columna=\"en_preparacion\"\n                     aria-labelledby=\"svp-columna-en_preparacion\">\n                <div class=\"svp-columna-cabeza\">\n                    <h2 class=\"svp-columna-titulo\" id=\"svp-columna-en_preparacion\">\n                        En preparación                    </h2>\n                    <span class=\"svp-columna-cuenta\" data-svp-cuenta>0</span>\n                </div>\n\n                <ul class=\"svp-lista\" data-svp-lista>\n                                    </ul>\n\n                <p class=\"svp-columna-vacia\" data-svp-columna-vacia>\n                    Nada en la plancha.                </p>\n            </section>\n                    <section class=\"svp-columna svp-columna-lista\"\n                     data-svp-columna=\"lista\"\n                     aria-labelledby=\"svp-columna-lista\">\n                <div class=\"svp-columna-cabeza\">\n                    <h2 class=\"svp-columna-titulo\" id=\"svp-columna-lista\">\n                        Listas                    </h2>\n                    <span class=\"svp-columna-cuenta\" data-svp-cuenta>0</span>\n                </div>\n\n                <ul class=\"svp-lista\" data-svp-lista>\n                                    </ul>\n\n                <p class=\"svp-columna-vacia\" data-svp-columna-vacia>\n                    Nada esperando en la ventanilla.                </p>\n            </section>\n            </div>\n\n        <div class=\"svp-vacio\" data-svp-vacio=\"cerrado\" hidden>\n        <span class=\"svp-vacio-icono\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 9h18\"/><path d=\"M3 14h18\"/></svg></span>\n        <h2 class=\"svp-vacio-titulo\">La ventanilla está cerrada</h2>\n        <p class=\"svp-vacio-texto\">\n            No hay ningún turno abierto, así que no entran órdenes. El tablero se enciende solo\n            en cuanto CAJA abra el turno.\n        </p>\n    </div>\n\n    <div class=\"svp-vacio\" data-svp-vacio=\"al-dia\" hidden>\n        <span class=\"svp-vacio-icono\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m5 12.5 4.5 4.5L19 7\"/></svg></span>\n        <h2 class=\"svp-vacio-titulo\">Producción al día</h2>\n        <p class=\"svp-vacio-texto\">\n            El turno está abierto y no queda nada en la plancha. Las órdenes nuevas aparecen aquí\n            solas, sin recargar.\n        </p>\n    </div>\n\n                <template data-svp-plantilla=\"pendiente\"><li class=\"svp-tarjeta svp-tarjeta-pendiente\" data-svp-tarjeta data-svp-orden=\"\" data-svp-estado=\"\" data-svp-creado=\"\"><div class=\"svp-tarjeta-cabeza\"><span class=\"svp-numero\" data-svp-numero></span><span class=\"svp-crono\"><svg class=\"svp-crono-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg><span class=\"svp-reloj numerica\" data-svp-reloj>00:00</span></span></div><div class=\"svp-tarjeta-cuerpo\"><p class=\"svp-tiempos\"><span class=\"etiqueta etiqueta-pendiente\">Pendiente</span><span>Recibida a las <span class=\"numerica\" data-svp-recibida>--:--</span></span><span class=\"etiqueta etiqueta-demorada\" data-svp-demora hidden><svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>Demorada</span></p><ul class=\"svp-lineas\" data-svp-lineas></ul><p class=\"svp-nota\" data-svp-nota hidden><span class=\"svp-nota-rotulo\">Nota</span><span data-svp-nota-texto></span></p><button type=\"button\" class=\"boton svp-avance\" data-svp-avance=\"en_preparacion\" disabled><svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 5v14l11-7L7 5Z\"/></svg>Empezar</button></div></li></template>\n            <template data-svp-plantilla=\"en_preparacion\"><li class=\"svp-tarjeta svp-tarjeta-preparacion\" data-svp-tarjeta data-svp-orden=\"\" data-svp-estado=\"\" data-svp-creado=\"\"><div class=\"svp-tarjeta-cabeza\"><span class=\"svp-numero\" data-svp-numero></span><span class=\"svp-crono\"><svg class=\"svp-crono-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg><span class=\"svp-reloj numerica\" data-svp-reloj>00:00</span></span></div><div class=\"svp-tarjeta-cuerpo\"><p class=\"svp-tiempos\"><span class=\"etiqueta etiqueta-preparacion\">En preparación</span><span>Recibida a las <span class=\"numerica\" data-svp-recibida>--:--</span></span><span class=\"etiqueta etiqueta-demorada\" data-svp-demora hidden><svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>Demorada</span></p><ul class=\"svp-lineas\" data-svp-lineas></ul><p class=\"svp-nota\" data-svp-nota hidden><span class=\"svp-nota-rotulo\">Nota</span><span data-svp-nota-texto></span></p><button type=\"button\" class=\"boton svp-avance\" data-svp-avance=\"lista\" disabled><svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m5 12.5 4.5 4.5L19 7\"/></svg>Marcar lista</button></div></li></template>\n            <template data-svp-plantilla=\"lista\"><li class=\"svp-tarjeta svp-tarjeta-lista\" data-svp-tarjeta data-svp-orden=\"\" data-svp-estado=\"\" data-svp-creado=\"\"><div class=\"svp-tarjeta-cabeza\"><span class=\"svp-numero\" data-svp-numero></span><span class=\"svp-crono\"><svg class=\"svp-crono-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg><span class=\"svp-reloj numerica\" data-svp-reloj>00:00</span></span></div><div class=\"svp-tarjeta-cuerpo\"><p class=\"svp-tiempos\"><span class=\"etiqueta etiqueta-lista\">Lista</span><span>Recibida a las <span class=\"numerica\" data-svp-recibida>--:--</span></span><span class=\"etiqueta etiqueta-demorada\" data-svp-demora hidden><svg class=\"etiqueta-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>Demorada</span></p><ul class=\"svp-lineas\" data-svp-lineas></ul><p class=\"svp-nota\" data-svp-nota hidden><span class=\"svp-nota-rotulo\">Nota</span><span data-svp-nota-texto></span></p><button type=\"button\" class=\"boton svp-avance\" data-svp-avance=\"entregada\" disabled><svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m13 6 6 6-6 6\"/></svg>Entregar</button></div></li></template>\n    \n    <template data-svp-plantilla-linea><li class=\"svp-linea\"><span class=\"svp-cantidad\"></span><span class=\"svp-producto\"></span></li></template>\n</div>\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+      },
+      {
+        "metodo": "POST",
+        "ruta": "/svp/orden/56/estado",
+        "estado": 200,
+        "ms": 12.44,
+        "content_type": "application/json; charset=utf-8",
+        "location": null,
+        "cuerpo": "{\"orden\":{\"id\":56,\"numero\":\"T17-002\",\"estado_anterior\":\"pendiente\",\"estado\":\"en_preparacion\",\"estado_nombre\":\"En preparacion\",\"siguiente\":\"lista\",\"creado_en\":\"2026-10-15 07:39:56\",\"en_preparacion_en\":\"2026-10-15 07:39:58\",\"lista_en\":null,\"entregada_en\":null,\"minutos_hasta_lista\":null}}"
+      }
+    ],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-SVP-08-firefox-sondeo.png",
+      "evidencias/actual/CP-SVP-08-firefox-pantalla-publica.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-SVP-18",
+    "nombre": "Pérdida de red, recuperación y sesión caducada",
+    "fecha": "2026-10-15T12:40:08.431548+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "Tarjetas conservadas",
+        "esperado": 2,
+        "obtenido": 2,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aviso interno",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aviso público",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Recupera interno",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Recupera público",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aviso sesión caducada",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "pendientes": [],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-SVP-18-firefox-red-interrumpida.png",
+      "evidencias/actual/CP-SVP-18-firefox-publico-sin-red.png",
+      "evidencias/actual/CP-SVP-18-firefox-red-recuperada.png",
+      "evidencias/actual/CP-SVP-18-firefox-sesion-caducada.png"
+    ],
+    "estado": "Aprobada"
+  },
+  {
+    "caso": "CP-SVP-19",
+    "nombre": "Resoluciones del plan y temas claro y oscuro",
+    "fecha": "2026-10-15T12:40:27.612346+00:00",
+    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "checks": [
+      {
+        "comprobacion": "/svp 360 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 360 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 360 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 360 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 768 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 768 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 768 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 768 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 1280 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 1280 False ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/svp 1280 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "/turnos/truck-de-pruebas 1280 True ancho",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Número mínimo 32px",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Botón mínimo 56px (redondeo a 0.01px)",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Altura mínima CSS",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "Número: 40 px; botón: 56 px. Geometría redondeada a 0.01px para la precisión de getBoundingClientRect; min-height CSS también se comprueba."
+    ],
+    "pendientes": [
+      "Lectura de números públicos a 3 metros en monitor físico de 24 pulgadas pendiente; emular ancho no la sustituye."
+    ],
+    "herramienta": "Playwright / firefox",
+    "navegador": "firefox",
+    "capturas": [
+      "evidencias/actual/CP-SVP-19-firefox-svp-360-claro.png",
+      "evidencias/actual/CP-SVP-19-firefox-turnos-360-claro.png",
+      "evidencias/actual/CP-SVP-19-firefox-svp-360-oscuro.png",
+      "evidencias/actual/CP-SVP-19-firefox-turnos-360-oscuro.png",
+      "evidencias/actual/CP-SVP-19-firefox-svp-768-claro.png",
+      "evidencias/actual/CP-SVP-19-firefox-turnos-768-claro.png",
+      "evidencias/actual/CP-SVP-19-firefox-svp-768-oscuro.png",
+      "evidencias/actual/CP-SVP-19-firefox-turnos-768-oscuro.png",
+      "evidencias/actual/CP-SVP-19-firefox-svp-1280-claro.png",
+      "evidencias/actual/CP-SVP-19-firefox-turnos-1280-claro.png",
+      "evidencias/actual/CP-SVP-19-firefox-svp-1280-oscuro.png",
+      "evidencias/actual/CP-SVP-19-firefox-turnos-1280-oscuro.png"
+    ],
+    "estado": "Pendiente de seguimiento"
+  }
+]

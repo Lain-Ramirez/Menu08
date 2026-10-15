@@ -1,0 +1,135 @@
+{
+  "caso": {
+    "id": "CP-CARTA-25",
+    "modulo": "CARTA · agenda",
+    "requisito": "Issue #36 · Programar la agenda de paradas del food truck\nIssue #37 · Maquetar la agenda de paradas y el bloque «dónde estamos hoy» de la carta\nFuncionalidad: CARTA · agenda\nCaso: CP-CARTA-25",
+    "nombre": "Vigencia de la parada del sábado al cruzar medianoche",
+    "objetivo": "Verificar que la consulta del domingo utiliza correctamente la jornada abierta el sábado.",
+    "tipo": "Funcional · valores límite y fechas",
+    "precondiciones": "Banco restaurado; Zona Rosa de Pruebas activa el sábado 18:00–01:00; sesión food_truck.",
+    "datos": "2026-09-05T17:59, 18:00 y 23:30; 2026-09-06T00:30, 00:59, 01:00 y 02:00.",
+    "pasos": "1. Consultar /panel/ubicaciones?momento= con los siete momentos.\n2. Contrastar las respuestas con la franja nocturna del banco.",
+    "esperado": "Sábado 17:59: ninguna. Sábado 18:00 y 23:30, y domingo 00:30 y 00:59: Zona Rosa de Pruebas. Domingo 01:00 y 02:00: ninguna. El cierre es exclusivo.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S264 · Issue #36 · Programar la agenda de paradas del food truck\nS265 · Issue #37 · Maquetar la agenda de paradas y el bloque «dónde estamos hoy» de la carta\nS083 · docs/pruebas-agenda-paradas.md · líneas 54–62\nS082 · menu08_app/aplicacion/modelos/Ubicacion.php · líneas 126–134"
+  },
+  "resultados": {
+    "caso": "CP-CARTA-25",
+    "nombre": "Vigencia de la parada del sábado al cruzar medianoche",
+    "modulo": "CARTA · agenda",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "2026-10-17 17:59:00",
+        "esperado": null,
+        "obtenido": null,
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-17 18:00:00",
+        "esperado": "Zona Rosa de Pruebas",
+        "obtenido": "Zona Rosa de Pruebas",
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-17 23:30:00",
+        "esperado": "Zona Rosa de Pruebas",
+        "obtenido": "Zona Rosa de Pruebas",
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-18 00:30:00",
+        "esperado": "Zona Rosa de Pruebas",
+        "obtenido": "Zona Rosa de Pruebas",
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-18 00:59:00",
+        "esperado": "Zona Rosa de Pruebas",
+        "obtenido": "Zona Rosa de Pruebas",
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-18 01:00:00",
+        "esperado": null,
+        "obtenido": null,
+        "cumple": true
+      },
+      {
+        "comprobacion": "2026-10-18 02:00:00",
+        "esperado": null,
+        "obtenido": null,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-022"
+    ],
+    "fecha": "2026-10-15T12:38:51.079014+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CARTA-25",
+      "nombre": "Vigencia de la parada del sábado al cruzar medianoche",
+      "fecha": "2026-10-15T12:38:51.079014+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "2026-10-17 17:59:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-17 18:00:00",
+          "esperado": "Zona Rosa de Pruebas",
+          "obtenido": "Zona Rosa de Pruebas",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-17 23:30:00",
+          "esperado": "Zona Rosa de Pruebas",
+          "obtenido": "Zona Rosa de Pruebas",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-18 00:30:00",
+          "esperado": "Zona Rosa de Pruebas",
+          "obtenido": "Zona Rosa de Pruebas",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-18 00:59:00",
+          "esperado": "Zona Rosa de Pruebas",
+          "obtenido": "Zona Rosa de Pruebas",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-18 01:00:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-18 02:00:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_http.json",
+      "ejecucion": "EX-022"
+    }
+  ]
+}

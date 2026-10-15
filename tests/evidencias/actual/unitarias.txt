@@ -1,0 +1,6 @@
+· RedireccionHttpsPrueba.php
+· UbicacionMedianochePrueba.php
+· ValidadorCoordenadaPrueba.php
+· ValidadorHoraDiaPrueba.php
+
+62 comprobaciones, 0 fallos

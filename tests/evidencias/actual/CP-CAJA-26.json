@@ -1,0 +1,188 @@
+{
+  "caso": {
+    "id": "CP-CAJA-26",
+    "modulo": "CAJA · cobro en efectivo",
+    "requisito": "Issue #11 · Persistir la orden de CAJA con sus ítems, totales y medio de pago\nIssue #18 · Maquetar la pantalla de venta de CAJA con catálogo, orden en construcción y cobro\nIssue #19 · Maquetar las pantallas de apertura y cierre de turno y el comprobante imprimible de CAJA\nFuncionalidad: CAJA · cobro en efectivo\nCaso: CP-CAJA-26",
+    "nombre": "Cambio calculado y bloqueo por efectivo recibido insuficiente",
+    "objetivo": "Verificar el criterio del diálogo de cobro: cambio correcto y confirmación bloqueada si no alcanza el efectivo.",
+    "tipo": "Funcional · interfaz y valor límite",
+    "precondiciones": "Turno abierto; sesión cajero; orden preparada como CP-CAJA-06 con total 16200.00; sin confirmar la venta durante las variantes insuficientes.",
+    "datos": "Total 16200.00. Efectivo recibido: total−1=16199; total=16200; 50000, valor ya usado en el banco de casos. Cambios esperados: 0 con pago exacto y 33800 con 50000.",
+    "pasos": "1. Preparar 2 Papas de prueba y 1 Empanada de prueba y abrir el diálogo de cobro.\n2. Seleccionar Efectivo e ingresar 16199; observar validación y confirmación.\n3. Ingresar 16200 y después 50000, y contrastar el cambio calculado.\n4. Confirmar solamente una variante válida y comprobar la venta persistida.",
+    "esperado": "Con 16199 se bloquea confirmar el cobro y no se crea orden. Con 16200 el cambio es 0; con 50000 el cambio es 33800. Al confirmar la variante válida, la venta conserva total=16200.00 y medio_pago=efectivo. El cálculo del diálogo no altera el total que recalcula el servidor.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S268 · Issue #11 · Persistir la orden de CAJA con sus ítems, totales y medio de pago\nS269 · Issue #18 · Maquetar la pantalla de venta de CAJA con catálogo, orden en construcción y cobro\nS267 · Issue #19 · Maquetar las pantallas de apertura y cierre de turno y el comprobante imprimible de CAJA\nS251 · ADSO.menu08.com/recursos/js/caja.js · líneas 1–9\nS037 · menu08_app/aplicacion/controladores/CajaControlador.php · líneas 56–64"
+  },
+  "resultados": {
+    "caso": "CP-CAJA-26",
+    "nombre": "Cambio calculado y bloqueo por efectivo recibido insuficiente",
+    "modulo": "CAJA · cobro en efectivo",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Insuficiente bloqueado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cambio exacto",
+        "esperado": "$ 0",
+        "obtenido": "$ 0",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cambio",
+        "esperado": "$ 33.800",
+        "obtenido": "$ 33.800",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Persistencia",
+        "esperado": "16200.00",
+        "obtenido": "16200.00",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Insuficiente bloqueado",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cambio exacto",
+        "esperado": "$ 0",
+        "obtenido": "$ 0",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Cambio",
+        "esperado": "$ 33.800",
+        "obtenido": "$ 33.800",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Persistencia",
+        "esperado": "16200.00",
+        "obtenido": "16200.00",
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+    ],
+    "capturas": [
+      "evidencias/actual/CP-CAJA-26-chromium-efectivo-insuficiente.png",
+      "evidencias/actual/CP-CAJA-26-chromium-cambio-correcto.png",
+      "evidencias/actual/CP-CAJA-26-chromium-comprobante.png",
+      "evidencias/actual/CP-CAJA-26-firefox-efectivo-insuficiente.png",
+      "evidencias/actual/CP-CAJA-26-firefox-cambio-correcto.png",
+      "evidencias/actual/CP-CAJA-26-firefox-comprobante.png"
+    ],
+    "ejecuciones": [
+      "EX-090",
+      "EX-103"
+    ],
+    "fecha": "2026-10-15T12:39:54.737478+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CAJA-26",
+      "nombre": "Cambio calculado y bloqueo por efectivo recibido insuficiente",
+      "fecha": "2026-10-15T12:39:09.558847+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Insuficiente bloqueado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cambio exacto",
+          "esperado": "$ 0",
+          "obtenido": "$ 0",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cambio",
+          "esperado": "$ 33.800",
+          "obtenido": "$ 33.800",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Persistencia",
+          "esperado": "16200.00",
+          "obtenido": "16200.00",
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / chromium",
+      "navegador": "chromium",
+      "capturas": [
+        "evidencias/actual/CP-CAJA-26-chromium-efectivo-insuficiente.png",
+        "evidencias/actual/CP-CAJA-26-chromium-cambio-correcto.png",
+        "evidencias/actual/CP-CAJA-26-chromium-comprobante.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-090"
+    },
+    {
+      "caso": "CP-CAJA-26",
+      "nombre": "Cambio calculado y bloqueo por efectivo recibido insuficiente",
+      "fecha": "2026-10-15T12:39:54.737478+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Insuficiente bloqueado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cambio exacto",
+          "esperado": "$ 0",
+          "obtenido": "$ 0",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cambio",
+          "esperado": "$ 33.800",
+          "obtenido": "$ 33.800",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Persistencia",
+          "esperado": "16200.00",
+          "obtenido": "16200.00",
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / firefox",
+      "navegador": "firefox",
+      "capturas": [
+        "evidencias/actual/CP-CAJA-26-firefox-efectivo-insuficiente.png",
+        "evidencias/actual/CP-CAJA-26-firefox-cambio-correcto.png",
+        "evidencias/actual/CP-CAJA-26-firefox-comprobante.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-103"
+    }
+  ]
+}

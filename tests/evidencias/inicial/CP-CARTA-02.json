@@ -1,0 +1,115 @@
+{
+  "caso": {
+    "id": "CP-CARTA-02",
+    "modulo": "CARTA",
+    "requisito": "Issue #7 · Implementar autenticación por sesión, control de acceso por rol y protección CSRF\nIssue #15 · Maquetar la plantilla del panel con navegación y la pantalla de acceso\nFuncionalidad: CARTA\nCaso: CP-CARTA-02",
+    "nombre": "Ingreso con la contraseña equivocada",
+    "objetivo": "Verificar el rechazo de credenciales incorrectas sin abrir sesión ni revelar si el correo existe.",
+    "tipo": "Funcional negativa · autenticación y permisos",
+    "precondiciones": "Sin sesión iniciada\nUsar IDs consultados por slug/nombre; conservar las dependencias indicadas. Todo POST requiere token vigente, salvo el ingreso móvil.",
+    "datos": "pruebas.foodtruck@menu08.local / equivocada",
+    "pasos": "1. Abrir /ingresar.\n2. Escribir el correo correcto y una contraseña falsa.\n3. Enviar.\n4. Pedir /panel.",
+    "esperado": "Se rechaza sin abrir sesión y sin decir cuál de los dos datos falló",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S258 · Issue #7 · Implementar autenticación por sesión, control de acceso por rol y protección CSRF\nS259 · Issue #15 · Maquetar la plantilla del panel con navegación y la pantalla de acceso\nS003 · docs/pruebas/casos/carta.md · líneas 44–52\nS002 · menu08_app/aplicacion/controladores/AutenticacionControlador.php · líneas 36–44"
+  },
+  "resultados": {
+    "caso": "CP-CARTA-02",
+    "nombre": "Ingreso con la contraseña equivocada",
+    "modulo": "CARTA",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Rechazo",
+        "esperado": 401,
+        "obtenido": 401,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Mensaje genérico",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Panel sin sesión",
+        "esperado": 302,
+        "obtenido": 302,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-002"
+    ],
+    "fecha": "2026-10-15T10:57:19.860621+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CARTA-02",
+      "nombre": "Ingreso con la contraseña equivocada",
+      "fecha": "2026-10-15T10:57:19.860621+00:00",
+      "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+      "checks": [
+        {
+          "comprobacion": "Rechazo",
+          "esperado": 401,
+          "obtenido": 401,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Mensaje genérico",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Panel sin sesión",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        }
+      ],
+      "http": [
+        {
+          "metodo": "GET",
+          "ruta": "/ingresar",
+          "estado": 200,
+          "ms": 3.22,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <title>Ingresar · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                            </div>\n        </div>\n    </header>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n        \n        <section class=\"acceso\">\n    <div class=\"tarjeta tarjeta-elevada acceso-tarjeta\">\n        <header class=\"acceso-encabezado\">\n            <span class=\"cabecera-sello acceso-sello\" aria-hidden=\"true\">🍴</span>\n            <h1 class=\"acceso-titulo\">Ingresar</h1>\n            <p class=\"texto-apagado texto-m\">Zona privada de Menu08.</p>\n        </header>\n\n        \n        <form class=\"pila pila-4\" method=\"post\" action=\"http://127.0.0.1:8088/ingresar\">\n            <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">\n            <div class=\"campo campo-sobre-contenedor\">\n                <input class=\"campo-control\" type=\"email\" id=\"correo\" name=\"correo\"\n                       value=\"\" placeholder=\" \"\n                       required autocomplete=\"username\" autofocus>\n                <label class=\"campo-etiqueta\" for=\"correo\">Correo</label>\n            </div>\n\n            <div class=\"campo campo-sobre-contenedor campo-con-accion\">\n                <input class=\"campo-control\" type=\"password\" id=\"contrasena\" name=\"contrasena\"\n                       placeholder=\" \" required autocomplete=\"current-password\">\n                <label class=\"campo-etiqueta\" for=\"contrasena\">Contraseña</label>\n\n                                <button type=\"button\" class=\"boton-simbolo campo-accion\" data-ver-clave=\"contrasena\"\n                        aria-label=\"Mostrar la contraseña\" aria-pressed=\"false\" hidden>\n                    <svg class=\"campo-accion-muestra\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                         stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z\"></path>\n                        <circle cx=\"12\" cy=\"12\" r=\"3\"></circle>\n                    </svg>\n                    <svg class=\"campo-accion-oculta\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                         stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M3 3l18 18\"></path>\n                        <path d=\"M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1\"></path>\n                        <path d=\"M6.6 6.6A17.3 17.3 0 0 0 2 12s3.6 7 10 7a10.7 10.7 0 0 0 5.4-1.5\"></path>\n                        <path d=\"M9.9 9.9a3 3 0 0 0 4.2 4.2\"></path>\n                    </svg>\n                </button>\n            </div>\n\n            <button class=\"boton boton-relleno boton-bloque acceso-entrar\" type=\"submit\">\n                <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                     stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                    <path d=\"M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3\"></path>\n                    <path d=\"M10 8l4 4-4 4\"></path><path d=\"M14 12H4\"></path>\n                </svg>\n                Entrar\n            </button>\n        </form>\n\n        <p class=\"acceso-pie texto-m\">\n            <a href=\"http://127.0.0.1:8088/\">Ver las cartas publicadas</a>\n        </p>\n    </div>\n</section>\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+        },
+        {
+          "metodo": "POST",
+          "ruta": "/ingresar",
+          "estado": 401,
+          "ms": 75.66,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <title>Ingresar · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                            </div>\n        </div>\n    </header>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n        \n        <section class=\"acceso\">\n    <div class=\"tarjeta tarjeta-elevada acceso-tarjeta\">\n        <header class=\"acceso-encabezado\">\n            <span class=\"cabecera-sello acceso-sello\" aria-hidden=\"true\">🍴</span>\n            <h1 class=\"acceso-titulo\">Ingresar</h1>\n            <p class=\"texto-apagado texto-m\">Zona privada de Menu08.</p>\n        </header>\n\n                    <div class=\"aviso aviso-error\" role=\"alert\">\n                <svg class=\"aviso-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                     stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                    <circle cx=\"12\" cy=\"12\" r=\"9\"></circle>\n                    <path d=\"M12 7v5.5\"></path>\n                    <path d=\"M12 16h.01\"></path>\n                </svg>\n                <p><strong>Error.</strong> Correo o contraseña incorrectos.</p>\n            </div>\n        \n        <form class=\"pila pila-4\" method=\"post\" action=\"http://127.0.0.1:8088/ingresar\">\n            <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">\n            <div class=\"campo campo-sobre-contenedor\">\n                <input class=\"campo-control\" type=\"email\" id=\"correo\" name=\"correo\"\n                       value=\"pruebas.foodtruck@menu08.local\" placeholder=\" \"\n                       required autocomplete=\"username\" autofocus>\n                <label class=\"campo-etiqueta\" for=\"correo\">Correo</label>\n            </div>\n\n            <div class=\"campo campo-sobre-contenedor campo-con-accion\">\n                <input class=\"campo-control\" type=\"password\" id=\"contrasena\" name=\"contrasena\"\n                       placeholder=\" \" required autocomplete=\"current-password\">\n                <label class=\"campo-etiqueta\" for=\"contrasena\">Contraseña</label>\n\n                                <button type=\"button\" class=\"boton-simbolo campo-accion\" data-ver-clave=\"contrasena\"\n                        aria-label=\"Mostrar la contraseña\" aria-pressed=\"false\" hidden>\n                    <svg class=\"campo-accion-muestra\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                         stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z\"></path>\n                        <circle cx=\"12\" cy=\"12\" r=\"3\"></circle>\n                    </svg>\n                    <svg class=\"campo-accion-oculta\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                         stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M3 3l18 18\"></path>\n                        <path d=\"M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1\"></path>\n                        <path d=\"M6.6 6.6A17.3 17.3 0 0 0 2 12s3.6 7 10 7a10.7 10.7 0 0 0 5.4-1.5\"></path>\n                        <path d=\"M9.9 9.9a3 3 0 0 0 4.2 4.2\"></path>\n                    </svg>\n                </button>\n            </div>\n\n            <button class=\"boton boton-relleno boton-bloque acceso-entrar\" type=\"submit\">\n                <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                     stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                    <path d=\"M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3\"></path>\n                    <path d=\"M10 8l4 4-4 4\"></path><path d=\"M14 12H4\"></path>\n                </svg>\n                Entrar\n            </button>\n        </form>\n\n        <p class=\"acceso-pie texto-m\">\n            <a href=\"http://127.0.0.1:8088/\">Ver las cartas publicadas</a>\n        </p>\n    </div>\n</section>\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/panel",
+          "estado": 302,
+          "ms": 3.29,
+          "content_type": "text/html; charset=UTF-8",
+          "location": "http://127.0.0.1:8088/ingresar",
+          "cuerpo": ""
+        }
+      ],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_http.json",
+      "ejecucion": "EX-002"
+    }
+  ]
+}

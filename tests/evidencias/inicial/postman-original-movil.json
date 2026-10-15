@@ -1,0 +1,347 @@
+{
+  "archivo": "soporte/Menu08/postman/Menu08.postman_collection.json",
+  "carpeta": "8 - Modulo movil (ejecutar en orden)",
+  "fecha": "2026-10-15T11:08:05.558418+00:00",
+  "exit_code": 0,
+  "stats": {
+    "iterations": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "items": {
+      "total": 8,
+      "pending": 0,
+      "failed": 0
+    },
+    "scripts": {
+      "total": 8,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequests": {
+      "total": 8,
+      "pending": 0,
+      "failed": 0
+    },
+    "requests": {
+      "total": 8,
+      "pending": 0,
+      "failed": 0
+    },
+    "tests": {
+      "total": 8,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 25,
+      "pending": 0,
+      "failed": 0
+    },
+    "testScripts": {
+      "total": 8,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequestScripts": {
+      "total": 0,
+      "pending": 0,
+      "failed": 0
+    }
+  },
+  "fallos": [],
+  "ejecuciones": [
+    {
+      "nombre": "1 - GET /salir (llegar sin sesion)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "salir"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 302,
+      "ms": 38,
+      "assertions": [
+        {
+          "assertion": "Responde 302",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "2 - POST /movil/ubicacion sin sesion -> 401",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "movil",
+          "ubicacion"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 401,
+      "ms": 8,
+      "assertions": [
+        {
+          "assertion": "Responde 401",
+          "skipped": false
+        },
+        {
+          "assertion": "Responde JSON, nunca HTML",
+          "skipped": false
+        },
+        {
+          "assertion": "Es no_autenticado",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "3 - POST /movil/ingresar (food_truck) -> 200",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "movil",
+          "ingresar"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 81,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Responde JSON, nunca HTML",
+          "skipped": false
+        },
+        {
+          "assertion": "Trae usuario y token_csrf",
+          "skipped": false
+        },
+        {
+          "assertion": "No devuelve la contrasena",
+          "skipped": false
+        },
+        {
+          "assertion": "El rol es food_truck",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "4 - POST /movil/ubicacion sin _token -> 403",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "movil",
+          "ubicacion"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 403,
+      "ms": 4,
+      "assertions": [
+        {
+          "assertion": "Responde 403",
+          "skipped": false
+        },
+        {
+          "assertion": "Responde JSON, nunca HTML",
+          "skipped": false
+        },
+        {
+          "assertion": "Es token_invalido",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "5 - POST /movil/ubicacion coordenada invalida -> 422",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "movil",
+          "ubicacion"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 422,
+      "ms": 5,
+      "assertions": [
+        {
+          "assertion": "Responde 422",
+          "skipped": false
+        },
+        {
+          "assertion": "Responde JSON, nunca HTML",
+          "skipped": false
+        },
+        {
+          "assertion": "Es coordenadas_invalidas",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "6 - POST /movil/ubicacion correcto -> 200 o 201",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "movil",
+          "ubicacion"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 201,
+      "ms": 14,
+      "assertions": [
+        {
+          "assertion": "Responde 200 o 201",
+          "skipped": false
+        },
+        {
+          "assertion": "Responde JSON, nunca HTML",
+          "skipped": false
+        },
+        {
+          "assertion": "Trae parada y creada",
+          "skipped": false
+        },
+        {
+          "assertion": "El codigo concuerda con creada",
+          "skipped": false
+        },
+        {
+          "assertion": "Guardo las coordenadas enviadas",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "7 - POST /movil/ingresar (cajero) -> 200",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "movil",
+          "ingresar"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 81,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "El rol es cajero",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "8 - POST /movil/ubicacion con rol cajero -> 403",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "movil",
+          "ubicacion"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 403,
+      "ms": 4,
+      "assertions": [
+        {
+          "assertion": "Responde 403",
+          "skipped": false
+        },
+        {
+          "assertion": "Responde JSON, nunca HTML",
+          "skipped": false
+        },
+        {
+          "assertion": "Es rol_no_autorizado",
+          "skipped": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,742 @@
+{
+  "archivo": "postman/Menu08_GA9_VIDEO.postman_collection.json",
+  "carpeta": null,
+  "fecha": "2026-10-15T12:40:41.737224+00:00",
+  "exit_code": 0,
+  "stats": {
+    "iterations": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "items": {
+      "total": 22,
+      "pending": 0,
+      "failed": 0
+    },
+    "scripts": {
+      "total": 22,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequests": {
+      "total": 22,
+      "pending": 0,
+      "failed": 0
+    },
+    "requests": {
+      "total": 22,
+      "pending": 0,
+      "failed": 0
+    },
+    "tests": {
+      "total": 22,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 40,
+      "pending": 0,
+      "failed": 0
+    },
+    "testScripts": {
+      "total": 22,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequestScripts": {
+      "total": 0,
+      "pending": 0,
+      "failed": 0
+    }
+  },
+  "fallos": [],
+  "ejecuciones": [
+    {
+      "nombre": "01 GET /ingresar (captura el token)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "ingresar"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 34,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Se capturo el token",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "02 POST /ingresar como cajero",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "ingresar"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 302,
+      "ms": 82,
+      "assertions": [
+        {
+          "assertion": "Responde 302",
+          "skipped": false
+        },
+        {
+          "assertion": "Redirige a /caja",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "03 GET /caja sin turno abierto",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "caja"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 302,
+      "ms": 8,
+      "assertions": [
+        {
+          "assertion": "Responde 302",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "04 GET /caja/turno (captura el token)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "caja",
+          "turno"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 7,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Se capturo el token",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "05 POST /caja/turno/abrir",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "caja",
+          "turno",
+          "abrir"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 302,
+      "ms": 14,
+      "assertions": [
+        {
+          "assertion": "Responde 302",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "06 GET /caja (captura el token)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "caja"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 11,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Se capturo el token",
+          "skipped": false
+        },
+        {
+          "assertion": "ID dinámico papasId",
+          "skipped": false
+        },
+        {
+          "assertion": "ID dinámico hamburguesaId",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "07 POST /caja/vender",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "caja",
+          "vender"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 302,
+      "ms": 15,
+      "assertions": [
+        {
+          "assertion": "Responde 302",
+          "skipped": false
+        },
+        {
+          "assertion": "Redirige al comprobante",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "08 GET /caja/comprobante/{id}",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "caja",
+          "comprobante",
+          "14"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 9,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "Cerrar sesión antes de cambiar de rol",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "salir"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 302,
+      "ms": 5,
+      "assertions": [
+        {
+          "assertion": "Cierre de sesión 302",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "09 GET /ingresar (captura el token)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "ingresar"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 5,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Se capturo el token",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "10 POST /ingresar como produccion",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "ingresar"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 302,
+      "ms": 78,
+      "assertions": [
+        {
+          "assertion": "Responde 302",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "11 GET /svp (captura el token del meta)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "svp"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 8,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Se capturo el token del meta",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "12 GET /svp/ordenes",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "svp",
+          "ordenes"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 8,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Responde JSON, nunca HTML",
+          "skipped": false
+        },
+        {
+          "assertion": "Hay al menos una orden en curso",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "13 POST estado -> en_preparacion",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "svp",
+          "orden",
+          "14",
+          "estado"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 12,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Responde JSON, nunca HTML",
+          "skipped": false
+        },
+        {
+          "assertion": "Paso a en_preparacion",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "14 POST estado -> lista",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "svp",
+          "orden",
+          "14",
+          "estado"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 12,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Paso a lista",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "15 POST estado -> entregada",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "svp",
+          "orden",
+          "14",
+          "estado"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 12,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Paso a entregada y no tiene siguiente",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "16 GET /svp/ordenes (ya no esta)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "svp",
+          "ordenes"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 7,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "La orden entregada ya no esta",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "Cerrar sesión antes de cambiar de rol",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "salir"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 302,
+      "ms": 4,
+      "assertions": [
+        {
+          "assertion": "Cierre de sesión 302",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "17 GET /ingresar + cajero (captura el token)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "ingresar"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 3,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Se capturo el token",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "18 POST /ingresar como cajero",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "ingresar"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 302,
+      "ms": 79,
+      "assertions": [
+        {
+          "assertion": "Responde 302",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "19 GET /caja/turno (captura el token)",
+      "metodo": "GET",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "caja",
+          "turno"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 200,
+      "ms": 9,
+      "assertions": [
+        {
+          "assertion": "Responde 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Se capturo el token",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "nombre": "20 POST /caja/turno/cerrar",
+      "metodo": "POST",
+      "url": {
+        "protocol": "http",
+        "port": "8088",
+        "path": [
+          "caja",
+          "turno",
+          "cerrar"
+        ],
+        "host": [
+          "127",
+          "0",
+          "0",
+          "1"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "codigo": 302,
+      "ms": 10,
+      "assertions": [
+        {
+          "assertion": "Responde 302",
+          "skipped": false
+        }
+      ]
+    }
+  ]
+}

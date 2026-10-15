@@ -1,0 +1,145 @@
+{
+  "caso": {
+    "id": "CP-SVP-14",
+    "modulo": "SVP · contrato JSON",
+    "requisito": "Issue #12 · Exponer el servicio JSON de consulta de órdenes en curso para el SVP\nIssue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nFuncionalidad: SVP · contrato JSON\nCaso: CP-SVP-14",
+    "nombre": "Estructura y tipos del servicio de órdenes",
+    "objetivo": "Comprobar que el contrato JSON permite sondear el tablero sin ambigüedad entre un turno vacío y cerrado.",
+    "tipo": "Servicio · contrato y tipos",
+    "precondiciones": "Sesión producción o food_truck; turno abierto; orden propia con una nota y un producto del banco; acceso al contrato y al SQL para contraste.",
+    "datos": "GET /svp/ordenes. Claves de raíz: turno, ahora, minutos_demora, total, ordenes. Orden: id, numero, estado, estado_nombre, creado_en, minutos, demorada, nota, items.",
+    "pasos": "1. Solicitar GET /svp/ordenes sin transformar la respuesta.\n2. Validar Content-Type y las claves y tipos del objeto.\n3. Comparar total con la longitud de ordenes y cada nombre/cantidad de items con el detalle SQL.\n4. Contrastar los escenarios vacío y cerrado de CP-SVP-01 y CP-SVP-02.",
+    "esperado": "HTTP 200 y application/json; charset=utf-8. turno es entero o null; total y minutos son enteros; demorada es booleano; nota es texto o null; items contiene nombre y cantidad. total coincide con la lista y no incluye órdenes entregadas ni de otro truck.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S270 · Issue #12 · Exponer el servicio JSON de consulta de órdenes en curso para el SVP\nS271 · Issue #20 · Construir el tablero del Sistema de Visualización de Producción con sondeo y realce de demoras\nS118 · docs/api-svp.md · líneas 1–9\nS053 · menu08_app/aplicacion/controladores/SvpControlador.php · líneas 54–62\nS119 · menu08_app/aplicacion/modelos/Orden.php · líneas 200–208"
+  },
+  "resultados": {
+    "caso": "CP-SVP-14",
+    "nombre": "Estructura y tipos del servicio de órdenes",
+    "modulo": "SVP · contrato JSON",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "JSON",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Total coincide",
+        "esperado": 1,
+        "obtenido": 1,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Tipo minutos",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Tipo demorada",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Tipo id",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Ítems tipados",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin entregadas",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-063"
+    ],
+    "fecha": "2026-10-15T12:38:56.413053+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-SVP-14",
+      "nombre": "Estructura y tipos del servicio de órdenes",
+      "fecha": "2026-10-15T12:38:56.413053+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "JSON",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total coincide",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo minutos",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo demorada",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo id",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Ítems tipados",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin entregadas",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [
+        {
+          "metodo": "GET",
+          "ruta": "/svp/ordenes",
+          "estado": 200,
+          "ms": 8.15,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"turno\":12,\"ahora\":\"2026-10-15 07:38:56\",\"minutos_demora\":10,\"total\":1,\"ordenes\":[{\"id\":29,\"numero\":\"T12-003\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-15 07:28:56\",\"minutos\":10,\"demorada\":true,\"nota\":null,\"items\":[{\"nombre\":\"Vaso de agua\",\"cantidad\":1}]}]}"
+        }
+      ],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_servicios.json",
+      "ejecucion": "EX-063"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+newman
+
+Menu08 — prototipo SENA
+
+❏ 2 - Publicas (sin sesion)
+↳ GET /
+  GET http://127.0.0.1:8088/ [200 OK, 11.41kB, 41ms]
+  ✓  Responde 200
+  ✓  Enlaza las cartas por slug
+
+↳ GET /comprobacion/{slug}
+  GET http://127.0.0.1:8088/comprobacion/truck-de-pruebas [200 OK, 4.85kB, 26ms]
+  ✓  Responde 200
+
+↳ GET /carta/{slug}
+  GET http://127.0.0.1:8088/carta/truck-de-pruebas [200 OK, 28.45kB, 12ms]
+  ✓  Responde 200
+  1. Oculta lo desactivado
+
+↳ GET /carta/no-existe (404)
+  GET http://127.0.0.1:8088/carta/no-existe [404 Not Found, 4.57kB, 7ms]
+  ✓  Responde 404
+
+↳ GET /turnos/{slug}
+  GET http://127.0.0.1:8088/turnos/truck-de-pruebas [200 OK, 6.73kB, 9ms]
+  ✓  Responde 200
+  ✓  Muestra columnas de turnos
+
+↳ GET /turnos/{slug}/ordenes
+  GET http://127.0.0.1:8088/turnos/truck-de-pruebas/ordenes [200 OK, 346B, 7ms]
+  ✓  Responde 200 JSON
+  ✓  Estructura publica de turnos
+
+↳ GET /turnos/no-existe (404)
+  GET http://127.0.0.1:8088/turnos/no-existe [404 Not Found, 4.57kB, 7ms]
+  ✓  Responde 404
+
+↳ GET /turnos/no-existe/ordenes (404)
+  GET http://127.0.0.1:8088/turnos/no-existe/ordenes [404 Not Found, 389B, 7ms]
+  ✓  Responde 404 JSON
+
+↳ HEAD / (mismo codigo que GET, sin cuerpo)
+  HEAD http://127.0.0.1:8088/ [200 OK, 272B, 11ms]
+  ✓  Responde 200
+  ✓  Sin cuerpo
+
+↳ HEAD /carta/no-existe (404, sin cuerpo)
+  HEAD http://127.0.0.1:8088/carta/no-existe [404 Not Found, 279B, 7ms]
+  ✓  Responde 404
+  ✓  Sin cuerpo
+
+↳ GET /componentes
+  GET http://127.0.0.1:8088/componentes [200 OK, 34.04kB, 56ms]
+  ✓  Responde 200
+  ✓  Carga las tres hojas locales
+  2. No enlaza ningun recurso remoto
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │               11 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │               11 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │                0 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │               19 │                2 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 459ms                                     │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 92.8kB (approx)                          │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 17ms [min: 7ms, max: 56ms, s.d.: 15ms] │
+└───────────────────────────────────────────────────────────────┘
+
+[31m  # [39m[31m failure        [39m[31m detail                                                                                   [39m
+[90m    [39m[90m                [39m[90m                                                                                          [39m
+ 1.  AssertionError  Oculta lo desactivado                                                                    
+                     expected '<!doctype html>\n<html lang="es">\n<h…' to not include 'Entrada agotada'       
+                     at assertion:1 in test-script                                                            
+                     inside "2 - Publicas (sin sesion) / GET /carta/{slug}"                                   
+[90m    [39m[90m                [39m[90m                                                                                          [39m
+ 2.  AssertionError  No enlaza ningun recurso remoto                                                          
+                     expected '<!doctype html>\n<html lang="es">\n<h…' not to match /(src|href)="https?:\/\// 
+                     at assertion:2 in test-script                                                            
+                     inside "2 - Publicas (sin sesion) / GET /componentes"                                    
+(node:14046) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)

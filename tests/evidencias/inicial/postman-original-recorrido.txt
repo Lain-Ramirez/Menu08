@@ -1,0 +1,205 @@
+newman
+
+Menu08 — prototipo SENA
+
+❏ 1 - Recorrido completo (ejecutar en orden)
+↳ 01 GET /ingresar (captura el token)
+  GET http://127.0.0.1:8088/ingresar [200 OK, 6.9kB, 39ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 02 POST /ingresar como cajero
+  POST http://127.0.0.1:8088/ingresar [302 Found, 399B, 85ms]
+  ✓  Responde 302
+  ✓  Redirige a /caja
+
+↳ 03 GET /caja sin turno abierto
+  GET http://127.0.0.1:8088/caja [302 Found, 319B, 7ms]
+  ✓  Responde 302
+
+↳ 04 GET /caja/turno (captura el token)
+  GET http://127.0.0.1:8088/caja/turno [200 OK, 17.71kB, 7ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 05 POST /caja/turno/abrir
+  POST http://127.0.0.1:8088/caja/turno/abrir [302 Found, 313B, 12ms]
+  ✓  Responde 302
+
+↳ 06 GET /caja (captura el token)
+  GET http://127.0.0.1:8088/caja [200 OK, 35.64kB, 11ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 07 POST /caja/vender
+  POST http://127.0.0.1:8088/caja/vender [422 Unknown Status Code, 34.97kB, 16ms]
+  1. Responde 302
+  2. Redirige al comprobante
+
+↳ 08 GET /caja/comprobante/{id}
+  GET http://127.0.0.1:8088/caja/comprobante/ [404 Not Found, 6.91kB, 5ms]
+  3. Responde 200
+
+↳ 09 GET /ingresar (captura el token)
+  GET http://127.0.0.1:8088/ingresar [302 Found, 313B, 5ms]
+  4. Responde 200
+  5. Se capturo el token
+
+↳ 10 POST /ingresar como produccion
+  POST http://127.0.0.1:8088/ingresar [302 Found, 398B, 81ms]
+  ✓  Responde 302
+
+↳ 11 GET /svp (captura el token del meta)
+  GET http://127.0.0.1:8088/svp [200 OK, 19.13kB, 7ms]
+  ✓  Responde 200
+  ✓  Se capturo el token del meta
+
+↳ 12 GET /svp/ordenes
+  GET http://127.0.0.1:8088/svp/ordenes [200 OK, 363B, 8ms]
+  ✓  Responde 200
+  ✓  Responde JSON, nunca HTML
+  6. Hay al menos una orden en curso
+
+↳ 13 POST estado -> en_preparacion
+  POST http://127.0.0.1:8088/svp/orden//estado [404 Not Found, 6.93kB, 4ms]
+  7. Responde 200
+  8. Responde JSON, nunca HTML
+  9. Paso a en_preparacion
+
+↳ 14 POST estado -> lista
+  POST http://127.0.0.1:8088/svp/orden//estado [404 Not Found, 6.93kB, 5ms]
+ 10. Responde 200
+ 11. Paso a lista
+
+↳ 15 POST estado -> entregada
+  POST http://127.0.0.1:8088/svp/orden//estado [404 Not Found, 6.93kB, 5ms]
+ 12. Responde 200
+ 13. Paso a entregada y no tiene siguiente
+
+↳ 16 GET /svp/ordenes (ya no esta)
+  GET http://127.0.0.1:8088/svp/ordenes [200 OK, 363B, 8ms]
+  ✓  Responde 200
+  ✓  La orden entregada ya no esta
+
+↳ 17 GET /ingresar + cajero (captura el token)
+  GET http://127.0.0.1:8088/ingresar [302 Found, 312B, 4ms]
+ 14. Responde 200
+ 15. Se capturo el token
+
+↳ 18 POST /ingresar como cajero
+  POST http://127.0.0.1:8088/ingresar [302 Found, 399B, 80ms]
+  ✓  Responde 302
+
+↳ 19 GET /caja/turno (captura el token)
+  GET http://127.0.0.1:8088/caja/turno [200 OK, 14.38kB, 8ms]
+  ✓  Responde 200
+  ✓  Se capturo el token
+
+↳ 20 POST /caja/turno/cerrar
+  POST http://127.0.0.1:8088/caja/turno/cerrar [302 Found, 322B, 11ms]
+  ✓  Responde 302
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │               20 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │               20 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │                0 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │               36 │               15 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 838ms                                     │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 153.75kB (approx)                        │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 20ms [min: 4ms, max: 85ms, s.d.: 26ms] │
+└───────────────────────────────────────────────────────────────┘
+
+[31m   # [39m[31m failure        [39m[31m detail                                                                                             [39m
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 01.  AssertionError  Responde 302                                                                                       
+                      expected response to have status code 302 but got 422                                              
+                      at assertion:0 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 07 POST /caja/vender"                         
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 02.  AssertionError  Redirige al comprobante                                                                            
+                      expected '' to include '/caja/comprobante/'                                                        
+                      at assertion:1 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 07 POST /caja/vender"                         
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 03.  AssertionError  Responde 200                                                                                       
+                      expected response to have status code 200 but got 404                                              
+                      at assertion:0 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 08 GET /caja/comprobante/{id}"                
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 04.  AssertionError  Responde 200                                                                                       
+                      expected response to have status code 200 but got 302                                              
+                      at assertion:0 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 09 GET /ingresar (captura el token)"          
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 05.  AssertionError  Se capturo el token                                                                                
+                      no hay _token en la pagina: expected null not to be null                                           
+                      at assertion:1 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 09 GET /ingresar (captura el token)"          
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 06.  AssertionError  Hay al menos una orden en curso                                                                    
+                      expected +0 to be above +0                                                                         
+                      at assertion:2 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 12 GET /svp/ordenes"                          
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 07.  AssertionError  Responde 200                                                                                       
+                      expected response to have status code 200 but got 404                                              
+                      at assertion:0 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 13 POST estado -> en_preparacion"             
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 08.  AssertionError  Responde JSON, nunca HTML                                                                          
+                      expected 'text/html; charset=utf-8' to include 'application/json'                                  
+                      at assertion:1 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 13 POST estado -> en_preparacion"             
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 09.  JSONError       Paso a en_preparacion                                                                              
+                      Unexpected token '<' at 1:1                                                                        
+                      <!doctype html>                                                                                    
+                      ^                                                                                                  
+                      at assertion:2 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 13 POST estado -> en_preparacion"             
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 10.  AssertionError  Responde 200                                                                                       
+                      expected response to have status code 200 but got 404                                              
+                      at assertion:0 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 14 POST estado -> lista"                      
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 11.  JSONError       Paso a lista                                                                                       
+                      Unexpected token '<' at 1:1                                                                        
+                      <!doctype html>                                                                                    
+                      ^                                                                                                  
+                      at assertion:1 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 14 POST estado -> lista"                      
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 12.  AssertionError  Responde 200                                                                                       
+                      expected response to have status code 200 but got 404                                              
+                      at assertion:0 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 15 POST estado -> entregada"                  
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 13.  JSONError       Paso a entregada y no tiene siguiente                                                              
+                      Unexpected token '<' at 1:1                                                                        
+                      <!doctype html>                                                                                    
+                      ^                                                                                                  
+                      at assertion:1 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 15 POST estado -> entregada"                  
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 14.  AssertionError  Responde 200                                                                                       
+                      expected response to have status code 200 but got 302                                              
+                      at assertion:0 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 17 GET /ingresar + cajero (captura el token)" 
+[90m     [39m[90m                [39m[90m                                                                                                    [39m
+ 15.  AssertionError  Se capturo el token                                                                                
+                      no hay _token en la pagina: expected null not to be null                                           
+                      at assertion:1 in test-script                                                                      
+                      inside "1 - Recorrido completo (ejecutar en orden) / 17 GET /ingresar + cajero (captura el token)" 
+(node:13968) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)

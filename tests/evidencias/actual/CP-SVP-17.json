@@ -1,0 +1,181 @@
+{
+  "caso": {
+    "id": "CP-SVP-17",
+    "modulo": "SVP · pantalla pública",
+    "requisito": "Issue #38 · Construir la pantalla pública de turnos para la ventanilla\nFuncionalidad: SVP · pantalla pública\nCaso: CP-SVP-17",
+    "nombre": "Slug inexistente e inactivo en turnos públicos",
+    "objetivo": "Comprobar las respuestas de la pantalla y del servicio ante un truck que no está disponible al público.",
+    "tipo": "Funcional negativa · acceso público",
+    "precondiciones": "Ventana sin sesión; Truck de Pruebas inicialmente activo; acceso de prueba para alternar únicamente su activo y restaurarlo.",
+    "datos": "Slug no-existe; slug truck-de-pruebas con activo=0. Rutas /turnos/{slug} y /turnos/{slug}/ordenes.",
+    "pasos": "1. Consultar las dos rutas con no-existe.\n2. Desactivar solo el truck de pruebas y repetir con truck-de-pruebas.\n3. Reactivar el truck y confirmar su recuperación.",
+    "esperado": "Pantalla: 404 con la vista de error. Servicio: 404 JSON con error food_truck_no_encontrado y mensaje, sin información interna. Al reactivar, ambas rutas recuperan la respuesta 200.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S273 · Issue #38 · Construir la pantalla pública de turnos para la ventanilla\nS120 · menu08_app/aplicacion/controladores/SvpControlador.php · líneas 136–144\nS124 · menu08_app/aplicacion/modelos/FoodTruck.php · líneas 30–38"
+  },
+  "resultados": {
+    "caso": "CP-SVP-17",
+    "nombre": "Slug inexistente e inactivo en turnos públicos",
+    "modulo": "SVP · pantalla pública",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Pantalla no-existe",
+        "esperado": 404,
+        "obtenido": 404,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Servicio no-existe",
+        "esperado": 404,
+        "obtenido": 404,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Error JSON",
+        "esperado": "food_truck_no_encontrado",
+        "obtenido": "food_truck_no_encontrado",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Pantalla truck-de-pruebas",
+        "esperado": 404,
+        "obtenido": 404,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Servicio truck-de-pruebas",
+        "esperado": 404,
+        "obtenido": 404,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Error JSON",
+        "esperado": "food_truck_no_encontrado",
+        "obtenido": "food_truck_no_encontrado",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Reactivado",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-066"
+    ],
+    "fecha": "2026-10-15T12:38:56.537352+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-SVP-17",
+      "nombre": "Slug inexistente e inactivo en turnos públicos",
+      "fecha": "2026-10-15T12:38:56.537352+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Pantalla no-existe",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Servicio no-existe",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error JSON",
+          "esperado": "food_truck_no_encontrado",
+          "obtenido": "food_truck_no_encontrado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Pantalla truck-de-pruebas",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Servicio truck-de-pruebas",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error JSON",
+          "esperado": "food_truck_no_encontrado",
+          "obtenido": "food_truck_no_encontrado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Reactivado",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        }
+      ],
+      "http": [
+        {
+          "metodo": "GET",
+          "ruta": "/turnos/no-existe",
+          "estado": 404,
+          "ms": 7.12,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <meta name=\"csrf-token\" content=\"[oculto]\">\n        <title>Error 404 · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                                    <span class=\"cabecera-usuario\">\n                                                    <span class=\"cabecera-avatar\" aria-hidden=\"true\">P</span>\n                                                <span class=\"cabecera-nombre-usuario\">Produccion de pruebas</span>\n                        <span class=\"etiqueta etiqueta-pendiente cabecera-rol\">produccion</span>\n                    </span>\n\n                    <a class=\"boton boton-texto cabecera-salir\" href=\"http://127.0.0.1:8088/salir\">\n                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3\"></path>\n                            <path d=\"M15 8l4 4-4 4\"></path><path d=\"M19 12H9\"></path>\n                        </svg>\n                        <span class=\"cabecera-salir-texto\">Salir</span>\n                    </a>\n\n                                        <button type=\"button\" class=\"boton-simbolo cabecera-alterna\"\n                            data-alterna=\"navegacion-panel\" data-alterna-desde=\"(max-width: 767.98px)\"\n                            aria-label=\"Alternar navegacion\">\n                        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M4 7h16\"></path><path d=\"M4 12h16\"></path><path d=\"M4 17h16\"></path>\n                        </svg>\n                    </button>\n                            </div>\n        </div>\n    </header>\n<nav class=\"navegacion sin-impresion\" id=\"navegacion-panel\" aria-label=\"Modulos\">\n    <ul class=\"navegacion-lista contenedor-ancho\">\n                                <li>\n                <a class=\"navegacion-enlace\"\n                   href=\"http://127.0.0.1:8088/svp\"\n                   >\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">👨‍🍳</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">SVP</span>\n                        <span class=\"navegacion-descripcion\">Tablero de producción</span>\n                    </span>\n                </a>\n            </li>\n            </ul>\n</nav>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n        \n        <section class=\"estado-vacio\" aria-labelledby=\"error-titulo\">\n    <span class=\"estado-vacio-icono\" aria-hidden=\"true\">\n        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n             stroke-linecap=\"round\" stroke-linejoin=\"round\">\n                            <circle cx=\"11\" cy=\"11\" r=\"7\"></circle><path d=\"m20 20-4-4\"></path><path d=\"M8.5 11h5\"></path>\n                    </svg>\n    </span>\n\n    <p class=\"estado-vacio-codigo\">Error 404</p>\n\n    <h1 class=\"estado-vacio-titulo\" id=\"error-titulo\">Página no encontrada</h1>\n\n    <p class=\"estado-vacio-texto\">No encontramos la pagina que busca.</p>\n\n    <p class=\"estado-vacio-acciones\">\n        <a class=\"boton boton-relleno\" href=\"http://127.0.0.1:8088/\">Volver al inicio</a>\n    </p>\n</section>\n\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/turnos/no-existe/ordenes",
+          "estado": 404,
+          "ms": 5.71,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"error\":\"food_truck_no_encontrado\",\"mensaje\":\"No hay un food truck activo con el slug \\\"no-existe\\\".\"}"
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/turnos/truck-de-pruebas",
+          "estado": 404,
+          "ms": 5.95,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <meta name=\"csrf-token\" content=\"[oculto]\">\n        <title>Error 404 · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                                    <span class=\"cabecera-usuario\">\n                                                    <span class=\"cabecera-avatar\" aria-hidden=\"true\">P</span>\n                                                <span class=\"cabecera-nombre-usuario\">Produccion de pruebas</span>\n                        <span class=\"etiqueta etiqueta-pendiente cabecera-rol\">produccion</span>\n                    </span>\n\n                    <a class=\"boton boton-texto cabecera-salir\" href=\"http://127.0.0.1:8088/salir\">\n                        <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3\"></path>\n                            <path d=\"M15 8l4 4-4 4\"></path><path d=\"M19 12H9\"></path>\n                        </svg>\n                        <span class=\"cabecera-salir-texto\">Salir</span>\n                    </a>\n\n                                        <button type=\"button\" class=\"boton-simbolo cabecera-alterna\"\n                            data-alterna=\"navegacion-panel\" data-alterna-desde=\"(max-width: 767.98px)\"\n                            aria-label=\"Alternar navegacion\">\n                        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                             stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                            <path d=\"M4 7h16\"></path><path d=\"M4 12h16\"></path><path d=\"M4 17h16\"></path>\n                        </svg>\n                    </button>\n                            </div>\n        </div>\n    </header>\n<nav class=\"navegacion sin-impresion\" id=\"navegacion-panel\" aria-label=\"Modulos\">\n    <ul class=\"navegacion-lista contenedor-ancho\">\n                                <li>\n                <a class=\"navegacion-enlace\"\n                   href=\"http://127.0.0.1:8088/svp\"\n                   >\n                    <span class=\"navegacion-icono\" aria-hidden=\"true\">👨‍🍳</span>\n                    <span class=\"navegacion-textos\">\n                        <span class=\"navegacion-rotulo\">SVP</span>\n                        <span class=\"navegacion-descripcion\">Tablero de producción</span>\n                    </span>\n                </a>\n            </li>\n            </ul>\n</nav>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n        \n        <section class=\"estado-vacio\" aria-labelledby=\"error-titulo\">\n    <span class=\"estado-vacio-icono\" aria-hidden=\"true\">\n        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n             stroke-linecap=\"round\" stroke-linejoin=\"round\">\n                            <circle cx=\"11\" cy=\"11\" r=\"7\"></circle><path d=\"m20 20-4-4\"></path><path d=\"M8.5 11h5\"></path>\n                    </svg>\n    </span>\n\n    <p class=\"estado-vacio-codigo\">Error 404</p>\n\n    <h1 class=\"estado-vacio-titulo\" id=\"error-titulo\">Página no encontrada</h1>\n\n    <p class=\"estado-vacio-texto\">No encontramos la pagina que busca.</p>\n\n    <p class=\"estado-vacio-acciones\">\n        <a class=\"boton boton-relleno\" href=\"http://127.0.0.1:8088/\">Volver al inicio</a>\n    </p>\n</section>\n\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/turnos/truck-de-pruebas/ordenes",
+          "estado": 404,
+          "ms": 5.16,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"error\":\"food_truck_no_encontrado\",\"mensaje\":\"No hay un food truck activo con el slug \\\"truck-de-pruebas\\\".\"}"
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/turnos/truck-de-pruebas",
+          "estado": 200,
+          "ms": 5.92,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <title>Turnos · Truck de Pruebas</title>\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/turnos.css\">\n    \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n        <script src=\"http://127.0.0.1:8088/recursos/js/turnos.js\" defer></script>\n    </head>\n<body class=\"publico\">\n    <main class=\"contenido-publico\" id=\"contenido\">\n        <div class=\"turnos-pantalla\"\n     data-turnos\n     data-turnos-slug=\"truck-de-pruebas\"\n     data-turnos-servicio=\"http://127.0.0.1:8088/turnos/truck-de-pruebas/ordenes\">\n\n    <header class=\"turnos-cabecera\">\n        <div class=\"turnos-identidad\">\n                        <div class=\"turnos-titulos\">\n                <h1 class=\"turnos-negocio\">Truck de Pruebas</h1>\n                <span class=\"turnos-subtitulo\">Turnos de atención</span>\n            </div>\n        </div>\n\n        <div class=\"turnos-controles\">\n            <span class=\"turnos-latido\" data-turnos-latido>\n                <span class=\"turnos-latido-punto\" aria-hidden=\"true\"></span>\n                <span data-turnos-latido-texto>Actualizado ahora</span>\n            </span>\n\n            <button type=\"button\" class=\"boton boton-tonal turnos-btn-pantalla\" data-turnos-btn-pantalla title=\"Pantalla completa\">\n                <svg class=\"turnos-icono-btn\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3\"/></svg>                <span class=\"turnos-texto-btn\" data-turnos-btn-texto>Pantalla completa</span>\n            </button>\n        </div>\n    </header>\n\n    <div class=\"aviso aviso-error turnos-aviso-red\" role=\"alert\" data-turnos-aviso hidden>\n        <svg class=\"aviso-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.3 4 2.5 17.5A1.8 1.8 0 0 0 4 20.2h16a1.8 1.8 0 0 0 1.5-2.7L13.7 4a2 2 0 0 0-3.4 0Z\"/><path d=\"M12 10v3.5\"/><path d=\"M12 17h.01\"/></svg>        <p data-turnos-aviso-texto></p>\n    </div>\n\n    <div class=\"turnos-vacio-cerrado\" data-turnos-cerrado>\n        <div class=\"turnos-vacio-icono\">\n            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg>        </div>\n        <h2 class=\"turnos-vacio-titulo\">Ventanilla cerrada</h2>\n        <p class=\"turnos-vacio-texto\">\n            En este momento el food truck no tiene un turno de atención abierto.\n            Los turnos aparecerán automáticamente al abrir la caja.\n        </p>\n    </div>\n\n    <div class=\"turnos-columnas\" data-turnos-columnas hidden>\n        <!-- Columna 1: En preparación -->\n        <section class=\"turnos-columna turnos-columna-preparacion\"\n                 data-turnos-columna=\"en_preparacion\"\n                 aria-labelledby=\"titulo-preparacion\">\n            <header class=\"turnos-columna-cabecera\">\n                <div class=\"turnos-columna-titulo-grupo\">\n                    <span class=\"turnos-columna-icono\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3.5z\"/></svg></span>\n                    <h2 class=\"turnos-columna-titulo\" id=\"titulo-preparacion\">En preparación</h2>\n                </div>\n                <span class=\"turnos-columna-cuenta\" data-turnos-cuenta=\"en_preparacion\">\n                    0                </span>\n            </header>\n\n            <ul class=\"turnos-lista\" data-turnos-lista=\"en_preparacion\">\n                            </ul>\n\n            <p class=\"turnos-columna-vacia\" data-turnos-vacia=\"en_preparacion\">\n                Sin órdenes en preparación\n            </p>\n        </section>\n\n        <!-- Columna 2: Listos -->\n        <section class=\"turnos-columna turnos-columna-lista\"\n                 data-turnos-columna=\"lista\"\n                 aria-labelledby=\"titulo-lista\">\n            <header class=\"turnos-columna-cabecera\">\n                <div class=\"turnos-columna-titulo-grupo\">\n                    <span class=\"turnos-columna-icono\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m5 12.5 4.5 4.5L19 7\"/></svg></span>\n                    <h2 class=\"turnos-columna-titulo\" id=\"titulo-lista\">Listos para entrega</h2>\n                </div>\n                <span class=\"turnos-columna-cuenta\" data-turnos-cuenta=\"lista\">\n                    0                </span>\n            </header>\n\n            <ul class=\"turnos-lista\" data-turnos-lista=\"lista\">\n                            </ul>\n\n            <p class=\"turnos-columna-vacia\" data-turnos-vacia=\"lista\">\n                Esperando pedidos listos\n            </p>\n        </section>\n    </div>\n\n    <!-- Plantillas para clonar desde JavaScript sin escribir marcado -->\n    <template data-turnos-plantilla=\"en_preparacion\">\n        <li class=\"turno-tarjeta turno-tarjeta-preparacion\" data-turno-numero=\"\">\n            <span class=\"turno-numero\"></span>\n        </li>\n    </template>\n\n    <template data-turnos-plantilla=\"lista\">\n        <li class=\"turno-tarjeta turno-tarjeta-lista\" data-turno-numero=\"\">\n            <span class=\"turno-numero\"></span>\n        </li>\n    </template>\n</div>\n    </main>\n</body>\n</html>\n"
+        }
+      ],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_servicios.json",
+      "ejecucion": "EX-066"
+    }
+  ]
+}

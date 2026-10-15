@@ -1,0 +1,266 @@
+{
+  "caso": {
+    "id": "CP-CARTA-16",
+    "modulo": "CARTA",
+    "requisito": "Issue #9 · Publicar la carta por slug y generar el código QR descargable\nIssue #17 · Construir la carta pública adaptable y la pantalla del código QR\nFuncionalidad: CARTA\nCaso: CP-CARTA-16",
+    "nombre": "La carta a 320 px",
+    "objetivo": "Verificar que la carta a 320, 360 y 768 píxeles no produce desplazamiento horizontal del documento.",
+    "tipo": "Presentación · adaptación y temas",
+    "precondiciones": "Ninguna\nUsar IDs consultados por slug/nombre; conservar las dependencias indicadas. Todo POST requiere token vigente, salvo el ingreso móvil.",
+    "datos": "/carta/festin-rodante a 320, 360 y 768 px de ancho",
+    "pasos": "1. Abrir la carta a cada ancho.\n2. Comparar scrollWidth con clientWidth del documento.\n3. Buscar elementos cuyo borde derecho pase del ancho de la ventana.",
+    "esperado": "El documento no se desplaza de lado a ninguno de los tres anchos",
+    "herramienta": "Chrome y Firefox; herramientas del navegador",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Media",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S262 · Issue #9 · Publicar la carta por slug y generar el código QR descargable\nS263 · Issue #17 · Construir la carta pública adaptable y la pantalla del código QR\nS027 · docs/pruebas/casos/carta.md · líneas 265–273\nS019 · menu08_app/aplicacion/controladores/CartaControlador.php · líneas 19–27\nS028 · docs/pruebas/registro-de-defectos.md · líneas 60–68"
+  },
+  "resultados": {
+    "caso": "CP-CARTA-16",
+    "nombre": "La carta a 320 px",
+    "modulo": "CARTA",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "truck-de-pruebas 320 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "truck-de-pruebas 360 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "truck-de-pruebas 768 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "festin-rodante 320 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "festin-rodante 360 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "festin-rodante 768 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "truck-de-pruebas 320 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "truck-de-pruebas 360 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "truck-de-pruebas 768 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "festin-rodante 320 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "festin-rodante 360 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "festin-rodante 768 sin desborde",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+      "{\"slug\": \"truck-de-pruebas\", \"ancho\": 320, \"cliente\": 320, \"documento\": 320}",
+      "{\"slug\": \"truck-de-pruebas\", \"ancho\": 360, \"cliente\": 360, \"documento\": 360}",
+      "{\"slug\": \"truck-de-pruebas\", \"ancho\": 768, \"cliente\": 768, \"documento\": 768}",
+      "{\"slug\": \"festin-rodante\", \"ancho\": 320, \"cliente\": 320, \"documento\": 320}",
+      "{\"slug\": \"festin-rodante\", \"ancho\": 360, \"cliente\": 360, \"documento\": 360}",
+      "{\"slug\": \"festin-rodante\", \"ancho\": 768, \"cliente\": 768, \"documento\": 768}"
+    ],
+    "capturas": [
+      "evidencias/actual/CP-CARTA-16-chromium-truck-de-pruebas-320.png",
+      "evidencias/actual/CP-CARTA-16-chromium-truck-de-pruebas-360.png",
+      "evidencias/actual/CP-CARTA-16-chromium-truck-de-pruebas-768.png",
+      "evidencias/actual/CP-CARTA-16-chromium-festin-rodante-320.png",
+      "evidencias/actual/CP-CARTA-16-chromium-festin-rodante-360.png",
+      "evidencias/actual/CP-CARTA-16-chromium-festin-rodante-768.png",
+      "evidencias/actual/CP-CARTA-16-firefox-truck-de-pruebas-320.png",
+      "evidencias/actual/CP-CARTA-16-firefox-truck-de-pruebas-360.png",
+      "evidencias/actual/CP-CARTA-16-firefox-truck-de-pruebas-768.png",
+      "evidencias/actual/CP-CARTA-16-firefox-festin-rodante-320.png",
+      "evidencias/actual/CP-CARTA-16-firefox-festin-rodante-360.png",
+      "evidencias/actual/CP-CARTA-16-firefox-festin-rodante-768.png"
+    ],
+    "ejecuciones": [
+      "EX-082",
+      "EX-095"
+    ],
+    "fecha": "2026-10-15T12:39:44.750978+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CARTA-16",
+      "nombre": "La carta a 320 px",
+      "fecha": "2026-10-15T12:39:03.077056+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "truck-de-pruebas 320 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "truck-de-pruebas 360 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "truck-de-pruebas 768 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "festin-rodante 320 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "festin-rodante 360 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "festin-rodante 768 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+        "{\"slug\": \"truck-de-pruebas\", \"ancho\": 320, \"cliente\": 320, \"documento\": 320}",
+        "{\"slug\": \"truck-de-pruebas\", \"ancho\": 360, \"cliente\": 360, \"documento\": 360}",
+        "{\"slug\": \"truck-de-pruebas\", \"ancho\": 768, \"cliente\": 768, \"documento\": 768}",
+        "{\"slug\": \"festin-rodante\", \"ancho\": 320, \"cliente\": 320, \"documento\": 320}",
+        "{\"slug\": \"festin-rodante\", \"ancho\": 360, \"cliente\": 360, \"documento\": 360}",
+        "{\"slug\": \"festin-rodante\", \"ancho\": 768, \"cliente\": 768, \"documento\": 768}"
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / chromium",
+      "navegador": "chromium",
+      "capturas": [
+        "evidencias/actual/CP-CARTA-16-chromium-truck-de-pruebas-320.png",
+        "evidencias/actual/CP-CARTA-16-chromium-truck-de-pruebas-360.png",
+        "evidencias/actual/CP-CARTA-16-chromium-truck-de-pruebas-768.png",
+        "evidencias/actual/CP-CARTA-16-chromium-festin-rodante-320.png",
+        "evidencias/actual/CP-CARTA-16-chromium-festin-rodante-360.png",
+        "evidencias/actual/CP-CARTA-16-chromium-festin-rodante-768.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-082"
+    },
+    {
+      "caso": "CP-CARTA-16",
+      "nombre": "La carta a 320 px",
+      "fecha": "2026-10-15T12:39:44.750978+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "truck-de-pruebas 320 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "truck-de-pruebas 360 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "truck-de-pruebas 768 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "festin-rodante 320 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "festin-rodante 360 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "festin-rodante 768 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+        "{\"slug\": \"truck-de-pruebas\", \"ancho\": 320, \"cliente\": 320, \"documento\": 320}",
+        "{\"slug\": \"truck-de-pruebas\", \"ancho\": 360, \"cliente\": 360, \"documento\": 360}",
+        "{\"slug\": \"truck-de-pruebas\", \"ancho\": 768, \"cliente\": 768, \"documento\": 768}",
+        "{\"slug\": \"festin-rodante\", \"ancho\": 320, \"cliente\": 320, \"documento\": 320}",
+        "{\"slug\": \"festin-rodante\", \"ancho\": 360, \"cliente\": 360, \"documento\": 360}",
+        "{\"slug\": \"festin-rodante\", \"ancho\": 768, \"cliente\": 768, \"documento\": 768}"
+      ],
+      "pendientes": [],
+      "herramienta": "Playwright / firefox",
+      "navegador": "firefox",
+      "capturas": [
+        "evidencias/actual/CP-CARTA-16-firefox-truck-de-pruebas-320.png",
+        "evidencias/actual/CP-CARTA-16-firefox-truck-de-pruebas-360.png",
+        "evidencias/actual/CP-CARTA-16-firefox-truck-de-pruebas-768.png",
+        "evidencias/actual/CP-CARTA-16-firefox-festin-rodante-320.png",
+        "evidencias/actual/CP-CARTA-16-firefox-festin-rodante-360.png",
+        "evidencias/actual/CP-CARTA-16-firefox-festin-rodante-768.png"
+      ],
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_e2e.json",
+      "ejecucion": "EX-095"
+    }
+  ]
+}

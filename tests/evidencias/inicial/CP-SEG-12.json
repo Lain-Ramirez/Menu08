@@ -1,0 +1,356 @@
+{
+  "caso": {
+    "id": "CP-SEG-12",
+    "modulo": "Seguridad · puerta móvil de ubicación",
+    "requisito": "Issue #7 · Implementar autenticación por sesión, control de acceso por rol y protección CSRF\nIssue #25 · Ejecutar las pruebas de seguridad y consolidar el reporte de pruebas ejecutadas\nFuncionalidad: Seguridad · puerta móvil de ubicación\nCaso: CP-SEG-12",
+    "nombre": "Ingreso móvil y autorización del reporte de ubicación",
+    "objetivo": "Verificar la puerta del servicio móvil incluida en CP-SEG, sin evaluar el APK del repositorio externo.",
+    "tipo": "Servicio · sesión, rol, CSRF y validación",
+    "precondiciones": "Banco preparado; clientes con cookies independientes; pruebas.foodtruck, pruebas.cajero y pruebas.produccion; cambios solo en el truck de pruebas; cuerpo x-www-form-urlencoded.",
+    "datos": "POST /movil/ingresar con las credenciales del banco. POST /movil/ubicacion con latitud=4.6767000, longitud=-74.0483000; variantes sin sesión, rol ajeno, token ausente y latitud=200.",
+    "pasos": "1. Ingresar en el servicio móvil con cada rol y conservar cookie y token_csrf.\n2. Inspeccionar la respuesta de ingreso y verificar ausencia de contraseña.\n3. Intentar ubicación sin sesión, con cajero o producción y con food_truck sin token.\n4. Desde food_truck y token válido, enviar latitud fuera de rango; comprobar que no cambió la agenda.\n5. Si se verifica el camino válido, registrar si se actualizó una vigente o se creó una parada, y restaurar el banco.",
+    "esperado": "Ingreso válido: 200 JSON con usuario, token_csrf y cookie, sin contraseña; el código actual añade food_truck al usuario. Ubicación: 401 no_autenticado sin sesión; 403 rol_no_autorizado para cajero/producción; 403 token_invalido sin token; 422 coordenadas_invalidas por latitud=200. Camino válido: 200 si actualiza vigente o 201 si crea, siempre en el truck de la sesión.",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S258 · Issue #7 · Implementar autenticación por sesión, control de acceso por rol y protección CSRF\nS274 · Issue #25 · Ejecutar las pruebas de seguridad y consolidar el reporte de pruebas ejecutadas\nS156 · menu08_app/aplicacion/controladores/MovilControlador.php · líneas 49–57\nS157 · menu08_app/aplicacion/controladores/MovilControlador.php · líneas 133–141\nS158 · docs/pruebas/plan-de-pruebas.md · líneas 28–36"
+  },
+  "resultados": {
+    "caso": "CP-SEG-12",
+    "nombre": "Ingreso móvil y autorización del reporte de ubicación",
+    "modulo": "Seguridad · puerta móvil de ubicación",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Sin sesión",
+        "esperado": 401,
+        "obtenido": 401,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Rol cajero",
+        "esperado": 403,
+        "obtenido": 403,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Error",
+        "esperado": "rol_no_autorizado",
+        "obtenido": "rol_no_autorizado",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Rol produccion",
+        "esperado": 403,
+        "obtenido": 403,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Error",
+        "esperado": "rol_no_autorizado",
+        "obtenido": "rol_no_autorizado",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Ingreso móvil",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin contraseña",
+        "esperado": false,
+        "obtenido": false,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Sin token",
+        "esperado": 403,
+        "obtenido": 403,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Coordenada inválida",
+        "esperado": 422,
+        "obtenido": 422,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Camino válido 200 o 201",
+        "esperado": true,
+        "obtenido": true,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Truck de la sesión",
+        "esperado": 10,
+        "obtenido": 10,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Latitud persistida",
+        "esperado": "4.6500000",
+        "obtenido": "4.6500000",
+        "cumple": true
+      },
+      {
+        "comprobacion": "Reporte posterior actualiza",
+        "esperado": 200,
+        "obtenido": 200,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Misma parada",
+        "esperado": 46,
+        "obtenido": 46,
+        "cumple": true
+      },
+      {
+        "comprobacion": "No duplicación",
+        "esperado": 5,
+        "obtenido": 5,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Latitud actualizada",
+        "esperado": "4.6600000",
+        "obtenido": "4.6600000",
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "HTTP obtenido en reporte válido: 201"
+    ],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-112"
+    ],
+    "fecha": "2026-10-15T11:27:30.361978+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-SEG-12",
+      "nombre": "Ingreso móvil y autorización del reporte de ubicación",
+      "fecha": "2026-10-15T11:27:30.361978+00:00",
+      "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+      "checks": [
+        {
+          "comprobacion": "Sin sesión",
+          "esperado": 401,
+          "obtenido": 401,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rol cajero",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "rol_no_autorizado",
+          "obtenido": "rol_no_autorizado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rol produccion",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "rol_no_autorizado",
+          "obtenido": "rol_no_autorizado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Ingreso móvil",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin contraseña",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin token",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Coordenada inválida",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Camino válido 200 o 201",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Truck de la sesión",
+          "esperado": 10,
+          "obtenido": 10,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Latitud persistida",
+          "esperado": "4.6500000",
+          "obtenido": "4.6500000",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Reporte posterior actualiza",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Misma parada",
+          "esperado": 46,
+          "obtenido": 46,
+          "cumple": true
+        },
+        {
+          "comprobacion": "No duplicación",
+          "esperado": 5,
+          "obtenido": 5,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Latitud actualizada",
+          "esperado": "4.6600000",
+          "obtenido": "4.6600000",
+          "cumple": true
+        }
+      ],
+      "http": [
+        {
+          "metodo": "POST",
+          "ruta": "/movil/ubicacion",
+          "estado": 401,
+          "ms": 2.43,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"error\":\"no_autenticado\",\"mensaje\":\"Debe iniciar sesion para consultar este servicio.\"}"
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/ingresar",
+          "estado": 200,
+          "ms": 2.49,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <title>Ingresar · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                            </div>\n        </div>\n    </header>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n        \n        <section class=\"acceso\">\n    <div class=\"tarjeta tarjeta-elevada acceso-tarjeta\">\n        <header class=\"acceso-encabezado\">\n            <span class=\"cabecera-sello acceso-sello\" aria-hidden=\"true\">🍴</span>\n            <h1 class=\"acceso-titulo\">Ingresar</h1>\n            <p class=\"texto-apagado texto-m\">Zona privada de Menu08.</p>\n        </header>\n\n        \n        <form class=\"pila pila-4\" method=\"post\" action=\"http://127.0.0.1:8088/ingresar\">\n            <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">\n            <div class=\"campo campo-sobre-contenedor\">\n                <input class=\"campo-control\" type=\"email\" id=\"correo\" name=\"correo\"\n                       value=\"\" placeholder=\" \"\n                       required autocomplete=\"username\" autofocus>\n                <label class=\"campo-etiqueta\" for=\"correo\">Correo</label>\n            </div>\n\n            <div class=\"campo campo-sobre-contenedor campo-con-accion\">\n                <input class=\"campo-control\" type=\"password\" id=\"contrasena\" name=\"contrasena\"\n                       placeholder=\" \" required autocomplete=\"current-password\">\n                <label class=\"campo-etiqueta\" for=\"contrasena\">Contraseña</label>\n\n                                <button type=\"button\" class=\"boton-simbolo campo-accion\" data-ver-clave=\"contrasena\"\n                        aria-label=\"Mostrar la contraseña\" aria-pressed=\"false\" hidden>\n                    <svg class=\"campo-accion-muestra\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                         stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z\"></path>\n                        <circle cx=\"12\" cy=\"12\" r=\"3\"></circle>\n                    </svg>\n                    <svg class=\"campo-accion-oculta\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                         stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M3 3l18 18\"></path>\n                        <path d=\"M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1\"></path>\n                        <path d=\"M6.6 6.6A17.3 17.3 0 0 0 2 12s3.6 7 10 7a10.7 10.7 0 0 0 5.4-1.5\"></path>\n                        <path d=\"M9.9 9.9a3 3 0 0 0 4.2 4.2\"></path>\n                    </svg>\n                </button>\n            </div>\n\n            <button class=\"boton boton-relleno boton-bloque acceso-entrar\" type=\"submit\">\n                <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                     stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                    <path d=\"M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3\"></path>\n                    <path d=\"M10 8l4 4-4 4\"></path><path d=\"M14 12H4\"></path>\n                </svg>\n                Entrar\n            </button>\n        </form>\n\n        <p class=\"acceso-pie texto-m\">\n            <a href=\"http://127.0.0.1:8088/\">Ver las cartas publicadas</a>\n        </p>\n    </div>\n</section>\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+        },
+        {
+          "metodo": "POST",
+          "ruta": "/ingresar",
+          "estado": 302,
+          "ms": 78.03,
+          "content_type": "text/html; charset=UTF-8",
+          "location": "http://127.0.0.1:8088/caja",
+          "cuerpo": ""
+        },
+        {
+          "metodo": "POST",
+          "ruta": "/movil/ubicacion",
+          "estado": 403,
+          "ms": 2.26,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"error\":\"rol_no_autorizado\",\"mensaje\":\"El rol \\\"cajero\\\" no tiene acceso a este servicio.\"}"
+        },
+        {
+          "metodo": "GET",
+          "ruta": "/ingresar",
+          "estado": 200,
+          "ms": 2.59,
+          "content_type": "text/html; charset=utf-8",
+          "location": null,
+          "cuerpo": "<!doctype html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n            <title>Ingresar · Menu08</title>\n    <meta name=\"description\" content=\"Menu08: carta, caja y produccion para food trucks.\">\n    <meta name=\"theme-color\" content=\"#fff8f4\">\n        <script>try{if(localStorage.getItem('menu08-tema')==='o'){document.documentElement.className='o';}}catch(e){}</script>\n        <link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B4%3C/text%3E%3C/svg%3E\">\n\n        <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/md3.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/base.css\">\n    <link rel=\"stylesheet\" href=\"http://127.0.0.1:8088/recursos/css/componentes.css\">\n\n        \n    <script src=\"http://127.0.0.1:8088/recursos/js/interfaz.js\" defer></script>\n\n    </head>\n<body>\n        <a class=\"salto\" href=\"#contenido\">Saltar al contenido</a>\n\n    <header class=\"cabecera sin-impresion\">\n        <div class=\"cabecera-interior contenedor-ancho\">\n            <a class=\"cabecera-marca\" href=\"http://127.0.0.1:8088/\">\n                                <span class=\"cabecera-sello\" aria-hidden=\"true\">🍴</span>\n\n                <span class=\"cabecera-textos\">\n                    <span class=\"cabecera-nombre\">Menu08</span>\n                    <span class=\"cabecera-lema\">carta, caja y producción para food trucks</span>\n                </span>\n            </a>\n\n            <div class=\"cabecera-sesion\">\n                                <button type=\"button\" class=\"boton-simbolo boton-tema\" data-tema\n                        aria-label=\"Cambiar a tema oscuro\" aria-pressed=\"false\" hidden>\n                    <svg class=\"boton-tema-luna\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z\"></path>\n                    </svg>\n                    <svg class=\"boton-tema-sol\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n                        <path d=\"M12 2v2\"></path><path d=\"M12 20v2\"></path><path d=\"M4.9 4.9l1.4 1.4\"></path>\n                        <path d=\"M17.7 17.7l1.4 1.4\"></path><path d=\"M2 12h2\"></path><path d=\"M20 12h2\"></path>\n                        <path d=\"M4.9 19.1l1.4-1.4\"></path><path d=\"M17.7 6.3l1.4-1.4\"></path>\n                    </svg>\n                </button>\n\n                            </div>\n        </div>\n    </header>\n    <main class=\"contenido pila pila-5\" id=\"contenido\" tabindex=\"-1\">\n        \n        \n        <section class=\"acceso\">\n    <div class=\"tarjeta tarjeta-elevada acceso-tarjeta\">\n        <header class=\"acceso-encabezado\">\n            <span class=\"cabecera-sello acceso-sello\" aria-hidden=\"true\">🍴</span>\n            <h1 class=\"acceso-titulo\">Ingresar</h1>\n            <p class=\"texto-apagado texto-m\">Zona privada de Menu08.</p>\n        </header>\n\n        \n        <form class=\"pila pila-4\" method=\"post\" action=\"http://127.0.0.1:8088/ingresar\">\n            <input type=\"hidden\" name=\"_token\" value=\"[oculto]\">\n            <div class=\"campo campo-sobre-contenedor\">\n                <input class=\"campo-control\" type=\"email\" id=\"correo\" name=\"correo\"\n                       value=\"\" placeholder=\" \"\n                       required autocomplete=\"username\" autofocus>\n                <label class=\"campo-etiqueta\" for=\"correo\">Correo</label>\n            </div>\n\n            <div class=\"campo campo-sobre-contenedor campo-con-accion\">\n                <input class=\"campo-control\" type=\"password\" id=\"contrasena\" name=\"contrasena\"\n                       placeholder=\" \" required autocomplete=\"current-password\">\n                <label class=\"campo-etiqueta\" for=\"contrasena\">Contraseña</label>\n\n                                <button type=\"button\" class=\"boton-simbolo campo-accion\" data-ver-clave=\"contrasena\"\n                        aria-label=\"Mostrar la contraseña\" aria-pressed=\"false\" hidden>\n                    <svg class=\"campo-accion-muestra\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                         stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z\"></path>\n                        <circle cx=\"12\" cy=\"12\" r=\"3\"></circle>\n                    </svg>\n                    <svg class=\"campo-accion-oculta\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\"\n                         stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                        <path d=\"M3 3l18 18\"></path>\n                        <path d=\"M10.6 5.1A10.9 10.9 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1\"></path>\n                        <path d=\"M6.6 6.6A17.3 17.3 0 0 0 2 12s3.6 7 10 7a10.7 10.7 0 0 0 5.4-1.5\"></path>\n                        <path d=\"M9.9 9.9a3 3 0 0 0 4.2 4.2\"></path>\n                    </svg>\n                </button>\n            </div>\n\n            <button class=\"boton boton-relleno boton-bloque acceso-entrar\" type=\"submit\">\n                <svg class=\"boton-icono\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n                     stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n                    <path d=\"M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3\"></path>\n                    <path d=\"M10 8l4 4-4 4\"></path><path d=\"M14 12H4\"></path>\n                </svg>\n                Entrar\n            </button>\n        </form>\n\n        <p class=\"acceso-pie texto-m\">\n            <a href=\"http://127.0.0.1:8088/\">Ver las cartas publicadas</a>\n        </p>\n    </div>\n</section>\n    </main>\n    <footer class=\"pie sin-impresion\">\n        <div class=\"contenedor-ancho\">\n            <span>\n                <a class=\"pie-marca\" href=\"http://127.0.0.1:8088/\"><span aria-hidden=\"true\">🍴</span> Menu08</a>\n                · carta, caja y producción para food trucks\n            </span>\n            <span>Prototipo del proyecto formativo · SENA ADSO ficha 3235887</span>\n        </div>\n    </footer>\n</body>\n</html>\n"
+        },
+        {
+          "metodo": "POST",
+          "ruta": "/ingresar",
+          "estado": 302,
+          "ms": 77.2,
+          "content_type": "text/html; charset=UTF-8",
+          "location": "http://127.0.0.1:8088/svp",
+          "cuerpo": ""
+        },
+        {
+          "metodo": "POST",
+          "ruta": "/movil/ubicacion",
+          "estado": 403,
+          "ms": 2.49,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"error\":\"rol_no_autorizado\",\"mensaje\":\"El rol \\\"produccion\\\" no tiene acceso a este servicio.\"}"
+        },
+        {
+          "metodo": "POST",
+          "ruta": "/movil/ingresar",
+          "estado": 200,
+          "ms": 74.83,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"usuario\":{\"id\":29,\"nombre\":\"Administrador de pruebas\",\"correo\":\"pruebas.foodtruck@menu08.local\",\"rol\":\"food_truck\",\"food_truck_id\":10,\"food_truck\":\"Truck de Pruebas\"},\"token_csrf\":\"[oculto]\"}"
+        },
+        {
+          "metodo": "POST",
+          "ruta": "/movil/ubicacion",
+          "estado": 403,
+          "ms": 2.64,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"error\":\"token_invalido\",\"mensaje\":\"El token de seguridad expiro o no es valido. Recargue el tablero.\"}"
+        },
+        {
+          "metodo": "POST",
+          "ruta": "/movil/ubicacion",
+          "estado": 422,
+          "ms": 2.25,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"error\":\"coordenadas_invalidas\",\"mensaje\":\"La latitud debe estar entre -90 y 90.\"}"
+        },
+        {
+          "metodo": "POST",
+          "ruta": "/movil/ubicacion",
+          "estado": 201,
+          "ms": 10.83,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"parada\":{\"id\":46,\"nombre\":\"Punto reportado 2026-10-15 06:27\",\"referencia\":\"Registrado desde la aplicacion movil\",\"latitud\":\"4.6500000\",\"longitud\":\"-74.0500000\",\"dia_semana\":4,\"hora_inicio\":\"06:27:00\",\"hora_fin\":\"06:27:00\",\"activa\":1},\"creada\":true}"
+        },
+        {
+          "metodo": "POST",
+          "ruta": "/movil/ubicacion",
+          "estado": 200,
+          "ms": 10.51,
+          "content_type": "application/json; charset=utf-8",
+          "location": null,
+          "cuerpo": "{\"parada\":{\"id\":46,\"nombre\":\"Punto reportado 2026-10-15 06:27\",\"referencia\":\"Registrado desde la aplicacion movil\",\"latitud\":\"4.6600000\",\"longitud\":\"-74.0600000\",\"dia_semana\":4,\"hora_inicio\":\"06:27:00\",\"hora_fin\":\"06:27:00\",\"activa\":1},\"creada\":false}"
+        }
+      ],
+      "notas": [
+        "HTTP obtenido en reporte válido: 201"
+      ],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_servicios.json",
+      "ejecucion": "EX-112"
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "caso": {
+    "id": "CP-CAJA-14",
+    "modulo": "CAJA",
+    "requisito": "Issue #10 · Programar la apertura y el cierre del turno de caja\nIssue #19 · Maquetar las pantallas de apertura y cierre de turno y el comprobante imprimible de CAJA\nFuncionalidad: CAJA\nCaso: CP-CAJA-14",
+    "nombre": "Desglose por medio de pago en el cuadre y verificación SQL",
+    "objetivo": "Verificar que el desglose por efectivo, tarjeta y transferencia coincide con la consulta SQL.",
+    "tipo": "Funcional · integración",
+    "precondiciones": "Mismo estado que CP-CAJA-13 (Turno id = {turno_id}, 3 órdenes registradas)\nUsar IDs consultados por slug/nombre; conservar las dependencias indicadas. Todo POST requiere token vigente, salvo el ingreso móvil.",
+    "datos": "Verificación del desglose por medio de pago",
+    "pasos": "1. Abrir /caja/turno.\n2. Revisar la tabla «Por medio de pago».\n3. Ejecutar consulta SQL de agregación sobre la tabla ordenes filtrada por turno_id = 5.",
+    "esperado": "Efectivo: 1 orden, $ 16 200 · Tarjeta: 1 orden, $ 64 800 · Transferencia: 1 orden, $ 44 501. Cada valor coincide con la suma de las órdenes en la base de datos",
+    "herramienta": "Chrome y Firefox; Postman o curl; phpMyAdmin para contraste SQL",
+    "responsable": "Jovanny Medina Cifuentes\nLain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "estado": "Diseñado · pendiente de ejecución",
+    "fuentes": "S266 · Issue #10 · Programar la apertura y el cierre del turno de caja\nS267 · Issue #19 · Maquetar las pantallas de apertura y cierre de turno y el comprobante imprimible de CAJA\nS047 · docs/pruebas/casos/caja.md · líneas 240–248\nS046 · menu08_app/aplicacion/controladores/CajaControlador.php · líneas 199–207\nS031 · menu08_app/configuracion/rutas.php · líneas 86–94"
+  },
+  "resultados": {
+    "caso": "CP-CAJA-14",
+    "nombre": "Desglose por medio de pago en el cuadre y verificación SQL",
+    "modulo": "CAJA",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Desglose",
+        "esperado": [
+          {
+            "medio_pago": "efectivo",
+            "n": 1,
+            "total": "16200.00"
+          },
+          {
+            "medio_pago": "tarjeta",
+            "n": 1,
+            "total": "64800.00"
+          },
+          {
+            "medio_pago": "transferencia",
+            "n": 1,
+            "total": "44501.00"
+          }
+        ],
+        "obtenido": [
+          {
+            "medio_pago": "efectivo",
+            "n": 1,
+            "total": "16200.00"
+          },
+          {
+            "medio_pago": "tarjeta",
+            "n": 1,
+            "total": "64800.00"
+          },
+          {
+            "medio_pago": "transferencia",
+            "n": 1,
+            "total": "44501.00"
+          }
+        ],
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-038"
+    ],
+    "fecha": "2026-10-15T10:57:24.588161+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-CAJA-14",
+      "nombre": "Desglose por medio de pago en el cuadre y verificación SQL",
+      "fecha": "2026-10-15T10:57:24.588161+00:00",
+      "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+      "checks": [
+        {
+          "comprobacion": "Desglose",
+          "esperado": [
+            {
+              "medio_pago": "efectivo",
+              "n": 1,
+              "total": "16200.00"
+            },
+            {
+              "medio_pago": "tarjeta",
+              "n": 1,
+              "total": "64800.00"
+            },
+            {
+              "medio_pago": "transferencia",
+              "n": 1,
+              "total": "44501.00"
+            }
+          ],
+          "obtenido": [
+            {
+              "medio_pago": "efectivo",
+              "n": 1,
+              "total": "16200.00"
+            },
+            {
+              "medio_pago": "tarjeta",
+              "n": 1,
+              "total": "64800.00"
+            },
+            {
+              "medio_pago": "transferencia",
+              "n": 1,
+              "total": "44501.00"
+            }
+          ],
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_http.json",
+      "ejecucion": "EX-038"
+    }
+  ]
+}

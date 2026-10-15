@@ -1,0 +1,5958 @@
+{
+  "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+  "casos_plan": 96,
+  "casos_complementarios": 5,
+  "casos_total": 101,
+  "estados": {
+    "Aprobada": 94,
+    "Fallida": 4,
+    "Pendiente de seguimiento": 3
+  },
+  "estados_plan": {
+    "Aprobada": 91,
+    "Fallida": 2,
+    "Pendiente de seguimiento": 3
+  },
+  "ejecuciones": 117,
+  "comprobaciones": 652,
+  "resultados": [
+    {
+      "caso": "CP-CARTA-01",
+      "nombre": "Ingreso con el rol food_truck",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Ingreso",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Destino",
+          "esperado": "http://127.0.0.1:8088/panel",
+          "obtenido": "http://127.0.0.1:8088/panel",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Panel del truck",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-001"
+      ],
+      "fecha": "2026-10-15T10:57:19.740304+00:00"
+    },
+    {
+      "caso": "CP-CARTA-02",
+      "nombre": "Ingreso con la contraseña equivocada",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Rechazo",
+          "esperado": 401,
+          "obtenido": 401,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Mensaje genérico",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Panel sin sesión",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-002"
+      ],
+      "fecha": "2026-10-15T10:57:19.860621+00:00"
+    },
+    {
+      "caso": "CP-CARTA-03",
+      "nombre": "Cierre de sesión",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Salir",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Panel bloqueado",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-003"
+      ],
+      "fecha": "2026-10-15T10:57:19.943872+00:00"
+    },
+    {
+      "caso": "CP-CARTA-04",
+      "nombre": "Un cajero no entra al panel de CARTA",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Panel de productos",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Caja sin turno",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-004"
+      ],
+      "fecha": "2026-10-15T10:57:20.048909+00:00"
+    },
+    {
+      "caso": "CP-CARTA-05",
+      "nombre": "Alta de categoría",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Alta",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Fila activa",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Visible",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-005"
+      ],
+      "fecha": "2026-10-15T10:57:20.232324+00:00"
+    },
+    {
+      "caso": "CP-CARTA-06",
+      "nombre": "Edición de categoría",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Edición",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Mismo conteo",
+          "esperado": 6,
+          "obtenido": 6,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Mismo ID y nuevo nombre",
+          "esperado": "Postres editados",
+          "obtenido": "Postres editados",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-006"
+      ],
+      "fecha": "2026-10-15T10:57:20.316039+00:00"
+    },
+    {
+      "caso": "CP-CARTA-07",
+      "nombre": "Alta de producto con foto",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Alta foto",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Fila creada",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Archivo escrito",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Foto referida en carta",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-007"
+      ],
+      "fecha": "2026-10-15T10:57:20.503826+00:00"
+    },
+    {
+      "caso": "CP-CARTA-08",
+      "nombre": "Producto marcado como no disponible",
+      "modulo": "CARTA",
+      "estado": "Fallida",
+      "checks": [
+        {
+          "comprobacion": "Cambio",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "No disponible en BD",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Se oculta de carta según criterio AA2",
+          "esperado": false,
+          "obtenido": true,
+          "cumple": false
+        },
+        {
+          "comprobacion": "Sigue en panel",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Agotado se oculta según AA2",
+          "esperado": 0,
+          "obtenido": 1,
+          "cumple": false
+        },
+        {
+          "comprobacion": "Agotado se oculta según AA2",
+          "esperado": 0,
+          "obtenido": 1,
+          "cumple": false
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Reproduce DEF-01 del repositorio. Requiere decisión de producto; no se modifica el criterio.",
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "capturas": [
+        "evidencias/CP-CARTA-08-chromium-producto-agotado.png",
+        "evidencias/CP-CARTA-08-firefox-producto-agotado.png"
+      ],
+      "ejecuciones": [
+        "EX-008",
+        "EX-054",
+        "EX-063"
+      ],
+      "fecha": "2026-10-15T11:03:30.874927+00:00"
+    },
+    {
+      "caso": "CP-CARTA-09",
+      "nombre": "Baja lógica de categoría",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Cambio",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Categoría preservada inactiva",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Producto fuera de carta",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-009"
+      ],
+      "fecha": "2026-10-15T10:57:20.671489+00:00"
+    },
+    {
+      "caso": "CP-CARTA-10",
+      "nombre": "La carta pública dice lo que dice la base",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "HTTP",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Todos los nombres publicados",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Orden catálogo",
+          "esperado": [
+            "Papas de prueba",
+            "Empanada de prueba",
+            "Entrada agotada",
+            "Hamburguesa de prueba",
+            "Perro de prueba",
+            "Salchipapa de prueba",
+            "Gaseosa de prueba",
+            "Limonada de prueba",
+            "Vaso de agua",
+            "Brownie de prueba",
+            "Producto con un nombre deliberadamente largo para probar el corte en pantalla"
+          ],
+          "obtenido": [
+            "Papas de prueba",
+            "Empanada de prueba",
+            "Entrada agotada",
+            "Hamburguesa de prueba",
+            "Perro de prueba",
+            "Salchipapa de prueba",
+            "Gaseosa de prueba",
+            "Limonada de prueba",
+            "Vaso de agua",
+            "Brownie de prueba",
+            "Producto con un nombre deliberadamente largo para probar el corte en pantalla"
+          ],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Precios exactos DOM",
+          "esperado": [
+            "$ 6.500",
+            "$ 3.200",
+            "$ 5.000",
+            "$ 24.900",
+            "$ 18.751",
+            "$ 21.000",
+            "$ 4.500",
+            "$ 7.000",
+            "$ 0",
+            "$ 9.900",
+            "$ 12.346"
+          ],
+          "obtenido": [
+            "$ 6.500",
+            "$ 3.200",
+            "$ 5.000",
+            "$ 24.900",
+            "$ 18.751",
+            "$ 21.000",
+            "$ 4.500",
+            "$ 7.000",
+            "$ 0",
+            "$ 9.900",
+            "$ 12.346"
+          ],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Orden catálogo",
+          "esperado": [
+            "Papas de prueba",
+            "Empanada de prueba",
+            "Entrada agotada",
+            "Hamburguesa de prueba",
+            "Perro de prueba",
+            "Salchipapa de prueba",
+            "Gaseosa de prueba",
+            "Limonada de prueba",
+            "Vaso de agua",
+            "Brownie de prueba",
+            "Producto con un nombre deliberadamente largo para probar el corte en pantalla"
+          ],
+          "obtenido": [
+            "Papas de prueba",
+            "Empanada de prueba",
+            "Entrada agotada",
+            "Hamburguesa de prueba",
+            "Perro de prueba",
+            "Salchipapa de prueba",
+            "Gaseosa de prueba",
+            "Limonada de prueba",
+            "Vaso de agua",
+            "Brownie de prueba",
+            "Producto con un nombre deliberadamente largo para probar el corte en pantalla"
+          ],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Precios exactos DOM",
+          "esperado": [
+            "$ 6.500",
+            "$ 3.200",
+            "$ 5.000",
+            "$ 24.900",
+            "$ 18.751",
+            "$ 21.000",
+            "$ 4.500",
+            "$ 7.000",
+            "$ 0",
+            "$ 9.900",
+            "$ 12.346"
+          ],
+          "obtenido": [
+            "$ 6.500",
+            "$ 3.200",
+            "$ 5.000",
+            "$ 24.900",
+            "$ 18.751",
+            "$ 21.000",
+            "$ 4.500",
+            "$ 7.000",
+            "$ 0",
+            "$ 9.900",
+            "$ 12.346"
+          ],
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Precios y orden del DOM se contrastan además en ejecutar_e2e.py; agotados se documentan en CP-CARTA-08.",
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+        "El formato público redondea a pesos; el valor monetario exacto se comprueba por SQL y ventas en CP-CAJA-08."
+      ],
+      "capturas": [
+        "evidencias/CP-CARTA-10-chromium-catalogo.png",
+        "evidencias/CP-CARTA-10-firefox-catalogo.png"
+      ],
+      "ejecuciones": [
+        "EX-010",
+        "EX-069",
+        "EX-073"
+      ],
+      "fecha": "2026-10-15T11:07:11.230038+00:00"
+    },
+    {
+      "caso": "CP-CARTA-11",
+      "nombre": "Slug inexistente",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Slug inexistente",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-011"
+      ],
+      "fecha": "2026-10-15T10:57:21.095131+00:00"
+    },
+    {
+      "caso": "CP-CARTA-12",
+      "nombre": "Food truck desactivado",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Inactivo",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Reactivado",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-012"
+      ],
+      "fecha": "2026-10-15T10:57:21.101753+00:00"
+    },
+    {
+      "caso": "CP-CARTA-13",
+      "nombre": "Código QR",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Lector QR",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Contenido decodificado",
+          "esperado": "http://127.0.0.1:8088/carta/truck-de-pruebas",
+          "obtenido": "http://127.0.0.1:8088/carta/truck-de-pruebas",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "QR real descargado por CP-CARTA-13; lectura óptica por ZXing. http://127.0.0.1:8088/carta/truck-de-pruebas"
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-077"
+      ],
+      "fecha": "2026-10-15T11:07:32.377144+00:00"
+    },
+    {
+      "caso": "CP-CARTA-14",
+      "nombre": "Un food truck no administra el catálogo de otro",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Producto ajeno",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-013"
+      ],
+      "fecha": "2026-10-15T10:57:21.271524+00:00"
+    },
+    {
+      "caso": "CP-CARTA-15",
+      "nombre": "Contraste con la carta publicada",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "HTTPS carta",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estructura data-carta",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estructura carta-portada",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estructura carta-agenda",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estructura data-carta-producto",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estructura /recursos/css/carta.css",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Comparación de estructura y recursos con la instancia local; no se ha comprobado el commit desplegado ni se exige identidad de datos."
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-115"
+      ],
+      "fecha": "2026-10-15T11:27:39.111842+00:00"
+    },
+    {
+      "caso": "CP-CARTA-16",
+      "nombre": "La carta a 320 px",
+      "modulo": "CARTA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "truck-de-pruebas 320 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "truck-de-pruebas 360 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "truck-de-pruebas 768 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "festin-rodante 320 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "festin-rodante 360 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "festin-rodante 768 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "truck-de-pruebas 320 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "truck-de-pruebas 360 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "truck-de-pruebas 768 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "festin-rodante 320 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "festin-rodante 360 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "festin-rodante 768 sin desborde",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+        "{\"slug\": \"truck-de-pruebas\", \"ancho\": 320, \"cliente\": 320, \"documento\": 320}",
+        "{\"slug\": \"truck-de-pruebas\", \"ancho\": 360, \"cliente\": 360, \"documento\": 360}",
+        "{\"slug\": \"truck-de-pruebas\", \"ancho\": 768, \"cliente\": 768, \"documento\": 768}",
+        "{\"slug\": \"festin-rodante\", \"ancho\": 320, \"cliente\": 320, \"documento\": 320}",
+        "{\"slug\": \"festin-rodante\", \"ancho\": 360, \"cliente\": 360, \"documento\": 360}",
+        "{\"slug\": \"festin-rodante\", \"ancho\": 768, \"cliente\": 768, \"documento\": 768}"
+      ],
+      "capturas": [
+        "evidencias/CP-CARTA-16-chromium-truck-de-pruebas-320.png",
+        "evidencias/CP-CARTA-16-chromium-truck-de-pruebas-360.png",
+        "evidencias/CP-CARTA-16-chromium-truck-de-pruebas-768.png",
+        "evidencias/CP-CARTA-16-chromium-festin-rodante-320.png",
+        "evidencias/CP-CARTA-16-chromium-festin-rodante-360.png",
+        "evidencias/CP-CARTA-16-chromium-festin-rodante-768.png",
+        "evidencias/CP-CARTA-16-firefox-truck-de-pruebas-320.png",
+        "evidencias/CP-CARTA-16-firefox-truck-de-pruebas-360.png",
+        "evidencias/CP-CARTA-16-firefox-truck-de-pruebas-768.png",
+        "evidencias/CP-CARTA-16-firefox-festin-rodante-320.png",
+        "evidencias/CP-CARTA-16-firefox-festin-rodante-360.png",
+        "evidencias/CP-CARTA-16-firefox-festin-rodante-768.png"
+      ],
+      "ejecuciones": [
+        "EX-051",
+        "EX-060"
+      ],
+      "fecha": "2026-10-15T11:03:24.013381+00:00"
+    },
+    {
+      "caso": "CP-CARTA-17",
+      "nombre": "Normalización de precios con separadores de miles y decimales",
+      "modulo": "CARTA · catálogo",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "HTTP 12.500",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Precio 12.500",
+          "esperado": "12500.00",
+          "obtenido": "12500.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "HTTP 12.500,50",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Precio 12.500,50",
+          "esperado": "12500.50",
+          "obtenido": "12500.50",
+          "cumple": true
+        },
+        {
+          "comprobacion": "HTTP 12,500.50",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Precio 12,500.50",
+          "esperado": "12500.50",
+          "obtenido": "12500.50",
+          "cumple": true
+        },
+        {
+          "comprobacion": "HTTP $ 8.000",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Precio $ 8.000",
+          "esperado": "8000.00",
+          "obtenido": "8000.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "HTTP 12,50",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Precio 12,50",
+          "esperado": "12.50",
+          "obtenido": "12.50",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-014"
+      ],
+      "fecha": "2026-10-15T10:57:21.312526+00:00"
+    },
+    {
+      "caso": "CP-CARTA-18",
+      "nombre": "Rechazo de precio inválido, nombre repetido y campos obligatorios",
+      "modulo": "CARTA · catálogo",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Rechazo {'precio': 'abc'}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rechazo {'precio': '-5'}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rechazo {'precio': '1.2345'}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rechazo {'nombre': 'Papas de prueba', 'categoria_id': 17}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rechazo {'nombre': ''}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rechazo {'categoria_id': 1}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rechazo {'categoria_id': 999999}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin inserciones",
+          "esperado": 11,
+          "obtenido": 11,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-015"
+      ],
+      "fecha": "2026-10-15T10:57:21.582950+00:00"
+    },
+    {
+      "caso": "CP-CARTA-19",
+      "nombre": "Tipo real, límite de 2 MB y limpieza de imágenes rechazadas",
+      "modulo": "CARTA · imágenes",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "PHP renombrado",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Exceso 2MB",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Imagen válida precio inválido",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin filas",
+          "esperado": 11,
+          "obtenido": 11,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin archivos huérfanos",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-016"
+      ],
+      "fecha": "2026-10-15T10:57:21.775793+00:00"
+    },
+    {
+      "caso": "CP-CARTA-20",
+      "nombre": "Edición de producto propio y conservación de su identificador",
+      "modulo": "CARTA · catálogo",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "HTTP",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin alta",
+          "esperado": 11,
+          "obtenido": 11,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Precio",
+          "esperado": "12500.00",
+          "obtenido": "12500.00",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-017"
+      ],
+      "fecha": "2026-10-15T10:57:21.921517+00:00"
+    },
+    {
+      "caso": "CP-CARTA-21",
+      "nombre": "Edición de datos del truck y rechazo de slug duplicado",
+      "modulo": "CARTA · datos del negocio",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Guardar",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Ciudad",
+          "esperado": "Bogota QA",
+          "obtenido": "Bogota QA",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Slug ajeno",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Slug conservado",
+          "esperado": "truck-de-pruebas",
+          "obtenido": "truck-de-pruebas",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-018"
+      ],
+      "fecha": "2026-10-15T10:57:22.040953+00:00"
+    },
+    {
+      "caso": "CP-CARTA-22",
+      "nombre": "Alta de parada nocturna del domingo",
+      "modulo": "CARTA · agenda",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Alta nocturna",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Franja",
+          "esperado": {
+            "dia_semana": 7,
+            "hora_inicio": "20:00:00",
+            "hora_fin": "02:00:00"
+          },
+          "obtenido": {
+            "dia_semana": 7,
+            "hora_inicio": "20:00:00",
+            "hora_fin": "02:00:00"
+          },
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-019"
+      ],
+      "fecha": "2026-10-15T10:57:22.135106+00:00"
+    },
+    {
+      "caso": "CP-CARTA-23",
+      "nombre": "Edición y alternancia de baja lógica de una parada",
+      "modulo": "CARTA · agenda",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Edición",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Alternar",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Activa",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Alternar",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Activa",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "ID conservado",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-020"
+      ],
+      "fecha": "2026-10-15T10:57:22.187798+00:00"
+    },
+    {
+      "caso": "CP-CARTA-24",
+      "nombre": "Límites de apertura y cierre de una jornada diurna",
+      "modulo": "CARTA · agenda",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "2026-10-14 10:59:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-14 11:00:00",
+          "esperado": "Parque de Pruebas",
+          "obtenido": "Parque de Pruebas",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-14 14:59:00",
+          "esperado": "Parque de Pruebas",
+          "obtenido": "Parque de Pruebas",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-14 15:00:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-15 00:30:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-16 13:00:00",
+          "esperado": "Plaza de Pruebas",
+          "obtenido": "Plaza de Pruebas",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-021"
+      ],
+      "fecha": "2026-10-15T10:57:22.372825+00:00"
+    },
+    {
+      "caso": "CP-CARTA-25",
+      "nombre": "Vigencia de la parada del sábado al cruzar medianoche",
+      "modulo": "CARTA · agenda",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "2026-10-17 17:59:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-17 18:00:00",
+          "esperado": "Zona Rosa de Pruebas",
+          "obtenido": "Zona Rosa de Pruebas",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-17 23:30:00",
+          "esperado": "Zona Rosa de Pruebas",
+          "obtenido": "Zona Rosa de Pruebas",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-18 00:30:00",
+          "esperado": "Zona Rosa de Pruebas",
+          "obtenido": "Zona Rosa de Pruebas",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-18 00:59:00",
+          "esperado": "Zona Rosa de Pruebas",
+          "obtenido": "Zona Rosa de Pruebas",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-18 01:00:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-18 02:00:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-022"
+      ],
+      "fecha": "2026-10-15T10:57:22.577871+00:00"
+    },
+    {
+      "caso": "CP-CARTA-26",
+      "nombre": "Cambio de semana de domingo a lunes",
+      "modulo": "CARTA · agenda",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "2026-10-18 19:59:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-18 20:00:00",
+          "esperado": "Parada nocturna del domingo",
+          "obtenido": "Parada nocturna del domingo",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-18 23:30:00",
+          "esperado": "Parada nocturna del domingo",
+          "obtenido": "Parada nocturna del domingo",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-19 00:30:00",
+          "esperado": "Parada nocturna del domingo",
+          "obtenido": "Parada nocturna del domingo",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-19 01:59:00",
+          "esperado": "Parada nocturna del domingo",
+          "obtenido": "Parada nocturna del domingo",
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-10-19 02:00:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-023"
+      ],
+      "fecha": "2026-10-15T10:57:22.810545+00:00"
+    },
+    {
+      "caso": "CP-CARTA-27",
+      "nombre": "Rechazo de día, horas, coordenadas y punto inválidos",
+      "modulo": "CARTA · agenda",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "{'dia_semana': '0'}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "{'dia_semana': '8'}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "{'dia_semana': 'lunes'}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "{'hora_inicio': '25:99'}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "{'hora_inicio': '18'}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "{'hora_fin': ''}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "{'latitud': '200'}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "{'nombre': ''}",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin inserciones",
+          "esperado": 5,
+          "obtenido": 5,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-024"
+      ],
+      "fecha": "2026-10-15T10:57:23.010905+00:00"
+    },
+    {
+      "caso": "CP-CARTA-28",
+      "nombre": "Exclusión de paradas desactivadas en vigencia y carta",
+      "modulo": "CARTA · agenda",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "2026-10-19 10:00:00",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Inactiva ausente",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "3 activas",
+          "esperado": 3,
+          "obtenido": 3,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Fila conservada",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-025"
+      ],
+      "fecha": "2026-10-15T10:57:23.461005+00:00"
+    },
+    {
+      "caso": "CP-CARTA-29",
+      "nombre": "Tratamiento seguro de momento y nombre con cadenas SQL",
+      "modulo": "CARTA · agenda",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "' OR 1=1 --",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin traza SQL",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "2026-99-99T25:99",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin traza SQL",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Texto preparado",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Nombre literal",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-026"
+      ],
+      "fecha": "2026-10-15T10:57:23.569241+00:00"
+    },
+    {
+      "caso": "CP-CARTA-30",
+      "nombre": "Coherencia de zona horaria de PHP y MySQL",
+      "modulo": "CARTA · agenda",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "PHP",
+          "esperado": "America/Bogota",
+          "obtenido": "America/Bogota",
+          "cumple": true
+        },
+        {
+          "comprobacion": "MySQL",
+          "esperado": "-05:00",
+          "obtenido": "-05:00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Diferencia menor 2 s",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "{\"php\": \"2026-10-15T05:57:23-05:00\", \"zona\": \"America/Bogota\", \"mysql\": {\"ahora\": \"2026-10-15 05:57:23\", \"zona\": \"-05:00\"}}"
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-027"
+      ],
+      "fecha": "2026-10-15T10:57:23.634420+00:00"
+    },
+    {
+      "caso": "CP-CARTA-31",
+      "nombre": "Batería unitaria de coordenadas, horas, días y medianoche",
+      "modulo": "CARTA · validadores y agenda",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Código de retorno",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "49 sin fallos",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "· UbicacionMedianochePrueba.php\n· ValidadorCoordenadaPrueba.php\n· ValidadorHoraDiaPrueba.php\n\n49 comprobaciones, 0 fallos\n"
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-028"
+      ],
+      "fecha": "2026-10-15T10:57:23.667401+00:00"
+    },
+    {
+      "caso": "CP-CARTA-32",
+      "nombre": "Presentación del acceso, navegación y formularios del panel",
+      "modulo": "CARTA · panel y autenticación",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Campos vacíos inválidos",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Correo conservado",
+          "esperado": "pruebas.foodtruck@menu08.local",
+          "obtenido": "pruebas.foodtruck@menu08.local",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Negocio identificado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/categorias",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/nuevo 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/productos/nuevo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/ubicaciones",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/categorias",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/nuevo 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/productos/nuevo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/ubicaciones",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/categorias",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/nuevo 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/productos/nuevo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/ubicaciones",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Foto previsualizada",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Campos vacíos inválidos",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Correo conservado",
+          "esperado": "pruebas.foodtruck@menu08.local",
+          "obtenido": "pruebas.foodtruck@menu08.local",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Negocio identificado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/categorias",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/nuevo 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/productos/nuevo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones 360",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/ubicaciones",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/categorias",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/nuevo 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/productos/nuevo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones 768",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/ubicaciones",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/categorias",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/nuevo 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/productos/nuevo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones 1280",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSRF /panel/ubicaciones",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Foto previsualizada",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "capturas": [
+        "evidencias/CP-CARTA-32-chromium-login-rechazado.png",
+        "evidencias/CP-CARTA-32-chromium-panel.png",
+        "evidencias/CP-CARTA-32-chromium-formulario-foto.png",
+        "evidencias/CP-CARTA-32-firefox-login-rechazado.png",
+        "evidencias/CP-CARTA-32-firefox-panel.png",
+        "evidencias/CP-CARTA-32-firefox-formulario-foto.png"
+      ],
+      "ejecuciones": [
+        "EX-052",
+        "EX-061"
+      ],
+      "fecha": "2026-10-15T11:03:25.954634+00:00"
+    },
+    {
+      "caso": "CP-CARTA-33",
+      "nombre": "Carta pública sin catálogo publicado y controles de lectura móvil",
+      "modulo": "CARTA · estado vacío",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Carta vacía 200",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Mensaje",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Objetivos de al menos 44px",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Texto mínimo 14px",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Carta vacía 200",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Mensaje",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Objetivos de al menos 44px",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Texto mínimo 14px",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+        "Alturas enlaces: [48, 48, 48, 48]; tamaños nombres: [16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16]"
+      ],
+      "capturas": [
+        "evidencias/CP-CARTA-33-chromium-catalogo-vacio.png",
+        "evidencias/CP-CARTA-33-chromium-movil.png",
+        "evidencias/CP-CARTA-33-firefox-catalogo-vacio.png",
+        "evidencias/CP-CARTA-33-firefox-movil.png"
+      ],
+      "ejecuciones": [
+        "EX-053",
+        "EX-062"
+      ],
+      "fecha": "2026-10-15T11:03:29.584850+00:00"
+    },
+    {
+      "caso": "CP-CARTA-34",
+      "nombre": "Parada vigente, siguiente programada y agenda agrupada",
+      "modulo": "CARTA · ubicación pública",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Días agrupados",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Siguiente programada",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Agenda resumida",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Inactiva oculta",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Punto vigente",
+          "esperado": "Punto vigente QA",
+          "obtenido": "Punto vigente QA",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Abierto",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin desborde bloque",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Días agrupados",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Siguiente programada",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Agenda resumida",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Inactiva oculta",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Punto vigente",
+          "esperado": "Punto vigente QA",
+          "obtenido": "Punto vigente QA",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Abierto",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin desborde bloque",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+        "Días DOM: ['Lunes', 'Miércoles', 'Viernes', 'Sábado']"
+      ],
+      "capturas": [
+        "evidencias/CP-CARTA-34-chromium-agenda.png",
+        "evidencias/CP-CARTA-34-chromium-siguiente.png",
+        "evidencias/CP-CARTA-34-chromium-vigente-320.png",
+        "evidencias/CP-CARTA-34-firefox-agenda.png",
+        "evidencias/CP-CARTA-34-firefox-siguiente.png",
+        "evidencias/CP-CARTA-34-firefox-vigente-320.png"
+      ],
+      "ejecuciones": [
+        "EX-070",
+        "EX-074"
+      ],
+      "fecha": "2026-10-15T11:07:12.209104+00:00"
+    },
+    {
+      "caso": "CP-CAJA-01",
+      "nombre": "Apertura de turno con base válida",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Apertura",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Base y estado",
+          "esperado": {
+            "base_inicial": "50000.00",
+            "estado": "abierto"
+          },
+          "obtenido": {
+            "base_inicial": "50000.00",
+            "estado": "abierto"
+          },
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-029"
+      ],
+      "fecha": "2026-10-15T10:57:23.963406+00:00"
+    },
+    {
+      "caso": "CP-CAJA-02",
+      "nombre": "Apertura rechazada con base inválida",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Base '-1'",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Base 'abc'",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Base ''",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin turnos nuevos",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-030"
+      ],
+      "fecha": "2026-10-15T10:57:24.012091+00:00"
+    },
+    {
+      "caso": "CP-CAJA-03",
+      "nombre": "Apertura rechazada con turno ya vigente",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Segundo turno",
+          "esperado": 409,
+          "obtenido": 409,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Uno abierto",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-031"
+      ],
+      "fecha": "2026-10-15T10:57:24.152831+00:00"
+    },
+    {
+      "caso": "CP-CAJA-04",
+      "nombre": "Armado de la orden desde el catálogo en vista de caja",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Total reactivo",
+          "esperado": "$ 16.200",
+          "obtenido": "$ 16.200",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Dos renglones",
+          "esperado": 2,
+          "obtenido": 2,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total vacío",
+          "esperado": "$ 0",
+          "obtenido": "$ 0",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cobrar deshabilitado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin errores JS",
+          "esperado": [],
+          "obtenido": [],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total reactivo",
+          "esperado": "$ 16.200",
+          "obtenido": "$ 16.200",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Dos renglones",
+          "esperado": 2,
+          "obtenido": 2,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total vacío",
+          "esperado": "$ 0",
+          "obtenido": "$ 0",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cobrar deshabilitado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin errores JS",
+          "esperado": [],
+          "obtenido": [],
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "capturas": [
+        "evidencias/CP-CAJA-04-chromium-orden-armada.png",
+        "evidencias/CP-CAJA-04-firefox-orden-armada.png"
+      ],
+      "ejecuciones": [
+        "EX-055",
+        "EX-064"
+      ],
+      "fecha": "2026-10-15T11:03:32.561827+00:00"
+    },
+    {
+      "caso": "CP-CAJA-05",
+      "nombre": "Filtrado por categoría en el catálogo",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Filtro entradas",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Búsqueda local",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Filtro entradas",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Búsqueda local",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "capturas": [
+        "evidencias/CP-CAJA-05-chromium-filtro.png",
+        "evidencias/CP-CAJA-05-firefox-filtro.png"
+      ],
+      "ejecuciones": [
+        "EX-056",
+        "EX-065"
+      ],
+      "fecha": "2026-10-15T11:03:33.638672+00:00"
+    },
+    {
+      "caso": "CP-CAJA-06",
+      "nombre": "Orden 1 — pago en efectivo y verificación SQL de ítems",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "POST venta",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total",
+          "esperado": "16200.00",
+          "obtenido": "16200.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Medio",
+          "esperado": "efectivo",
+          "obtenido": "efectivo",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Suma ítems",
+          "esperado": "16200.00",
+          "obtenido": "16200.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Consecutivo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "GET comprobante",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "{\"numero\": \"T4-001\", \"total\": \"16200.00\", \"medio_pago\": \"efectivo\", \"nota\": null}"
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-032"
+      ],
+      "fecha": "2026-10-15T10:57:24.200944+00:00"
+    },
+    {
+      "caso": "CP-CAJA-07",
+      "nombre": "Orden 2 — pago con tarjeta, nota especial y verificación SQL",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "POST venta",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total",
+          "esperado": "64800.00",
+          "obtenido": "64800.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Medio",
+          "esperado": "tarjeta",
+          "obtenido": "tarjeta",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Suma ítems",
+          "esperado": "64800.00",
+          "obtenido": "64800.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Consecutivo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "GET comprobante",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "{\"numero\": \"T4-002\", \"total\": \"64800.00\", \"medio_pago\": \"tarjeta\", \"nota\": \"Sin cebolla en la hamburguesa\"}"
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-033"
+      ],
+      "fecha": "2026-10-15T10:57:24.298844+00:00"
+    },
+    {
+      "caso": "CP-CAJA-08",
+      "nombre": "Orden 3 — pago por transferencia con precio de centavos y verificación SQL",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "POST venta",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total",
+          "esperado": "44501.00",
+          "obtenido": "44501.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Medio",
+          "esperado": "transferencia",
+          "obtenido": "transferencia",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Suma ítems",
+          "esperado": "44501.00",
+          "obtenido": "44501.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Consecutivo",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "GET comprobante",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "{\"numero\": \"T4-003\", \"total\": \"44501.00\", \"medio_pago\": \"transferencia\", \"nota\": null}"
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-034"
+      ],
+      "fecha": "2026-10-15T10:57:24.392545+00:00"
+    },
+    {
+      "caso": "CP-CAJA-09",
+      "nombre": "Orden vacía rechazada",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Orden vacía",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Solo 3 órdenes",
+          "esperado": 3,
+          "obtenido": 3,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-035"
+      ],
+      "fecha": "2026-10-15T10:57:24.488188+00:00"
+    },
+    {
+      "caso": "CP-CAJA-10",
+      "nombre": "Intento de venta con turno cerrado",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Venta turno cerrado",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "No aumenta",
+          "esperado": 3,
+          "obtenido": 3,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-041"
+      ],
+      "fecha": "2026-10-15T10:57:24.682662+00:00"
+    },
+    {
+      "caso": "CP-CAJA-11",
+      "nombre": "Detalle del comprobante de una orden",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Comprobante",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "64.800",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin cebolla en la hamburguesa",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Hamburguesa de prueba",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tarjeta",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-036"
+      ],
+      "fecha": "2026-10-15T10:57:24.539589+00:00"
+    },
+    {
+      "caso": "CP-CAJA-12",
+      "nombre": "Vista de impresión de 80 mm y exportación a PDF",
+      "modulo": "CAJA",
+      "estado": "Pendiente de seguimiento",
+      "checks": [
+        {
+          "comprobacion": "CSS 80mm",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "PDF generado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSS 80mm",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [
+        "Firefox headless permite comprobar estilos de impresión; la exportación PDF mediante diálogo gráfico requiere estación de grabación."
+      ],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+        "PDF: evidencias/CP-CAJA-12-comprobante-80mm.pdf"
+      ],
+      "capturas": [
+        "evidencias/CP-CAJA-12-chromium-impresion-80mm.png",
+        "evidencias/CP-CAJA-12-firefox-impresion-80mm.png"
+      ],
+      "ejecuciones": [
+        "EX-072",
+        "EX-076"
+      ],
+      "fecha": "2026-10-15T11:07:18.150852+00:00"
+    },
+    {
+      "caso": "CP-CAJA-13",
+      "nombre": "Cuadre del turno antes de cerrar y contraste con cálculo manual",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Resumen",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "SQL total",
+          "esperado": "125501.00",
+          "obtenido": "125501.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Esperado 175501",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-037"
+      ],
+      "fecha": "2026-10-15T10:57:24.547211+00:00"
+    },
+    {
+      "caso": "CP-CAJA-14",
+      "nombre": "Desglose por medio de pago en el cuadre y verificación SQL",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Desglose",
+          "esperado": [
+            {
+              "medio_pago": "efectivo",
+              "n": 1,
+              "total": "16200.00"
+            },
+            {
+              "medio_pago": "tarjeta",
+              "n": 1,
+              "total": "64800.00"
+            },
+            {
+              "medio_pago": "transferencia",
+              "n": 1,
+              "total": "44501.00"
+            }
+          ],
+          "obtenido": [
+            {
+              "medio_pago": "efectivo",
+              "n": 1,
+              "total": "16200.00"
+            },
+            {
+              "medio_pago": "tarjeta",
+              "n": 1,
+              "total": "64800.00"
+            },
+            {
+              "medio_pago": "transferencia",
+              "n": 1,
+              "total": "44501.00"
+            }
+          ],
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-038"
+      ],
+      "fecha": "2026-10-15T10:57:24.588161+00:00"
+    },
+    {
+      "caso": "CP-CAJA-15",
+      "nombre": "Cierre de turno con faltante y verificación en base de datos",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Cierre",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Ventas",
+          "esperado": "125501.00",
+          "obtenido": "125501.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Diferencia",
+          "esperado": "-5501.00",
+          "obtenido": "-5501.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado",
+          "esperado": "cerrado",
+          "obtenido": "cerrado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Marca cierre",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-039"
+      ],
+      "fecha": "2026-10-15T10:57:24.621127+00:00"
+    },
+    {
+      "caso": "CP-CAJA-16",
+      "nombre": "Historial de turnos",
+      "modulo": "CAJA",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Historial",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Faltante visible",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-040"
+      ],
+      "fecha": "2026-10-15T10:57:24.670677+00:00"
+    },
+    {
+      "caso": "CP-CAJA-17",
+      "nombre": "Cantidad máxima por producto: 99 admitida, 100 rechazada",
+      "modulo": "CAJA · cantidades",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "99 unidades",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total",
+          "esperado": "643500.00",
+          "obtenido": "643500.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "100 unidades",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin alta extra",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-042"
+      ],
+      "fecha": "2026-10-15T10:57:25.003058+00:00"
+    },
+    {
+      "caso": "CP-CAJA-18",
+      "nombre": "Rechazo de producto agotado, ajeno o inexistente",
+      "modulo": "CAJA · catálogo",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Producto 79",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Producto 1",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Producto 999999",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin ventas",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Agotado ausente de caja",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-043"
+      ],
+      "fecha": "2026-10-15T10:57:25.141770+00:00"
+    },
+    {
+      "caso": "CP-CAJA-19",
+      "nombre": "Importes manipulados en el navegador ignorados por el servidor",
+      "modulo": "CAJA · importes",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Aceptada",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total real",
+          "esperado": "19500.00",
+          "obtenido": "19500.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Precio real",
+          "esperado": "6500.00",
+          "obtenido": "6500.00",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-044"
+      ],
+      "fecha": "2026-10-15T10:57:25.319933+00:00"
+    },
+    {
+      "caso": "CP-CAJA-20",
+      "nombre": "Rechazo de medio de pago ausente o inválido",
+      "modulo": "CAJA · cobro",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Medio ''",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Medio 'bitcoin'",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin ventas",
+          "esperado": 2,
+          "obtenido": 2,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-045"
+      ],
+      "fecha": "2026-10-15T10:57:25.408515+00:00"
+    },
+    {
+      "caso": "CP-CAJA-21",
+      "nombre": "Reversión de la venta si falla la inserción del detalle",
+      "modulo": "CAJA · transacción",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Fallo forzado",
+          "esperado": 500,
+          "obtenido": 500,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cabeceras sin cambio",
+          "esperado": 2,
+          "obtenido": 2,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Ítems sin cambio",
+          "esperado": 28,
+          "obtenido": 28,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Fallo inducido solo en la base local; no es defecto de producto. Trigger retirado en finally."
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-046"
+      ],
+      "fecha": "2026-10-15T10:57:25.515229+00:00"
+    },
+    {
+      "caso": "CP-CAJA-22",
+      "nombre": "Conservación del nombre y precio históricos al editar el producto",
+      "modulo": "CAJA · historial de venta",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Editar",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Precio histórico",
+          "esperado": "9900.00",
+          "obtenido": "9900.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Nombre histórico",
+          "esperado": "Brownie de prueba",
+          "obtenido": "Brownie de prueba",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Precio actual",
+          "esperado": "12500.00",
+          "obtenido": "12500.00",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-047"
+      ],
+      "fecha": "2026-10-15T10:57:25.762152+00:00"
+    },
+    {
+      "caso": "CP-CAJA-23",
+      "nombre": "Reenvío de un formulario con token ya utilizado",
+      "modulo": "CAJA · envío de venta",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Primero",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Reenvío",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Una venta",
+          "esperado": 4,
+          "obtenido": 4,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-048"
+      ],
+      "fecha": "2026-10-15T10:57:25.988532+00:00"
+    },
+    {
+      "caso": "CP-CAJA-24",
+      "nombre": "Rechazo de declarado negativo, texto o vacío",
+      "modulo": "CAJA · cierre",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Declarado '-1'",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Declarado 'abc'",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Declarado ''",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sigue abierto",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-049"
+      ],
+      "fecha": "2026-10-15T10:57:26.080258+00:00"
+    },
+    {
+      "caso": "CP-CAJA-25",
+      "nombre": "Cierre sin ventas y negativas cuando no queda turno abierto",
+      "modulo": "CAJA · cierre",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Cierre vacío",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Diferencia",
+          "esperado": "-5000.00",
+          "obtenido": "-5000.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Ventas",
+          "esperado": "0.00",
+          "obtenido": "0.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Segundo cierre",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-050"
+      ],
+      "fecha": "2026-10-15T10:57:26.463293+00:00"
+    },
+    {
+      "caso": "CP-CAJA-26",
+      "nombre": "Cambio calculado y bloqueo por efectivo recibido insuficiente",
+      "modulo": "CAJA · cobro en efectivo",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Insuficiente bloqueado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cambio exacto",
+          "esperado": "$ 0",
+          "obtenido": "$ 0",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cambio",
+          "esperado": "$ 33.800",
+          "obtenido": "$ 33.800",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Persistencia",
+          "esperado": "16200.00",
+          "obtenido": "16200.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Insuficiente bloqueado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cambio exacto",
+          "esperado": "$ 0",
+          "obtenido": "$ 0",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cambio",
+          "esperado": "$ 33.800",
+          "obtenido": "$ 33.800",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Persistencia",
+          "esperado": "16200.00",
+          "obtenido": "16200.00",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "capturas": [
+        "evidencias/CP-CAJA-26-chromium-efectivo-insuficiente.png",
+        "evidencias/CP-CAJA-26-chromium-cambio-correcto.png",
+        "evidencias/CP-CAJA-26-chromium-comprobante.png",
+        "evidencias/CP-CAJA-26-firefox-efectivo-insuficiente.png",
+        "evidencias/CP-CAJA-26-firefox-cambio-correcto.png",
+        "evidencias/CP-CAJA-26-firefox-comprobante.png"
+      ],
+      "ejecuciones": [
+        "EX-071",
+        "EX-075"
+      ],
+      "fecha": "2026-10-15T11:07:15.737478+00:00"
+    },
+    {
+      "caso": "CP-SVP-01",
+      "nombre": "Tablero con ventanilla cerrada (sin turno abierto)",
+      "modulo": "SVP",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "HTTP",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin turno",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin órdenes",
+          "esperado": [],
+          "obtenido": [],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-084"
+      ],
+      "fecha": "2026-10-15T11:27:24.716648+00:00"
+    },
+    {
+      "caso": "CP-SVP-02",
+      "nombre": "Tablero con turno abierto y producción al día (sin órdenes en curso)",
+      "modulo": "SVP",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Turno entero",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Lista vacía",
+          "esperado": [],
+          "obtenido": [],
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-085"
+      ],
+      "fecha": "2026-10-15T11:27:24.739245+00:00"
+    },
+    {
+      "caso": "CP-SVP-03",
+      "nombre": "Una orden registrada en CAJA aparece en el tablero como pendiente",
+      "modulo": "SVP",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Total",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Pendiente",
+          "esperado": "pendiente",
+          "obtenido": "pendiente",
+          "cumple": true
+        },
+        {
+          "comprobacion": "ID coincide",
+          "esperado": 19,
+          "obtenido": 19,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-086"
+      ],
+      "fecha": "2026-10-15T11:27:24.745077+00:00"
+    },
+    {
+      "caso": "CP-SVP-04",
+      "nombre": "Tres órdenes registradas en CAJA aparecen en el tablero",
+      "modulo": "SVP",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Total",
+          "esperado": 3,
+          "obtenido": 3,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Todos pendientes",
+          "esperado": [
+            "pendiente",
+            "pendiente",
+            "pendiente"
+          ],
+          "obtenido": [
+            "pendiente",
+            "pendiente",
+            "pendiente"
+          ],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Nota",
+          "esperado": "Extra sal",
+          "obtenido": "Extra sal",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-087"
+      ],
+      "fecha": "2026-10-15T11:27:24.776776+00:00"
+    },
+    {
+      "caso": "CP-SVP-05",
+      "nombre": "Avance de estado: pendiente → en preparación",
+      "modulo": "SVP",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "HTTP",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado",
+          "esperado": "en_preparacion",
+          "obtenido": "en_preparacion",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Anterior",
+          "esperado": "pendiente",
+          "obtenido": "pendiente",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Siguiente",
+          "esperado": "lista",
+          "obtenido": "lista",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Marca en_preparacion_en",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-088"
+      ],
+      "fecha": "2026-10-15T11:27:24.831639+00:00"
+    },
+    {
+      "caso": "CP-SVP-06",
+      "nombre": "Avance de estado: en preparación → lista",
+      "modulo": "SVP",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "HTTP",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado",
+          "esperado": "lista",
+          "obtenido": "lista",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Anterior",
+          "esperado": "en_preparacion",
+          "obtenido": "en_preparacion",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Siguiente",
+          "esperado": "entregada",
+          "obtenido": "entregada",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Marca lista_en",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-089"
+      ],
+      "fecha": "2026-10-15T11:27:24.882607+00:00"
+    },
+    {
+      "caso": "CP-SVP-07",
+      "nombre": "Avance de estado: lista → entregada, y la orden sale del tablero",
+      "modulo": "SVP",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "HTTP",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin siguiente",
+          "esperado": null,
+          "obtenido": null,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Dos órdenes",
+          "esperado": 2,
+          "obtenido": 2,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Entregada excluida",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-090"
+      ],
+      "fecha": "2026-10-15T11:27:24.935050+00:00"
+    },
+    {
+      "caso": "CP-SVP-08",
+      "nombre": "El sondeo actualiza el tablero sin recargar la página",
+      "modulo": "SVP",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Misma navegación",
+          "esperado": 1792062171384.5,
+          "obtenido": 1792062171384.5,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Movida por sondeo",
+          "esperado": "en_preparacion",
+          "obtenido": "en_preparacion",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Turno visible público",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Misma navegación",
+          "esperado": 1792062217568,
+          "obtenido": 1792062217568,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Movida por sondeo",
+          "esperado": "en_preparacion",
+          "obtenido": "en_preparacion",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Turno visible público",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "capturas": [
+        "evidencias/CP-SVP-08-chromium-sondeo.png",
+        "evidencias/CP-SVP-08-chromium-pantalla-publica.png",
+        "evidencias/CP-SVP-08-firefox-sondeo.png",
+        "evidencias/CP-SVP-08-firefox-pantalla-publica.png"
+      ],
+      "ejecuciones": [
+        "EX-057",
+        "EX-066"
+      ],
+      "fecha": "2026-10-15T11:03:37.566128+00:00"
+    },
+    {
+      "caso": "CP-SVP-09",
+      "nombre": "Dos órdenes en estados distintos coexisten en el tablero",
+      "modulo": "SVP",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Total",
+          "esperado": 2,
+          "obtenido": 2,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Orden por estado",
+          "esperado": [
+            "pendiente",
+            "en_preparacion"
+          ],
+          "obtenido": [
+            "pendiente",
+            "en_preparacion"
+          ],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Nota conservada",
+          "esperado": "Extra sal",
+          "obtenido": "Extra sal",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-091"
+      ],
+      "fecha": "2026-10-15T11:27:24.977869+00:00"
+    },
+    {
+      "caso": "CP-SVP-10",
+      "nombre": "La segunda orden pasa a entregada y sale del tablero; T6-003 permanece",
+      "modulo": "SVP",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Una pendiente",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tercera conservada",
+          "esperado": 21,
+          "obtenido": 21,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-092"
+      ],
+      "fecha": "2026-10-15T11:27:24.984715+00:00"
+    },
+    {
+      "caso": "CP-SVP-11",
+      "nombre": "Umbral de demora a los 10 minutos",
+      "modulo": "SVP · demoras",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Minutos",
+          "esperado": 9,
+          "obtenido": 9,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Demorada a 9",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Minutos",
+          "esperado": 10,
+          "obtenido": 10,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Demorada a 10",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Antigüedad controlada por UPDATE únicamente en la base local."
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-093"
+      ],
+      "fecha": "2026-10-15T11:27:25.029320+00:00"
+    },
+    {
+      "caso": "CP-SVP-12",
+      "nombre": "Rechazo de salto, estado inexistente y orden entregada",
+      "modulo": "SVP · estados",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Rechazo entregada",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "transicion_invalida",
+          "obtenido": "transicion_invalida",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin cambios",
+          "esperado": [
+            {
+              "estado_id": 1,
+              "en_preparacion_en": null,
+              "lista_en": null,
+              "entregada_en": null
+            }
+          ],
+          "obtenido": [
+            {
+              "estado_id": 1,
+              "en_preparacion_en": null,
+              "lista_en": null,
+              "entregada_en": null
+            }
+          ],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rechazo volando",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "transicion_invalida",
+          "obtenido": "transicion_invalida",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin cambios",
+          "esperado": [
+            {
+              "estado_id": 1,
+              "en_preparacion_en": null,
+              "lista_en": null,
+              "entregada_en": null
+            }
+          ],
+          "obtenido": [
+            {
+              "estado_id": 1,
+              "en_preparacion_en": null,
+              "lista_en": null,
+              "entregada_en": null
+            }
+          ],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rechazo en_preparacion",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "transicion_invalida",
+          "obtenido": "transicion_invalida",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin cambios",
+          "esperado": [
+            {
+              "estado_id": 4,
+              "en_preparacion_en": "2026-10-15 06:27:24",
+              "lista_en": "2026-10-15 06:27:24",
+              "entregada_en": "2026-10-15 06:27:24"
+            }
+          ],
+          "obtenido": [
+            {
+              "estado_id": 4,
+              "en_preparacion_en": "2026-10-15 06:27:24",
+              "lista_en": "2026-10-15 06:27:24",
+              "entregada_en": "2026-10-15 06:27:24"
+            }
+          ],
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-094"
+      ],
+      "fecha": "2026-10-15T11:27:25.114218+00:00"
+    },
+    {
+      "caso": "CP-SVP-13",
+      "nombre": "Marcas cronológicas y duración conservada tras entregar",
+      "modulo": "SVP · marcas de tiempo",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Cronología",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Última marca",
+          "esperado": "2026-10-15 06:27:24",
+          "obtenido": "2026-10-15 06:27:24",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Duración no negativa",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "{\"creado_en\": \"2026-10-15 06:27:24\", \"en_preparacion_en\": \"2026-10-15 06:27:24\", \"lista_en\": \"2026-10-15 06:27:24\", \"entregada_en\": \"2026-10-15 06:27:24\", \"estado_actualizado_en\": \"2026-10-15 06:27:24\", \"duracion\": 0}"
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-095"
+      ],
+      "fecha": "2026-10-15T11:27:25.350885+00:00"
+    },
+    {
+      "caso": "CP-SVP-14",
+      "nombre": "Estructura y tipos del servicio de órdenes",
+      "modulo": "SVP · contrato JSON",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "JSON",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total coincide",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo minutos",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo demorada",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo id",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Ítems tipados",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin entregadas",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-096"
+      ],
+      "fecha": "2026-10-15T11:27:25.384295+00:00"
+    },
+    {
+      "caso": "CP-SVP-15",
+      "nombre": "Estados visibles y privacidad del servicio público de turnos",
+      "modulo": "SVP · pantalla pública",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Público 200",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Solo numero y estado",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Visible",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Lista pública",
+          "esperado": "lista",
+          "obtenido": "lista",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Entregada excluida",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-097"
+      ],
+      "fecha": "2026-10-15T11:27:25.391008+00:00"
+    },
+    {
+      "caso": "CP-SVP-16",
+      "nombre": "Turnos públicos sin turno y con turno abierto sin órdenes visibles",
+      "modulo": "SVP · pantalla pública",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Abierto vacío",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cerrado vacío",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-098"
+      ],
+      "fecha": "2026-10-15T11:27:25.460057+00:00"
+    },
+    {
+      "caso": "CP-SVP-17",
+      "nombre": "Slug inexistente e inactivo en turnos públicos",
+      "modulo": "SVP · pantalla pública",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Pantalla no-existe",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Servicio no-existe",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error JSON",
+          "esperado": "food_truck_no_encontrado",
+          "obtenido": "food_truck_no_encontrado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Pantalla truck-de-pruebas",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Servicio truck-de-pruebas",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error JSON",
+          "esperado": "food_truck_no_encontrado",
+          "obtenido": "food_truck_no_encontrado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Reactivado",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-099"
+      ],
+      "fecha": "2026-10-15T11:27:25.488505+00:00"
+    },
+    {
+      "caso": "CP-SVP-18",
+      "nombre": "Pérdida de red, recuperación y sesión caducada",
+      "modulo": "SVP · sondeo",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Tarjetas conservadas",
+          "esperado": 2,
+          "obtenido": 2,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aviso interno",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aviso público",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Recupera interno",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Recupera público",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aviso sesión caducada",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tarjetas conservadas",
+          "esperado": 2,
+          "obtenido": 2,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aviso interno",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aviso público",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Recupera interno",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Recupera público",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aviso sesión caducada",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico."
+      ],
+      "capturas": [
+        "evidencias/CP-SVP-18-chromium-red-interrumpida.png",
+        "evidencias/CP-SVP-18-chromium-publico-sin-red.png",
+        "evidencias/CP-SVP-18-chromium-red-recuperada.png",
+        "evidencias/CP-SVP-18-chromium-sesion-caducada.png",
+        "evidencias/CP-SVP-18-firefox-red-interrumpida.png",
+        "evidencias/CP-SVP-18-firefox-publico-sin-red.png",
+        "evidencias/CP-SVP-18-firefox-red-recuperada.png",
+        "evidencias/CP-SVP-18-firefox-sesion-caducada.png"
+      ],
+      "ejecuciones": [
+        "EX-058",
+        "EX-067"
+      ],
+      "fecha": "2026-10-15T11:03:47.504092+00:00"
+    },
+    {
+      "caso": "CP-SVP-19",
+      "nombre": "Resoluciones del plan y temas claro y oscuro",
+      "modulo": "SVP y CAJA · presentación",
+      "estado": "Pendiente de seguimiento",
+      "checks": [
+        {
+          "comprobacion": "/svp 360 False ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/turnos/truck-de-pruebas 360 False ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/svp 360 True ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/turnos/truck-de-pruebas 360 True ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/svp 768 False ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/turnos/truck-de-pruebas 768 False ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/svp 768 True ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/turnos/truck-de-pruebas 768 True ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/svp 1280 False ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/turnos/truck-de-pruebas 1280 False ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/svp 1280 True ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/turnos/truck-de-pruebas 1280 True ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Número mínimo 32px",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Botón mínimo 56px",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/svp 360 False ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/turnos/truck-de-pruebas 360 False ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/svp 360 True ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/turnos/truck-de-pruebas 360 True ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/svp 768 False ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/turnos/truck-de-pruebas 768 False ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/svp 768 True ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/turnos/truck-de-pruebas 768 True ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/svp 1280 False ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/turnos/truck-de-pruebas 1280 False ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/svp 1280 True ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/turnos/truck-de-pruebas 1280 True ancho",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Número mínimo 32px",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Botón mínimo 56px",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [
+        "Lectura de números públicos a 3 metros en monitor físico de 24 pulgadas pendiente; emular ancho no la sustituye."
+      ],
+      "notas": [
+        "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
+        "Número: 40 px; botón: 56 px."
+      ],
+      "capturas": [
+        "evidencias/CP-SVP-19-chromium-svp-360-claro.png",
+        "evidencias/CP-SVP-19-chromium-turnos-360-claro.png",
+        "evidencias/CP-SVP-19-chromium-svp-360-oscuro.png",
+        "evidencias/CP-SVP-19-chromium-turnos-360-oscuro.png",
+        "evidencias/CP-SVP-19-chromium-svp-768-claro.png",
+        "evidencias/CP-SVP-19-chromium-turnos-768-claro.png",
+        "evidencias/CP-SVP-19-chromium-svp-768-oscuro.png",
+        "evidencias/CP-SVP-19-chromium-turnos-768-oscuro.png",
+        "evidencias/CP-SVP-19-chromium-svp-1280-claro.png",
+        "evidencias/CP-SVP-19-chromium-turnos-1280-claro.png",
+        "evidencias/CP-SVP-19-chromium-svp-1280-oscuro.png",
+        "evidencias/CP-SVP-19-chromium-turnos-1280-oscuro.png",
+        "evidencias/CP-SVP-19-firefox-svp-360-claro.png",
+        "evidencias/CP-SVP-19-firefox-turnos-360-claro.png",
+        "evidencias/CP-SVP-19-firefox-svp-360-oscuro.png",
+        "evidencias/CP-SVP-19-firefox-turnos-360-oscuro.png",
+        "evidencias/CP-SVP-19-firefox-svp-768-claro.png",
+        "evidencias/CP-SVP-19-firefox-turnos-768-claro.png",
+        "evidencias/CP-SVP-19-firefox-svp-768-oscuro.png",
+        "evidencias/CP-SVP-19-firefox-turnos-768-oscuro.png",
+        "evidencias/CP-SVP-19-firefox-svp-1280-claro.png",
+        "evidencias/CP-SVP-19-firefox-turnos-1280-claro.png",
+        "evidencias/CP-SVP-19-firefox-svp-1280-oscuro.png",
+        "evidencias/CP-SVP-19-firefox-turnos-1280-oscuro.png"
+      ],
+      "ejecuciones": [
+        "EX-059",
+        "EX-068"
+      ],
+      "fecha": "2026-10-15T11:04:06.686706+00:00"
+    },
+    {
+      "caso": "CP-SVP-20",
+      "nombre": "Comportamiento del tablero al cerrar el turno con órdenes en curso",
+      "modulo": "SVP · cierre con órdenes activas",
+      "estado": "Pendiente de seguimiento",
+      "checks": [
+        {
+          "comprobacion": "Orden en curso",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Después cierre",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Orden persiste",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        }
+      ],
+      "pendientes": [
+        "El repositorio deja pendiente la aceptación de negocio de cerrar con órdenes pendientes. Comportamiento técnico comprobado."
+      ],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-100"
+      ],
+      "fecha": "2026-10-15T11:27:25.586570+00:00"
+    },
+    {
+      "caso": "CP-SVP-21",
+      "nombre": "Dos consultas como máximo y respuesta menor a un segundo",
+      "modulo": "SVP · consulta con veinte órdenes",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "20 órdenes",
+          "esperado": 20,
+          "obtenido": 20,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Menos de 1000 ms",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Como máximo 2 consultas",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Modelo devuelve 20",
+          "esperado": 20,
+          "obtenido": 20,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "{\"ms_modelo\": 3.206968307495117, \"ordenes\": 20, \"consultas\": [\"SELECT t.id AS turno_id, o.id AS orden_id, o.numero, o.nota, o.creado_en,\\n                    e.codigo AS estado, e.nombre AS estado_nombre,\\n                    TIMESTAMPDIFF(MINUTE, o.creado_en, NOW()) AS minutos\\n               FROM turnos_caja t\\n               LEFT JOIN ordenes o\\n                      ON o.turno_id = t.id\\n                     AND o.food_truck_id = t.food_truck_id\\n                     AND o.estado_id IN (SELECT id FROM estados_orden WHERE codigo IN ('pendiente', 'en_preparacion', 'lista'))\\n               LEFT JOIN estados_orden e ON e.id = o.estado_id\\n              WHERE t.id = (SELECT v.id FROM turnos_caja v\\n                           WHERE v.food_truck_id = '9' AND v.estado = 'abierto'\\n                           ORDER BY v.id DESC LIMIT 1)\\n              ORDER BY e.orden, o.creado_en\", \"SELECT i.orden_id, i.nombre_producto, i.cantidad\\n               FROM orden_items i\\n               JOIN ordenes o        ON o.id = i.orden_id\\n               JOIN estados_orden e  ON e.id = o.estado_id\\n              WHERE o.food_truck_id = '9'\\n                AND o.turno_id = (SELECT v.id FROM turnos_caja v\\n                           WHERE v.food_truck_id = '9' AND v.estado = 'abierto'\\n                           ORDER BY v.id DESC LIMIT 1)\\n                AND e.codigo IN ('pendiente', 'en_preparacion', 'lista')\\n              ORDER BY i.id\"]}",
+        "Tiempo HTTP real: 5.82 ms. Se miden consultas Execute de esta conexión; no es ensayo de carga."
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-101"
+      ],
+      "fecha": "2026-10-15T11:27:26.052931+00:00"
+    },
+    {
+      "caso": "CP-SEG-01",
+      "nombre": "Inyección SQL en el inicio de sesión",
+      "modulo": "Seguridad · autenticación",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Rechazo prueba@menu08.local'",
+          "esperado": 401,
+          "obtenido": 401,
+          "cumple": true
+        },
+        {
+          "comprobacion": "No hay sesión",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin traza",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rechazo ' OR '1'='1",
+          "esperado": 401,
+          "obtenido": 401,
+          "cumple": true
+        },
+        {
+          "comprobacion": "No hay sesión",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin traza",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rechazo plataforma@menu08.local'-- ",
+          "esperado": 401,
+          "obtenido": 401,
+          "cumple": true
+        },
+        {
+          "comprobacion": "No hay sesión",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin traza",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rechazo x\" OR \"\"=\"",
+          "esperado": 401,
+          "obtenido": 401,
+          "cumple": true
+        },
+        {
+          "comprobacion": "No hay sesión",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin traza",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-102"
+      ],
+      "fecha": "2026-10-15T11:27:27.052961+00:00"
+    },
+    {
+      "caso": "CP-SEG-02",
+      "nombre": "Inyección SQL en el slug de la carta",
+      "modulo": "Seguridad · carta pública",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Slug malicioso",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin SQL",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Slug malicioso",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin SQL",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Slug malicioso",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin SQL",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-103"
+      ],
+      "fecha": "2026-10-15T11:27:27.368202+00:00"
+    },
+    {
+      "caso": "CP-SEG-03",
+      "nombre": "Inyección SQL en el parámetro categoria",
+      "modulo": "Seguridad · filtro de productos",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Filtro 1 OR 1=1",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin SQL",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Filtro 0 UNION SELECT * FROM usuarios",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin SQL",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Filtro abc",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin SQL",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-104"
+      ],
+      "fecha": "2026-10-15T11:27:27.384253+00:00"
+    },
+    {
+      "caso": "CP-SEG-04",
+      "nombre": "Claves maliciosas en cantidad y mezcla con una línea válida",
+      "modulo": "Seguridad · orden de venta",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Solo claves maliciosas",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin inserción",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Mezcla",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total válido",
+          "esperado": "6500.00",
+          "obtenido": "6500.00",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-105"
+      ],
+      "fecha": "2026-10-15T11:27:27.406361+00:00"
+    },
+    {
+      "caso": "CP-SEG-05",
+      "nombre": "XSS persistente en nombre y descripción de producto",
+      "modulo": "Seguridad · textos del catálogo",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Guardar texto",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Script escapado /panel/productos",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Nombre como texto /panel/productos",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Script escapado /panel/productos/120",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Nombre como texto /panel/productos/120",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Script escapado /carta/truck-de-pruebas",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Nombre como texto /carta/truck-de-pruebas",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Agotado escapado",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "La comprobación de ejecución y ausencia de alertas se complementa desde navegador."
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-106"
+      ],
+      "fecha": "2026-10-15T11:27:27.551631+00:00"
+    },
+    {
+      "caso": "CP-SEG-06",
+      "nombre": "Acceso de cada rol y visitantes a las zonas privadas",
+      "modulo": "Seguridad · roles web",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "None /panel",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "None /panel/productos",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "None /caja",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "None /svp",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "foodtruck /panel",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "foodtruck /panel/productos",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "foodtruck /caja",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "foodtruck /svp",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "cajero /panel",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "cajero /panel/productos",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "cajero /caja",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "cajero /svp",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "produccion /panel",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "produccion /panel/productos",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "produccion /caja",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "produccion /svp",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "plataforma /panel",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "plataforma /panel/productos",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "plataforma /caja",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "plataforma /svp",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-107"
+      ],
+      "fecha": "2026-10-15T11:27:27.654321+00:00"
+    },
+    {
+      "caso": "CP-SEG-07",
+      "nombre": "CSRF ausente o alterado en todos los POST web",
+      "modulo": "Seguridad · formularios web",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "/ingresar ausente",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/ingresar alterado",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/ingresar vencido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/food-truck ausente",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/food-truck alterado",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/food-truck vencido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias ausente",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias alterado",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias vencido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias/estado ausente",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias/estado alterado",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/categorias/estado vencido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos ausente",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos alterado",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos vencido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/disponibilidad ausente",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/disponibilidad alterado",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/productos/disponibilidad vencido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones ausente",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones alterado",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones vencido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones/estado ausente",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones/estado alterado",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/panel/ubicaciones/estado vencido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/caja/turno/abrir ausente",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/caja/turno/abrir alterado",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/caja/turno/abrir vencido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/caja/turno/cerrar ausente",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/caja/turno/cerrar alterado",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/caja/turno/cerrar vencido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/caja/vender ausente",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/caja/vender alterado",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/caja/vender vencido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin mutaciones",
+          "esperado": {
+            "productos": 12,
+            "categorias": 5,
+            "ubicaciones": 4,
+            "turnos_caja": 1,
+            "ordenes": 1
+          },
+          "obtenido": {
+            "productos": 12,
+            "categorias": 5,
+            "ubicaciones": 4,
+            "turnos_caja": 1,
+            "ordenes": 1
+          },
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Vencimiento reproducido conservando el token real y adelantando solo su fecha de expiración en el archivo de sesión local; no se esperaron 120 minutos."
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-108"
+      ],
+      "fecha": "2026-10-15T11:27:28.068942+00:00"
+    },
+    {
+      "caso": "CP-SEG-08",
+      "nombre": "Negativas JSON por sesión, rol y token en SVP",
+      "modulo": "Seguridad · servicios JSON",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "HTTP",
+          "esperado": 401,
+          "obtenido": 401,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "no_autenticado",
+          "obtenido": "no_autenticado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "JSON",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "HTTP",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "rol_no_autorizado",
+          "obtenido": "rol_no_autorizado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "JSON",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Token inválido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "token_invalido",
+          "obtenido": "token_invalido",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Token inválido",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "token_invalido",
+          "obtenido": "token_invalido",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rol permitido",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rol permitido",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-109"
+      ],
+      "fecha": "2026-10-15T11:27:29.610174+00:00"
+    },
+    {
+      "caso": "CP-SEG-09",
+      "nombre": "Recursos ajenos indistinguibles de recursos inexistentes",
+      "modulo": "Seguridad · aislamiento de recursos",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Ajeno productos",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Ausente productos",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "POST ajeno productos",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Fila ajena intacta productos",
+          "esperado": [
+            {
+              "id": 1,
+              "food_truck_id": 1,
+              "categoria_id": 1,
+              "nombre": "Empanadas con ají",
+              "descripcion": "Tres empanadas de papa y carne, crocanticas, con ají de la casa.",
+              "precio": "9900.00",
+              "foto": "festin-empanadas-con-aji.jpg",
+              "disponible": 1,
+              "orden": 1,
+              "creado_en": "2026-10-15 11:08:03",
+              "actualizado_en": "2026-10-15 11:08:03"
+            }
+          ],
+          "obtenido": [
+            {
+              "id": 1,
+              "food_truck_id": 1,
+              "categoria_id": 1,
+              "nombre": "Empanadas con ají",
+              "descripcion": "Tres empanadas de papa y carne, crocanticas, con ají de la casa.",
+              "precio": "9900.00",
+              "foto": "festin-empanadas-con-aji.jpg",
+              "disponible": 1,
+              "orden": 1,
+              "creado_en": "2026-10-15 11:08:03",
+              "actualizado_en": "2026-10-15 11:08:03"
+            }
+          ],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Ajeno categorias",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Ausente categorias",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "POST ajeno categorias",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Fila ajena intacta categorias",
+          "esperado": [
+            {
+              "id": 1,
+              "food_truck_id": 1,
+              "nombre": "Para picar",
+              "orden": 1,
+              "activo": 1,
+              "creado_en": "2026-10-15 11:08:03",
+              "actualizado_en": "2026-10-15 11:08:03"
+            }
+          ],
+          "obtenido": [
+            {
+              "id": 1,
+              "food_truck_id": 1,
+              "nombre": "Para picar",
+              "orden": 1,
+              "activo": 1,
+              "creado_en": "2026-10-15 11:08:03",
+              "actualizado_en": "2026-10-15 11:08:03"
+            }
+          ],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Ajeno ubicaciones",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Ausente ubicaciones",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "POST ajeno ubicaciones",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Fila ajena intacta ubicaciones",
+          "esperado": [
+            {
+              "id": 1,
+              "food_truck_id": 1,
+              "nombre": "Parque de la 93",
+              "referencia": "Costado occidental, frente a las oficinas",
+              "latitud": "4.6767000",
+              "longitud": "-74.0483000",
+              "dia_semana": 2,
+              "hora_inicio": "12:00:00",
+              "hora_fin": "16:00:00",
+              "activa": 1,
+              "creado_en": "2026-10-15 11:08:03",
+              "actualizado_en": "2026-10-15 11:08:03"
+            }
+          ],
+          "obtenido": [
+            {
+              "id": 1,
+              "food_truck_id": 1,
+              "nombre": "Parque de la 93",
+              "referencia": "Costado occidental, frente a las oficinas",
+              "latitud": "4.6767000",
+              "longitud": "-74.0483000",
+              "dia_semana": 2,
+              "hora_inicio": "12:00:00",
+              "hora_fin": "16:00:00",
+              "activa": 1,
+              "creado_en": "2026-10-15 11:08:03",
+              "actualizado_en": "2026-10-15 11:08:03"
+            }
+          ],
+          "cumple": true
+        },
+        {
+          "comprobacion": "Comprobante ajeno",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Orden ajena/ausente",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error igual",
+          "esperado": "orden_no_encontrada",
+          "obtenido": "orden_no_encontrada",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Orden ajena/ausente",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error igual",
+          "esperado": "orden_no_encontrada",
+          "obtenido": "orden_no_encontrada",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Otra orden intacta",
+          "esperado": "pendiente",
+          "obtenido": "pendiente",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-110"
+      ],
+      "fecha": "2026-10-15T11:27:29.666966+00:00"
+    },
+    {
+      "caso": "CP-SEG-10",
+      "nombre": "Regeneración, atributos de cookie y cierre de sesión",
+      "modulo": "Seguridad · sesión",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Cookie HTTPS Secure",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cookie HttpOnly",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "SameSite=Lax",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Se comprueban los atributos de la cookie inicial del hosting. La regeneración al ingresar y salida se validaron en local; no se autentica en producción.",
+        "Regeneración/cierre: local. Secure: cookie inicial HTTPS del hosting. No se comprobó su commit ni se ingresó en producción."
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-117"
+      ],
+      "fecha": "2026-10-15T11:27:39.712193+00:00"
+    },
+    {
+      "caso": "CP-SEG-11",
+      "nombre": "Código, configuración y bitácora fuera del acceso público",
+      "modulo": "Seguridad · estructura del servidor",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "/menu08_app/configuracion/configuracion.php",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin credencial local",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/menu08_app/basedatos/esquema.sql",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin credencial local",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/menu08_app/almacenamiento/bitacora",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin credencial local",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/configuracion/configuracion.php",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin credencial local",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/basedatos/esquema.sql",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin credencial local",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "CSS público",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-111"
+      ],
+      "fecha": "2026-10-15T11:27:30.345460+00:00"
+    },
+    {
+      "caso": "CP-SEG-12",
+      "nombre": "Ingreso móvil y autorización del reporte de ubicación",
+      "modulo": "Seguridad · puerta móvil de ubicación",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Sin sesión",
+          "esperado": 401,
+          "obtenido": 401,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rol cajero",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "rol_no_autorizado",
+          "obtenido": "rol_no_autorizado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Rol produccion",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Error",
+          "esperado": "rol_no_autorizado",
+          "obtenido": "rol_no_autorizado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Ingreso móvil",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin contraseña",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Sin token",
+          "esperado": 403,
+          "obtenido": 403,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Coordenada inválida",
+          "esperado": 422,
+          "obtenido": 422,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Camino válido 200 o 201",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Truck de la sesión",
+          "esperado": 10,
+          "obtenido": 10,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Latitud persistida",
+          "esperado": "4.6500000",
+          "obtenido": "4.6500000",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Reporte posterior actualiza",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Misma parada",
+          "esperado": 46,
+          "obtenido": 46,
+          "cumple": true
+        },
+        {
+          "comprobacion": "No duplicación",
+          "esperado": 5,
+          "obtenido": 5,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Latitud actualizada",
+          "esperado": "4.6600000",
+          "obtenido": "4.6600000",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "HTTP obtenido en reporte válido: 201"
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-112"
+      ],
+      "fecha": "2026-10-15T11:27:30.361978+00:00"
+    },
+    {
+      "caso": "CP-SEG-13",
+      "nombre": "HEAD conserva el estado de GET y entrega cuerpo vacío",
+      "modulo": "Seguridad y enrutamiento",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Estado /",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo /",
+          "esperado": "text/html; charset=utf-8",
+          "obtenido": "text/html; charset=utf-8",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cuerpo /",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado /carta/truck-de-pruebas",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo /carta/truck-de-pruebas",
+          "esperado": "text/html; charset=utf-8",
+          "obtenido": "text/html; charset=utf-8",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cuerpo /carta/truck-de-pruebas",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado /carta/no-existe",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo /carta/no-existe",
+          "esperado": "text/html; charset=utf-8",
+          "obtenido": "text/html; charset=utf-8",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cuerpo /carta/no-existe",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado /panel",
+          "esperado": 302,
+          "obtenido": 302,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo /panel",
+          "esperado": "text/html; charset=UTF-8",
+          "obtenido": "text/html; charset=UTF-8",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cuerpo /panel",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado /svp/ordenes",
+          "esperado": 401,
+          "obtenido": 401,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo /svp/ordenes",
+          "esperado": "application/json; charset=utf-8",
+          "obtenido": "application/json; charset=utf-8",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cuerpo /svp/ordenes",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado /caja/vender",
+          "esperado": 404,
+          "obtenido": 404,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Tipo /caja/vender",
+          "esperado": "text/html; charset=utf-8",
+          "obtenido": "text/html; charset=utf-8",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Cuerpo /caja/vender",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-113"
+      ],
+      "fecha": "2026-10-15T11:27:30.826332+00:00"
+    },
+    {
+      "caso": "CP-SEG-14",
+      "nombre": "Sentencias preparadas y contraseñas cifradas",
+      "modulo": "Seguridad · acceso a datos",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Bcrypt todos",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "password_verify",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Preparadas reales",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Inspección de código: modelos usan prepare y execute; concatenaciones de consultas revisadas en modelos, se conservan referencias del commit en Fuentes. No es prueba de penetración."
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-114"
+      ],
+      "fecha": "2026-10-15T11:27:30.879693+00:00"
+    },
+    {
+      "caso": "CP-SEG-15",
+      "nombre": "HTTPS, recursos y bitácora del recorrido en el hosting",
+      "modulo": "Seguridad · entorno publicado",
+      "estado": "Fallida",
+      "checks": [
+        {
+          "comprobacion": "HTTPS responde",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "HTTP redirige 301",
+          "esperado": 301,
+          "obtenido": 200,
+          "cumple": false
+        },
+        {
+          "comprobacion": "Misma ruta HTTPS",
+          "esperado": "https://adso.menu08.com/carta/festin-rodante",
+          "obtenido": null,
+          "cumple": false
+        },
+        {
+          "comprobacion": "/recursos/css/md3.css",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/recursos/css/carta.css",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/recursos/js/carta.js",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/carta/festin-rodante",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        },
+        {
+          "comprobacion": "/turnos/festin-rodante",
+          "esperado": 200,
+          "obtenido": 200,
+          "cumple": true
+        }
+      ],
+      "pendientes": [
+        "Sin acceso a la bitácora del hosting ni verificación de su commit. HTTPS se consultó con validación TLS activa. La versión del hosting documentada no se presenta como medida actual."
+      ],
+      "notas": [
+        "HTTP observado: 200 Location=None"
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-116"
+      ],
+      "fecha": "2026-10-15T11:27:39.405993+00:00"
+    },
+    {
+      "caso": "CP-AUTO-PM-01",
+      "nombre": "Recorrido original de Postman",
+      "modulo": "AUTOMATIZACIÓN",
+      "estado": "Fallida",
+      "checks": [
+        {
+          "comprobacion": "Código Newman",
+          "esperado": 0,
+          "obtenido": 1,
+          "cumple": false
+        },
+        {
+          "comprobacion": "Aserciones fallidas",
+          "esperado": 0,
+          "obtenido": 15,
+          "cumple": false
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "{\"requests\": {\"total\": 20, \"pending\": 0, \"failed\": 0}, \"assertions\": {\"total\": 36, \"pending\": 0, \"failed\": 15}}",
+        "Reporte: evidencias/postman-original-recorrido.json"
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-078"
+      ],
+      "fecha": "2026-10-15T11:07:58.351812+00:00"
+    },
+    {
+      "caso": "CP-AUTO-PM-02",
+      "nombre": "Reejecución del recorrido de Postman corregido",
+      "modulo": "AUTOMATIZACIÓN",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Código Newman",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aserciones fallidas",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "{\"requests\": {\"total\": 22, \"pending\": 0, \"failed\": 0}, \"assertions\": {\"total\": 40, \"pending\": 0, \"failed\": 0}}",
+        "Reporte: evidencias/postman-video-validado.json"
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-081"
+      ],
+      "fecha": "2026-10-15T11:08:05.750906+00:00"
+    },
+    {
+      "caso": "CP-AUTO-PM-03",
+      "nombre": "Carpeta pública original de Postman",
+      "modulo": "AUTOMATIZACIÓN",
+      "estado": "Fallida",
+      "checks": [
+        {
+          "comprobacion": "Código Newman",
+          "esperado": 0,
+          "obtenido": 1,
+          "cumple": false
+        },
+        {
+          "comprobacion": "Aserciones fallidas",
+          "esperado": 0,
+          "obtenido": 2,
+          "cumple": false
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "{\"requests\": {\"total\": 11, \"pending\": 0, \"failed\": 0}, \"assertions\": {\"total\": 19, \"pending\": 0, \"failed\": 2}}",
+        "Reporte: evidencias/postman-original-publicas.json"
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-079"
+      ],
+      "fecha": "2026-10-15T11:08:01.573687+00:00"
+    },
+    {
+      "caso": "CP-AUTO-PM-04",
+      "nombre": "Carpeta móvil original de Postman",
+      "modulo": "AUTOMATIZACIÓN",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Código Newman",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aserciones fallidas",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "{\"requests\": {\"total\": 8, \"pending\": 0, \"failed\": 0}, \"assertions\": {\"total\": 25, \"pending\": 0, \"failed\": 0}}",
+        "Reporte: evidencias/postman-original-movil.json"
+      ],
+      "capturas": [],
+      "ejecuciones": [
+        "EX-080"
+      ],
+      "fecha": "2026-10-15T11:08:04.075540+00:00"
+    },
+    {
+      "caso": "CP-AUTO-E2E-01",
+      "nombre": "Flujo completo por interfaz en dos navegadores",
+      "modulo": "AUTOMATIZACIÓN",
+      "estado": "Aprobada",
+      "checks": [
+        {
+          "comprobacion": "Total vendido",
+          "esperado": "6500.00",
+          "obtenido": "6500.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Pendiente privada",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Pendiente oculta pública",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado SQL en_preparacion",
+          "esperado": "en_preparacion",
+          "obtenido": "en_preparacion",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Visibilidad pública en_preparacion",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado SQL lista",
+          "esperado": "lista",
+          "obtenido": "lista",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Visibilidad pública lista",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado SQL entregada",
+          "esperado": "entregada",
+          "obtenido": "entregada",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Visibilidad pública entregada",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Diferencia",
+          "esperado": "0.00",
+          "obtenido": "0.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Turno cerrado",
+          "esperado": "cerrado",
+          "obtenido": "cerrado",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Total vendido",
+          "esperado": "6500.00",
+          "obtenido": "6500.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Pendiente privada",
+          "esperado": 1,
+          "obtenido": 1,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Pendiente oculta pública",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado SQL en_preparacion",
+          "esperado": "en_preparacion",
+          "obtenido": "en_preparacion",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Visibilidad pública en_preparacion",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado SQL lista",
+          "esperado": "lista",
+          "obtenido": "lista",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Visibilidad pública lista",
+          "esperado": true,
+          "obtenido": true,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Estado SQL entregada",
+          "esperado": "entregada",
+          "obtenido": "entregada",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Visibilidad pública entregada",
+          "esperado": false,
+          "obtenido": false,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Diferencia",
+          "esperado": "0.00",
+          "obtenido": "0.00",
+          "cumple": true
+        },
+        {
+          "comprobacion": "Turno cerrado",
+          "esperado": "cerrado",
+          "obtenido": "cerrado",
+          "cumple": true
+        }
+      ],
+      "pendientes": [],
+      "notas": [
+        "Se interactuó con formularios y botones reales en tres contextos de navegador; SQL solo contrasta resultados y prepara el banco."
+      ],
+      "capturas": [
+        "evidencias/CP-AUTO-E2E-01-chromium-venta.png",
+        "evidencias/CP-AUTO-E2E-01-chromium-en_preparacion.png",
+        "evidencias/CP-AUTO-E2E-01-chromium-publico-en_preparacion.png",
+        "evidencias/CP-AUTO-E2E-01-chromium-lista.png",
+        "evidencias/CP-AUTO-E2E-01-chromium-publico-lista.png",
+        "evidencias/CP-AUTO-E2E-01-chromium-entregada.png",
+        "evidencias/CP-AUTO-E2E-01-chromium-publico-entregada.png",
+        "evidencias/CP-AUTO-E2E-01-chromium-cierre.png",
+        "evidencias/CP-AUTO-E2E-01-firefox-venta.png",
+        "evidencias/CP-AUTO-E2E-01-firefox-en_preparacion.png",
+        "evidencias/CP-AUTO-E2E-01-firefox-publico-en_preparacion.png",
+        "evidencias/CP-AUTO-E2E-01-firefox-lista.png",
+        "evidencias/CP-AUTO-E2E-01-firefox-publico-lista.png",
+        "evidencias/CP-AUTO-E2E-01-firefox-entregada.png",
+        "evidencias/CP-AUTO-E2E-01-firefox-publico-entregada.png",
+        "evidencias/CP-AUTO-E2E-01-firefox-cierre.png"
+      ],
+      "ejecuciones": [
+        "EX-082",
+        "EX-083"
+      ],
+      "fecha": "2026-10-15T11:12:53.904039+00:00"
+    }
+  ]
+}

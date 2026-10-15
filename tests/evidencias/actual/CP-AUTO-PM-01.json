@@ -1,0 +1,80 @@
+{
+  "caso": {
+    "id": "CP-AUTO-PM-01",
+    "modulo": "AUTOMATIZACIÓN",
+    "requisito": "Complemento de ejecución AA3. Fuente: colección Postman, rutas y formularios del commit verificado.",
+    "nombre": "Recorrido corregido del repositorio",
+    "objetivo": "Acreditar la reproducción automática y su resultado real.",
+    "tipo": "Servicios / integración",
+    "precondiciones": "Instancia local 127.0.0.1:8088; MySQL aislado; banco restaurado por el ejecutor.",
+    "datos": "Usuarios pruebas.* y datos_pruebas.sql; IDs descubiertos del banco.",
+    "pasos": "Newman ejecuta la carpeta 1 corregida con base local limpia.",
+    "esperado": "22 peticiones; 40 aserciones sin fallos.",
+    "herramienta": "Postman / Newman",
+    "responsable": "Jovanny Medina Cifuentes / Lain Sthid Ramirez Rueda",
+    "prioridad": "Alta",
+    "fuentes": "postman/Menu08.postman_collection.json; menu08_app/configuracion/rutas.php"
+  },
+  "resultados": {
+    "caso": "CP-AUTO-PM-01",
+    "nombre": "Recorrido corregido del repositorio",
+    "modulo": "AUTOMATIZACIÓN",
+    "estado": "Aprobada",
+    "checks": [
+      {
+        "comprobacion": "Código Newman",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Aserciones fallidas",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      }
+    ],
+    "pendientes": [],
+    "notas": [
+      "{\"requests\": {\"total\": 22, \"pending\": 0, \"failed\": 0}, \"assertions\": {\"total\": 40, \"pending\": 0, \"failed\": 0}}",
+      "Reporte: evidencias/postman-original-recorrido.json"
+    ],
+    "capturas": [],
+    "ejecuciones": [
+      "EX-108"
+    ],
+    "fecha": "2026-10-15T12:40:32.814139+00:00"
+  },
+  "ejecuciones": [
+    {
+      "caso": "CP-AUTO-PM-01",
+      "nombre": "Recorrido del repositorio corregido",
+      "fecha": "2026-10-15T12:40:32.814139+00:00",
+      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "checks": [
+        {
+          "comprobacion": "Código Newman",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        },
+        {
+          "comprobacion": "Aserciones fallidas",
+          "esperado": 0,
+          "obtenido": 0,
+          "cumple": true
+        }
+      ],
+      "http": [],
+      "notas": [
+        "{\"requests\": {\"total\": 22, \"pending\": 0, \"failed\": 0}, \"assertions\": {\"total\": 40, \"pending\": 0, \"failed\": 0}}",
+        "Reporte: evidencias/postman-original-recorrido.json"
+      ],
+      "pendientes": [],
+      "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+      "estado": "Aprobada",
+      "archivo_ejecutor": "resultados_postman.json",
+      "ejecucion": "EX-108"
+    }
+  ]
+}

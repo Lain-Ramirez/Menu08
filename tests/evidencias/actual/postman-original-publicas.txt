@@ -1,0 +1,78 @@
+newman
+
+Menu08 — prototipo SENA
+
+❏ 2 - Publicas (sin sesion)
+↳ GET /
+  GET http://127.0.0.1:8088/ [200 OK, 11.41kB, 41ms]
+  ✓  Responde 200
+  ✓  Enlaza las cartas por slug
+
+↳ GET /comprobacion/{slug}
+  GET http://127.0.0.1:8088/comprobacion/truck-de-pruebas [200 OK, 4.85kB, 8ms]
+  ✓  Responde 200
+
+↳ GET /carta/{slug}
+  GET http://127.0.0.1:8088/carta/truck-de-pruebas [200 OK, 26.93kB, 11ms]
+  ✓  Responde 200
+  ✓  Oculta lo desactivado
+
+↳ GET /carta/no-existe (404)
+  GET http://127.0.0.1:8088/carta/no-existe [404 Not Found, 4.57kB, 7ms]
+  ✓  Responde 404
+
+↳ GET /turnos/{slug}
+  GET http://127.0.0.1:8088/turnos/truck-de-pruebas [200 OK, 6.73kB, 9ms]
+  ✓  Responde 200
+  ✓  Muestra columnas de turnos
+
+↳ GET /turnos/{slug}/ordenes
+  GET http://127.0.0.1:8088/turnos/truck-de-pruebas/ordenes [200 OK, 346B, 8ms]
+  ✓  Responde 200 JSON
+  ✓  Estructura publica de turnos
+
+↳ GET /turnos/no-existe (404)
+  GET http://127.0.0.1:8088/turnos/no-existe [404 Not Found, 4.57kB, 8ms]
+  ✓  Responde 404
+
+↳ GET /turnos/no-existe/ordenes (404)
+  GET http://127.0.0.1:8088/turnos/no-existe/ordenes [404 Not Found, 389B, 7ms]
+  ✓  Responde 404 JSON
+
+↳ HEAD / (mismo codigo que GET, sin cuerpo)
+  HEAD http://127.0.0.1:8088/ [200 OK, 272B, 10ms]
+  ✓  Responde 200
+  ✓  Sin cuerpo
+
+↳ HEAD /carta/no-existe (404, sin cuerpo)
+  HEAD http://127.0.0.1:8088/carta/no-existe [404 Not Found, 279B, 7ms]
+  ✓  Responde 404
+  ✓  Sin cuerpo
+
+↳ GET /componentes
+  GET http://127.0.0.1:8088/componentes [200 OK, 34.04kB, 3ms]
+  ✓  Responde 200
+  ✓  Carga las tres hojas locales
+  ✓  No enlaza recursos de otro origen
+
+┌─────────────────────────┬──────────────────┬─────────────────┐
+│                         │         executed │          failed │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│              iterations │                1 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│                requests │               11 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│            test-scripts │               11 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│      prerequest-scripts │                0 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│              assertions │               19 │               0 │
+├─────────────────────────┴──────────────────┴─────────────────┤
+│ total run duration: 373ms                                    │
+├──────────────────────────────────────────────────────────────┤
+│ total data received: 91.28kB (approx)                        │
+├──────────────────────────────────────────────────────────────┤
+│ average response time: 10ms [min: 3ms, max: 41ms, s.d.: 9ms] │
+└──────────────────────────────────────────────────────────────┘
+(node:32736) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)

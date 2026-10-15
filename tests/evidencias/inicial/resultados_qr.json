@@ -1,0 +1,29 @@
+[
+  {
+    "caso": "CP-CARTA-13",
+    "nombre": "Código QR",
+    "fecha": "2026-10-15T11:07:32.377144+00:00",
+    "commit": "9cd803c90f8a430a30027e27b7064943fdca6982",
+    "checks": [
+      {
+        "comprobacion": "Lector QR",
+        "esperado": 0,
+        "obtenido": 0,
+        "cumple": true
+      },
+      {
+        "comprobacion": "Contenido decodificado",
+        "esperado": "http://127.0.0.1:8088/carta/truck-de-pruebas",
+        "obtenido": "http://127.0.0.1:8088/carta/truck-de-pruebas",
+        "cumple": true
+      }
+    ],
+    "http": [],
+    "notas": [
+      "QR real descargado por CP-CARTA-13; lectura óptica por ZXing. http://127.0.0.1:8088/carta/truck-de-pruebas"
+    ],
+    "pendientes": [],
+    "herramienta": "Python requests + PHP PDO / MySQL 8.4",
+    "estado": "Aprobada"
+  }
+]

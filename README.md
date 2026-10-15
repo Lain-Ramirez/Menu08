@@ -459,3 +459,7 @@ Proyecto formativo del Tecnólogo en Análisis y Desarrollo de Software del SENA
 
 - **Jovanny Medina Cifuentes** — [@JovannyCO](https://github.com/JovannyCO)
 - **Lain Ramírez** — [@Lain-Ramirez](https://github.com/Lain-Ramirez)
+
+## Pruebas y evidencia AA3
+
+La preparación local, los ejecutores y los registros de reejecución están en [`tests/README.md`](tests/README.md). Las correcciones de CARTA, Postman y HTTPS se describen en [`docs/pruebas/ciclo-AA3.md`](docs/pruebas/ciclo-AA3.md).

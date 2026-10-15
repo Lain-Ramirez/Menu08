@@ -1,0 +1,5 @@
+.runtime/
+soporte/sesiones/
+__pycache__/
+*.pyc
+*.log

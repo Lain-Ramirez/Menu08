@@ -33,7 +33,7 @@ puerta de `POST /movil/ubicacion`.
 |---|---|---|
 | **Funcional de interfaz** | A mano, en navegador, siguiendo los pasos del caso | Caso con su evidencia en `evidencias/<módulo>/` |
 | **De servicio** | Postman o `curl` contra las rutas JSON, con la colección de [`../../POSTMAN.md`](../../POSTMAN.md) | Caso con el cuerpo de la respuesta pegado en «resultado obtenido» |
-| **Unitaria** | `php menu08_app/pruebas/ejecutar.php` | Salida del ejecutor; hoy **49 comprobaciones, 0 fallos** |
+| **Unitaria** | `php menu08_app/pruebas/ejecutar.php` | Salida del ejecutor; hoy **62 comprobaciones, 0 fallos** |
 | **De presentación** | La misma pantalla a los tres anchos de referencia y en los dos temas | Captura por ancho |
 | **De impresión** | Vista previa y «Guardar como PDF» del comprobante en los dos navegadores | El PDF, junto a la captura |
 
@@ -258,3 +258,7 @@ pero dicen qué está ya cubierto y con qué resultado:
 ---
 
 **Issue #21 · Fase 5 - Pruebas**
+
+## Reejecución AA3
+
+El ciclo de correcciones y sus evidencias se documentan en [`ciclo-AA3.md`](ciclo-AA3.md). La batería conserva las 49 comprobaciones anteriores y añade 13 para redirección HTTPS. La automatización vive en `tests/`; los resultados distinguen la validación local del despliegue y de las pruebas físicas pendientes.

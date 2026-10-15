@@ -62,14 +62,9 @@ final class Producto
     }
 
     /**
-     * Catalogo de la carta publica: categorias activas con TODOS sus productos,
-     * disponibles o no, cada uno con su bandera.
-     *
-     * Se separa de catalogoPublico() a proposito. La carta muestra lo agotado
-     * atenuado y con su etiqueta, porque el cliente que hace fila necesita
-     * saber que hoy no hay chunchullo antes de llegar a la ventanilla. CAJA no:
-     * ahi un agotado que se puede pulsar es una venta que no se puede entregar.
-     * Son dos preguntas distintas, y por eso son dos consultas distintas.
+     * Catalogo de la carta: solo categorias activas y productos disponibles.
+     * Conserva la bandera que consume la vista. La baja es logica: el panel
+     * y los comprobantes historicos mantienen sus registros.
      *
      * @return list<array<string, mixed>>
      */
@@ -80,8 +75,8 @@ final class Producto
                     p.id, p.nombre, p.descripcion, p.precio, p.foto, p.disponible
                FROM categorias c
                JOIN productos p ON p.categoria_id = c.id
-              WHERE c.food_truck_id = :ft AND c.activo = 1
-              ORDER BY c.orden, c.nombre, p.disponible DESC, p.orden, p.nombre'
+              WHERE c.food_truck_id = :ft AND c.activo = 1 AND p.disponible = 1
+              ORDER BY c.orden, c.nombre, p.orden, p.nombre'
         );
         $s->execute(['ft' => $foodTruckId]);
 

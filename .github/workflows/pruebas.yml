@@ -1,0 +1,17 @@
+name: Pruebas PHP
+on:
+  pull_request:
+  push:
+    branches: [Lain, production]
+permissions:
+  contents: read
+jobs:
+  unitarias:
+    runs-on: ubuntu-24.04
+    container: php:8.3-cli
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar sintaxis PHP
+        run: find menu08_app -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Ejecutar pruebas unitarias
+        run: php menu08_app/pruebas/ejecutar.php

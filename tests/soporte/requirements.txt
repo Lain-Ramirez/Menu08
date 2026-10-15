@@ -1,0 +1,4 @@
+requests==2.34.2
+playwright==1.64.0
+openpyxl==3.1.5
+Pillow==12.3.0

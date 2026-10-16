@@ -27,7 +27,6 @@ Thumbs.db
 *~
 .vscode/
 .idea/
-.venv/
 tests/node_modules/
 
 # Guia del asistente. Fuera del repositorio: se sincroniza a mano entre

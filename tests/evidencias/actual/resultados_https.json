@@ -2,8 +2,8 @@
   {
     "caso": "CP-SEG-15",
     "nombre": "HTTPS, recursos y bitácora del recorrido en el hosting",
-    "fecha": "2026-10-15T12:40:41.939518+00:00",
-    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "fecha": "2026-10-16T11:13:03.490871+00:00",
+    "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
     "checks": [
       {
         "comprobacion": "publica GET HTTP",
@@ -217,7 +217,7 @@
       },
       {
         "metodo": "GET",
-        "url": "http://127.0.0.1:48679/carta/truck-de-pruebas?busqueda=a%20b&x=1",
+        "url": "http://127.0.0.1:45921/carta/truck-de-pruebas?busqueda=a%20b&x=1",
         "estado": 301,
         "location": "https://adso.menu08.com/carta/truck-de-pruebas?busqueda=a%20b&x=1",
         "content_type": "text/html; charset=UTF-8",
@@ -225,7 +225,7 @@
       },
       {
         "metodo": "GET",
-        "url": "http://127.0.0.1:48679/ingresar",
+        "url": "http://127.0.0.1:45921/ingresar",
         "estado": 301,
         "location": "https://adso.menu08.com/ingresar",
         "content_type": "text/html; charset=UTF-8",
@@ -233,7 +233,7 @@
       },
       {
         "metodo": "GET",
-        "url": "http://127.0.0.1:48679/panel",
+        "url": "http://127.0.0.1:45921/panel",
         "estado": 301,
         "location": "https://adso.menu08.com/panel",
         "content_type": "text/html; charset=UTF-8",
@@ -241,7 +241,7 @@
       },
       {
         "metodo": "GET",
-        "url": "http://127.0.0.1:48679/panel",
+        "url": "http://127.0.0.1:45921/panel",
         "estado": 301,
         "location": "https://adso.menu08.com/panel",
         "content_type": "text/html; charset=UTF-8",

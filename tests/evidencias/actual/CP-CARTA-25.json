@@ -71,14 +71,14 @@
     "ejecuciones": [
       "EX-022"
     ],
-    "fecha": "2026-10-15T12:38:51.079014+00:00"
+    "fecha": "2026-10-16T11:11:08.300735+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-CARTA-25",
       "nombre": "Vigencia de la parada del sábado al cruzar medianoche",
-      "fecha": "2026-10-15T12:38:51.079014+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:08.300735+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "2026-10-17 17:59:00",

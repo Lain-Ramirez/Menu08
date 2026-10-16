@@ -49,14 +49,14 @@
     "ejecuciones": [
       "EX-081"
     ],
-    "fecha": "2026-10-15T12:39:01.797483+00:00"
+    "fecha": "2026-10-16T11:11:19.622112+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-SEG-14",
       "nombre": "Sentencias preparadas y contraseñas cifradas",
-      "fecha": "2026-10-15T12:39:01.797483+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:19.622112+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "Bcrypt todos",

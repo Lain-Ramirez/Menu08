@@ -4,17 +4,17 @@ Menu08 — prototipo SENA
 
 ❏ 8 - Modulo movil (ejecutar en orden)
 ↳ 1 - GET /salir (llegar sin sesion)
-  GET http://127.0.0.1:8088/salir [302 Found, 403B, 36ms]
+  GET http://127.0.0.1:8088/salir [302 Found, 403B, 40ms]
   ✓  Responde 302
 
 ↳ 2 - POST /movil/ubicacion sin sesion -> 401
-  POST http://127.0.0.1:8088/movil/ubicacion [401 Unauthorized, 377B, 7ms]
+  POST http://127.0.0.1:8088/movil/ubicacion [401 Unauthorized, 377B, 8ms]
   ✓  Responde 401
   ✓  Responde JSON, nunca HTML
   ✓  Es no_autenticado
 
 ↳ 3 - POST /movil/ingresar (food_truck) -> 200
-  POST http://127.0.0.1:8088/movil/ingresar [200 OK, 612B, 80ms]
+  POST http://127.0.0.1:8088/movil/ingresar [200 OK, 612B, 81ms]
   ✓  Responde 200
   ✓  Responde JSON, nunca HTML
   ✓  Trae usuario y token_csrf
@@ -42,7 +42,7 @@ Menu08 — prototipo SENA
   ✓  Guardo las coordenadas enviadas
 
 ↳ 7 - POST /movil/ingresar (cajero) -> 200
-  POST http://127.0.0.1:8088/movil/ingresar [200 OK, 598B, 79ms]
+  POST http://127.0.0.1:8088/movil/ingresar [200 OK, 598B, 82ms]
   ✓  Responde 200
   ✓  El rol es cajero
 
@@ -65,11 +65,11 @@ Menu08 — prototipo SENA
 ├─────────────────────────┼──────────────────┼──────────────────┤
 │              assertions │               25 │                0 │
 ├─────────────────────────┴──────────────────┴──────────────────┤
-│ total run duration: 425ms                                     │
+│ total run duration: 447ms                                     │
 ├───────────────────────────────────────────────────────────────┤
 │ total data received: 1.1kB (approx)                           │
 ├───────────────────────────────────────────────────────────────┤
-│ average response time: 28ms [min: 5ms, max: 80ms, s.d.: 30ms] │
+│ average response time: 30ms [min: 5ms, max: 82ms, s.d.: 31ms] │
 └───────────────────────────────────────────────────────────────┘
-(node:32771) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(node:26113) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
 (Use `node --trace-deprecation ...` to show where the warning was created)

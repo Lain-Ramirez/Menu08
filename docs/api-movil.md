@@ -299,7 +299,7 @@ Con `curl`, el recorrido mínimo son dos peticiones:
 ```bash
 TOK=$(curl -s -c galleta.txt -X POST https://adso.menu08.com/movil/ingresar \
   -d 'correo=pruebas.foodtruck@menu08.local' -d 'contrasena=Menu08*Demo2026' \
-  | python3 -c 'import sys,json;print(json.load(sys.stdin)["token_csrf"])')
+  | php -r '$r = json_decode(stream_get_contents(STDIN), true); echo $r["token_csrf"];')
 
 curl -s -b galleta.txt -X POST https://adso.menu08.com/movil/ubicacion \
   -d 'latitud=4.6767000' -d 'longitud=-74.0483000' -d "_token=$TOK"

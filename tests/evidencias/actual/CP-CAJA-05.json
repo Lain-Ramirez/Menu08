@@ -59,14 +59,14 @@
       "EX-089",
       "EX-102"
     ],
-    "fecha": "2026-10-15T12:39:54.367925+00:00"
+    "fecha": "2026-10-16T11:12:14.827760+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-CAJA-05",
       "nombre": "Filtrado por categoría en el catálogo",
-      "fecha": "2026-10-15T12:39:09.272085+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:28.564875+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "Filtro entradas",
@@ -98,8 +98,8 @@
     {
       "caso": "CP-CAJA-05",
       "nombre": "Filtrado por categoría en el catálogo",
-      "fecha": "2026-10-15T12:39:54.367925+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:12:14.827760+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "Filtro entradas",

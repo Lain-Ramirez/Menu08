@@ -43,14 +43,14 @@
     "ejecuciones": [
       "EX-109"
     ],
-    "fecha": "2026-10-15T12:40:35.754365+00:00"
+    "fecha": "2026-10-16T11:12:56.968633+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-AUTO-PM-03",
       "nombre": "Carpeta pública del repositorio corregida",
-      "fecha": "2026-10-15T12:40:35.754365+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:12:56.968633+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "Código Newman",

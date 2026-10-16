@@ -2,8 +2,8 @@
   {
     "caso": "CP-AUTO-E2E-01",
     "nombre": "Flujo E2E completo: caja, producción, turnos y cierre por interfaz",
-    "fecha": "2026-10-15T12:40:42.866978+00:00",
-    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "fecha": "2026-10-16T11:13:04.520981+00:00",
+    "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
     "checks": [
       {
         "comprobacion": "Total vendido",
@@ -94,8 +94,8 @@
   {
     "caso": "CP-AUTO-E2E-01",
     "nombre": "Flujo E2E completo: caja, producción, turnos y cierre por interfaz",
-    "fecha": "2026-10-15T12:41:01.435778+00:00",
-    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "fecha": "2026-10-16T11:13:23.491249+00:00",
+    "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
     "checks": [
       {
         "comprobacion": "Total vendido",

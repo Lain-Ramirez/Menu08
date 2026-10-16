@@ -65,14 +65,14 @@
     "ejecuciones": [
       "EX-023"
     ],
-    "fecha": "2026-10-15T12:38:51.309964+00:00"
+    "fecha": "2026-10-16T11:11:08.546794+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-CARTA-26",
       "nombre": "Cambio de semana de domingo a lunes",
-      "fecha": "2026-10-15T12:38:51.309964+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:08.546794+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "2026-10-18 19:59:00",

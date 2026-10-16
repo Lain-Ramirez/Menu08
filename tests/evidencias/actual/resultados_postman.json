@@ -2,8 +2,8 @@
   {
     "caso": "CP-AUTO-PM-01",
     "nombre": "Recorrido del repositorio corregido",
-    "fecha": "2026-10-15T12:40:32.814139+00:00",
-    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "fecha": "2026-10-16T11:12:53.894498+00:00",
+    "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
     "checks": [
       {
         "comprobacion": "Código Newman",
@@ -30,8 +30,8 @@
   {
     "caso": "CP-AUTO-PM-03",
     "nombre": "Carpeta pública del repositorio corregida",
-    "fecha": "2026-10-15T12:40:35.754365+00:00",
-    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "fecha": "2026-10-16T11:12:56.968633+00:00",
+    "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
     "checks": [
       {
         "comprobacion": "Código Newman",
@@ -58,8 +58,8 @@
   {
     "caso": "CP-AUTO-PM-04",
     "nombre": "Carpeta móvil original de Postman",
-    "fecha": "2026-10-15T12:40:38.247128+00:00",
-    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "fecha": "2026-10-16T11:12:59.522268+00:00",
+    "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
     "checks": [
       {
         "comprobacion": "Código Newman",
@@ -86,8 +86,8 @@
   {
     "caso": "CP-AUTO-PM-02",
     "nombre": "Reejecución de Postman con manejo de sesión e IDs corregidos",
-    "fecha": "2026-10-15T12:40:39.861559+00:00",
-    "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+    "fecha": "2026-10-16T11:13:01.229842+00:00",
+    "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
     "checks": [
       {
         "comprobacion": "Código Newman",

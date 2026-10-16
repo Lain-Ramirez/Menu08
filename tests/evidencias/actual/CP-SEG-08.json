@@ -101,14 +101,14 @@
     "ejecuciones": [
       "EX-076"
     ],
-    "fecha": "2026-10-15T12:39:00.548965+00:00"
+    "fecha": "2026-10-16T11:11:18.292336+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-SEG-08",
       "nombre": "Negativas JSON por sesión, rol y token en SVP",
-      "fecha": "2026-10-15T12:39:00.548965+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:18.292336+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "HTTP",
@@ -188,7 +188,7 @@
           "metodo": "GET",
           "ruta": "/svp/ordenes",
           "estado": 401,
-          "ms": 2.69,
+          "ms": 3.13,
           "content_type": "application/json; charset=utf-8",
           "location": null,
           "cuerpo": "{\"error\":\"no_autenticado\",\"mensaje\":\"Debe iniciar sesion para consultar este servicio.\"}"
@@ -197,25 +197,25 @@
           "metodo": "GET",
           "ruta": "/svp/ordenes",
           "estado": 403,
-          "ms": 2.05,
+          "ms": 2.59,
           "content_type": "application/json; charset=utf-8",
           "location": null,
           "cuerpo": "{\"error\":\"rol_no_autorizado\",\"mensaje\":\"El rol \\\"cajero\\\" no tiene acceso a este servicio.\"}"
         },
         {
           "metodo": "POST",
-          "ruta": "/svp/orden/51/estado",
+          "ruta": "/svp/orden/47/estado",
           "estado": 403,
-          "ms": 2.87,
+          "ms": 3.01,
           "content_type": "application/json; charset=utf-8",
           "location": null,
           "cuerpo": "{\"error\":\"token_invalido\",\"mensaje\":\"El token de seguridad expiro o no es valido. Recargue el tablero.\"}"
         },
         {
           "metodo": "POST",
-          "ruta": "/svp/orden/51/estado",
+          "ruta": "/svp/orden/47/estado",
           "estado": 403,
-          "ms": 2.58,
+          "ms": 2.54,
           "content_type": "application/json; charset=utf-8",
           "location": null,
           "cuerpo": "{\"error\":\"token_invalido\",\"mensaje\":\"El token de seguridad expiro o no es valido. Recargue el tablero.\"}"
@@ -224,19 +224,19 @@
           "metodo": "GET",
           "ruta": "/svp/ordenes",
           "estado": 200,
-          "ms": 6.83,
+          "ms": 6.61,
           "content_type": "application/json; charset=utf-8",
           "location": null,
-          "cuerpo": "{\"turno\":15,\"ahora\":\"2026-10-15 07:39:00\",\"minutos_demora\":10,\"total\":1,\"ordenes\":[{\"id\":51,\"numero\":\"T15-001\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-15 07:38:58\",\"minutos\":0,\"demorada\":false,\"nota\":null,\"items\":[{\"nombre\":\"Papas de prueba\",\"cantidad\":1}]}]}"
+          "cuerpo": "{\"turno\":11,\"ahora\":\"2026-10-16 06:11:18\",\"minutos_demora\":10,\"total\":1,\"ordenes\":[{\"id\":47,\"numero\":\"T11-001\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-16 06:11:16\",\"minutos\":0,\"demorada\":false,\"nota\":null,\"items\":[{\"nombre\":\"Papas de prueba\",\"cantidad\":1}]}]}"
         },
         {
           "metodo": "GET",
           "ruta": "/svp/ordenes",
           "estado": 200,
-          "ms": 5.85,
+          "ms": 5.88,
           "content_type": "application/json; charset=utf-8",
           "location": null,
-          "cuerpo": "{\"turno\":15,\"ahora\":\"2026-10-15 07:39:00\",\"minutos_demora\":10,\"total\":1,\"ordenes\":[{\"id\":51,\"numero\":\"T15-001\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-15 07:38:58\",\"minutos\":0,\"demorada\":false,\"nota\":null,\"items\":[{\"nombre\":\"Papas de prueba\",\"cantidad\":1}]}]}"
+          "cuerpo": "{\"turno\":11,\"ahora\":\"2026-10-16 06:11:18\",\"minutos_demora\":10,\"total\":1,\"ordenes\":[{\"id\":47,\"numero\":\"T11-001\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-16 06:11:16\",\"minutos\":0,\"demorada\":false,\"nota\":null,\"items\":[{\"nombre\":\"Papas de prueba\",\"cantidad\":1}]}]}"
         }
       ],
       "notas": [],

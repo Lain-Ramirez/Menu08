@@ -56,14 +56,14 @@
       "EX-091",
       "EX-104"
     ],
-    "fecha": "2026-10-15T12:39:56.664036+00:00"
+    "fecha": "2026-10-16T11:12:17.152700+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-CAJA-12",
       "nombre": "Vista de impresión de 80 mm y exportación a PDF",
-      "fecha": "2026-10-15T12:39:11.345616+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:30.436742+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "CSS 80mm",
@@ -96,8 +96,8 @@
     {
       "caso": "CP-CAJA-12",
       "nombre": "Vista de impresión de 80 mm y exportación a PDF",
-      "fecha": "2026-10-15T12:39:56.664036+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:12:17.152700+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "CSS 80mm",

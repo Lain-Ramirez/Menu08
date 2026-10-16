@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![La base de CARTA, CAJA y SVP. Nueve tablas: decisiones de modelo, reconstrucción y respaldo en MySQL. Menu08.com · Food Trucks.](../assets/brand/basedatos-menu08-com-header.png)](#reconstruir-la-base-desde-cero)
+<!-- /Menu08.com:header -->
+
 # Base de datos del prototipo
 
 Nueve tablas en MySQL 8, motor InnoDB, cotejamiento `utf8mb4_unicode_ci`.
@@ -145,3 +149,7 @@ Contraseña de todos: `Menu08*Demo2026`, cifrada con `password_hash`.
 mysqldump -u root -p --single-transaction --routines menu08 | gzip > menu08_respaldo.sql.gz
 gunzip -c menu08_respaldo.sql.gz | mysql -u root -p menu08     # restauración
 ```
+
+<!-- Menu08.com:footer -->
+[![La venta conserva su precio y cada estado su hora. Paradas nocturnas, bajas lógicas y copias históricas explican el modelo. Menu08.com · Food Trucks.](../assets/brand/basedatos-menu08-com-footer.png)](modelo_datos.md)
+<!-- /Menu08.com:footer -->

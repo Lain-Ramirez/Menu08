@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · Un caso de prueba que se pueda repetir. Precondición, entrada literal, pasos y resultado observable en una plantilla común. Copiar el bloque del caso](../../assets/brand/pruebas-plantilla-caso-de-prueba-menu08-com-header.png)](#bloque-para-copiar)
+<!-- /Menu08.com:header -->
+
 # Plantilla de caso de prueba
 
 Se copia el bloque de abajo por cada caso. Los siete campos son obligatorios, también cuando la
@@ -90,3 +94,8 @@ defecto se cerró de verdad.
 ---
 
 **Issue #21 · Fase 5 - Pruebas**
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · El resultado se escribe al ejecutar. La reejecución se añade con fecha; el historial del fallo permanece como evidencia. Consultar los cuatro estados](../../assets/brand/pruebas-plantilla-caso-de-prueba-menu08-com-footer.png)](#los-cuatro-estados)
+<!-- /Menu08.com:footer -->

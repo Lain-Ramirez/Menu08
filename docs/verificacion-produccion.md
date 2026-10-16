@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · CARTA, CAJA y SVP en producción. Registro del recorrido funcional del 1 de octubre de 2026 sobre adso.menu08.com. Consultar la matriz de verificación](../assets/brand/verificacion-produccion-menu08-com-header.png)](#3-matriz-de-verificación-por-módulo)
+<!-- /Menu08.com:header -->
+
 # Lista de verificación funcional de CARTA, CAJA y SVP en producción
 
 Documento de verificación funcional ejecutado de punta a punta sobre el servidor de producción
@@ -237,3 +241,7 @@ Las capturas de pantalla tomadas durante la ejecución real en producción está
 ## 9. Conclusión
 
 El prototipo funcional de Menu08 se encuentra completamente operativo y estable en su entorno de producción (`https://adso.menu08.com`). Los tres módulos operan de punta a punta de forma integrada: las modificaciones de catálogo se reflejan de inmediato en la carta pública y en el punto de venta de CAJA; las órdenes registradas en CAJA alimentan el tablero de producción por sondeo sin intervención del usuario; y el cierre de caja consolida con exactitud matemática las transacciones realizadas durante la jornada. Se da por cumplida la lista de verificación al 100%.
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · Quince casos documentan el recorrido completo. La evidencia enlaza catálogo, venta y producción, junto a capturas y revisión de bitácora. Abrir las evidencias gráficas](../assets/brand/verificacion-produccion-menu08-com-footer.png)](#8-evidencias-gráficas-del-recorrido)
+<!-- /Menu08.com:footer -->

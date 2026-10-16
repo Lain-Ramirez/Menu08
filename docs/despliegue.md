@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Publica cada carpeta en su lugar. Aplicación privada y raíz pública: paquetes, configuración y comprobación del hosting. Menu08.com · Food Trucks.](../assets/brand/despliegue-menu08-com-header.png)](#pasos)
+<!-- /Menu08.com:header -->
+
 # Despliegue en adso.menu08.com
 
 ## La idea
@@ -335,3 +339,7 @@ El cortafuegos del hosting **bloquea FTP, SFTP, SSH y cPanel** desde fuera de la
 autorizadas, y los intentos fallidos hacen que se bloquee la dirección que insiste. El
 despliegue se hace subiendo los paquetes por el Administrador de archivos. Lo único alcanzable
 de forma remota es MySQL en el puerto 3306.
+
+<!-- Menu08.com:footer -->
+[![El código privado queda fuera de la raíz web. Los paquetes se extraen dentro de su destino; las subidas se conservan al actualizar. Menu08.com · Food Trucks.](../assets/brand/despliegue-menu08-com-footer.png)](verificacion-produccion.md)
+<!-- /Menu08.com:footer -->

@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Cada plato con su foto y su crédito. Autoría y licencia de las veinte fotos de Festín Rodante. Menu08.com · Food Trucks.](../assets/brand/creditos-imagenes-menu08-com-header.png)](#creditos-de-las-imagenes-de-la-carta)
+<!-- /Menu08.com:header -->
+
 # Creditos de las imagenes de la carta
 
 Las veinte fotos de los productos de Festin Rodante se descargaron de **Wikimedia Commons**,
@@ -40,3 +44,7 @@ de la carta y pesa unos 100 KB por foto.
 Las licencias `CC BY`, `CC BY-SA` y dominio publico permiten el uso siempre que se mantenga la
 atribucion, que es lo que hace esta tabla. Si alguna imagen se reemplaza, se actualiza aqui
 en el mismo cambio.
+
+<!-- Menu08.com:footer -->
+[![Cambiar una foto también cambia su atribución. La tabla conserva producto, archivo, autor y licencia de cada imagen. Menu08.com · Food Trucks.](../assets/brand/creditos-imagenes-menu08-com-footer.png)](../ADSO.menu08.com/subidas/)
+<!-- /Menu08.com:footer -->

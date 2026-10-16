@@ -1,0 +1,62 @@
+{
+  "brand": "Menu08.com",
+  "method": "imagegen (generación integrada); acabado técnico con ImageMagick",
+  "canvas": [
+    1942,
+    809
+  ],
+  "prompts": [
+    {
+      "id": "readme-header",
+      "document": "README.md",
+      "kind": "header",
+      "slug": "plataforma-food-trucks-menu08-com",
+      "title": "De la carta a la\nventanilla",
+      "subtitle": "CARTA, CAJA y SVP en una operación para food trucks.",
+      "cta": "Explora los tres módulos →",
+      "target": "#cómo-encajan-los-tres-módulos",
+      "alt": "Menu08.com: CARTA, CAJA y SVP conectan la carta digital, la venta y la entrega en la ventanilla del food truck",
+      "prompt": "Create one complete premium editorial HEADER banner for the main README of Menu08, a digital menu, cashier and production display platform for food trucks. Canvas exactly 1942 x 809 pixels, panoramic 2.4:1, no border. Use the provided Menu08 reference, if supplied, ONLY for its visual style, palette and typography; never copy its large emoji or recreate cutlery. Dark Material Design 3 background surface #18120F with subtle warm #241B16 depth, on-surface ivory #F4E5DE. Exactly three restrained flowing color strokes: peach #FFB599 for CAJA, sage #A4D3AB for CARTA, gold #F0C15B for SVP. They subtly connect the operation, not arbitrary ornament. Left-aligned fully legible Inter/Roboto-style Spanish typography, all inside x112..1050, natural comfortable margins, headline at most two lines. Render these exact texts and no alternative wording: signature 'Menu08.com · Food Trucks'; headline in two lines 'De la carta a la' / 'ventanilla'; supporting sentence 'CARTA, CAJA y SVP en una operación para food trucks.'; CTA 'Explora los tres módulos →'. CTA is a small accent-colored line of text, never inside a button or card. Let the headline dominate. On the right around x1200..1800, create a finished warm premium tactile 3D scene: a charming sage-and-cream food truck with an open service window, a small populated digital menu showing actual food illustrations, a compact peach cashier terminal with a numbered receipt, and a warm golden pickup-number display. Depict these as a coherent service-window operation with a few appetizing finished food items, subtle studio shadows and restrained depth; no blank panels, empty UI boxes, ornamental cubes, unrelated objects, new modules or claims. This is an overview of CARTA, CAJA and SVP; do not portray a completed Android application. Keep x1814..1942 and y0..128 quiet plain background completely clear for the original 64px brand PNG that will be composited afterward. Do not generate ANY emoji, cutlery logo, fork-and-knife symbol or other branding inside the scene. Keep all text and 3D objects safely away from the outer 32px perimeter. This image must already contain all its typography and CTA, not be a fill-in template. Warm, agile, close to real food-truck work, polished but friendly.",
+      "image": "assets/brand/plataforma-food-trucks-menu08-com-header.png"
+    },
+    {
+      "id": "readme-footer",
+      "document": "README.md",
+      "kind": "footer",
+      "slug": "plataforma-food-trucks-menu08-com",
+      "title": "Cada orden conecta\ncarta, caja y producción",
+      "subtitle": "El catálogo alimenta la venta; el turno guía la entrega.",
+      "cta": "Conoce la arquitectura →",
+      "target": "docs/arquitectura.md",
+      "alt": "Cierre de Menu08.com: el catálogo alimenta la venta y el número de turno conecta producción con la entrega; conoce la arquitectura",
+      "prompt": "Create one complete premium editorial FOOTER banner for Menu08's main repository README, visually paired with an opening banner about a food-truck operation linking CARTA, CAJA and SVP. Canvas exactly 1942 x 809 pixels, panoramic 2.4:1, no border. Use the provided Menu08 reference, if supplied, ONLY for style, palette and typography; never copy a large emoji or recreate cutlery. Dark Material Design 3 surface #18120F and subtle warm #241B16 depth; ivory text #F4E5DE. Exactly three restrained connective strokes in peach #FFB599, sage #A4D3AB and gold #F0C15B. Left-aligned Inter/Roboto-style Spanish typography must remain fully legible inside x112..1050. Render these exact texts: signature 'Menu08.com · Food Trucks'; two-line conclusion 'Cada orden conecta' / 'carta, caja y producción'; support 'El catálogo alimenta la venta; el turno guía la entrega.'; CTA 'Conoce la arquitectura →'. At most two lines in the headline. The CTA is an accent text line without a button, capsule or panel. Make the scene a calm closing moment of the same food-truck world, on the right around x1200..1800: warm cream-and-sage 3D food truck at its service window, a finished takeout order ready for handoff, one numbered paper receipt, a compact cashier terminal, and a meaningful pickup display, with a very subtle color path linking menu to receipt to food. Keep the visual grounded in the documented service cycle, with no new features, guarantee of readiness, green validation checkmarks or Android application. All screens must show finished content such as menu-item imagery or a clear pickup number, never blank placeholder rectangles. Tactile 3D, gentle shadows, warm premium lighting, no unrelated decoration. Leave x1814..1942 and y0..128 empty quiet background reserved for compositing the original flat brand PNG later. Do not render any emoji or cutlery symbol, on the truck or elsewhere. Keep typography and key illustration away from the outer 32px perimeter. This is a finished footer with a useful conclusion and next-step CTA, not a reusable empty template.",
+      "image": "assets/brand/plataforma-food-trucks-menu08-com-footer.png"
+    },
+    {
+      "id": "postman-header",
+      "document": "POSTMAN.md",
+      "kind": "header",
+      "slug": "pruebas-postman-menu08-com",
+      "title": "Prueba una venta,\npaso a paso",
+      "subtitle": "Sesión, token y respuestas para recorrer CARTA, CAJA y SVP.",
+      "cta": "Importa la colección →",
+      "target": "#atajo-importa-la-colección-y-ya-está",
+      "alt": "Guía de Postman para Menu08.com: importa la colección y recorre una venta con sesión, token y respuestas de CARTA, CAJA y SVP",
+      "prompt": "Create one complete premium editorial HEADER banner for the Spanish document 'Probar Menu08 con Postman', a practical beginner guide that imports a ready collection and explains session cookies, CSRF tokens, request bodies, expected HTTP codes and the complete food-truck sale cycle. Canvas exactly 1942 x 809 pixels, panoramic 2.4:1, no border. If a Menu08 reference image is provided, use it solely for style, palette and typography; do not copy its large emoji or any cutlery. Dark Material Design 3 background #18120F with warm #241B16 depth, high-contrast ivory #F4E5DE. Include exactly three restrained color strokes in peach #FFB599, sage #A4D3AB and gold #F0C15B, suggesting request flow rather than decoration. Left text entirely within x112..1050, well-spaced and easy to read, contemporary Inter/Roboto style. Render precisely: signature 'Menu08.com · Food Trucks'; headline over two lines 'Prueba una venta,' / 'paso a paso'; supporting sentence 'Sesión, token y respuestas para recorrer CARTA, CAJA y SVP.'; CTA 'Importa la colección →'. The CTA is accent-colored text only, no button or card. Right side approximately x1200..1800: a distinctive finished 3D technical workbench within a food-truck setting, with a warm peach laptop showing a populated request sequence labelled only 'GET', 'POST', '200', '302', a numbered order receipt and small cream-and-sage food truck with open service window. The laptop and food truck form one compact coherent scene, tactile materials, rounded useful forms, subtle grounded shadows and warm studio light. This scene represents a testing guide, not a report of successful verification: no green success badges, no claims that tests passed, no empty panels, no blank screens, no irrelevant tools. Keep x1814..1942 and y0..128 quiet plain background completely free for the original 64px brand emoji PNG to be added later. Never generate any emoji, fork-and-knife logo, cutlery icon or unofficial Postman logo. All typography and key scene elements stay away from the outer 32px edge. Output a finished banner including all exact text; not a template for later text filling.",
+      "image": "assets/brand/pruebas-postman-menu08-com-header.png"
+    },
+    {
+      "id": "postman-footer",
+      "document": "POSTMAN.md",
+      "kind": "footer",
+      "slug": "pruebas-postman-menu08-com",
+      "title": "Sesión, token y código:\nasí se lee cada respuesta",
+      "subtitle": "El recorrido une apertura, venta, producción y cierre de turno.",
+      "cta": "Ejecuta el recorrido completo →",
+      "target": "postman/Menu08.postman_collection.json",
+      "alt": "Cierre de la guía Postman de Menu08.com: interpreta cada respuesta con sesión, token y código y ejecuta la colección del recorrido completo",
+      "prompt": "Create one complete premium editorial FOOTER banner paired with a Menu08 Postman testing guide header. The document teaches how to import a collection, preserve a session cookie, obtain a CSRF token, send the correct form body, interpret response codes, and follow a sale from cashier opening through production and delivery to cashier closing. Do not imply any actual test has been run or passed. Canvas exactly 1942 x 809 pixels, panoramic 2.4:1. If supplied with a Menu08 reference, use only its visual style, palette and typography, never its large emoji or cutlery. Dark Material Design 3 surface #18120F with warm #241B16 shading, ivory #F4E5DE text, exactly three restrained flow strokes in peach #FFB599, sage #A4D3AB and gold #F0C15B. Text is left-aligned within x112..1050, comfortable margins and clear Inter/Roboto-style hierarchy. Exact Spanish text: signature 'Menu08.com · Food Trucks'; two-line conclusion 'Sesión, token y código:' / 'así se lee cada respuesta'; support 'El recorrido une apertura, venta, producción y cierre de turno.'; CTA 'Ejecuta el recorrido completo →'. CTA must be a small accent text line, no button, box or capsule. Right side around x1200..1800: a closing variation of the technical food-truck workbench, with compact laptop showing a finished concise request-sequence view with labels 'GET', 'POST', '200', '302', a numbered receipt beside a ready takeout order at the food truck service window, and a small cashier closeout sheet with populated rows represented as clean marks. Coherent warm peach, cream and sage tactile 3D rendering, golden light and gentle grounded shadows. No blank UI panels, decorative geometry, green validation checkmarks, passed-test claims, additional modules or Android functionality. Leave the upper-right area x1814..1942 and y0..128 quiet plain background empty for the original flat 64px emoji PNG to be inserted later. Never generate an emoji or a cutlery brand symbol anywhere, including on the truck. Keep text and important 3D content outside the outer 32px perimeter. This finished footer must complement the guide's introduction with a concrete learning and a next action, not simply repeat the header.",
+      "image": "assets/brand/pruebas-postman-menu08-com-footer.png"
+    }
+  ]
+}

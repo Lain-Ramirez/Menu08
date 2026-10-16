@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Así se conectan CARTA, CAJA y SVP. Del HTTP a MySQL: capas del MVC y reglas que comparte la operación. Menu08.com · Food Trucks.](../assets/brand/arquitectura-menu08-com-header.png)](#las-capas)
+<!-- /Menu08.com:header -->
+
 # Arquitectura
 
 PHP 8.3 con programación orientada a objetos y un **MVC escrito a mano**: sin Composer, sin marcos
@@ -238,3 +242,7 @@ espera un objeto y recibe `<!doctype html>` falla con un error de sintaxis que n
 problema real.
 
 **Toda salida se escapa.** `Vista::e()` en cada valor que llega a una plantilla, sin excepción.
+
+<!-- Menu08.com:footer -->
+[![Una sola regla por acceso, validación y estado. El núcleo concentra las puertas; los modelos mantienen el aislamiento entre trucks. Menu08.com · Food Trucks.](../assets/brand/arquitectura-menu08-com-footer.png)](nucleo.md)
+<!-- /Menu08.com:footer -->

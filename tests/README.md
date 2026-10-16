@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · Ejecutar y conservar las pruebas de AA3. Preparación local, grupos de automatización y registros del ciclo inicial y corregido. Preparar el entorno local](../assets/brand/tests-automatizacion-menu08-com-header.png)](#preparación-local)
+<!-- /Menu08.com:header -->
+
 # Pruebas de Menu08
 
 Las pruebas unitarias de funciones puras están en `menu08_app/pruebas/`. La colección Postman está en `postman/Menu08_GA9_VIDEO.postman_collection.json`; Newman la ejecuta desde Node.js. El recorrido E2E usa Playwright para Node.js y Chromium. Los registros anteriores se conservan en `evidencias/inicial/` y `evidencias/actual/`.
@@ -39,4 +43,3 @@ Se requiere PHP 8.3 con `pdo_mysql`, cliente MySQL y Docker con acceso a su daem
 
 ## Alcance registrado
 
-El informe consolidado de la ejecución anterior conserva 101 casos: 97 aprobados, ninguno fallido y cuatro seguimientos que requieren revisión física, una decisión funcional o despliegue. La ejecución reciente de los comandos de video se conserva aparte en la salida de la terminal y en las capturas E2E.

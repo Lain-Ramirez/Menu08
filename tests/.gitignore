@@ -1,3 +1,7 @@
 .runtime/
 soporte/sesiones/
+
+# Capturas que ./tests/video.sh e2e vuelve a generar en cada ejecución.
+evidencias/actual/CP-AUTO-E2E-01-node-*.png
+evidencias/actual/fallo-ingreso-*.png
 *.log

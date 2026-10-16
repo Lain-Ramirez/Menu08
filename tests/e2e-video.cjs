@@ -41,7 +41,13 @@ async function signIn(page, role) {
   await page.locator('[name=contrasena]').fill('Menu08*Demo2026');
   await page.locator('button[type=submit]').click();
   const destination = { cajero: '/caja', produccion: '/svp' }[role];
-  await page.waitForURL(`**${destination}**`);
+  try {
+    await page.waitForURL(`**${destination}**`);
+  } catch (error) {
+    await page.screenshot({ path: path.join(evidence, `fallo-ingreso-${role}.png`), fullPage: true });
+    const detail = await page.locator('body').innerText();
+    throw new Error(`No se pudo iniciar sesión como ${role}. URL: ${page.url()}. Pantalla: ${detail.slice(0, 1200)}. Revisa el espacio libre y tests/.runtime/php-server.log.`, { cause: error });
+  }
 }
 
 async function main() {
@@ -74,7 +80,7 @@ async function main() {
     await publicPage.goto(`${base}/turnos/truck-de-pruebas`);
     const orderNumber = mysql(`SELECT numero FROM ordenes WHERE id=${Number(orderId)}`);
     assert(await kitchen.locator(`[data-svp-orden="${orderId}"]`).count() === 1, 'producción ve la orden pendiente');
-    assert(!(await publicPage.locator('body').innerText()).includes(orderNumber), 'la pantalla pública oculta la orden pendiente');
+    assert(await publicPage.locator(`[data-turno-numero="${orderNumber}"]`).count() === 0, 'la pantalla pública oculta la orden pendiente');
 
     for (const state of ['en_preparacion', 'lista', 'entregada']) {
       await kitchen.locator(`[data-svp-orden="${orderId}"] [data-svp-avance]`).click();
@@ -85,9 +91,13 @@ async function main() {
         await kitchen.waitForFunction(({ id, state }) => document.querySelector(`[data-svp-orden="${id}"]`)?.dataset.svpEstado === state, { id: orderId, state });
       }
       assert(mysql(`SELECT e.codigo FROM ordenes o JOIN estados_orden e ON e.id=o.estado_id WHERE o.id=${Number(orderId)}`) === state, `la base registra el estado ${state}`);
-      await publicPage.waitForTimeout(4600);
-      const visible = (await publicPage.locator('body').innerText()).includes(orderNumber);
-      assert(visible === (state !== 'entregada'), `la pantalla pública ${state === 'entregada' ? 'retira' : 'muestra'} la orden`);
+      const publicOrder = publicPage.locator(`[data-turno-numero="${orderNumber}"]`);
+      if (state === 'entregada') {
+        await publicOrder.waitFor({ state: 'detached' });
+      } else {
+        await publicPage.locator(`[data-turnos-lista="${state}"] [data-turno-numero="${orderNumber}"]`).waitFor({ state: 'visible' });
+      }
+      assert(await publicOrder.count() === (state === 'entregada' ? 0 : 1), `la pantalla pública ${state === 'entregada' ? 'retira' : 'muestra'} la orden`);
       await kitchen.screenshot({ path: path.join(evidence, `CP-AUTO-E2E-01-node-${state}.png`), fullPage: true });
     }
 

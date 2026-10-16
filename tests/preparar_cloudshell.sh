@@ -14,9 +14,10 @@ if [[ ! -x "$NODE" || ! -x "$ROOT/tests/.runtime/node/bin/npm" ]]; then
   source="$temp/node-v24.21.0-linux-x64"
   mkdir -p tests/.runtime/node/bin
   cp "$source/bin/node" tests/.runtime/node/bin/node
-  if [[ ! -d /tmp/menu08-node-runtime-npm ]]; then cp -a "$source/lib/node_modules/npm" /tmp/menu08-node-runtime-npm; fi
-  ln -sf /tmp/menu08-node-runtime-npm/bin/npm-cli.js tests/.runtime/node/bin/npm
-  ln -sf /tmp/menu08-node-runtime-npm/bin/npx-cli.js tests/.runtime/node/bin/npx
+  mkdir -p tests/.runtime/node/lib/node_modules
+  cp -a "$source/lib/node_modules/npm" tests/.runtime/node/lib/node_modules/
+  ln -sf ../lib/node_modules/npm/bin/npm-cli.js tests/.runtime/node/bin/npm
+  ln -sf ../lib/node_modules/npm/bin/npx-cli.js tests/.runtime/node/bin/npx
 fi
 export PATH="$ROOT/tests/.runtime/node/bin:$PATH"
 if [[ ! -f tests/node_modules/playwright-core/index.js || ! -f tests/node_modules/newman/bin/newman.js ]]; then npm ci --prefix tests; fi
@@ -35,12 +36,8 @@ else
 fi
 
 export MYSQL_PWD=Menu08LocalQA2026
-ready=0
-for _ in $(seq 1 45); do
-  if "${DOCKER[@]}" exec -e MYSQL_PWD menu08-ga9-mysql mysqladmin ping -uroot --silent >/dev/null 2>&1; then ready=1; break; fi
-  sleep 2
-done
-[[ "$ready" == 1 ]] || { echo 'MySQL no respondió; revisa docker logs menu08-ga9-mysql.' >&2; exit 1; }
+echo 'Esperando a que MySQL acepte consultas en 127.0.0.1:13306…'
+bash tests/soporte/esperar_mysql.sh
 
 php tests/soporte/configurar_local.php
 for file in esquema.sql datos_iniciales.sql datos_festin_rodante.sql datos_pruebas.sql; do

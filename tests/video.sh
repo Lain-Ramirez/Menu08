@@ -8,12 +8,22 @@ case "${1:-}" in
   postman) TEST=postman ;;
   *) echo 'Uso: ./tests/video.sh {e2e|postman}' >&2; exit 2 ;;
 esac
-[[ -x "$NODE" ]] || { echo 'Falta Node.js local; ejecuta ./tests/preparar_cloudshell.sh.' >&2; exit 1; }
-[[ -f tests/node_modules/playwright-core/index.js && -f tests/node_modules/newman/bin/newman.js ]] || { echo 'Faltan Playwright o Newman; ejecuta npm ci --prefix tests.' >&2; exit 1; }
-[[ -f menu08_app/configuracion/configuracion.php ]] || { echo 'Falta la configuración local; ejecuta ./tests/preparar_cloudshell.sh.' >&2; exit 1; }
+available_kb=$(df -Pk "$ROOT" | awk 'END {print $4}')
+((available_kb >= 65536)) || { echo 'Espacio insuficiente: libera al menos 64 MiB para guardar sesiones y capturas. Revisa df -h .' >&2; exit 1; }
 
 export MYSQL_PWD=Menu08LocalQA2026
-mysqladmin --protocol=TCP -h127.0.0.1 -P13306 -uroot ping --silent >/dev/null || { echo 'MySQL no está listo; ejecuta ./tests/preparar_cloudshell.sh.' >&2; exit 1; }
+needs_setup=0
+[[ -x "$NODE" && -f tests/node_modules/playwright-core/index.js && -f tests/node_modules/newman/bin/newman.js ]] || needs_setup=1
+[[ -f menu08_app/configuracion/configuracion.php ]] || needs_setup=1
+if [[ "$TEST" == e2e ]]; then
+  [[ -x tests/.runtime/browsers/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell ]] || needs_setup=1
+fi
+mysql --protocol=TCP -h127.0.0.1 -P13306 -uroot --connect-timeout=2 --execute='SELECT 1' >/dev/null 2>&1 || needs_setup=1
+if [[ "$needs_setup" == 1 ]]; then
+  echo 'Preparando las dependencias y los servicios locales de pruebas…'
+  bash tests/preparar_cloudshell.sh
+fi
+bash tests/soporte/esperar_mysql.sh 15
 
 if ! php -r 'exit(@file_get_contents("http://127.0.0.1:8088/ingresar") === false ? 1 : 0);' >/dev/null 2>&1; then
   mkdir -p tests/.runtime tests/soporte/sesiones

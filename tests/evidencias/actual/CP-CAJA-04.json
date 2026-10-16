@@ -95,14 +95,14 @@
       "EX-088",
       "EX-101"
     ],
-    "fecha": "2026-10-15T12:39:53.278946+00:00"
+    "fecha": "2026-10-16T11:12:13.836440+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-CAJA-04",
       "nombre": "Armado de la orden desde el catálogo en vista de caja",
-      "fecha": "2026-10-15T12:39:08.582048+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:27.780814+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "Total reactivo",
@@ -152,8 +152,8 @@
     {
       "caso": "CP-CAJA-04",
       "nombre": "Armado de la orden desde el catálogo en vista de caja",
-      "fecha": "2026-10-15T12:39:53.278946+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:12:13.836440+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "Total reactivo",

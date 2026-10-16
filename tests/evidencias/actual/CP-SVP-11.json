@@ -55,14 +55,14 @@
     "ejecuciones": [
       "EX-060"
     ],
-    "fecha": "2026-10-15T12:38:56.056671+00:00"
+    "fecha": "2026-10-16T11:11:13.564108+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-SVP-11",
       "nombre": "Umbral de demora a los 10 minutos",
-      "fecha": "2026-10-15T12:38:56.056671+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:13.564108+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "Minutos",
@@ -94,19 +94,19 @@
           "metodo": "GET",
           "ruta": "/svp/ordenes",
           "estado": 200,
-          "ms": 6.5,
+          "ms": 6.97,
           "content_type": "application/json; charset=utf-8",
           "location": null,
-          "cuerpo": "{\"turno\":12,\"ahora\":\"2026-10-15 07:38:56\",\"minutos_demora\":10,\"total\":1,\"ordenes\":[{\"id\":29,\"numero\":\"T12-003\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-15 07:29:56\",\"minutos\":9,\"demorada\":false,\"nota\":null,\"items\":[{\"nombre\":\"Vaso de agua\",\"cantidad\":1}]}]}"
+          "cuerpo": "{\"turno\":8,\"ahora\":\"2026-10-16 06:11:13\",\"minutos_demora\":10,\"total\":1,\"ordenes\":[{\"id\":25,\"numero\":\"T8-003\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-16 06:02:13\",\"minutos\":9,\"demorada\":false,\"nota\":null,\"items\":[{\"nombre\":\"Vaso de agua\",\"cantidad\":1}]}]}"
         },
         {
           "metodo": "GET",
           "ruta": "/svp/ordenes",
           "estado": 200,
-          "ms": 7.07,
+          "ms": 6.7,
           "content_type": "application/json; charset=utf-8",
           "location": null,
-          "cuerpo": "{\"turno\":12,\"ahora\":\"2026-10-15 07:38:56\",\"minutos_demora\":10,\"total\":1,\"ordenes\":[{\"id\":29,\"numero\":\"T12-003\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-15 07:28:56\",\"minutos\":10,\"demorada\":true,\"nota\":null,\"items\":[{\"nombre\":\"Vaso de agua\",\"cantidad\":1}]}]}"
+          "cuerpo": "{\"turno\":8,\"ahora\":\"2026-10-16 06:11:13\",\"minutos_demora\":10,\"total\":1,\"ordenes\":[{\"id\":25,\"numero\":\"T8-003\",\"estado\":\"pendiente\",\"estado_nombre\":\"Pendiente\",\"creado_en\":\"2026-10-16 06:01:13\",\"minutos\":10,\"demorada\":true,\"nota\":null,\"items\":[{\"nombre\":\"Vaso de agua\",\"cantidad\":1}]}]}"
         }
       ],
       "notas": [

@@ -1,5 +1,5 @@
 {
-  "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+  "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
   "casos_plan": 96,
   "casos_complementarios": 5,
   "casos_total": 101,
@@ -45,7 +45,7 @@
       "ejecuciones": [
         "EX-001"
       ],
-      "fecha": "2026-10-15T12:38:48.567251+00:00"
+      "fecha": "2026-10-16T11:11:05.545611+00:00"
     },
     {
       "caso": "CP-CARTA-02",
@@ -78,7 +78,7 @@
       "ejecuciones": [
         "EX-002"
       ],
-      "fecha": "2026-10-15T12:38:48.661893+00:00"
+      "fecha": "2026-10-16T11:11:05.657458+00:00"
     },
     {
       "caso": "CP-CARTA-03",
@@ -105,7 +105,7 @@
       "ejecuciones": [
         "EX-003"
       ],
-      "fecha": "2026-10-15T12:38:48.741699+00:00"
+      "fecha": "2026-10-16T11:11:05.743880+00:00"
     },
     {
       "caso": "CP-CARTA-04",
@@ -132,7 +132,7 @@
       "ejecuciones": [
         "EX-004"
       ],
-      "fecha": "2026-10-15T12:38:48.825234+00:00"
+      "fecha": "2026-10-16T11:11:05.829739+00:00"
     },
     {
       "caso": "CP-CARTA-05",
@@ -165,7 +165,7 @@
       "ejecuciones": [
         "EX-005"
       ],
-      "fecha": "2026-10-15T12:38:48.991248+00:00"
+      "fecha": "2026-10-16T11:11:06.001874+00:00"
     },
     {
       "caso": "CP-CARTA-06",
@@ -198,7 +198,7 @@
       "ejecuciones": [
         "EX-006"
       ],
-      "fecha": "2026-10-15T12:38:49.048272+00:00"
+      "fecha": "2026-10-16T11:11:06.064065+00:00"
     },
     {
       "caso": "CP-CARTA-07",
@@ -237,7 +237,7 @@
       "ejecuciones": [
         "EX-007"
       ],
-      "fecha": "2026-10-15T12:38:49.196430+00:00"
+      "fecha": "2026-10-16T11:11:06.221493+00:00"
     },
     {
       "caso": "CP-CARTA-08",
@@ -296,7 +296,7 @@
         "EX-087",
         "EX-100"
       ],
-      "fecha": "2026-10-15T12:39:51.566808+00:00"
+      "fecha": "2026-10-16T11:12:12.030422+00:00"
     },
     {
       "caso": "CP-CARTA-09",
@@ -329,7 +329,7 @@
       "ejecuciones": [
         "EX-009"
       ],
-      "fecha": "2026-10-15T12:38:49.334537+00:00"
+      "fecha": "2026-10-16T11:11:06.365798+00:00"
     },
     {
       "caso": "CP-CARTA-10",
@@ -477,7 +477,7 @@
         "EX-083",
         "EX-096"
       ],
-      "fecha": "2026-10-15T12:39:46.358692+00:00"
+      "fecha": "2026-10-16T11:12:06.458126+00:00"
     },
     {
       "caso": "CP-CARTA-11",
@@ -498,7 +498,7 @@
       "ejecuciones": [
         "EX-011"
       ],
-      "fecha": "2026-10-15T12:38:49.693476+00:00"
+      "fecha": "2026-10-16T11:11:06.759312+00:00"
     },
     {
       "caso": "CP-CARTA-12",
@@ -525,7 +525,7 @@
       "ejecuciones": [
         "EX-012"
       ],
-      "fecha": "2026-10-15T12:38:49.699695+00:00"
+      "fecha": "2026-10-16T11:11:06.766598+00:00"
     },
     {
       "caso": "CP-CARTA-13",
@@ -554,7 +554,7 @@
       "ejecuciones": [
         "EX-114"
       ],
-      "fecha": "2026-10-15T12:41:25.200716+00:00"
+      "fecha": "2026-10-16T11:13:48.188539+00:00"
     },
     {
       "caso": "CP-CARTA-14",
@@ -575,7 +575,7 @@
       "ejecuciones": [
         "EX-013"
       ],
-      "fecha": "2026-10-15T12:38:49.861747+00:00"
+      "fecha": "2026-10-16T11:11:06.938582+00:00"
     },
     {
       "caso": "CP-CARTA-15",
@@ -628,7 +628,7 @@
       "ejecuciones": [
         "EX-115"
       ],
-      "fecha": "2026-10-15T12:41:25.659633+00:00"
+      "fecha": "2026-10-16T11:13:48.666226+00:00"
     },
     {
       "caso": "CP-CARTA-16",
@@ -737,7 +737,7 @@
         "EX-082",
         "EX-095"
       ],
-      "fecha": "2026-10-15T12:39:44.750978+00:00"
+      "fecha": "2026-10-16T11:12:04.659302+00:00"
     },
     {
       "caso": "CP-CARTA-17",
@@ -812,7 +812,7 @@
       "ejecuciones": [
         "EX-014"
       ],
-      "fecha": "2026-10-15T12:38:49.901060+00:00"
+      "fecha": "2026-10-16T11:11:06.979681+00:00"
     },
     {
       "caso": "CP-CARTA-18",
@@ -839,7 +839,7 @@
           "cumple": true
         },
         {
-          "comprobacion": "Rechazo {'nombre': 'Papas de prueba', 'categoria_id': 52}",
+          "comprobacion": "Rechazo {'nombre': 'Papas de prueba', 'categoria_id': 22}",
           "esperado": 422,
           "obtenido": 422,
           "cumple": true
@@ -875,7 +875,7 @@
       "ejecuciones": [
         "EX-015"
       ],
-      "fecha": "2026-10-15T12:38:50.160146+00:00"
+      "fecha": "2026-10-16T11:11:07.252386+00:00"
     },
     {
       "caso": "CP-CARTA-19",
@@ -920,7 +920,7 @@
       "ejecuciones": [
         "EX-016"
       ],
-      "fecha": "2026-10-15T12:38:50.339567+00:00"
+      "fecha": "2026-10-16T11:11:07.456752+00:00"
     },
     {
       "caso": "CP-CARTA-20",
@@ -953,7 +953,7 @@
       "ejecuciones": [
         "EX-017"
       ],
-      "fecha": "2026-10-15T12:38:50.456059+00:00"
+      "fecha": "2026-10-16T11:11:07.612292+00:00"
     },
     {
       "caso": "CP-CARTA-21",
@@ -992,7 +992,7 @@
       "ejecuciones": [
         "EX-018"
       ],
-      "fecha": "2026-10-15T12:38:50.567921+00:00"
+      "fecha": "2026-10-16T11:11:07.739380+00:00"
     },
     {
       "caso": "CP-CARTA-22",
@@ -1027,7 +1027,7 @@
       "ejecuciones": [
         "EX-019"
       ],
-      "fecha": "2026-10-15T12:38:50.658816+00:00"
+      "fecha": "2026-10-16T11:11:07.844536+00:00"
     },
     {
       "caso": "CP-CARTA-23",
@@ -1078,7 +1078,7 @@
       "ejecuciones": [
         "EX-020"
       ],
-      "fecha": "2026-10-15T12:38:50.706505+00:00"
+      "fecha": "2026-10-16T11:11:07.899037+00:00"
     },
     {
       "caso": "CP-CARTA-24",
@@ -1129,7 +1129,7 @@
       "ejecuciones": [
         "EX-021"
       ],
-      "fecha": "2026-10-15T12:38:50.881660+00:00"
+      "fecha": "2026-10-16T11:11:08.093413+00:00"
     },
     {
       "caso": "CP-CARTA-25",
@@ -1186,7 +1186,7 @@
       "ejecuciones": [
         "EX-022"
       ],
-      "fecha": "2026-10-15T12:38:51.079014+00:00"
+      "fecha": "2026-10-16T11:11:08.300735+00:00"
     },
     {
       "caso": "CP-CARTA-26",
@@ -1237,7 +1237,7 @@
       "ejecuciones": [
         "EX-023"
       ],
-      "fecha": "2026-10-15T12:38:51.309964+00:00"
+      "fecha": "2026-10-16T11:11:08.546794+00:00"
     },
     {
       "caso": "CP-CARTA-27",
@@ -1306,7 +1306,7 @@
       "ejecuciones": [
         "EX-024"
       ],
-      "fecha": "2026-10-15T12:38:51.505990+00:00"
+      "fecha": "2026-10-16T11:11:08.754487+00:00"
     },
     {
       "caso": "CP-CARTA-28",
@@ -1345,7 +1345,7 @@
       "ejecuciones": [
         "EX-025"
       ],
-      "fecha": "2026-10-15T12:38:51.949475+00:00"
+      "fecha": "2026-10-16T11:11:09.226880+00:00"
     },
     {
       "caso": "CP-CARTA-29",
@@ -1396,7 +1396,7 @@
       "ejecuciones": [
         "EX-026"
       ],
-      "fecha": "2026-10-15T12:38:52.056041+00:00"
+      "fecha": "2026-10-16T11:11:09.337940+00:00"
     },
     {
       "caso": "CP-CARTA-30",
@@ -1425,13 +1425,13 @@
       ],
       "pendientes": [],
       "notas": [
-        "{\"php\": \"2026-10-15T07:38:52-05:00\", \"zona\": \"America/Bogota\", \"mysql\": {\"ahora\": \"2026-10-15 07:38:52\", \"zona\": \"-05:00\"}}"
+        "{\"php\": \"2026-10-16T06:11:09-05:00\", \"zona\": \"America/Bogota\", \"mysql\": {\"ahora\": \"2026-10-16 06:11:09\", \"zona\": \"-05:00\"}}"
       ],
       "capturas": [],
       "ejecuciones": [
         "EX-027"
       ],
-      "fecha": "2026-10-15T12:38:52.120370+00:00"
+      "fecha": "2026-10-16T11:11:09.403261+00:00"
     },
     {
       "caso": "CP-CARTA-31",
@@ -1460,7 +1460,7 @@
       "ejecuciones": [
         "EX-028"
       ],
-      "fecha": "2026-10-15T12:38:52.152624+00:00"
+      "fecha": "2026-10-16T11:11:09.437347+00:00"
     },
     {
       "caso": "CP-CARTA-32",
@@ -1821,7 +1821,7 @@
         "EX-084",
         "EX-097"
       ],
-      "fecha": "2026-10-15T12:39:46.730043+00:00"
+      "fecha": "2026-10-16T11:12:06.755692+00:00"
     },
     {
       "caso": "CP-CARTA-33",
@@ -1893,7 +1893,7 @@
         "EX-085",
         "EX-098"
       ],
-      "fecha": "2026-10-15T12:39:50.237849+00:00"
+      "fecha": "2026-10-16T11:12:10.552995+00:00"
     },
     {
       "caso": "CP-CARTA-34",
@@ -2003,7 +2003,7 @@
         "EX-086",
         "EX-099"
       ],
-      "fecha": "2026-10-15T12:39:50.788832+00:00"
+      "fecha": "2026-10-16T11:12:11.131141+00:00"
     },
     {
       "caso": "CP-CAJA-01",
@@ -2036,7 +2036,7 @@
       "ejecuciones": [
         "EX-029"
       ],
-      "fecha": "2026-10-15T12:38:52.446785+00:00"
+      "fecha": "2026-10-16T11:11:09.749905+00:00"
     },
     {
       "caso": "CP-CAJA-02",
@@ -2075,7 +2075,7 @@
       "ejecuciones": [
         "EX-030"
       ],
-      "fecha": "2026-10-15T12:38:52.495155+00:00"
+      "fecha": "2026-10-16T11:11:09.799809+00:00"
     },
     {
       "caso": "CP-CAJA-03",
@@ -2102,7 +2102,7 @@
       "ejecuciones": [
         "EX-031"
       ],
-      "fecha": "2026-10-15T12:38:52.635766+00:00"
+      "fecha": "2026-10-16T11:11:09.947411+00:00"
     },
     {
       "caso": "CP-CAJA-04",
@@ -2183,7 +2183,7 @@
         "EX-088",
         "EX-101"
       ],
-      "fecha": "2026-10-15T12:39:53.278946+00:00"
+      "fecha": "2026-10-16T11:12:13.836440+00:00"
     },
     {
       "caso": "CP-CAJA-05",
@@ -2228,7 +2228,7 @@
         "EX-089",
         "EX-102"
       ],
-      "fecha": "2026-10-15T12:39:54.367925+00:00"
+      "fecha": "2026-10-16T11:12:14.827760+00:00"
     },
     {
       "caso": "CP-CAJA-06",
@@ -2275,13 +2275,13 @@
       ],
       "pendientes": [],
       "notas": [
-        "{\"numero\": \"T9-001\", \"total\": \"16200.00\", \"medio_pago\": \"efectivo\", \"nota\": null}"
+        "{\"numero\": \"T5-001\", \"total\": \"16200.00\", \"medio_pago\": \"efectivo\", \"nota\": null}"
       ],
       "capturas": [],
       "ejecuciones": [
         "EX-032"
       ],
-      "fecha": "2026-10-15T12:38:52.683639+00:00"
+      "fecha": "2026-10-16T11:11:09.998597+00:00"
     },
     {
       "caso": "CP-CAJA-07",
@@ -2328,13 +2328,13 @@
       ],
       "pendientes": [],
       "notas": [
-        "{\"numero\": \"T9-002\", \"total\": \"64800.00\", \"medio_pago\": \"tarjeta\", \"nota\": \"Sin cebolla en la hamburguesa\"}"
+        "{\"numero\": \"T5-002\", \"total\": \"64800.00\", \"medio_pago\": \"tarjeta\", \"nota\": \"Sin cebolla en la hamburguesa\"}"
       ],
       "capturas": [],
       "ejecuciones": [
         "EX-033"
       ],
-      "fecha": "2026-10-15T12:38:52.776201+00:00"
+      "fecha": "2026-10-16T11:11:10.100032+00:00"
     },
     {
       "caso": "CP-CAJA-08",
@@ -2381,13 +2381,13 @@
       ],
       "pendientes": [],
       "notas": [
-        "{\"numero\": \"T9-003\", \"total\": \"44501.00\", \"medio_pago\": \"transferencia\", \"nota\": null}"
+        "{\"numero\": \"T5-003\", \"total\": \"44501.00\", \"medio_pago\": \"transferencia\", \"nota\": null}"
       ],
       "capturas": [],
       "ejecuciones": [
         "EX-034"
       ],
-      "fecha": "2026-10-15T12:38:52.871982+00:00"
+      "fecha": "2026-10-16T11:11:10.205049+00:00"
     },
     {
       "caso": "CP-CAJA-09",
@@ -2414,7 +2414,7 @@
       "ejecuciones": [
         "EX-035"
       ],
-      "fecha": "2026-10-15T12:38:52.965292+00:00"
+      "fecha": "2026-10-16T11:11:10.306898+00:00"
     },
     {
       "caso": "CP-CAJA-10",
@@ -2441,7 +2441,7 @@
       "ejecuciones": [
         "EX-041"
       ],
-      "fecha": "2026-10-15T12:38:53.160632+00:00"
+      "fecha": "2026-10-16T11:11:10.516948+00:00"
     },
     {
       "caso": "CP-CAJA-11",
@@ -2486,7 +2486,7 @@
       "ejecuciones": [
         "EX-036"
       ],
-      "fecha": "2026-10-15T12:38:53.019214+00:00"
+      "fecha": "2026-10-16T11:11:10.364228+00:00"
     },
     {
       "caso": "CP-CAJA-12",
@@ -2528,7 +2528,7 @@
         "EX-091",
         "EX-104"
       ],
-      "fecha": "2026-10-15T12:39:56.664036+00:00"
+      "fecha": "2026-10-16T11:12:17.152700+00:00"
     },
     {
       "caso": "CP-CAJA-13",
@@ -2561,7 +2561,7 @@
       "ejecuciones": [
         "EX-037"
       ],
-      "fecha": "2026-10-15T12:38:53.026673+00:00"
+      "fecha": "2026-10-16T11:11:10.372068+00:00"
     },
     {
       "caso": "CP-CAJA-14",
@@ -2614,7 +2614,7 @@
       "ejecuciones": [
         "EX-038"
       ],
-      "fecha": "2026-10-15T12:38:53.065312+00:00"
+      "fecha": "2026-10-16T11:11:10.412548+00:00"
     },
     {
       "caso": "CP-CAJA-15",
@@ -2659,7 +2659,7 @@
       "ejecuciones": [
         "EX-039"
       ],
-      "fecha": "2026-10-15T12:38:53.097295+00:00"
+      "fecha": "2026-10-16T11:11:10.448036+00:00"
     },
     {
       "caso": "CP-CAJA-16",
@@ -2686,7 +2686,7 @@
       "ejecuciones": [
         "EX-040"
       ],
-      "fecha": "2026-10-15T12:38:53.148048+00:00"
+      "fecha": "2026-10-16T11:11:10.502971+00:00"
     },
     {
       "caso": "CP-CAJA-17",
@@ -2725,7 +2725,7 @@
       "ejecuciones": [
         "EX-042"
       ],
-      "fecha": "2026-10-15T12:38:53.488421+00:00"
+      "fecha": "2026-10-16T11:11:10.859741+00:00"
     },
     {
       "caso": "CP-CAJA-18",
@@ -2734,7 +2734,7 @@
       "estado": "Aprobada",
       "checks": [
         {
-          "comprobacion": "Producto 156",
+          "comprobacion": "Producto 90",
           "esperado": 422,
           "obtenido": 422,
           "cumple": true
@@ -2770,7 +2770,7 @@
       "ejecuciones": [
         "EX-043"
       ],
-      "fecha": "2026-10-15T12:38:53.626694+00:00"
+      "fecha": "2026-10-16T11:11:10.998640+00:00"
     },
     {
       "caso": "CP-CAJA-19",
@@ -2803,7 +2803,7 @@
       "ejecuciones": [
         "EX-044"
       ],
-      "fecha": "2026-10-15T12:38:53.793445+00:00"
+      "fecha": "2026-10-16T11:11:11.176556+00:00"
     },
     {
       "caso": "CP-CAJA-20",
@@ -2836,7 +2836,7 @@
       "ejecuciones": [
         "EX-045"
       ],
-      "fecha": "2026-10-15T12:38:53.878931+00:00"
+      "fecha": "2026-10-16T11:11:11.269553+00:00"
     },
     {
       "caso": "CP-CAJA-21",
@@ -2871,7 +2871,7 @@
       "ejecuciones": [
         "EX-046"
       ],
-      "fecha": "2026-10-15T12:38:53.981905+00:00"
+      "fecha": "2026-10-16T11:11:11.378821+00:00"
     },
     {
       "caso": "CP-CAJA-22",
@@ -2910,7 +2910,7 @@
       "ejecuciones": [
         "EX-047"
       ],
-      "fecha": "2026-10-15T12:38:54.211594+00:00"
+      "fecha": "2026-10-16T11:11:11.623364+00:00"
     },
     {
       "caso": "CP-CAJA-23",
@@ -2943,7 +2943,7 @@
       "ejecuciones": [
         "EX-048"
       ],
-      "fecha": "2026-10-15T12:38:54.439116+00:00"
+      "fecha": "2026-10-16T11:11:11.851394+00:00"
     },
     {
       "caso": "CP-CAJA-24",
@@ -2982,7 +2982,7 @@
       "ejecuciones": [
         "EX-049"
       ],
-      "fecha": "2026-10-15T12:38:54.530527+00:00"
+      "fecha": "2026-10-16T11:11:11.948417+00:00"
     },
     {
       "caso": "CP-CAJA-25",
@@ -3021,7 +3021,7 @@
       "ejecuciones": [
         "EX-050"
       ],
-      "fecha": "2026-10-15T12:38:54.890926+00:00"
+      "fecha": "2026-10-16T11:11:12.328039+00:00"
     },
     {
       "caso": "CP-CAJA-26",
@@ -3094,7 +3094,7 @@
         "EX-090",
         "EX-103"
       ],
-      "fecha": "2026-10-15T12:39:54.737478+00:00"
+      "fecha": "2026-10-16T11:12:15.254997+00:00"
     },
     {
       "caso": "CP-SVP-01",
@@ -3133,7 +3133,7 @@
       "ejecuciones": [
         "EX-051"
       ],
-      "fecha": "2026-10-15T12:38:55.753208+00:00"
+      "fecha": "2026-10-16T11:11:13.250266+00:00"
     },
     {
       "caso": "CP-SVP-02",
@@ -3160,7 +3160,7 @@
       "ejecuciones": [
         "EX-052"
       ],
-      "fecha": "2026-10-15T12:38:55.773872+00:00"
+      "fecha": "2026-10-16T11:11:13.271971+00:00"
     },
     {
       "caso": "CP-SVP-03",
@@ -3182,8 +3182,8 @@
         },
         {
           "comprobacion": "ID coincide",
-          "esperado": 27,
-          "obtenido": 27,
+          "esperado": 23,
+          "obtenido": 23,
           "cumple": true
         }
       ],
@@ -3193,7 +3193,7 @@
       "ejecuciones": [
         "EX-053"
       ],
-      "fecha": "2026-10-15T12:38:55.779099+00:00"
+      "fecha": "2026-10-16T11:11:13.277291+00:00"
     },
     {
       "caso": "CP-SVP-04",
@@ -3234,7 +3234,7 @@
       "ejecuciones": [
         "EX-054"
       ],
-      "fecha": "2026-10-15T12:38:55.809007+00:00"
+      "fecha": "2026-10-16T11:11:13.308122+00:00"
     },
     {
       "caso": "CP-SVP-05",
@@ -3279,7 +3279,7 @@
       "ejecuciones": [
         "EX-055"
       ],
-      "fecha": "2026-10-15T12:38:55.864789+00:00"
+      "fecha": "2026-10-16T11:11:13.363424+00:00"
     },
     {
       "caso": "CP-SVP-06",
@@ -3324,7 +3324,7 @@
       "ejecuciones": [
         "EX-056"
       ],
-      "fecha": "2026-10-15T12:38:55.913702+00:00"
+      "fecha": "2026-10-16T11:11:13.414593+00:00"
     },
     {
       "caso": "CP-SVP-07",
@@ -3363,7 +3363,7 @@
       "ejecuciones": [
         "EX-057"
       ],
-      "fecha": "2026-10-15T12:38:55.964952+00:00"
+      "fecha": "2026-10-16T11:11:13.467685+00:00"
     },
     {
       "caso": "CP-SVP-08",
@@ -3373,8 +3373,8 @@
       "checks": [
         {
           "comprobacion": "Misma navegación",
-          "esperado": 1792067952237.3,
-          "obtenido": 1792067952237.3,
+          "esperado": 1792149091558.5,
+          "obtenido": 1792149091558.5,
           "cumple": true
         },
         {
@@ -3391,8 +3391,8 @@
         },
         {
           "comprobacion": "Misma navegación",
-          "esperado": 1792067998479,
-          "obtenido": 1792067998479,
+          "esperado": 1792149139062,
+          "obtenido": 1792149139062,
           "cumple": true
         },
         {
@@ -3422,7 +3422,7 @@
         "EX-092",
         "EX-105"
       ],
-      "fecha": "2026-10-15T12:39:58.475992+00:00"
+      "fecha": "2026-10-16T11:12:19.059573+00:00"
     },
     {
       "caso": "CP-SVP-09",
@@ -3461,7 +3461,7 @@
       "ejecuciones": [
         "EX-058"
       ],
-      "fecha": "2026-10-15T12:38:56.006985+00:00"
+      "fecha": "2026-10-16T11:11:13.510671+00:00"
     },
     {
       "caso": "CP-SVP-10",
@@ -3477,8 +3477,8 @@
         },
         {
           "comprobacion": "Tercera conservada",
-          "esperado": 29,
-          "obtenido": 29,
+          "esperado": 25,
+          "obtenido": 25,
           "cumple": true
         }
       ],
@@ -3488,7 +3488,7 @@
       "ejecuciones": [
         "EX-059"
       ],
-      "fecha": "2026-10-15T12:38:56.013356+00:00"
+      "fecha": "2026-10-16T11:11:13.518268+00:00"
     },
     {
       "caso": "CP-SVP-11",
@@ -3529,7 +3529,7 @@
       "ejecuciones": [
         "EX-060"
       ],
-      "fecha": "2026-10-15T12:38:56.056671+00:00"
+      "fecha": "2026-10-16T11:11:13.564108+00:00"
     },
     {
       "caso": "CP-SVP-12",
@@ -3618,17 +3618,17 @@
           "esperado": [
             {
               "estado_id": 4,
-              "en_preparacion_en": "2026-10-15 07:38:55",
-              "lista_en": "2026-10-15 07:38:55",
-              "entregada_en": "2026-10-15 07:38:55"
+              "en_preparacion_en": "2026-10-16 06:11:13",
+              "lista_en": "2026-10-16 06:11:13",
+              "entregada_en": "2026-10-16 06:11:13"
             }
           ],
           "obtenido": [
             {
               "estado_id": 4,
-              "en_preparacion_en": "2026-10-15 07:38:55",
-              "lista_en": "2026-10-15 07:38:55",
-              "entregada_en": "2026-10-15 07:38:55"
+              "en_preparacion_en": "2026-10-16 06:11:13",
+              "lista_en": "2026-10-16 06:11:13",
+              "entregada_en": "2026-10-16 06:11:13"
             }
           ],
           "cumple": true
@@ -3640,7 +3640,7 @@
       "ejecuciones": [
         "EX-061"
       ],
-      "fecha": "2026-10-15T12:38:56.143313+00:00"
+      "fecha": "2026-10-16T11:11:13.651545+00:00"
     },
     {
       "caso": "CP-SVP-13",
@@ -3656,8 +3656,8 @@
         },
         {
           "comprobacion": "Última marca",
-          "esperado": "2026-10-15 07:38:55",
-          "obtenido": "2026-10-15 07:38:55",
+          "esperado": "2026-10-16 06:11:13",
+          "obtenido": "2026-10-16 06:11:13",
           "cumple": true
         },
         {
@@ -3669,13 +3669,13 @@
       ],
       "pendientes": [],
       "notas": [
-        "{\"creado_en\": \"2026-10-15 07:38:55\", \"en_preparacion_en\": \"2026-10-15 07:38:55\", \"lista_en\": \"2026-10-15 07:38:55\", \"entregada_en\": \"2026-10-15 07:38:55\", \"estado_actualizado_en\": \"2026-10-15 07:38:55\", \"duracion\": 0}"
+        "{\"creado_en\": \"2026-10-16 06:11:13\", \"en_preparacion_en\": \"2026-10-16 06:11:13\", \"lista_en\": \"2026-10-16 06:11:13\", \"entregada_en\": \"2026-10-16 06:11:13\", \"estado_actualizado_en\": \"2026-10-16 06:11:13\", \"duracion\": 0}"
       ],
       "capturas": [],
       "ejecuciones": [
         "EX-062"
       ],
-      "fecha": "2026-10-15T12:38:56.367366+00:00"
+      "fecha": "2026-10-16T11:11:13.893300+00:00"
     },
     {
       "caso": "CP-SVP-14",
@@ -3732,7 +3732,7 @@
       "ejecuciones": [
         "EX-063"
       ],
-      "fecha": "2026-10-15T12:38:56.413053+00:00"
+      "fecha": "2026-10-16T11:11:13.926694+00:00"
     },
     {
       "caso": "CP-SVP-15",
@@ -3777,7 +3777,7 @@
       "ejecuciones": [
         "EX-064"
       ],
-      "fecha": "2026-10-15T12:38:56.421880+00:00"
+      "fecha": "2026-10-16T11:11:13.934304+00:00"
     },
     {
       "caso": "CP-SVP-16",
@@ -3804,7 +3804,7 @@
       "ejecuciones": [
         "EX-065"
       ],
-      "fecha": "2026-10-15T12:38:56.505463+00:00"
+      "fecha": "2026-10-16T11:11:14.011688+00:00"
     },
     {
       "caso": "CP-SVP-17",
@@ -3861,7 +3861,7 @@
       "ejecuciones": [
         "EX-066"
       ],
-      "fecha": "2026-10-15T12:38:56.537352+00:00"
+      "fecha": "2026-10-16T11:11:14.041972+00:00"
     },
     {
       "caso": "CP-SVP-18",
@@ -3960,7 +3960,7 @@
         "EX-093",
         "EX-106"
       ],
-      "fecha": "2026-10-15T12:40:08.431548+00:00"
+      "fecha": "2026-10-16T11:12:29.076516+00:00"
     },
     {
       "caso": "CP-SVP-19",
@@ -4154,8 +4154,8 @@
       ],
       "notas": [
         "Navegador real automatizado en Linux; no equivale a un dispositivo Android físico.",
-        "Número: 40 px; botón: 56.000030517578125 px. Geometría redondeada a 0.01px para la precisión de getBoundingClientRect; min-height CSS también se comprueba.",
-        "Número: 40 px; botón: 56 px. Geometría redondeada a 0.01px para la precisión de getBoundingClientRect; min-height CSS también se comprueba."
+        "Número: 40 px; botón: 56 px. Geometría redondeada a 0.01px para la precisión de getBoundingClientRect; min-height CSS también se comprueba.",
+        "Número: 40 px; botón: 55.999969482421875 px. Geometría redondeada a 0.01px para la precisión de getBoundingClientRect; min-height CSS también se comprueba."
       ],
       "capturas": [
         "evidencias/actual/CP-SVP-19-chromium-svp-360-claro.png",
@@ -4187,7 +4187,7 @@
         "EX-094",
         "EX-107"
       ],
-      "fecha": "2026-10-15T12:40:27.612346+00:00"
+      "fecha": "2026-10-16T11:12:48.383512+00:00"
     },
     {
       "caso": "CP-SVP-20",
@@ -4222,7 +4222,7 @@
       "ejecuciones": [
         "EX-067"
       ],
-      "fecha": "2026-10-15T12:38:56.648100+00:00"
+      "fecha": "2026-10-16T11:11:14.142571+00:00"
     },
     {
       "caso": "CP-SVP-21",
@@ -4257,14 +4257,14 @@
       ],
       "pendientes": [],
       "notas": [
-        "{\"ms_modelo\": 3.164052963256836, \"ordenes\": 20, \"consultas\": [\"SELECT t.id AS turno_id, o.id AS orden_id, o.numero, o.nota, o.creado_en,\\n                    e.codigo AS estado, e.nombre AS estado_nombre,\\n                    TIMESTAMPDIFF(MINUTE, o.creado_en, NOW()) AS minutos\\n               FROM turnos_caja t\\n               LEFT JOIN ordenes o\\n                      ON o.turno_id = t.id\\n                     AND o.food_truck_id = t.food_truck_id\\n                     AND o.estado_id IN (SELECT id FROM estados_orden WHERE codigo IN ('pendiente', 'en_preparacion', 'lista'))\\n               LEFT JOIN estados_orden e ON e.id = o.estado_id\\n              WHERE t.id = (SELECT v.id FROM turnos_caja v\\n                           WHERE v.food_truck_id = '17' AND v.estado = 'abierto'\\n                           ORDER BY v.id DESC LIMIT 1)\\n              ORDER BY e.orden, o.creado_en\", \"SELECT i.orden_id, i.nombre_producto, i.cantidad\\n               FROM orden_items i\\n               JOIN ordenes o        ON o.id = i.orden_id\\n               JOIN estados_orden e  ON e.id = o.estado_id\\n              WHERE o.food_truck_id = '17'\\n                AND o.turno_id = (SELECT v.id FROM turnos_caja v\\n                           WHERE v.food_truck_id = '17' AND v.estado = 'abierto'\\n                           ORDER BY v.id DESC LIMIT 1)\\n                AND e.codigo IN ('pendiente', 'en_preparacion', 'lista')\\n              ORDER BY i.id\"]}",
-        "Tiempo HTTP real: 5.96 ms. Se miden consultas Execute de esta conexión; no es ensayo de carga."
+        "{\"ms_modelo\": 3.4029483795166016, \"ordenes\": 20, \"consultas\": [\"SELECT t.id AS turno_id, o.id AS orden_id, o.numero, o.nota, o.creado_en,\\n                    e.codigo AS estado, e.nombre AS estado_nombre,\\n                    TIMESTAMPDIFF(MINUTE, o.creado_en, NOW()) AS minutos\\n               FROM turnos_caja t\\n               LEFT JOIN ordenes o\\n                      ON o.turno_id = t.id\\n                     AND o.food_truck_id = t.food_truck_id\\n                     AND o.estado_id IN (SELECT id FROM estados_orden WHERE codigo IN ('pendiente', 'en_preparacion', 'lista'))\\n               LEFT JOIN estados_orden e ON e.id = o.estado_id\\n              WHERE t.id = (SELECT v.id FROM turnos_caja v\\n                           WHERE v.food_truck_id = '11' AND v.estado = 'abierto'\\n                           ORDER BY v.id DESC LIMIT 1)\\n              ORDER BY e.orden, o.creado_en\", \"SELECT i.orden_id, i.nombre_producto, i.cantidad\\n               FROM orden_items i\\n               JOIN ordenes o        ON o.id = i.orden_id\\n               JOIN estados_orden e  ON e.id = o.estado_id\\n              WHERE o.food_truck_id = '11'\\n                AND o.turno_id = (SELECT v.id FROM turnos_caja v\\n                           WHERE v.food_truck_id = '11' AND v.estado = 'abierto'\\n                           ORDER BY v.id DESC LIMIT 1)\\n                AND e.codigo IN ('pendiente', 'en_preparacion', 'lista')\\n              ORDER BY i.id\"]}",
+        "Tiempo HTTP real: 5.79 ms. Se miden consultas Execute de esta conexión; no es ensayo de carga."
       ],
       "capturas": [],
       "ejecuciones": [
         "EX-068"
       ],
-      "fecha": "2026-10-15T12:38:57.117393+00:00"
+      "fecha": "2026-10-16T11:11:14.622662+00:00"
     },
     {
       "caso": "CP-SEG-01",
@@ -4351,7 +4351,7 @@
       "ejecuciones": [
         "EX-069"
       ],
-      "fecha": "2026-10-15T12:38:58.089877+00:00"
+      "fecha": "2026-10-16T11:11:15.667559+00:00"
     },
     {
       "caso": "CP-SEG-02",
@@ -4402,7 +4402,7 @@
       "ejecuciones": [
         "EX-070"
       ],
-      "fecha": "2026-10-15T12:38:58.403210+00:00"
+      "fecha": "2026-10-16T11:11:15.988646+00:00"
     },
     {
       "caso": "CP-SEG-03",
@@ -4453,7 +4453,7 @@
       "ejecuciones": [
         "EX-071"
       ],
-      "fecha": "2026-10-15T12:38:58.418838+00:00"
+      "fecha": "2026-10-16T11:11:16.007733+00:00"
     },
     {
       "caso": "CP-SEG-04",
@@ -4492,7 +4492,7 @@
       "ejecuciones": [
         "EX-072"
       ],
-      "fecha": "2026-10-15T12:38:58.440169+00:00"
+      "fecha": "2026-10-16T11:11:16.031341+00:00"
     },
     {
       "caso": "CP-SEG-05",
@@ -4519,13 +4519,13 @@
           "cumple": true
         },
         {
-          "comprobacion": "Script escapado /panel/productos/209",
+          "comprobacion": "Script escapado /panel/productos/143",
           "esperado": false,
           "obtenido": false,
           "cumple": true
         },
         {
-          "comprobacion": "Nombre como texto /panel/productos/209",
+          "comprobacion": "Nombre como texto /panel/productos/143",
           "esperado": true,
           "obtenido": true,
           "cumple": true
@@ -4557,7 +4557,7 @@
       "ejecuciones": [
         "EX-073"
       ],
-      "fecha": "2026-10-15T12:38:58.578176+00:00"
+      "fecha": "2026-10-16T11:11:16.178362+00:00"
     },
     {
       "caso": "CP-SEG-06",
@@ -4692,7 +4692,7 @@
       "ejecuciones": [
         "EX-074"
       ],
-      "fecha": "2026-10-15T12:38:58.676740+00:00"
+      "fecha": "2026-10-16T11:11:16.282876+00:00"
     },
     {
       "caso": "CP-SEG-07",
@@ -4925,7 +4925,7 @@
       "ejecuciones": [
         "EX-075"
       ],
-      "fecha": "2026-10-15T12:38:59.086987+00:00"
+      "fecha": "2026-10-16T11:11:16.707902+00:00"
     },
     {
       "caso": "CP-SEG-08",
@@ -5012,7 +5012,7 @@
       "ejecuciones": [
         "EX-076"
       ],
-      "fecha": "2026-10-15T12:39:00.548965+00:00"
+      "fecha": "2026-10-16T11:11:18.292336+00:00"
     },
     {
       "caso": "CP-SEG-09",
@@ -5051,8 +5051,8 @@
               "foto": "festin-empanadas-con-aji.jpg",
               "disponible": 1,
               "orden": 1,
-              "creado_en": "2026-10-15 12:36:18",
-              "actualizado_en": "2026-10-15 12:36:19"
+              "creado_en": "2026-10-16 11:09:38",
+              "actualizado_en": "2026-10-16 11:09:38"
             }
           ],
           "obtenido": [
@@ -5066,8 +5066,8 @@
               "foto": "festin-empanadas-con-aji.jpg",
               "disponible": 1,
               "orden": 1,
-              "creado_en": "2026-10-15 12:36:18",
-              "actualizado_en": "2026-10-15 12:36:19"
+              "creado_en": "2026-10-16 11:09:38",
+              "actualizado_en": "2026-10-16 11:09:38"
             }
           ],
           "cumple": true
@@ -5099,8 +5099,8 @@
               "nombre": "Para picar",
               "orden": 1,
               "activo": 1,
-              "creado_en": "2026-10-15 12:36:18",
-              "actualizado_en": "2026-10-15 12:36:18"
+              "creado_en": "2026-10-16 11:09:38",
+              "actualizado_en": "2026-10-16 11:09:38"
             }
           ],
           "obtenido": [
@@ -5110,8 +5110,8 @@
               "nombre": "Para picar",
               "orden": 1,
               "activo": 1,
-              "creado_en": "2026-10-15 12:36:18",
-              "actualizado_en": "2026-10-15 12:36:18"
+              "creado_en": "2026-10-16 11:09:38",
+              "actualizado_en": "2026-10-16 11:09:38"
             }
           ],
           "cumple": true
@@ -5148,8 +5148,8 @@
               "hora_inicio": "12:00:00",
               "hora_fin": "16:00:00",
               "activa": 1,
-              "creado_en": "2026-10-15 12:36:18",
-              "actualizado_en": "2026-10-15 12:36:18"
+              "creado_en": "2026-10-16 11:09:38",
+              "actualizado_en": "2026-10-16 11:09:38"
             }
           ],
           "obtenido": [
@@ -5164,8 +5164,8 @@
               "hora_inicio": "12:00:00",
               "hora_fin": "16:00:00",
               "activa": 1,
-              "creado_en": "2026-10-15 12:36:18",
-              "actualizado_en": "2026-10-15 12:36:18"
+              "creado_en": "2026-10-16 11:09:38",
+              "actualizado_en": "2026-10-16 11:09:38"
             }
           ],
           "cumple": true
@@ -5213,7 +5213,7 @@
       "ejecuciones": [
         "EX-077"
       ],
-      "fecha": "2026-10-15T12:39:00.604353+00:00"
+      "fecha": "2026-10-16T11:11:18.351776+00:00"
     },
     {
       "caso": "CP-SEG-10",
@@ -5249,7 +5249,7 @@
       "ejecuciones": [
         "EX-117"
       ],
-      "fecha": "2026-10-15T12:41:26.032245+00:00"
+      "fecha": "2026-10-16T11:13:49.415709+00:00"
     },
     {
       "caso": "CP-SEG-11",
@@ -5330,7 +5330,7 @@
       "ejecuciones": [
         "EX-078"
       ],
-      "fecha": "2026-10-15T12:39:01.270982+00:00"
+      "fecha": "2026-10-16T11:11:19.063052+00:00"
     },
     {
       "caso": "CP-SEG-12",
@@ -5400,8 +5400,8 @@
         },
         {
           "comprobacion": "Truck de la sesión",
-          "esperado": 18,
-          "obtenido": 18,
+          "esperado": 12,
+          "obtenido": 12,
           "cumple": true
         },
         {
@@ -5418,8 +5418,8 @@
         },
         {
           "comprobacion": "Misma parada",
-          "esperado": 80,
-          "obtenido": 80,
+          "esperado": 56,
+          "obtenido": 56,
           "cumple": true
         },
         {
@@ -5443,7 +5443,7 @@
       "ejecuciones": [
         "EX-079"
       ],
-      "fecha": "2026-10-15T12:39:01.287297+00:00"
+      "fecha": "2026-10-16T11:11:19.081562+00:00"
     },
     {
       "caso": "CP-SEG-13",
@@ -5566,7 +5566,7 @@
       "ejecuciones": [
         "EX-080"
       ],
-      "fecha": "2026-10-15T12:39:01.746914+00:00"
+      "fecha": "2026-10-16T11:11:19.562432+00:00"
     },
     {
       "caso": "CP-SEG-14",
@@ -5601,7 +5601,7 @@
       "ejecuciones": [
         "EX-081"
       ],
-      "fecha": "2026-10-15T12:39:01.797483+00:00"
+      "fecha": "2026-10-16T11:11:19.622112+00:00"
     },
     {
       "caso": "CP-SEG-15",
@@ -5766,7 +5766,7 @@
       "ejecuciones": [
         "EX-116"
       ],
-      "fecha": "2026-10-15T12:41:25.831897+00:00"
+      "fecha": "2026-10-16T11:13:49.205782+00:00"
     },
     {
       "caso": "CP-AUTO-PM-01",
@@ -5796,7 +5796,7 @@
       "ejecuciones": [
         "EX-108"
       ],
-      "fecha": "2026-10-15T12:40:32.814139+00:00"
+      "fecha": "2026-10-16T11:12:53.894498+00:00"
     },
     {
       "caso": "CP-AUTO-PM-02",
@@ -5826,7 +5826,7 @@
       "ejecuciones": [
         "EX-111"
       ],
-      "fecha": "2026-10-15T12:40:39.861559+00:00"
+      "fecha": "2026-10-16T11:13:01.229842+00:00"
     },
     {
       "caso": "CP-AUTO-PM-03",
@@ -5856,7 +5856,7 @@
       "ejecuciones": [
         "EX-109"
       ],
-      "fecha": "2026-10-15T12:40:35.754365+00:00"
+      "fecha": "2026-10-16T11:12:56.968633+00:00"
     },
     {
       "caso": "CP-AUTO-PM-04",
@@ -5886,7 +5886,7 @@
       "ejecuciones": [
         "EX-110"
       ],
-      "fecha": "2026-10-15T12:40:38.247128+00:00"
+      "fecha": "2026-10-16T11:12:59.522268+00:00"
     },
     {
       "caso": "CP-AUTO-E2E-01",
@@ -6053,7 +6053,7 @@
         "EX-112",
         "EX-113"
       ],
-      "fecha": "2026-10-15T12:41:01.435778+00:00"
+      "fecha": "2026-10-16T11:13:23.491249+00:00"
     }
   ]
 }

@@ -30,8 +30,8 @@
       },
       {
         "comprobacion": "Última marca",
-        "esperado": "2026-10-15 07:38:55",
-        "obtenido": "2026-10-15 07:38:55",
+        "esperado": "2026-10-16 06:11:13",
+        "obtenido": "2026-10-16 06:11:13",
         "cumple": true
       },
       {
@@ -43,20 +43,20 @@
     ],
     "pendientes": [],
     "notas": [
-      "{\"creado_en\": \"2026-10-15 07:38:55\", \"en_preparacion_en\": \"2026-10-15 07:38:55\", \"lista_en\": \"2026-10-15 07:38:55\", \"entregada_en\": \"2026-10-15 07:38:55\", \"estado_actualizado_en\": \"2026-10-15 07:38:55\", \"duracion\": 0}"
+      "{\"creado_en\": \"2026-10-16 06:11:13\", \"en_preparacion_en\": \"2026-10-16 06:11:13\", \"lista_en\": \"2026-10-16 06:11:13\", \"entregada_en\": \"2026-10-16 06:11:13\", \"estado_actualizado_en\": \"2026-10-16 06:11:13\", \"duracion\": 0}"
     ],
     "capturas": [],
     "ejecuciones": [
       "EX-062"
     ],
-    "fecha": "2026-10-15T12:38:56.367366+00:00"
+    "fecha": "2026-10-16T11:11:13.893300+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-SVP-13",
       "nombre": "Marcas cronológicas y duración conservada tras entregar",
-      "fecha": "2026-10-15T12:38:56.367366+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:13.893300+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "Cronología",
@@ -66,8 +66,8 @@
         },
         {
           "comprobacion": "Última marca",
-          "esperado": "2026-10-15 07:38:55",
-          "obtenido": "2026-10-15 07:38:55",
+          "esperado": "2026-10-16 06:11:13",
+          "obtenido": "2026-10-16 06:11:13",
           "cumple": true
         },
         {
@@ -79,7 +79,7 @@
       ],
       "http": [],
       "notas": [
-        "{\"creado_en\": \"2026-10-15 07:38:55\", \"en_preparacion_en\": \"2026-10-15 07:38:55\", \"lista_en\": \"2026-10-15 07:38:55\", \"entregada_en\": \"2026-10-15 07:38:55\", \"estado_actualizado_en\": \"2026-10-15 07:38:55\", \"duracion\": 0}"
+        "{\"creado_en\": \"2026-10-16 06:11:13\", \"en_preparacion_en\": \"2026-10-16 06:11:13\", \"lista_en\": \"2026-10-16 06:11:13\", \"entregada_en\": \"2026-10-16 06:11:13\", \"estado_actualizado_en\": \"2026-10-16 06:11:13\", \"duracion\": 0}"
       ],
       "pendientes": [],
       "herramienta": "Python requests + PHP PDO / MySQL 8.4",

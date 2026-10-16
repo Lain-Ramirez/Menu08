@@ -3,7 +3,6 @@
   "private": true,
   "devDependencies": {
     "newman": "6.2.1",
-    "@zxing/library": "0.21.3",
-    "pngjs": "7.0.0"
+    "playwright-core": "1.64.0"
   }
 }

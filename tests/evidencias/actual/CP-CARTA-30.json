@@ -43,20 +43,20 @@
     ],
     "pendientes": [],
     "notas": [
-      "{\"php\": \"2026-10-15T07:38:52-05:00\", \"zona\": \"America/Bogota\", \"mysql\": {\"ahora\": \"2026-10-15 07:38:52\", \"zona\": \"-05:00\"}}"
+      "{\"php\": \"2026-10-16T06:11:09-05:00\", \"zona\": \"America/Bogota\", \"mysql\": {\"ahora\": \"2026-10-16 06:11:09\", \"zona\": \"-05:00\"}}"
     ],
     "capturas": [],
     "ejecuciones": [
       "EX-027"
     ],
-    "fecha": "2026-10-15T12:38:52.120370+00:00"
+    "fecha": "2026-10-16T11:11:09.403261+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-CARTA-30",
       "nombre": "Coherencia de zona horaria de PHP y MySQL",
-      "fecha": "2026-10-15T12:38:52.120370+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:09.403261+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "PHP",
@@ -79,7 +79,7 @@
       ],
       "http": [],
       "notas": [
-        "{\"php\": \"2026-10-15T07:38:52-05:00\", \"zona\": \"America/Bogota\", \"mysql\": {\"ahora\": \"2026-10-15 07:38:52\", \"zona\": \"-05:00\"}}"
+        "{\"php\": \"2026-10-16T06:11:09-05:00\", \"zona\": \"America/Bogota\", \"mysql\": {\"ahora\": \"2026-10-16 06:11:09\", \"zona\": \"-05:00\"}}"
       ],
       "pendientes": [],
       "herramienta": "Python requests + PHP PDO / MySQL 8.4",

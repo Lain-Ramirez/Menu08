@@ -375,14 +375,14 @@
       "EX-084",
       "EX-097"
     ],
-    "fecha": "2026-10-15T12:39:46.730043+00:00"
+    "fecha": "2026-10-16T11:12:06.755692+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-CARTA-32",
       "nombre": "Presentación del acceso, navegación y formularios del panel",
-      "fecha": "2026-10-15T12:39:04.021381+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:22.216489+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "Campos vacíos inválidos",
@@ -572,8 +572,8 @@
     {
       "caso": "CP-CARTA-32",
       "nombre": "Presentación del acceso, navegación y formularios del panel",
-      "fecha": "2026-10-15T12:39:46.730043+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:12:06.755692+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "Campos vacíos inválidos",

@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![El móvil ingresa y reporta la parada. Contrato JSON para sesión, GPS y rechazo de peticiones. Menu08.com · Food Trucks.](../assets/brand/api-movil-menu08-com-header.png)](#ingreso)
+<!-- /Menu08.com:header -->
+
 # Contrato de los servicios del módulo móvil
 
 Dos operaciones: la aplicación **ingresa** con las cuentas que ya existen y **reporta** dónde está
@@ -303,3 +307,7 @@ curl -s -b galleta.txt -X POST https://adso.menu08.com/movil/ubicacion \
 
 La evidencia de las pruebas contra el sitio publicado está en
 [`pruebas-movil-servicios.md`](pruebas-movil-servicios.md), con lo que quedó sin cubrir.
+
+<!-- Menu08.com:footer -->
+[![Un reporte actualiza o crea una sola parada. El truck sale de la sesión; la agenda del dueño conserva su nombre y horario. Menu08.com · Food Trucks.](../assets/brand/api-movil-menu08-com-footer.png)](pruebas-movil-servicios.md)
+<!-- /Menu08.com:footer -->

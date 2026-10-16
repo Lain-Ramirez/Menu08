@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Abre, cierra y consulta el turno de CAJA. Evidencia de turno único, conteo físico y aviso de faltante. Menu08.com · Food Trucks.](../assets/brand/pruebas-caja-turno-menu08-com-header.png)](#apertura)
+<!-- /Menu08.com:header -->
+
 # Pruebas del turno de caja
 
 Ejecutadas contra **https://adso.menu08.com**. **9 comprobaciones, 0 fallos**, más un defecto de
@@ -64,3 +68,7 @@ Dos criterios dependen de que existan órdenes, que llegan con su propio issue:
   `medio_pago` sobre `ordenes` y `orden_items`, y con cero órdenes devuelve cero, que es el caso
   «turno sin órdenes» de la tarea. Faltan los casos con una y con varias órdenes de distinto medio.
 - Que un turno cerrado no admita nuevas órdenes.
+
+<!-- Menu08.com:footer -->
+[![El cuadre nace de las órdenes guardadas. El cierre compara lo esperado con lo declarado y conserva la diferencia. Menu08.com · Food Trucks.](../assets/brand/pruebas-caja-turno-menu08-com-footer.png)](pruebas-caja-orden.md)
+<!-- /Menu08.com:footer -->

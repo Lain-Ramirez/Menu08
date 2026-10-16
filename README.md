@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com: CARTA, CAJA y SVP conectan la carta digital, la venta y la entrega en la ventanilla del food truck](assets/brand/plataforma-food-trucks-menu08-com-header.png)](#cómo-encajan-los-tres-módulos)
+<!-- /Menu08.com:header -->
+
 # Menu08
 
 Plataforma de carta digital, venta y producción para **food trucks**.
@@ -463,3 +467,7 @@ Proyecto formativo del Tecnólogo en Análisis y Desarrollo de Software del SENA
 ## Pruebas y evidencia AA3
 
 La preparación local, los ejecutores y los registros de reejecución están en [`tests/README.md`](tests/README.md). Las correcciones de CARTA, Postman y HTTPS se describen en [`docs/pruebas/ciclo-AA3.md`](docs/pruebas/ciclo-AA3.md).
+
+<!-- Menu08.com:footer -->
+[![Cierre de Menu08.com: el catálogo alimenta la venta y el número de turno conecta producción con la entrega; conoce la arquitectura](assets/brand/plataforma-food-trucks-menu08-com-footer.png)](docs/arquitectura.md)
+<!-- /Menu08.com:footer -->

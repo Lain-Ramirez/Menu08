@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Del QR a la carta que lee la fila. Pruebas de lectura real del código, catálogo público y vista a 360 px. Menu08.com · Food Trucks.](../assets/brand/pruebas-carta-qr-menu08-com-header.png)](#el-código-qr-se-lee-de-verdad)
+<!-- /Menu08.com:header -->
+
 # Pruebas de la carta pública y del código QR
 
 Ejecutadas contra **https://adso.menu08.com**. **26 comprobaciones, 0 fallos.**
@@ -120,3 +124,7 @@ etiqueta, no mirando la pantalla.
   la parada vigente es el issue **#37**, no el #17.
 - **El modo oscuro.** `md3.css` lo define bajo `html.o` y `carta.css` no escribe ni un color
   literal, así que debería funcionar, pero no hay interruptor con el que comprobarlo.
+
+<!-- Menu08.com:footer -->
+[![El QR se valida leyendo su destino. La evidencia separa carta pública, agotados y venta; el teléfono real queda pendiente. Menu08.com · Food Trucks.](../assets/brand/pruebas-carta-qr-menu08-com-footer.png)](#lo-que-estas-pruebas-no-cubren)
+<!-- /Menu08.com:footer -->

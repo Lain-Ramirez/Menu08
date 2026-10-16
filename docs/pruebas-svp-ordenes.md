@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · Qué responde el servicio de órdenes del SVP. Acceso, JSON, tiempos de respuesta y diferencia entre turno vacío y ventanilla cerrada. Ver estructura de la respuesta](../assets/brand/pruebas-svp-ordenes-menu08-com-header.png)](#estructura-de-la-respuesta)
+<!-- /Menu08.com:header -->
+
 # Pruebas del servicio JSON de órdenes en curso
 
 Ejecutadas contra **https://adso.menu08.com** y contra la base de datos del prototipo.
@@ -167,3 +171,8 @@ reales.
 - **Qué debe ver producción cuando el cajero cierra el turno.** Hoy las órdenes en curso
   desaparecen del tablero en el acto, porque la consulta las ata al turno abierto. Con comida aún
   en la plancha, es una decisión de producto a confirmar antes de construir el tablero.
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · Un turno vacío conserva su identificador. El servicio distingue cocina al día de ventanilla cerrada; el cierre con órdenes requiere decisión. Revisar el defecto corregido](../assets/brand/pruebas-svp-ordenes-menu08-com-footer.png)](#defecto-encontrado-y-corregido)
+<!-- /Menu08.com:footer -->

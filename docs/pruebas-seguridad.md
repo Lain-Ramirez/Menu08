@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · Seguridad: del dato de entrada al permiso. Evidencia sobre SQL, XSS, sesión, CSRF, roles y carga de archivos en el prototipo. Revisar control de acceso](../assets/brand/pruebas-seguridad-menu08-com-header.png)](#sesión-testigo-csrf-y-control-de-acceso-por-rol)
+<!-- /Menu08.com:header -->
+
 # Pruebas de seguridad
 
 Ejecutadas contra **https://adso.menu08.com**, no en local. **27 comprobaciones nuevas, 0 fallos**,
@@ -241,3 +245,8 @@ debía buscar. Sigue corregido: revisado el código de `Vista.php` en este ciclo
   `SELECT … FOR UPDATE`) no se probó; el alcance fue por sentencia, no por condición de carrera.
 - **El producto de prueba id 35** queda en la base marcado no disponible, como se anotó arriba, a
   la espera de que el dueño del food truck lo reemplace o lo borre.
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · Las defensas tienen evidencia y límites. La ronda registra 27 comprobaciones nuevas; otros campos y la concurrencia quedan fuera. Consultar lo que falta cubrir](../assets/brand/pruebas-seguridad-menu08-com-footer.png)](#lo-que-estas-pruebas-no-cubren)
+<!-- /Menu08.com:footer -->

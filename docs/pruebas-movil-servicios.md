@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Prueba el ingreso y el GPS del móvil. Evidencia JSON de permisos, coordenadas y reportes concurrentes. Menu08.com · Food Trucks.](../assets/brand/pruebas-movil-servicios-menu08-com-header.png)](api-movil.md)
+<!-- /Menu08.com:header -->
+
 # Pruebas de los servicios del módulo móvil
 
 Ejecutadas contra **https://adso.menu08.com** el 8 de septiembre de 2026, con `curl`, sobre el
@@ -432,3 +436,7 @@ sembradas —Parque de Pruebas el miércoles, Plaza de Pruebas el viernes y Zona
 sábado—. Para dejarlo todo como estaba se vuelve a ejecutar
 [`menu08_app/basedatos/datos_pruebas.sql`](../menu08_app/basedatos/datos_pruebas.sql); **al hacerlo
 cambian los identificadores**.
+
+<!-- Menu08.com:footer -->
+[![Los reportes simultáneos comparten una parada. El banco registra aislamiento por truck y preserva los datos de la agenda del dueño. Menu08.com · Food Trucks.](../assets/brand/pruebas-movil-servicios-menu08-com-footer.png)](#lo-que-estas-pruebas-no-cubren)
+<!-- /Menu08.com:footer -->

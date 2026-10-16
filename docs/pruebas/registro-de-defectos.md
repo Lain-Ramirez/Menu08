@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · Cada defecto conserva su caso y su historia. Registro de severidad, reproducción y estado para seguir los hallazgos de CARTA, CAJA y SVP. Consultar la tabla de defectos](../../assets/brand/pruebas-registro-de-defectos-menu08-com-header.png)](#la-tabla)
+<!-- /Menu08.com:header -->
+
 # Registro de defectos
 
 Un defecto por fila. Se abre cuando un caso queda en **Falla**, y también cuando alguien encuentra
@@ -125,3 +129,8 @@ Si el defecto solo aparece en un navegador, un ancho o un tema, **va en los paso
 ---
 
 **Issue #21 · Fase 5 - Pruebas**
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · Solo la reejecución permite cerrar un defecto. Corregido y cerrado son estados distintos; AA3 conserva el seguimiento de los cambios. Revisar los estados del defecto](../../assets/brand/pruebas-registro-de-defectos-menu08-com-footer.png)](#estado)
+<!-- /Menu08.com:footer -->

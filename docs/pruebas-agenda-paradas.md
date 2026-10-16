@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![La parada nocturna sigue al cambiar el día. Evidencia de agenda, validación y aislamiento sobre el Truck de Pruebas. Menu08.com · Food Trucks.](../assets/brand/pruebas-agenda-paradas-menu08-com-header.png)](#pruebas-de-la-agenda-de-paradas)
+<!-- /Menu08.com:header -->
+
 # Pruebas de la agenda de paradas
 
 Ejecutadas contra **https://adso.menu08.com** el 4 de septiembre de 2026, con `curl` y la sesión
@@ -216,3 +220,7 @@ Dos paradas creadas aquí, **ambas desactivadas** al terminar, para que no ensuc
 Las cuatro originales quedaron intactas. Para dejarlo todo como estaba se vuelve a ejecutar
 [`menu08_app/basedatos/datos_pruebas.sql`](../menu08_app/basedatos/datos_pruebas.sql), que borra su
 propio truck y lo rehace sin tocar a los demás; **al hacerlo cambian los identificadores**.
+
+<!-- Menu08.com:footer -->
+[![La agenda respeta el cierre y la baja lógica. Las comprobaciones registran medianoche, domingo a lunes y accesos ajenos. Menu08.com · Food Trucks.](../assets/brand/pruebas-agenda-paradas-menu08-com-footer.png)](#lo-que-estas-pruebas-no-cubren)
+<!-- /Menu08.com:footer -->

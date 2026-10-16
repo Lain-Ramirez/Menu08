@@ -1,3 +1,7 @@
+<!-- Menu08.com:header -->
+[![Menu08.com · Diez rondas de pruebas en una sola vista. La Fase 5 reúne CARTA, CAJA, SVP y seguridad con sus defectos y alcance. Ver resumen por módulo](../assets/brand/pruebas-reporte-final-menu08-com-header.png)](#resumen-por-módulo)
+<!-- /Menu08.com:header -->
+
 # Reporte final de pruebas — Fase 5
 
 Consolida las diez rondas de prueba de la Fase 5, ejecutadas contra **https://adso.menu08.com**
@@ -91,3 +95,8 @@ Ninguno de los dos se puede borrar desde la aplicación: los productos solo se d
 las órdenes no tienen ruta de borrado, por diseño (`orden_items` copia nombre y precio, y una
 orden ya registrada no debe desaparecer). Si se quieren quitar del todo, es una operación directa
 en la base.
+
+
+<!-- Menu08.com:footer -->
+[![Menu08.com · 264 comprobaciones y seis defectos cerrados. El reporte conserva los límites de cobertura y los residuos del entorno de demostración. Consultar los límites de la fase](../assets/brand/pruebas-reporte-final-menu08-com-footer.png)](#lo-que-esta-fase-no-cubre)
+<!-- /Menu08.com:footer -->

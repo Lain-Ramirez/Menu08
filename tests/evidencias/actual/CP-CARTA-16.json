@@ -123,14 +123,14 @@
       "EX-082",
       "EX-095"
     ],
-    "fecha": "2026-10-15T12:39:44.750978+00:00"
+    "fecha": "2026-10-16T11:12:04.659302+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-CARTA-16",
       "nombre": "La carta a 320 px",
-      "fecha": "2026-10-15T12:39:03.077056+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:21.001673+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "truck-de-pruebas 320 sin desborde",
@@ -197,8 +197,8 @@
     {
       "caso": "CP-CARTA-16",
       "nombre": "La carta a 320 px",
-      "fecha": "2026-10-15T12:39:44.750978+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:12:04.659302+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "truck-de-pruebas 320 sin desborde",

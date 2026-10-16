@@ -1,7 +1,7 @@
 {
   "archivo": "postman/Menu08_GA9_VIDEO.postman_collection.json",
   "carpeta": null,
-  "fecha": "2026-10-15T12:40:41.737224+00:00",
+  "fecha": "2026-10-16T11:13:03.266558+00:00",
   "exit_code": 0,
   "stats": {
     "iterations": {
@@ -71,7 +71,7 @@
         "variable": []
       },
       "codigo": 200,
-      "ms": 34,
+      "ms": 38,
       "assertions": [
         {
           "assertion": "Responde 200",
@@ -102,7 +102,7 @@
         "variable": []
       },
       "codigo": 302,
-      "ms": 82,
+      "ms": 83,
       "assertions": [
         {
           "assertion": "Responde 302",
@@ -133,7 +133,7 @@
         "variable": []
       },
       "codigo": 302,
-      "ms": 8,
+      "ms": 9,
       "assertions": [
         {
           "assertion": "Responde 302",
@@ -161,7 +161,7 @@
         "variable": []
       },
       "codigo": 200,
-      "ms": 7,
+      "ms": 8,
       "assertions": [
         {
           "assertion": "Responde 200",
@@ -221,7 +221,7 @@
         "variable": []
       },
       "codigo": 200,
-      "ms": 11,
+      "ms": 12,
       "assertions": [
         {
           "assertion": "Responde 200",
@@ -261,7 +261,7 @@
         "variable": []
       },
       "codigo": 302,
-      "ms": 15,
+      "ms": 17,
       "assertions": [
         {
           "assertion": "Responde 302",
@@ -294,7 +294,7 @@
         "variable": []
       },
       "codigo": 200,
-      "ms": 9,
+      "ms": 11,
       "assertions": [
         {
           "assertion": "Responde 200",
@@ -321,7 +321,7 @@
         "variable": []
       },
       "codigo": 302,
-      "ms": 5,
+      "ms": 6,
       "assertions": [
         {
           "assertion": "Cierre de sesión 302",
@@ -348,7 +348,7 @@
         "variable": []
       },
       "codigo": 200,
-      "ms": 5,
+      "ms": 6,
       "assertions": [
         {
           "assertion": "Responde 200",
@@ -379,7 +379,7 @@
         "variable": []
       },
       "codigo": 302,
-      "ms": 78,
+      "ms": 80,
       "assertions": [
         {
           "assertion": "Responde 302",
@@ -406,7 +406,7 @@
         "variable": []
       },
       "codigo": 200,
-      "ms": 8,
+      "ms": 10,
       "assertions": [
         {
           "assertion": "Responde 200",
@@ -438,7 +438,7 @@
         "variable": []
       },
       "codigo": 200,
-      "ms": 8,
+      "ms": 7,
       "assertions": [
         {
           "assertion": "Responde 200",
@@ -476,7 +476,7 @@
         "variable": []
       },
       "codigo": 200,
-      "ms": 12,
+      "ms": 13,
       "assertions": [
         {
           "assertion": "Responde 200",
@@ -514,7 +514,7 @@
         "variable": []
       },
       "codigo": 200,
-      "ms": 12,
+      "ms": 13,
       "assertions": [
         {
           "assertion": "Responde 200",
@@ -548,7 +548,7 @@
         "variable": []
       },
       "codigo": 200,
-      "ms": 12,
+      "ms": 13,
       "assertions": [
         {
           "assertion": "Responde 200",
@@ -580,7 +580,7 @@
         "variable": []
       },
       "codigo": 200,
-      "ms": 7,
+      "ms": 8,
       "assertions": [
         {
           "assertion": "Responde 200",
@@ -611,7 +611,7 @@
         "variable": []
       },
       "codigo": 302,
-      "ms": 4,
+      "ms": 5,
       "assertions": [
         {
           "assertion": "Cierre de sesión 302",
@@ -638,7 +638,7 @@
         "variable": []
       },
       "codigo": 200,
-      "ms": 3,
+      "ms": 4,
       "assertions": [
         {
           "assertion": "Responde 200",
@@ -669,7 +669,7 @@
         "variable": []
       },
       "codigo": 302,
-      "ms": 79,
+      "ms": 80,
       "assertions": [
         {
           "assertion": "Responde 302",
@@ -730,7 +730,7 @@
         "variable": []
       },
       "codigo": 302,
-      "ms": 10,
+      "ms": 12,
       "assertions": [
         {
           "assertion": "Responde 302",

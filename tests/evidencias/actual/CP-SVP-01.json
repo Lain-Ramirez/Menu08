@@ -53,14 +53,14 @@
     "ejecuciones": [
       "EX-051"
     ],
-    "fecha": "2026-10-15T12:38:55.753208+00:00"
+    "fecha": "2026-10-16T11:11:13.250266+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-SVP-01",
       "nombre": "Tablero con ventanilla cerrada (sin turno abierto)",
-      "fecha": "2026-10-15T12:38:55.753208+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:13.250266+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "HTTP",
@@ -92,10 +92,10 @@
           "metodo": "GET",
           "ruta": "/svp/ordenes",
           "estado": 200,
-          "ms": 5.59,
+          "ms": 6.19,
           "content_type": "application/json; charset=utf-8",
           "location": null,
-          "cuerpo": "{\"turno\":null,\"ahora\":\"2026-10-15 07:38:55\",\"minutos_demora\":10,\"total\":0,\"ordenes\":[]}"
+          "cuerpo": "{\"turno\":null,\"ahora\":\"2026-10-16 06:11:13\",\"minutos_demora\":10,\"total\":0,\"ordenes\":[]}"
         }
       ],
       "notas": [],

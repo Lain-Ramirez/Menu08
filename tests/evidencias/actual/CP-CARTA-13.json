@@ -43,14 +43,14 @@
     "ejecuciones": [
       "EX-114"
     ],
-    "fecha": "2026-10-15T12:41:25.200716+00:00"
+    "fecha": "2026-10-16T11:13:48.188539+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-CARTA-13",
       "nombre": "Código QR",
-      "fecha": "2026-10-15T12:41:25.200716+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:13:48.188539+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "Lector QR",

@@ -113,14 +113,14 @@
       "EX-093",
       "EX-106"
     ],
-    "fecha": "2026-10-15T12:40:08.431548+00:00"
+    "fecha": "2026-10-16T11:12:29.076516+00:00"
   },
   "ejecuciones": [
     {
       "caso": "CP-SVP-18",
       "nombre": "Pérdida de red, recuperación y sesión caducada",
-      "fecha": "2026-10-15T12:39:22.091017+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:11:41.415123+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "Tarjetas conservadas",
@@ -179,8 +179,8 @@
     {
       "caso": "CP-SVP-18",
       "nombre": "Pérdida de red, recuperación y sesión caducada",
-      "fecha": "2026-10-15T12:40:08.431548+00:00",
-      "commit": "0e7f3bc144777b1768cd9571f5f1058205fb6fe7",
+      "fecha": "2026-10-16T11:12:29.076516+00:00",
+      "commit": "df7dab87540d2d488e85221ada8cdc7304a9de2d",
       "checks": [
         {
           "comprobacion": "Tarjetas conservadas",

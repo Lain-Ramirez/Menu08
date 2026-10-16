@@ -4,21 +4,21 @@ Menu08 · GA9 · recorrido validado para video
 
 ❏ Recorrido validado para video
 ↳ 01 GET /ingresar (captura el token)
-  GET http://127.0.0.1:8088/ingresar [200 OK, 6.9kB, 34ms]
+  GET http://127.0.0.1:8088/ingresar [200 OK, 6.9kB, 38ms]
   ✓  Responde 200
   ✓  Se capturo el token
 
 ↳ 02 POST /ingresar como cajero
-  POST http://127.0.0.1:8088/ingresar [302 Found, 399B, 82ms]
+  POST http://127.0.0.1:8088/ingresar [302 Found, 399B, 83ms]
   ✓  Responde 302
   ✓  Redirige a /caja
 
 ↳ 03 GET /caja sin turno abierto
-  GET http://127.0.0.1:8088/caja [302 Found, 319B, 8ms]
+  GET http://127.0.0.1:8088/caja [302 Found, 319B, 9ms]
   ✓  Responde 302
 
 ↳ 04 GET /caja/turno (captura el token)
-  GET http://127.0.0.1:8088/caja/turno [200 OK, 17.71kB, 7ms]
+  GET http://127.0.0.1:8088/caja/turno [200 OK, 17.71kB, 8ms]
   ✓  Responde 200
   ✓  Se capturo el token
 
@@ -27,77 +27,77 @@ Menu08 · GA9 · recorrido validado para video
   ✓  Responde 302
 
 ↳ 06 GET /caja (captura el token)
-  GET http://127.0.0.1:8088/caja [200 OK, 35.66kB, 11ms]
+  GET http://127.0.0.1:8088/caja [200 OK, 35.66kB, 12ms]
   ✓  Responde 200
   ✓  Se capturo el token
   ✓  ID dinámico papasId
   ✓  ID dinámico hamburguesaId
 
 ↳ 07 POST /caja/vender
-  POST http://127.0.0.1:8088/caja/vender [302 Found, 328B, 15ms]
+  POST http://127.0.0.1:8088/caja/vender [302 Found, 328B, 17ms]
   ✓  Responde 302
   ✓  Redirige al comprobante
 
 ↳ 08 GET /caja/comprobante/{id}
-  GET http://127.0.0.1:8088/caja/comprobante/14 [200 OK, 12.71kB, 9ms]
+  GET http://127.0.0.1:8088/caja/comprobante/14 [200 OK, 12.71kB, 11ms]
   ✓  Responde 200
 
 ↳ Cerrar sesión antes de cambiar de rol
-  GET http://127.0.0.1:8088/salir [302 Found, 434B, 5ms]
+  GET http://127.0.0.1:8088/salir [302 Found, 434B, 6ms]
   ✓  Cierre de sesión 302
 
 ↳ 09 GET /ingresar (captura el token)
-  GET http://127.0.0.1:8088/ingresar [200 OK, 6.9kB, 5ms]
+  GET http://127.0.0.1:8088/ingresar [200 OK, 6.9kB, 6ms]
   ✓  Responde 200
   ✓  Se capturo el token
 
 ↳ 10 POST /ingresar como produccion
-  POST http://127.0.0.1:8088/ingresar [302 Found, 398B, 78ms]
+  POST http://127.0.0.1:8088/ingresar [302 Found, 398B, 80ms]
   ✓  Responde 302
 
 ↳ 11 GET /svp (captura el token del meta)
-  GET http://127.0.0.1:8088/svp [200 OK, 21.05kB, 8ms]
+  GET http://127.0.0.1:8088/svp [200 OK, 21.05kB, 10ms]
   ✓  Responde 200
   ✓  Se capturo el token del meta
 
 ↳ 12 GET /svp/ordenes
-  GET http://127.0.0.1:8088/svp/ordenes [200 OK, 636B, 8ms]
+  GET http://127.0.0.1:8088/svp/ordenes [200 OK, 636B, 7ms]
   ✓  Responde 200
   ✓  Responde JSON, nunca HTML
   ✓  Hay al menos una orden en curso
 
 ↳ 13 POST estado -> en_preparacion
-  POST http://127.0.0.1:8088/svp/orden/14/estado [200 OK, 564B, 12ms]
+  POST http://127.0.0.1:8088/svp/orden/14/estado [200 OK, 564B, 13ms]
   ✓  Responde 200
   ✓  Responde JSON, nunca HTML
   ✓  Paso a en_preparacion
 
 ↳ 14 POST estado -> lista
-  POST http://127.0.0.1:8088/svp/orden/14/estado [200 OK, 569B, 12ms]
+  POST http://127.0.0.1:8088/svp/orden/14/estado [200 OK, 569B, 13ms]
   ✓  Responde 200
   ✓  Paso a lista
 
 ↳ 15 POST estado -> entregada
-  POST http://127.0.0.1:8088/svp/orden/14/estado [200 OK, 578B, 12ms]
+  POST http://127.0.0.1:8088/svp/orden/14/estado [200 OK, 578B, 13ms]
   ✓  Responde 200
   ✓  Paso a entregada y no tiene siguiente
 
 ↳ 16 GET /svp/ordenes (ya no esta)
-  GET http://127.0.0.1:8088/svp/ordenes [200 OK, 363B, 7ms]
+  GET http://127.0.0.1:8088/svp/ordenes [200 OK, 363B, 8ms]
   ✓  Responde 200
   ✓  La orden entregada ya no esta
 
 ↳ Cerrar sesión antes de cambiar de rol
-  GET http://127.0.0.1:8088/salir [302 Found, 434B, 4ms]
+  GET http://127.0.0.1:8088/salir [302 Found, 434B, 5ms]
   ✓  Cierre de sesión 302
 
 ↳ 17 GET /ingresar + cajero (captura el token)
-  GET http://127.0.0.1:8088/ingresar [200 OK, 6.9kB, 3ms]
+  GET http://127.0.0.1:8088/ingresar [200 OK, 6.9kB, 4ms]
   ✓  Responde 200
   ✓  Se capturo el token
 
 ↳ 18 POST /ingresar como cajero
-  POST http://127.0.0.1:8088/ingresar [302 Found, 399B, 79ms]
+  POST http://127.0.0.1:8088/ingresar [302 Found, 399B, 80ms]
   ✓  Responde 302
 
 ↳ 19 GET /caja/turno (captura el token)
@@ -106,7 +106,7 @@ Menu08 · GA9 · recorrido validado para video
   ✓  Se capturo el token
 
 ↳ 20 POST /caja/turno/cerrar
-  POST http://127.0.0.1:8088/caja/turno/cerrar [302 Found, 322B, 10ms]
+  POST http://127.0.0.1:8088/caja/turno/cerrar [302 Found, 322B, 12ms]
   ✓  Responde 302
 
 ┌─────────────────────────┬──────────────────┬──────────────────┐
@@ -122,11 +122,11 @@ Menu08 · GA9 · recorrido validado para video
 ├─────────────────────────┼──────────────────┼──────────────────┤
 │              assertions │               40 │                0 │
 ├─────────────────────────┴──────────────────┴──────────────────┤
-│ total run duration: 880ms                                     │
+│ total run duration: 946ms                                     │
 ├───────────────────────────────────────────────────────────────┤
 │ total data received: 122.83kB (approx)                        │
 ├───────────────────────────────────────────────────────────────┤
-│ average response time: 19ms [min: 3ms, max: 82ms, s.d.: 24ms] │
+│ average response time: 20ms [min: 4ms, max: 83ms, s.d.: 24ms] │
 └───────────────────────────────────────────────────────────────┘
-(node:32800) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(node:26142) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
 (Use `node --trace-deprecation ...` to show where the warning was created)

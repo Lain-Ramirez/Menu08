@@ -25,6 +25,16 @@ php menu08_app/pruebas/ejecutar.php
 
 El comando unitario no requiere base de datos ni iniciar sesión. Postman comprueba 22 solicitudes y 40 aserciones. El E2E abre Chromium, inicia un turno de caja, registra una venta, sigue la orden en producción y en la pantalla pública, y cierra el turno; comprueba la base local y guarda capturas nuevas en `tests/evidencias/actual/`. Las capturas `CP-AUTO-E2E-01-node-*.png` se regeneran en cada ejecución, quedan ignoradas por Git y pueden eliminarse después de revisarlas.
 
+## Videos del E2E
+
+`./tests/video.sh e2e` graba tres videos WebM a 1280 × 720 y muestra sus rutas al terminar:
+
+- `01-caja-y-cierre.webm`: ingreso del cajero, apertura, venta y cierre del turno.
+- `02-produccion.webm`: ingreso y avance de la orden hasta entregarla.
+- `03-pantalla-publica.webm`: aparición y retirada del número de la orden.
+
+Se guardan en `tests/evidencias/actual/videos/<fecha-hora-UTC>/`. Cada ejecución crea su propia carpeta, conserva las anteriores y finaliza las grabaciones también cuando falla la prueba. Son videos del navegador, sin audio ni terminal. Quedan ignorados por Git; puedes descargarlos desde el explorador de Cloud Shell Editor. FFmpeg se instala automáticamente si falta.
+
 ## Base de datos de demostración
 
 El preparador puede crear o iniciar el contenedor aislado `menu08-ga9-mysql`, puerto local `13306`, y reinicializa la base `menu08` con los datos de demostración de `menu08_app/basedatos/`. No uses esta preparación contra una base personal ni contra el hosting. La aplicación se sirve en `http://127.0.0.1:8088`. El preparador solo crea servicios locales; no publica la aplicación.

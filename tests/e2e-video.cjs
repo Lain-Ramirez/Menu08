@@ -8,6 +8,7 @@ const { chromium } = require('./node_modules/playwright-core');
 
 const root = path.resolve(__dirname, '..');
 const evidence = path.join(__dirname, 'evidencias', 'actual');
+const videos = path.join(evidence, 'videos', new Date().toISOString().replace(/[:.]/g, '-'));
 const base = process.env.MENU08_QA_URL || 'http://127.0.0.1:8088';
 const env = { ...process.env, MYSQL_PWD: 'Menu08LocalQA2026' };
 fs.mkdirSync(evidence, { recursive: true });
@@ -56,11 +57,19 @@ async function main() {
   const productId = mysql("SELECT id FROM productos WHERE nombre='Papas de prueba' AND food_truck_id=(SELECT id FROM food_trucks WHERE slug='truck-de-pruebas')");
   assert(/^\d+$/.test(productId), 'el producto de prueba existe en la base aislada');
   const browser = await chromium.launch({ headless: true });
-  const cashier = await browser.newContext({ viewport: { width: 1280, height: 720 }, locale: 'es-CO' });
-  const production = await browser.newContext({ viewport: { width: 1280, height: 720 }, locale: 'es-CO' });
-  const publicView = await browser.newContext({ viewport: { width: 1280, height: 720 }, locale: 'es-CO' });
+  const contexts = [];
+  const recordings = [];
+  async function recordedPage(name) {
+    const size = { width: 1280, height: 720 };
+    const context = await browser.newContext({ viewport: size, locale: 'es-CO', recordVideo: { dir: videos, size } });
+    contexts.push(context);
+    const page = await context.newPage();
+    recordings.push({ name, video: page.video() });
+    return page;
+  }
   try {
-    const cash = await cashier.newPage();
+    console.log(`Grabando videos en ${path.relative(root, videos)}`);
+    const cash = await recordedPage('01-caja-y-cierre.webm');
     await signIn(cash, 'cajero');
     await cash.locator('[name=base_inicial]').fill('50000');
     await cash.locator('button[type=submit]').filter({ hasText: 'Abrir' }).click();
@@ -74,9 +83,9 @@ async function main() {
     assert(mysql(`SELECT CAST(total AS CHAR) FROM ordenes WHERE id=${Number(orderId)}`) === '6500.00', 'la venta de $6.500 quedó guardada');
     await cash.screenshot({ path: path.join(evidence, 'CP-AUTO-E2E-01-node-venta.png'), fullPage: true });
 
-    const kitchen = await production.newPage();
+    const kitchen = await recordedPage('02-produccion.webm');
     await signIn(kitchen, 'produccion');
-    const publicPage = await publicView.newPage();
+    const publicPage = await recordedPage('03-pantalla-publica.webm');
     await publicPage.goto(`${base}/turnos/truck-de-pruebas`);
     const orderNumber = mysql(`SELECT numero FROM ordenes WHERE id=${Number(orderId)}`);
     assert(await kitchen.locator(`[data-svp-orden="${orderId}"]`).count() === 1, 'producción ve la orden pendiente');
@@ -101,7 +110,7 @@ async function main() {
       await kitchen.screenshot({ path: path.join(evidence, `CP-AUTO-E2E-01-node-${state}.png`), fullPage: true });
     }
 
-    const shift = await cashier.newPage();
+    const shift = cash;
     await shift.goto(`${base}/caja/turno`);
     await shift.locator('[name=total_declarado]').fill('56500');
     await shift.locator('button[type=submit]').click();
@@ -112,7 +121,18 @@ async function main() {
     await shift.screenshot({ path: path.join(evidence, 'CP-AUTO-E2E-01-node-cierre.png'), fullPage: true });
     console.log('E2E aprobado: las operaciones de caja, producción, pantalla pública y cierre pasaron.');
   } finally {
-    await browser.close();
+    try {
+      // Cerrar los contextos finaliza los WebM, incluso si falla una aserción.
+      await Promise.all(contexts.map(context => context.close()));
+      for (const { name, video } of recordings) {
+        const target = path.join(videos, name);
+        await video.saveAs(target);
+        await video.delete();
+        console.log(`Video guardado: ${path.relative(root, target)}`);
+      }
+    } finally {
+      await browser.close();
+    }
   }
 }
 

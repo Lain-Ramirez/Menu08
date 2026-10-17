@@ -17,6 +17,7 @@ needs_setup=0
 [[ -f menu08_app/configuracion/configuracion.php ]] || needs_setup=1
 if [[ "$TEST" == e2e ]]; then
   [[ -x tests/.runtime/browsers/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell ]] || needs_setup=1
+  [[ -x tests/.runtime/browsers/ffmpeg-1013/ffmpeg-linux ]] || needs_setup=1
 fi
 mysql --protocol=TCP -h127.0.0.1 -P13306 -uroot --connect-timeout=2 --execute='SELECT 1' >/dev/null 2>&1 || needs_setup=1
 if [[ "$needs_setup" == 1 ]]; then

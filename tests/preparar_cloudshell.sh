@@ -25,6 +25,9 @@ export PLAYWRIGHT_BROWSERS_PATH="$ROOT/tests/.runtime/browsers"
 if [[ ! -x "$PLAYWRIGHT_BROWSERS_PATH/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell" ]]; then
   "$NODE" tests/node_modules/playwright-core/cli.js install --only-shell chromium
 fi
+if [[ ! -x "$PLAYWRIGHT_BROWSERS_PATH/ffmpeg-1013/ffmpeg-linux" ]]; then
+  "$NODE" tests/node_modules/playwright-core/cli.js install ffmpeg
+fi
 php -r 'exit(extension_loaded("pdo_mysql") ? 0 : 1);' || { echo 'PHP necesita la extensión pdo_mysql.' >&2; exit 1; }
 command -v mysql >/dev/null || { echo 'Falta el cliente mysql.' >&2; exit 1; }
 "${DOCKER[@]}" info --format '{{.ServerVersion}}' >/dev/null || { echo 'Docker local no está disponible.' >&2; exit 1; }
